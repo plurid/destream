@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://raw.githubusercontent.com/plurid/destream/master/about/images/logo.png" height="200px">
+    <img src="https://raw.githubusercontent.com/plurid/destream/master/about/identity/destream-logo.png" height="200px">
 </p>
 
 
@@ -20,7 +20,7 @@
 
 
 <h3>
-    control webpages on followers browsers
+    control web pages in the browser of followers
 </h3>
 
 
