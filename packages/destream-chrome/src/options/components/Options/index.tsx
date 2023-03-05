@@ -7,12 +7,17 @@ import {
 
 
 const Options: React.FC<any> = (properties) => {
-    // chrome.runtime.sendMessage({greeting: "hello"}, function(response: any) {
-    //     console.log(response.farewell);
-    // });
-
     return (
         <StyledOptions>
+            allow play/pause audio/video
+
+            allow mute audio/video
+
+            allow like
+
+            allow change URL
+
+            change URL for origins (all or specific)
 
         </StyledOptions>
     );
