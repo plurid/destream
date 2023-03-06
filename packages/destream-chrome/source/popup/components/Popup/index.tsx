@@ -59,6 +59,11 @@ const Popup: React.FC<any> = (
         activeTabControlledBy,
         setActiveTabControlledBy,
     ] = useState('');
+
+    const [
+        controllableTab,
+        setControllableTab,
+    ] = useState(false);
     // #endregion state
 
 
@@ -81,6 +86,10 @@ const Popup: React.FC<any> = (
         const getTab = async () => {
             const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
             setActiveTab(tab);
+
+            if (!tab.url.startsWith('chrome://')) {
+                setControllableTab(true);
+            }
         }
 
         getTab();
@@ -123,6 +132,7 @@ const Popup: React.FC<any> = (
                             stopControl();
                         }}
                         theme={plurid}
+                        level={2}
                         style={{
                             marginTop: '1rem',
                         }}
@@ -141,13 +151,16 @@ const Popup: React.FC<any> = (
                         is not controlled
                     </div>
 
-                    {isStreamer && (
+                    {isStreamer
+                    && controllableTab
+                    && (
                         <PureButton
                             text="Start Session"
                             atClick={() => {
                                 startSession();
                             }}
                             theme={plurid}
+                            level={2}
                             style={{
                                 marginTop: '1rem',
                             }}

@@ -191,6 +191,7 @@ const Options: React.FC<any> = (
                     setLoggedIn(false);
                 }}
                 theme={plurid}
+                level={2}
                 style={{
                     width: '250px',
                     margin: '0 auto',
