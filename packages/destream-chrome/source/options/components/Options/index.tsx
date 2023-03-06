@@ -140,7 +140,17 @@ const Options: React.FC<any> = (
             setAllowedURLOrigins(allowedURLOrigins);
         }
 
+        const getSubscriptions = async () => {
+            const result = await chrome.storage.local.get(['subscriptions']);
+            if (!result.subscriptions) {
+                return;
+            }
+
+            setSubscriptions(result.subscriptions);
+        }
+
         getPermissions();
+        getSubscriptions();
     }, []);
 
     useEffect(() => {
@@ -158,7 +168,12 @@ const Options: React.FC<any> = (
             await chrome.storage.local.set({ generalPermissions });
         }
 
+        const setSubscriptions = async () => {
+            await chrome.storage.local.set({ subscriptions });
+        }
+
         setPermissions();
+        setSubscriptions();
     }, [
         allowPlayPause,
         allowTimeSkip,
@@ -167,6 +182,8 @@ const Options: React.FC<any> = (
         allowChangeURL,
         allowChangeURLAnyOrigin,
         allowedURLOrigins,
+
+        subscriptions,
     ]);
     // #endregion effects
 
