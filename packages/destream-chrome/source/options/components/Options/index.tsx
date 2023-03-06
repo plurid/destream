@@ -15,6 +15,11 @@
     // #endregion libraries
 
 
+    // #region external
+    import Login from '../../../common/components/Login';
+    // #endregion external
+
+
     // #region internal
     import {
         StyledOptions,
@@ -29,6 +34,11 @@ const Options: React.FC<any> = (
     properties,
 ) => {
     // #region state
+    const [
+        loggedIn,
+        setLoggedIn,
+    ] = useState(false);
+
     const [
         allowPlayPause,
         setAllowPlayPause,
@@ -67,6 +77,17 @@ const Options: React.FC<any> = (
 
 
     // #region render
+    if (!loggedIn) {
+        return (
+            <Login
+                theme={plurid}
+                atLogin={() => {
+                    setLoggedIn(true);
+                }}
+            />
+        );
+    }
+
     return (
         <StyledOptions>
             <div>

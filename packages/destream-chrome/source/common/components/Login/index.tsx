@@ -38,6 +38,7 @@ export interface LoginProperties {
         // #endregion values
 
         // #region methods
+        atLogin: () => void;
         // #endregion methods
     // #endregion required
 
@@ -69,6 +70,7 @@ const Login: React.FC<LoginProperties> = (
             // #endregion values
 
             // #region methods
+            atLogin,
             // #endregion methods
         // #endregion optional
     } = properties;
@@ -109,6 +111,9 @@ const Login: React.FC<LoginProperties> = (
             identonym,
             key,
         );
+        if (result) {
+            atLogin();
+        }
         setError(!result);
         setLoading(false);
     }

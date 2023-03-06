@@ -16,7 +16,7 @@
 
 
     // #region external
-    import Login from '../../../common/components/Login'
+    import Login from '../../../common/components/Login';
     // #endregion external
 
 
@@ -80,6 +80,9 @@ const Popup: React.FC<any> = (
             {!loggedIn && (
                 <Login
                     theme={plurid}
+                    atLogin={() => {
+                        setLoggedIn(true);
+                    }}
                 />
             )}
 
