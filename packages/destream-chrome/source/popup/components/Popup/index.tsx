@@ -10,6 +10,7 @@
     } from '@plurid/plurid-themes';
 
     import {
+        PureButton,
         LinkButton,
     } from '@plurid/plurid-ui-components-react';
     // #endregion libraries
@@ -23,6 +24,7 @@
     // #region internal
     import {
         StyledPopup,
+        StyledTabControl,
     } from './styled';
     // #endregion internal
 // #endregion imports
@@ -54,6 +56,10 @@ const Popup: React.FC<any> = (
     // #region handlers
     const openOptions = () => {
         chrome.runtime.openOptionsPage();
+    }
+
+    const stopControl = async () => {
+        setActiveTabControlledBy('');
     }
     // #endregion handlers
 
@@ -90,34 +96,49 @@ const Popup: React.FC<any> = (
             && activeTab
             && activeTabControlledBy
             && (
-                <div>
+                <StyledTabControl>
                     <div>
-                        {activeTab.url} controlled by {activeTabControlledBy}
+                        {activeTab.url}
+                        <br />
+                        is controlled by
+                        <br />
+                        {activeTabControlledBy}
                     </div>
 
-                    <div>
-                        Stop Control
-                    </div>
-                </div>
+                    <PureButton
+                        text="Stop Control"
+                        atClick={() => {
+                            stopControl();
+                        }}
+                        theme={plurid}
+                        style={{
+                            marginTop: '1rem',
+                        }}
+                    />
+                </StyledTabControl>
             )}
 
             {loggedIn
             && activeTab
             && !activeTabControlledBy
             && (
-                <div>
+                <StyledTabControl>
                     <div>
-                        {activeTab.url} not controlled
+                        {activeTab.url}
+                        <br />
+                        is not controlled
                     </div>
-                </div>
+                </StyledTabControl>
             )}
 
             {loggedIn
             && !activeTab
             && (
-                <div>
-                    select a web page
-                </div>
+                <StyledTabControl>
+                    <div>
+                        select a web page
+                    </div>
+                </StyledTabControl>
             )}
 
             <LinkButton
@@ -126,6 +147,9 @@ const Popup: React.FC<any> = (
                     openOptions();
                 }}
                 theme={plurid}
+                style={{
+                    marginTop: '3rem',
+                }}
             />
         </StyledPopup>
     );

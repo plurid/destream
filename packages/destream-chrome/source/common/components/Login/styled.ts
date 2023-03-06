@@ -20,7 +20,6 @@ export const StyledLogin = styled.div<IStyledLogin>`
     gap: 1.5rem;
     place-content: center;
     justify-items: center;
-    margin-bottom: 3rem;
     min-height: 280px;
 `;
 // #region module

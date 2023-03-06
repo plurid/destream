@@ -133,7 +133,6 @@ const Login: React.FC<LoginProperties> = (
                 style={{
                     position: 'relative',
                     height: '280px',
-                    marginBottom: '3rem',
                 }}
             >
                 <Spinner
