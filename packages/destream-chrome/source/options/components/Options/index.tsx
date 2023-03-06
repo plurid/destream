@@ -10,6 +10,7 @@
 
     import {
         InputSwitch,
+        EntityPillGroup,
     } from '@plurid/plurid-ui-components-react';
     // #endregion libraries
 
@@ -51,6 +52,11 @@ const Options: React.FC<any> = (
     const [
         allowChangeURL,
         setAllowChangeURL,
+    ] = useState(false);
+
+    const [
+        allowChangeURLAnyOrigin,
+        setAllowChangeURLAnyOrigin,
     ] = useState(false);
 
     const [
@@ -113,9 +119,32 @@ const Options: React.FC<any> = (
                     theme={plurid}
                 />
 
-                <div>
-                    change URL for origins (all or specific)
-                </div>
+                {allowChangeURL && (
+                    <>
+                        <InputSwitch
+                            name="allow change URL to any origin"
+                            checked={allowChangeURLAnyOrigin}
+                            atChange={() => {
+                                setAllowChangeURLAnyOrigin(!allowChangeURLAnyOrigin);
+                            }}
+                            theme={plurid}
+                        />
+
+                        {!allowChangeURLAnyOrigin && (
+                            <div>
+                                change URL for origins
+
+                                <EntityPillGroup
+                                    entities={allowedURLOrigins}
+                                    theme={plurid}
+                                    remove={(entity) => {
+                                        setAllowedURLOrigins(allowedURLOrigins.filter(e => e !== entity));
+                                    }}
+                                />
+                            </div>
+                        )}
+                    </>
+                )}
             </div>
         </StyledOptions>
     );
