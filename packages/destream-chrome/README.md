@@ -20,7 +20,7 @@
 
 
 <h3>
-    remote control web pages in the browser of followers
+    remote control web pages in the browser of your followers; let streamers control web pages in your browser
 </h3>
 
 
