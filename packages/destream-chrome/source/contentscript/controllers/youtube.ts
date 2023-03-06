@@ -29,6 +29,23 @@ export const youtubeMute = () => {
 }
 
 
+export const youtubeLike = () => {
+    console.log('youtubeLike');
+
+    const button = document.querySelector('#segmented-like-button button');
+    if (!button) {
+        return;
+    }
+
+    const pressed = button.getAttribute('aria-pressed') === 'true';
+    if (pressed) {
+        return;
+    }
+
+    (button as any).click();
+}
+
+
 export const youtubeSeek = (
     seconds: number,
 ) => {

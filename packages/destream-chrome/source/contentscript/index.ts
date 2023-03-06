@@ -1,6 +1,7 @@
 import {
     youtubeMute,
     youtubePlayPause,
+    youtubeLike,
     youtubeSeek,
 } from './controllers/youtube';
 
@@ -20,6 +21,9 @@ export const handleEvent = (
             break;
         case 'youtubeMute':
             youtubeMute();
+            break;
+        case 'youtubeLike':
+            youtubeLike();
             break;
         case 'youtubeSeek':
             youtubeSeek(event.payload ?? 0);
