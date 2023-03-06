@@ -61,6 +61,9 @@ const Popup: React.FC<any> = (
     const stopControl = async () => {
         setActiveTabControlledBy('');
     }
+
+    const startSession = async () => {
+    }
     // #endregion handlers
 
 
@@ -128,6 +131,17 @@ const Popup: React.FC<any> = (
                         <br />
                         is not controlled
                     </div>
+
+                    <PureButton
+                        text="Start Session"
+                        atClick={() => {
+                            startSession();
+                        }}
+                        theme={plurid}
+                        style={{
+                            marginTop: '1rem',
+                        }}
+                    />
                 </StyledTabControl>
             )}
 
