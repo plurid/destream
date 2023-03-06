@@ -82,7 +82,7 @@ const Options: React.FC<any> = (
                 />
 
                 <InputSwitch
-                    name="allow like"
+                    name="allow like/heart/upvote"
                     checked={allowLike}
                     atChange={() => {
                         setAllowLike(!allowLike);
