@@ -119,7 +119,11 @@ const Options: React.FC<any> = (
                 }}
             />
 
-            <div>
+            <div
+                style={{
+                    marginBottom: '3rem',
+                }}
+            >
                 <h1>
                     general permissions
                 </h1>
