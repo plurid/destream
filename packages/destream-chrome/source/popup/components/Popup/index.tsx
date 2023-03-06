@@ -1,32 +1,46 @@
 import * as React from 'react';
 
 import {
+    plurid,
+} from '@plurid/plurid-themes';
+
+import {
+    LinkButton,
+} from '@plurid/plurid-ui-components-react';
+
+import Login from '../../../common/components/Login'
+
+import {
     StyledPopup,
 } from './styled';
 
 
 
-const Popup: React.FC<any> = (properties) => {
-    // const openOptions = () => {
-    //     chrome.runtime.openOptionsPage();
-    // }
+const Popup: React.FC<any> = (
+    properties,
+) => {
+    const openOptions = () => {
+        chrome.runtime.openOptionsPage();
+    }
 
-    // chrome.runtime.onMessage.addListener(
-    //     function(request, sender, sendResponse) {
-    //         console.log(request);
-
-    //         console.log(sender.tab ?
-    //                     "from a content script:" + sender.tab.url :
-    //                     "from the extension");
-    //         if (request.greeting == "hello") {
-    //             sendResponse({farewell: "goodbye"});
-    //         }
-    //     }
-    // );
 
     return (
         <StyledPopup>
+            <h1>
+                destream
+            </h1>
 
+            <Login
+                theme={plurid}
+            />
+
+            <LinkButton
+                text="options"
+                atClick={() => {
+                    openOptions();
+                }}
+                theme={plurid}
+            />
         </StyledPopup>
     );
 }
