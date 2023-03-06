@@ -22,7 +22,7 @@
         "dist/"
     ],
     "scripts": {
-        "clean": "rm -rf dist && rm -rf build && rm -rf dist-zip",
+        "clean": "rm -rf distribution && rm -rf build && rm -rf distribution-zip",
         "dev": "pnpm clean && NODE_ENV=development webpack --watch",
         "build": "pnpm clean && NODE_ENV=production webpack",
         "distribute": "pnpm clean && NODE_ENV=production webpack && node scripts/zip.js",
@@ -31,7 +31,7 @@
         "unit-test": "jest __tests__/.*.spec.js --silent",
         "e2e-test": "jest __e2e-tests__ --runInBand --silent",
         "test.jest": "jest",
-        "lint": "eslint --quiet -f codeframe src"
+        "lint": "eslint --quiet -f codeframe source"
     },
     "dependencies": {
         "react": "^18.2.0",

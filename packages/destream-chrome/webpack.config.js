@@ -12,9 +12,9 @@ const { NODE_ENV = DEVELOPMENT } = process.env;
 const base = {
     context: __dirname,
     entry: {
-        contentscript: './src/contentscript/index.ts',
-        popup: './src/popup/index.tsx',
-        options: './src/options/index.tsx',
+        contentscript: './source/contentscript/index.ts',
+        popup: './source/popup/index.tsx',
+        options: './source/options/index.tsx',
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".jsx"]
@@ -40,17 +40,17 @@ const base = {
     plugins: [
         new CopyPlugin({
             patterns: [
-                { from: './src/manifest.json', to: './manifest.json' },
-                { from: './src/assets', to: 'assets' }
+                { from: './source/manifest.json', to: './manifest.json' },
+                { from: './source/assets', to: 'assets' }
             ],
         }),
         new HtmlWebpackPlugin({
-            template: './src/popup/index.html',
+            template: './source/popup/index.html',
             chunks: ['popup'],
             filename: 'popup.html',
         }),
         new HtmlWebpackPlugin({
-            template: './src/options/index.html',
+            template: './source/options/index.html',
             chunks: ['options'],
             filename: 'options.html',
         }),
@@ -79,7 +79,7 @@ const development = {
 const production = {
     ...base,
     output: {
-        path: path.join(__dirname, 'dist'),
+        path: path.join(__dirname, 'distribution'),
         filename: '[name].js',
     },
     mode: 'production',
