@@ -21,5 +21,6 @@ export const StyledLogin = styled.div<IStyledLogin>`
     place-content: center;
     justify-items: center;
     margin-bottom: 3rem;
+    min-height: 280px;
 `;
 // #region module

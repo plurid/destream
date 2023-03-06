@@ -12,6 +12,7 @@
         InputLine,
         PureButton,
         LinkButton,
+        Spinner,
     } from '@plurid/plurid-ui-components-react';
     // #endregion libraries
 
@@ -20,6 +21,10 @@
     import {
         StyledLogin,
     } from './styled';
+
+    import {
+        loginLogic
+    } from './logic';
     // #endregion internal
 // #region imports
 
@@ -72,6 +77,16 @@ const Login: React.FC<LoginProperties> = (
 
     // #region state
     const [
+        loading,
+        setLoading,
+    ] = useState(false);
+
+    const [
+        error,
+        setError,
+    ] = useState(false);
+
+    const [
         identonym,
         setIdentonym,
     ] = useState('');
@@ -84,11 +99,18 @@ const Login: React.FC<LoginProperties> = (
 
 
     // #region handlers
-    const login = () => {
+    const login = async () => {
         if (!identonym || !key) {
             return;
         }
 
+        setLoading(true);
+        const result = await loginLogic(
+            identonym,
+            key,
+        );
+        setError(!result);
+        setLoading(false);
     }
 
     const generateAccount = () => {
@@ -100,6 +122,22 @@ const Login: React.FC<LoginProperties> = (
 
 
     // #region render
+    if (loading) {
+        return (
+            <div
+                style={{
+                    position: 'relative',
+                    height: '280px',
+                    marginBottom: '3rem',
+                }}
+            >
+                <Spinner
+                    theme={theme}
+                />
+            </div>
+        );
+    }
+
     return (
         <StyledLogin
             theme={theme}
@@ -128,6 +166,12 @@ const Login: React.FC<LoginProperties> = (
                     width: '250px',
                 }}
             />
+
+            {error && (
+                <div>
+                    something went wrong
+                </div>
+            )}
 
             <PureButton
                 text="Login"
