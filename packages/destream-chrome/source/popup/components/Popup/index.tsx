@@ -18,6 +18,10 @@
 
     // #region external
     import Login from '../../../common/components/Login';
+
+    import {
+        useLoggedIn,
+    } from '../../../common/hooks';
     // #endregion external
 
 
@@ -39,7 +43,7 @@ const Popup: React.FC<any> = (
     const [
         loggedIn,
         setLoggedIn,
-    ] = useState(false);
+    ] = useLoggedIn();
 
     const [
         activeTab,

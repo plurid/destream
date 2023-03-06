@@ -12,12 +12,17 @@
         InputSwitch,
         InputLine,
         EntityPillGroup,
+        PureButton,
     } from '@plurid/plurid-ui-components-react';
     // #endregion libraries
 
 
     // #region external
     import Login from '../../../common/components/Login';
+
+    import {
+        useLoggedIn,
+    } from '../../../common/hooks';
     // #endregion external
 
 
@@ -38,7 +43,7 @@ const Options: React.FC<any> = (
     const [
         loggedIn,
         setLoggedIn,
-    ] = useState(false);
+    ] = useLoggedIn();
 
     const [
         allowPlayPause,
@@ -101,6 +106,19 @@ const Options: React.FC<any> = (
 
     return (
         <StyledOptions>
+            <PureButton
+                text="Logout"
+                atClick={() => {
+                    setLoggedIn(false);
+                }}
+                theme={plurid}
+                style={{
+                    width: '250px',
+                    margin: '0 auto',
+                    marginBottom: '3rem',
+                }}
+            />
+
             <div>
                 <h1>
                     general permissions
