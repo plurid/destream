@@ -34,8 +34,13 @@ const Options: React.FC<any> = (
     ] = useState(true);
 
     const [
-        allowMute,
-        setAllowMute,
+        allowTimeSkip,
+        setAllowTimeSkip,
+    ] = useState(true);
+
+    const [
+        allowVolumeControl,
+        setAllowVolumeControl,
     ] = useState(true);
 
     const [
@@ -73,10 +78,19 @@ const Options: React.FC<any> = (
                 />
 
                 <InputSwitch
-                    name="allow mute audio/video"
-                    checked={allowMute}
+                    name="allow time skip audio/video"
+                    checked={allowTimeSkip}
                     atChange={() => {
-                        setAllowMute(!allowMute);
+                        setAllowTimeSkip(!allowTimeSkip);
+                    }}
+                    theme={plurid}
+                />
+
+                <InputSwitch
+                    name="allow volume control audio/video"
+                    checked={allowVolumeControl}
+                    atChange={() => {
+                        setAllowVolumeControl(!allowVolumeControl);
                     }}
                     theme={plurid}
                 />
