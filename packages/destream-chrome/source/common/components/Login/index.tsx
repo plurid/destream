@@ -165,6 +165,11 @@ const Login: React.FC<LoginProperties> = (
                 atChange={(event) => {
                     setKey(event.target.value);
                 }}
+                textline={{
+                    enterAtClick: () => {
+                        login();
+                    }
+                }}
                 theme={theme}
                 style={{
                     width: '250px',
