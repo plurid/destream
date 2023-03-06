@@ -20,7 +20,7 @@
 
 
 <h3>
-    control web pages in the browser of followers
+    remote control web pages in the browser of followers
 </h3>
 
 

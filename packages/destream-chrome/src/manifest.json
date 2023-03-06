@@ -2,7 +2,7 @@
     "manifest_version" : 3,
     "name" : "destream",
     "short_name" : "destream",
-    "description" : "control web pages in the browser of followers",
+    "description" : "remote control web pages in the browser of followers",
     "version" : "1.0.0",
     "author": "plurid",
 
