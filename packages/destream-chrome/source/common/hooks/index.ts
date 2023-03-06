@@ -49,4 +49,45 @@ export const useLoggedIn = () => {
         setLoggedIn,
     ] as const;
 }
+
+
+export const useIsStreamer = () => {
+    const [
+        isStreamer,
+        setIsStreamer,
+    ] = useState(false);
+
+    useEffect(() => {
+        const isStreamerListener = (
+            changes: {
+                [key: string]: chrome.storage.StorageChange;
+            },
+        ) => {
+            for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+                if (key === 'isStreamer' && oldValue !== newValue) {
+                    setIsStreamer(newValue);
+                }
+            }
+        }
+
+        const getIsStreamer = async () => {
+            const result = await chrome.storage.local.get(['isStreamer']);
+            if (result.isStreamer) {
+                setIsStreamer(true);
+            }
+        }
+
+        getIsStreamer();
+        chrome.storage.onChanged.addListener(isStreamerListener);
+
+        return () => {
+            chrome.storage.onChanged.removeListener(isStreamerListener);
+        };
+    }, []);
+
+    return [
+        isStreamer,
+        setIsStreamer,
+    ] as const;
+}
 // #endregion module

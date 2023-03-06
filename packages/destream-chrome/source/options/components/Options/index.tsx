@@ -14,6 +14,7 @@
         InputLine,
         EntityPillGroup,
         PureButton,
+        LinkButton,
     } from '@plurid/plurid-ui-components-react';
     // #endregion libraries
 
@@ -23,6 +24,7 @@
 
     import {
         useLoggedIn,
+        useIsStreamer,
     } from '../../../common/hooks';
     // #endregion external
 
@@ -45,6 +47,10 @@ const Options: React.FC<any> = (
         loggedIn,
         setLoggedIn,
     ] = useLoggedIn();
+
+    const [
+        isStreamer,
+    ] = useIsStreamer();
 
     const [
         allowPlayPause,
@@ -96,6 +102,15 @@ const Options: React.FC<any> = (
         setSubscriptions,
     ] = useState([]);
     // #endregion state
+
+
+    // #region handlers
+    const registerAsStreamer = () => {
+        const url = 'https://destream.plurid.com';
+
+        chrome.tabs.create({url});
+    }
+    // #endregion handlers
 
 
     // #region effects
@@ -183,6 +198,20 @@ const Options: React.FC<any> = (
                 }}
             />
 
+            {!isStreamer && (
+                <LinkButton
+                    text="register as streamer"
+                    atClick={() => {
+                        registerAsStreamer();
+                    }}
+                    theme={plurid}
+                    style={{
+                        margin: '0 auto',
+                        marginBottom: '3rem',
+                    }}
+                />
+            )}
+
             <div
                 style={{
                     marginBottom: '3rem',
@@ -252,7 +281,7 @@ const Options: React.FC<any> = (
                             <div>
                                 <div
                                     style={{
-                                        marginLeft: '0.8rem',
+                                        marginLeft: '0.9rem',
                                         fontSize: '0.9rem',
                                         marginTop: '2.2rem',
                                     }}

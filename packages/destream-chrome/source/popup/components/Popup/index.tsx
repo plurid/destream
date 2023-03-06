@@ -21,6 +21,7 @@
 
     import {
         useLoggedIn,
+        useIsStreamer,
     } from '../../../common/hooks';
     // #endregion external
 
@@ -44,6 +45,10 @@ const Popup: React.FC<any> = (
         loggedIn,
         setLoggedIn,
     ] = useLoggedIn();
+
+    const [
+        isStreamer,
+    ] = useIsStreamer();
 
     const [
         activeTab,
@@ -136,16 +141,18 @@ const Popup: React.FC<any> = (
                         is not controlled
                     </div>
 
-                    <PureButton
-                        text="Start Session"
-                        atClick={() => {
-                            startSession();
-                        }}
-                        theme={plurid}
-                        style={{
-                            marginTop: '1rem',
-                        }}
-                    />
+                    {isStreamer && (
+                        <PureButton
+                            text="Start Session"
+                            atClick={() => {
+                                startSession();
+                            }}
+                            theme={plurid}
+                            style={{
+                                marginTop: '1rem',
+                            }}
+                        />
+                    )}
                 </StyledTabControl>
             )}
 
