@@ -215,7 +215,7 @@ const Options: React.FC<any> = (
 
             <div
                 style={{
-                    marginBottom: '3rem',
+                    marginBottom: '4rem',
                 }}
             >
                 <h1>
@@ -319,6 +319,9 @@ const Options: React.FC<any> = (
                                         remove={(entity) => {
                                             setAllowedURLOrigins(allowedURLOrigins.filter(e => e !== entity));
                                         }}
+                                        style={{
+                                            marginTop: '1rem',
+                                        }}
                                     />
                                 )}
                             </div>
@@ -371,6 +374,9 @@ const Options: React.FC<any> = (
                         theme={plurid}
                         remove={(entity) => {
                             setSubscriptions(subscriptions.filter(e => e !== entity));
+                        }}
+                        style={{
+                            marginTop: '1rem',
                         }}
                     />
                 )}
