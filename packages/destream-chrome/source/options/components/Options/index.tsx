@@ -9,16 +9,31 @@ import {
 const Options: React.FC<any> = (properties) => {
     return (
         <StyledOptions>
-            allow play/pause audio/video
+            <div>
+                <h1>
+                    general permissions
+                </h1>
 
-            allow mute audio/video
+                <div>
+                    allow play/pause audio/video
+                </div>
 
-            allow like
+                <div>
+                    allow mute audio/video
+                </div>
 
-            allow change URL
+                <div>
+                    allow like
+                </div>
 
-            change URL for origins (all or specific)
+                <div>
+                    allow change URL
+                </div>
 
+                <div>
+                    change URL for origins (all or specific)
+                </div>
+            </div>
         </StyledOptions>
     );
 }
