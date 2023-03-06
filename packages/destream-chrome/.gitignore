@@ -79,8 +79,8 @@ Temporary Items
 
 # Production
 build
-dist
-dist-zip
+distribution
+distribution-zip
 
 # Misc
 .DS_Store
