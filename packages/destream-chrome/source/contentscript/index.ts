@@ -28,24 +28,10 @@ export const handleEvent = (
 }
 
 
+chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
+    handleEvent(request.event);
 
-const test = () => {
-    setTimeout(() => {
-        handleEvent({
-            type: 'youtubePlayPause',
-        });
-
-        setTimeout(() => {
-            handleEvent({
-                type: 'youtubeMute',
-            });
-
-            handleEvent({
-                type: 'youtubeSeek',
-                payload: 10,
-            });
-        }, 3000);
-    }, 3000);
-}
-
-// test();
+    sendResponse({
+        status: true,
+    });
+});

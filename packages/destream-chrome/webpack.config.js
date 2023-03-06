@@ -12,6 +12,7 @@ const { NODE_ENV = DEVELOPMENT } = process.env;
 const base = {
     context: __dirname,
     entry: {
+        background: './source/background/index.ts',
         contentscript: './source/contentscript/index.ts',
         popup: './source/popup/index.tsx',
         options: './source/options/index.tsx',
