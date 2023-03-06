@@ -1,12 +1,61 @@
-import * as React from 'react';
+// #region imports
+    // #region libraries
+    import React, {
+        useState,
+    } from 'react';
 
-import {
-    StyledOptions,
-} from './styled';
+    import {
+        plurid,
+    } from '@plurid/plurid-themes';
+
+    import {
+        InputSwitch,
+    } from '@plurid/plurid-ui-components-react';
+    // #endregion libraries
+
+
+    // #region internal
+    import {
+        StyledOptions,
+    } from './styled';
+    // #endregion internal
+// #endregion imports
 
 
 
-const Options: React.FC<any> = (properties) => {
+// #region module
+const Options: React.FC<any> = (
+    properties,
+) => {
+    // #region state
+    const [
+        allowPlayPause,
+        setAllowPlayPause,
+    ] = useState(true);
+
+    const [
+        allowMute,
+        setAllowMute,
+    ] = useState(true);
+
+    const [
+        allowLike,
+        setAllowLike,
+    ] = useState(true);
+
+    const [
+        allowChangeURL,
+        setAllowChangeURL,
+    ] = useState(false);
+
+    const [
+        allowedURLOrigins,
+        setAllowedURLOrigins,
+    ] = useState([]);
+    // #endregion state
+
+
+    // #region render
     return (
         <StyledOptions>
             <div>
@@ -14,21 +63,41 @@ const Options: React.FC<any> = (properties) => {
                     general permissions
                 </h1>
 
-                <div>
-                    allow play/pause audio/video
-                </div>
+                <InputSwitch
+                    name="allow play/pause audio/video"
+                    checked={allowPlayPause}
+                    atChange={() => {
+                        setAllowPlayPause(!allowPlayPause);
+                    }}
+                    theme={plurid}
+                />
 
-                <div>
-                    allow mute audio/video
-                </div>
+                <InputSwitch
+                    name="allow mute audio/video"
+                    checked={allowMute}
+                    atChange={() => {
+                        setAllowMute(!allowMute);
+                    }}
+                    theme={plurid}
+                />
 
-                <div>
-                    allow like
-                </div>
+                <InputSwitch
+                    name="allow like"
+                    checked={allowLike}
+                    atChange={() => {
+                        setAllowLike(!allowLike);
+                    }}
+                    theme={plurid}
+                />
 
-                <div>
-                    allow change URL
-                </div>
+                <InputSwitch
+                    name="allow change URL"
+                    checked={allowChangeURL}
+                    atChange={() => {
+                        setAllowChangeURL(!allowChangeURL);
+                    }}
+                    theme={plurid}
+                />
 
                 <div>
                     change URL for origins (all or specific)
@@ -36,7 +105,12 @@ const Options: React.FC<any> = (properties) => {
             </div>
         </StyledOptions>
     );
+    // #endregion render
 }
+// #endregion module
 
 
+
+// #region exports
 export default Options;
+// #endregion exports
