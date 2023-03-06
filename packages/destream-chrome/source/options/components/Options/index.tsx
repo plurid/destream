@@ -10,6 +10,7 @@
 
     import {
         InputSwitch,
+        InputLine,
         EntityPillGroup,
     } from '@plurid/plurid-ui-components-react';
     // #endregion libraries
@@ -72,6 +73,16 @@ const Options: React.FC<any> = (
     const [
         allowedURLOrigins,
         setAllowedURLOrigins,
+    ] = useState([]);
+
+    const [
+        newSubscription,
+        setNewSubscription,
+    ] = useState('');
+
+    const [
+        subscriptions,
+        setSubscriptions,
     ] = useState([]);
     // #endregion state
 
@@ -165,6 +176,32 @@ const Options: React.FC<any> = (
                             </div>
                         )}
                     </>
+                )}
+            </div>
+
+            <div>
+                <h1>
+                    subscriptions
+                </h1>
+
+                <InputLine
+                    name="subscribe to"
+                    text={newSubscription}
+                    atChange={(event) => {
+                        setNewSubscription(event.target.value);
+                    }}
+                    textline={{
+                        enterAtClick: () => {
+                            setNewSubscription('');
+                        },
+                    }}
+                    theme={plurid}
+                />
+
+                {subscriptions.length === 0 && (
+                    <div>
+                        no subscriptions
+                    </div>
                 )}
             </div>
         </StyledOptions>

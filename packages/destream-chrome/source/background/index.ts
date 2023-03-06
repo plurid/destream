@@ -1,5 +1,8 @@
 const sendMessage = async () => {
-    const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+    const [tab] = await chrome.tabs.query({
+        active: true,
+        lastFocusedWindow: true,
+    });
 
     const response = await chrome.tabs.sendMessage(
         tab.id,
@@ -11,11 +14,29 @@ const sendMessage = async () => {
     );
 
     console.log(response);
+    return response;
+}
+
+const openTab = async (
+    url: string,
+) => {
+    return await chrome.tabs.create({
+        url,
+        // active: false,
+    });
 }
 
 
-// setTimeout(() => {
-//     (async () => {
-//         await sendMessage();
-//     })();
-// }, 3000);
+class ConnectionManager {
+    private subscriptions: any[] = [];
+
+    public addNewSubscription() {
+    }
+
+    public listen() {
+
+    }
+}
+
+const connectionManager = new ConnectionManager();
+connectionManager.listen();
