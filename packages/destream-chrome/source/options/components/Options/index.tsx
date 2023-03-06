@@ -2,6 +2,7 @@
     // #region libraries
     import React, {
         useState,
+        useEffect,
     } from 'react';
 
     import {
@@ -76,6 +77,11 @@ const Options: React.FC<any> = (
     ] = useState(false);
 
     const [
+        newAllowedURLOrigin,
+        setNewAllowedURLOrigin,
+    ] = useState('');
+
+    const [
         allowedURLOrigins,
         setAllowedURLOrigins,
     ] = useState([]);
@@ -90,6 +96,64 @@ const Options: React.FC<any> = (
         setSubscriptions,
     ] = useState([]);
     // #endregion state
+
+
+    // #region effects
+    useEffect(() => {
+        const getPermissions = async () => {
+            const result = await chrome.storage.local.get(['generalPermissions']);
+            if (!result.generalPermissions) {
+                return;
+            }
+
+            const {
+                allowPlayPause,
+                allowTimeSkip,
+                allowVolumeControl,
+                allowLike,
+                allowChangeURL,
+                allowChangeURLAnyOrigin,
+                allowedURLOrigins,
+            } = result.generalPermissions;
+
+            setAllowPlayPause(allowPlayPause);
+            setAllowTimeSkip(allowTimeSkip);
+            setAllowVolumeControl(allowVolumeControl);
+            setAllowLike(allowLike);
+            setAllowChangeURL(allowChangeURL);
+            setAllowChangeURLAnyOrigin(allowChangeURLAnyOrigin);
+            setAllowedURLOrigins(allowedURLOrigins);
+        }
+
+        getPermissions();
+    }, []);
+
+    useEffect(() => {
+        const setPermissions = async () => {
+            const generalPermissions = {
+                allowPlayPause,
+                allowTimeSkip,
+                allowVolumeControl,
+                allowLike,
+                allowChangeURL,
+                allowChangeURLAnyOrigin,
+                allowedURLOrigins,
+            };
+
+            await chrome.storage.local.set({ generalPermissions });
+        }
+
+        setPermissions();
+    }, [
+        allowPlayPause,
+        allowTimeSkip,
+        allowVolumeControl,
+        allowLike,
+        allowChangeURL,
+        allowChangeURLAnyOrigin,
+        allowedURLOrigins,
+    ]);
+    // #endregion effects
 
 
     // #region render
@@ -186,15 +250,47 @@ const Options: React.FC<any> = (
 
                         {!allowChangeURLAnyOrigin && (
                             <div>
-                                change URL for origins
+                                <div
+                                    style={{
+                                        marginLeft: '0.8rem',
+                                        fontSize: '0.9rem',
+                                        marginTop: '2.2rem',
+                                    }}
+                                >
+                                    allowed URL origins
+                                </div>
 
-                                <EntityPillGroup
-                                    entities={allowedURLOrigins}
+                                <InputLine
+                                    name="new allowed origin"
+                                    text={newAllowedURLOrigin}
+                                    atChange={(event) => {
+                                        setNewAllowedURLOrigin(event.target.value);
+                                    }}
+                                    textline={{
+                                        placeholder: 'new allowed origin (e.g. origin.com)',
+                                        enterAtClick: () => {
+                                            setAllowedURLOrigins([
+                                                ...allowedURLOrigins,
+                                                newAllowedURLOrigin,
+                                            ]);
+                                            setNewAllowedURLOrigin('');
+                                        },
+                                    }}
                                     theme={plurid}
-                                    remove={(entity) => {
-                                        setAllowedURLOrigins(allowedURLOrigins.filter(e => e !== entity));
+                                    style={{
+                                        width: '324px',
                                     }}
                                 />
+
+                                {allowedURLOrigins.length > 0 && (
+                                    <EntityPillGroup
+                                        entities={allowedURLOrigins}
+                                        theme={plurid}
+                                        remove={(entity) => {
+                                            setAllowedURLOrigins(allowedURLOrigins.filter(e => e !== entity));
+                                        }}
+                                    />
+                                )}
                             </div>
                         )}
                     </>
@@ -214,16 +310,39 @@ const Options: React.FC<any> = (
                     }}
                     textline={{
                         enterAtClick: () => {
+                            setSubscriptions([
+                                ...subscriptions,
+                                newSubscription,
+                            ]);
                             setNewSubscription('');
                         },
                     }}
                     theme={plurid}
+                    style={{
+                        width: '324px',
+                    }}
                 />
 
                 {subscriptions.length === 0 && (
-                    <div>
+                    <div
+                        style={{
+                            display: 'grid',
+                            placeContent: 'center',
+                            margin: '2rem 0',
+                        }}
+                    >
                         no subscriptions
                     </div>
+                )}
+
+                {subscriptions.length > 0 && (
+                    <EntityPillGroup
+                        entities={subscriptions}
+                        theme={plurid}
+                        remove={(entity) => {
+                            setSubscriptions(subscriptions.filter(e => e !== entity));
+                        }}
+                    />
                 )}
             </div>
         </StyledOptions>
