@@ -19,9 +19,12 @@
     } from './detectors';
 
     import {
-        checkYoutubeOrigin,
         YoutubeDetector,
     } from './detectors/youtube';
+
+    import {
+        checkYoutubeOrigin,
+    } from './utilities/youtube';
     // #endregion internal
 // #endregion imports
 
