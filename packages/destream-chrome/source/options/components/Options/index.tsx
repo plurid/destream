@@ -240,7 +240,7 @@ const Options: React.FC<any> = (
                 </h1>
 
                 <InputSwitch
-                    name="allow play/pause audio/video"
+                    name="allow play/pause"
                     checked={allowPlayPause}
                     atChange={() => {
                         setAllowPlayPause(!allowPlayPause);
@@ -249,7 +249,7 @@ const Options: React.FC<any> = (
                 />
 
                 <InputSwitch
-                    name="allow time skip audio/video"
+                    name="allow time seek"
                     checked={allowTimeSkip}
                     atChange={() => {
                         setAllowTimeSkip(!allowTimeSkip);
@@ -258,7 +258,7 @@ const Options: React.FC<any> = (
                 />
 
                 <InputSwitch
-                    name="allow volume control audio/video"
+                    name="allow volume control"
                     checked={allowVolumeControl}
                     atChange={() => {
                         setAllowVolumeControl(!allowVolumeControl);
