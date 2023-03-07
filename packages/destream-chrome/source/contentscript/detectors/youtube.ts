@@ -117,8 +117,10 @@ export class YoutubeDetector implements Detector {
     }
 
     private onVolumeChange() {
+        const volume = this.video.muted ? 0 : this.video.volume;
+
         const event = new CustomEvent(DESTREAM_DETECT_EVENT, {
-            detail: { type: YOUTUBE_EVENT.VOLUME_CHANGE, payload: this.video.volume },
+            detail: { type: YOUTUBE_EVENT.VOLUME_CHANGE, payload: volume },
         });
         this.target.dispatchEvent(event);
     }
