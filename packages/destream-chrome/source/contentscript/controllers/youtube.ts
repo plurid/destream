@@ -1,5 +1,5 @@
-export const getYoutubeVideoPlayer = () => {
-    return document.getElementsByClassName('video-stream html5-main-video')[0];
+export const getYoutubeVideoPlayer = (): HTMLVideoElement | undefined => {
+    return document.getElementsByClassName('video-stream html5-main-video')[0] as HTMLVideoElement | undefined;
 }
 
 export const getYoutubeLikeButton = (): HTMLButtonElement | undefined => {
