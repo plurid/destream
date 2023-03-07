@@ -2,6 +2,16 @@ export const getYoutubeVideoPlayer = () => {
     return document.getElementsByClassName('video-stream html5-main-video')[0];
 }
 
+export const getYoutubeLikeButton = (): HTMLButtonElement | undefined => {
+    return document.querySelector('#segmented-like-button button');
+}
+
+export const checkYoutubeLikeButtonPressed = (
+    button: HTMLButtonElement,
+) => {
+    return button.getAttribute('aria-pressed') === 'true';
+}
+
 
 export const youtubePlayPause = () => {
     console.log('youtubePlayStop');
@@ -32,17 +42,16 @@ export const youtubeMute = () => {
 export const youtubeLike = () => {
     console.log('youtubeLike');
 
-    const button = document.querySelector('#segmented-like-button button');
+    const button = getYoutubeLikeButton();
     if (!button) {
         return;
     }
 
-    const pressed = button.getAttribute('aria-pressed') === 'true';
-    if (pressed) {
+    if (checkYoutubeLikeButtonPressed(button)) {
         return;
     }
 
-    (button as any).click();
+    button.click();
 }
 
 
