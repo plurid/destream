@@ -63,7 +63,7 @@ export class YoutubeDetector implements Detector {
         this.video.addEventListener('ratechange', this.onRateChange.bind(this));
 
         if (!this.likeButton) {
-            this.likeButton = await retryGet(getYoutubeLikeButton);
+            this.likeButton = await retryGet(getYoutubeLikeButton, 200);
             if (!this.likeButton) {
                 return;
             }
