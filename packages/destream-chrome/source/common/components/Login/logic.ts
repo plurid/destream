@@ -7,9 +7,22 @@ export const loginLogic = async (
         setTimeout(resolve, 2000);
     });
 
-    const loginToken = 'login-token';
-    await chrome.storage.local.set({ loginToken });
-    await chrome.storage.local.set({ loggedIn: true });
+    // receive from network
+    const user = {
+        loginToken: 'login-token',
+        isStreamer: true,
+    };
+
+    const {
+        loginToken,
+        isStreamer,
+    } = user;
+
+    await chrome.storage.local.set({
+        loginToken,
+        isStreamer,
+        loggedIn: true,
+    });
 
     return true;
 }

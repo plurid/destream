@@ -1,16 +1,33 @@
-import {
-    youtubeMute,
-    youtubePlayPause,
-    youtubeLike,
-    youtubeSeek,
-} from './controllers/youtube';
-
-import {
-    YoutubeDetector,
-} from './detectors/youtube';
+// #region imports
+    // #region external
+    import {
+        storageGetIsStreamer,
+    } from '../common/logic';
+    // #endregion external
 
 
+    // #region internal
+    import {
+        youtubeMute,
+        youtubePlayPause,
+        youtubeLike,
+        youtubeSeek,
+    } from './controllers/youtube';
 
+    import {
+        Detector,
+    } from './detectors';
+
+    import {
+        checkYoutubeOrigin,
+        YoutubeDetector,
+    } from './detectors/youtube';
+    // #endregion internal
+// #endregion imports
+
+
+
+// #region module
 export interface DestreamEvent {
     type: string;
     payload?: any;
@@ -45,8 +62,37 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
 });
 
 
-const youtubeDetector = new YoutubeDetector();
-youtubeDetector.target.addEventListener('destreamDetect', (event: CustomEvent<DestreamEvent>) => {
-    console.log(event.detail);
-    // handleEvent(event.detail);
-});
+const getDetector = (): Detector | undefined => {
+    if (checkYoutubeOrigin()) return new YoutubeDetector();
+
+    return;
+}
+
+
+const main = () => {
+    const run = async () => {
+        const isStreamer = await storageGetIsStreamer();
+        if (!isStreamer) {
+            return;
+        }
+
+        const detector = getDetector();
+        if (!detector) {
+            return;
+        }
+
+        detector.target.addEventListener(
+            'destreamDetect',
+            (event: CustomEvent<DestreamEvent>) => {
+                console.log(event.detail);
+                // publish event
+            },
+        );
+    }
+
+    run();
+    chrome.storage.onChanged.addListener(run);
+}
+
+main();
+// #endregion module

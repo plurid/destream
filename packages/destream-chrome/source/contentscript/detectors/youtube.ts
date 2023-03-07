@@ -1,15 +1,26 @@
-import {
-    getYoutubeVideoPlayer,
-} from '../controllers/youtube';
+// #region imports
+    // #region external
+    import {
+        getYoutubeVideoPlayer,
+    } from '../controllers/youtube';
+    // #endregion external
+
+
+    // #region internal
+    import {
+        Detector,
+    } from './index';
+    // #endregion internal
+// #endregion imports
 
 
 
-const checkYoutubeOrigin = () => {
+// #region module
+export const checkYoutubeOrigin = () => {
     return window.location.origin === 'https://www.youtube.com';
 }
 
-
-export class YoutubeDetector {
+export class YoutubeDetector implements Detector {
     private video: HTMLVideoElement;
     public target: EventTarget;
 
@@ -42,3 +53,4 @@ export class YoutubeDetector {
         this.target.dispatchEvent(event);
     }
 }
+// #endregion module

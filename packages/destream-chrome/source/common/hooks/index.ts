@@ -5,6 +5,13 @@
         useEffect,
     } from 'react';
     // #endregion libraries
+
+
+    // #region external
+    import {
+        storageGetIsStreamer,
+    } from '../logic';
+    // #endregion external
 // #endregion imports
 
 
@@ -71,8 +78,8 @@ export const useIsStreamer = () => {
         }
 
         const getIsStreamer = async () => {
-            const result = await chrome.storage.local.get(['isStreamer']);
-            if (result.isStreamer) {
+            const isStreamer = await storageGetIsStreamer();
+            if (isStreamer) {
                 setIsStreamer(true);
             }
         }
