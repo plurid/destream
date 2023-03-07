@@ -5,6 +5,10 @@ import {
     youtubeSeek,
 } from './controllers/youtube';
 
+import {
+    YoutubeDetector,
+} from './detectors/youtube';
+
 
 
 export interface DestreamEvent {
@@ -38,4 +42,11 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
     sendResponse({
         status: true,
     });
+});
+
+
+const youtubeDetector = new YoutubeDetector();
+youtubeDetector.target.addEventListener('destreamDetect', (event: CustomEvent<DestreamEvent>) => {
+    console.log(event.detail);
+    // handleEvent(event.detail);
 });
