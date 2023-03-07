@@ -4,6 +4,11 @@ import {
 
 
 
+const checkYoutubeOrigin = () => {
+    return window.location.origin === 'https://www.youtube.com';
+}
+
+
 export class YoutubeDetector {
     private video: HTMLVideoElement;
     public target: EventTarget;
@@ -15,7 +20,7 @@ export class YoutubeDetector {
     }
 
     private initialize() {
-        if (window.location.origin !== 'https://www.youtube.com') {
+        if (!checkYoutubeOrigin()) {
             return;
         }
 
