@@ -1,21 +1,17 @@
-export const getYoutubeVideoPlayer = (): HTMLVideoElement | undefined => {
-    return document.getElementsByClassName('video-stream html5-main-video')[0] as HTMLVideoElement | undefined;
-}
-
-export const getYoutubeLikeButton = (): HTMLButtonElement | undefined => {
-    return document.querySelector('#segmented-like-button button');
-}
-
-export const checkYoutubeLikeButtonPressed = (
-    button: HTMLButtonElement,
-) => {
-    return button.getAttribute('aria-pressed') === 'true';
-}
+// #region imports
+    // #region external
+    import {
+        getYoutubeVideoPlayer,
+        getYoutubeLikeButton,
+        checkYoutubeLikeButtonPressed,
+    } from '../utilities/youtube';
+    // #endregion external
+// #endregion imports
 
 
+
+// #region module
 export const youtubePlayPause = () => {
-    console.log('youtubePlayStop');
-
     const evt = new KeyboardEvent('keydown', {
         key: 'k',
         code: 'KeyK',
@@ -27,8 +23,6 @@ export const youtubePlayPause = () => {
 
 
 export const youtubeMute = () => {
-    console.log('youtubeMute');
-
     const evt = new KeyboardEvent('keydown', {
         key: 'm',
         code: 'KeyM',
@@ -40,8 +34,6 @@ export const youtubeMute = () => {
 
 
 export const youtubeLike = () => {
-    console.log('youtubeLike');
-
     const button = getYoutubeLikeButton();
     if (!button) {
         return;
@@ -58,11 +50,11 @@ export const youtubeLike = () => {
 export const youtubeSeek = (
     seconds: number,
 ) => {
-    console.log('youtubeSeek', seconds);
-
     const videoPlayer = getYoutubeVideoPlayer();
     if (!videoPlayer) {
         return;
     }
-    (videoPlayer as any).currentTime = seconds;
+
+    videoPlayer.currentTime = seconds;
 }
+// #endregion module

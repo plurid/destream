@@ -1,10 +1,21 @@
 // #region imports
     // #region external
     import {
+        DESTREAM_DETECT_EVENT,
+        YOUTUBE_EVENT,
+    } from '../../data';
+
+    import {
+        retryGet,
+        debounce,
+    } from '../../common/utilities';
+
+    import {
         getYoutubeVideoPlayer,
         getYoutubeLikeButton,
         checkYoutubeLikeButtonPressed,
-    } from '../controllers/youtube';
+        checkYoutubeOrigin,
+    } from '../utilities/youtube';
     // #endregion external
 
 
@@ -18,41 +29,6 @@
 
 
 // #region module
-export const checkYoutubeOrigin = () => {
-    return window.location.origin === 'https://www.youtube.com';
-}
-
-export const DESTREAM_DETECT_EVENT = 'destreamDetect';
-
-export const YOUTUBE_EVENT = {
-    PLAY: 'youtubePlay',
-    PAUSE: 'youtubePause',
-    SEEK: 'youtubeSeek',
-    VOLUME_CHANGE: 'youtubeVolumeChange',
-    RATE_CHANGE: 'youtubeRateChange',
-    LIKE: 'youtubeLike',
-};
-
-
-export const retryGet = async <T>(
-    getter: () => T | undefined,
-) => {
-    let retryCount = 0;
-
-    while (!getter()) {
-        retryCount += 1;
-
-        await new Promise(resolve => setTimeout(resolve, 100));
-
-        if (retryCount > 100) {
-            return;
-        }
-    }
-
-    return getter();
-}
-
-
 export class YoutubeDetector implements Detector {
     private video: HTMLVideoElement | undefined;
     private likeButton: HTMLButtonElement | undefined;
@@ -83,7 +59,7 @@ export class YoutubeDetector implements Detector {
         this.video.addEventListener('play', this.onPlay.bind(this));
         this.video.addEventListener('pause', this.onPause.bind(this));
         this.video.addEventListener('seeked', this.onSeek.bind(this));
-        this.video.addEventListener('volumechange', this.onVolumeChange.bind(this));
+        this.video.addEventListener('volumechange', debounce(this.onVolumeChange.bind(this)));
         this.video.addEventListener('ratechange', this.onRateChange.bind(this));
 
         if (!this.likeButton) {
