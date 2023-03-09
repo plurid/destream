@@ -87,8 +87,12 @@ const main = () => {
         detector.target.addEventListener(
             'destreamDetect',
             (event: CustomEvent<DestreamEvent>) => {
-                console.log(event.detail);
-                // publish event
+                chrome.runtime.sendMessage({
+                    message: JSON.stringify({
+                        type: 'destreamEvent',
+                        event: event.detail,
+                    }),
+                });
             },
         );
     }

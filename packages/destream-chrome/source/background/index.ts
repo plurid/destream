@@ -53,3 +53,26 @@ class ConnectionManager {
 
 const connectionManager = new ConnectionManager();
 connectionManager.listen();
+
+
+const publishEvent = (
+    data: any,
+) => {
+    const publishEndpoint = '';
+
+    fetch(publishEndpoint, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
+}
+
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    console.log(request.message);
+
+    const data = JSON.parse(request.message);
+    publishEvent(data.event);
+});
