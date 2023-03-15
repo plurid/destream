@@ -76,3 +76,41 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     const data = JSON.parse(request.message);
     publishEvent(data.event);
 });
+
+
+
+chrome.notifications.onButtonClicked.addListener(
+    (notificationID, buttonIndex) => {
+        console.log({notificationID, buttonIndex});
+    },
+);
+
+
+const sendNotification = (
+    url: string,
+) => {
+    const notificationID = `destream-notification-${Date.now()}`;
+
+    chrome.notifications.create(
+        notificationID,
+        {
+            type: "basic",
+            iconUrl: "assets/icons/icon.png",
+            title: "URL Change",
+            message: `Streamer wants to change the URL to '${url}'.`,
+            buttons: [
+                {
+                    title: "Cancel",
+                },
+                {
+                    title: "Access Website",
+                },
+            ],
+            isClickable: true,
+            requireInteraction: true,
+            priority: 2,
+        },
+    );
+
+    return notificationID;
+}

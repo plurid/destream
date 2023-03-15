@@ -39,8 +39,9 @@
 
     "permissions": [
         "activeTab",
-        "tabs",
-        "storage"
+        "notifications",
+        "storage",
+        "tabs"
     ],
 
     "host_permissions": [
