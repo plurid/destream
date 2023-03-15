@@ -79,9 +79,32 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 
 
+const NOTIFICATION_URL_CHANGE = 'destream-url-change';
+
+const notifications: Record<string, string | undefined> = {};
+
+
 chrome.notifications.onButtonClicked.addListener(
     (notificationID, buttonIndex) => {
-        console.log({notificationID, buttonIndex});
+        chrome.notifications.clear(notificationID);
+
+        if (notificationID.startsWith(NOTIFICATION_URL_CHANGE)) {
+            switch (buttonIndex) {
+                case 0:
+                    // Cancel
+                    break;
+                case 1:
+                    // Access Website
+                    const url = notifications[notificationID];
+                    if (!url) {
+                        return;
+                    }
+                    console.log({url});
+                    break;
+            }
+
+            delete notifications[notificationID];
+        }
     },
 );
 
@@ -89,7 +112,8 @@ chrome.notifications.onButtonClicked.addListener(
 const sendNotification = (
     url: string,
 ) => {
-    const notificationID = `destream-notification-${Date.now()}`;
+    const notificationID = `${NOTIFICATION_URL_CHANGE}-${Date.now()}`;
+    notifications[notificationID] = url;
 
     chrome.notifications.create(
         notificationID,
