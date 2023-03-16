@@ -21,7 +21,7 @@
 
     // #region internal
     import {
-        Detector,
+        GeneralDetector,
     } from './index';
     // #endregion internal
 // #endregion imports
@@ -29,15 +29,13 @@
 
 
 // #region module
-export class YoutubeDetector implements Detector {
+export class YoutubeDetector extends GeneralDetector {
     private video: HTMLVideoElement | undefined;
     private likeButton: HTMLButtonElement | undefined;
 
-    public target: EventTarget;
-
 
     constructor() {
-        this.target = new EventTarget();
+        super();
 
         this.video = getYoutubeVideoPlayer() as HTMLVideoElement;
         this.likeButton = getYoutubeLikeButton();
