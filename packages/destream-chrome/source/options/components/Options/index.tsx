@@ -26,6 +26,10 @@
         useLoggedIn,
         useIsStreamer,
     } from '../../../common/hooks';
+
+    import {
+        logout,
+    } from '../../../common/logic';
     // #endregion external
 
 
@@ -206,6 +210,7 @@ const Options: React.FC<any> = (
                 text="Logout"
                 atClick={() => {
                     setLoggedIn(false);
+                    logout();
                 }}
                 theme={plurid}
                 level={2}

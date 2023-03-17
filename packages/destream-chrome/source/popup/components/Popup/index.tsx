@@ -12,6 +12,7 @@
     import {
         PureButton,
         LinkButton,
+        Spinner,
     } from '@plurid/plurid-ui-components-react';
     // #endregion libraries
 
@@ -41,6 +42,11 @@ const Popup: React.FC<any> = (
     properties,
 ) => {
     // #region state
+    const [
+        loading,
+        setLoading,
+    ] = useState(true);
+
     const [
         loggedIn,
         setLoggedIn,
@@ -83,6 +89,13 @@ const Popup: React.FC<any> = (
 
     // #region effects
     useEffect(() => {
+        setTimeout(() => {
+            // Give time for useLoggedIn to fire.
+            setLoading(false);
+        }, 150);
+    }, []);
+
+    useEffect(() => {
         const getTab = async () => {
             const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
             setActiveTab(tab);
@@ -98,6 +111,14 @@ const Popup: React.FC<any> = (
 
 
     // #region render
+    if (loading) {
+        return (
+            <Spinner
+                theme={plurid}
+            />
+        );
+    }
+
     return (
         <StyledPopup>
             <h1>
