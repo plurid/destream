@@ -57,6 +57,11 @@ const Options: React.FC<any> = (
     ] = useIsStreamer();
 
     const [
+        allowScroll,
+        setAllowScroll,
+    ] = useState(true);
+
+    const [
         allowPlayPause,
         setAllowPlayPause,
     ] = useState(true);
@@ -126,6 +131,7 @@ const Options: React.FC<any> = (
             }
 
             const {
+                allowScroll,
                 allowPlayPause,
                 allowTimeSkip,
                 allowVolumeControl,
@@ -135,6 +141,7 @@ const Options: React.FC<any> = (
                 allowedURLOrigins,
             } = result.generalPermissions;
 
+            setAllowScroll(allowScroll);
             setAllowPlayPause(allowPlayPause);
             setAllowTimeSkip(allowTimeSkip);
             setAllowVolumeControl(allowVolumeControl);
@@ -160,6 +167,7 @@ const Options: React.FC<any> = (
     useEffect(() => {
         const setPermissions = async () => {
             const generalPermissions = {
+                allowScroll,
                 allowPlayPause,
                 allowTimeSkip,
                 allowVolumeControl,
@@ -179,6 +187,7 @@ const Options: React.FC<any> = (
         setPermissions();
         setSubscriptions();
     }, [
+        allowScroll,
         allowPlayPause,
         allowTimeSkip,
         allowVolumeControl,
@@ -243,6 +252,15 @@ const Options: React.FC<any> = (
                 <h1>
                     general permissions
                 </h1>
+
+                <InputSwitch
+                    name="allow scroll"
+                    checked={allowScroll}
+                    atChange={() => {
+                        setAllowScroll(!allowScroll);
+                    }}
+                    theme={plurid}
+                />
 
                 <InputSwitch
                     name="allow play/pause"
