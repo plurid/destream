@@ -22,22 +22,24 @@ export class GeneralDetector implements Detector {
     }
 
     protected onGeneralScroll() {
-        const {
-            scrollX,
-            scrollY,
-        } = window;
+        window.addEventListener('scroll', () => {
+            const {
+                scrollX,
+                scrollY,
+            } = window;
 
-        const event = new CustomEvent(DESTREAM_DETECT_EVENT, {
-            detail: {
-                type: 'generalScroll',
-                data: {
-                    top: scrollX,
-                    left: scrollY,
+            const event = new CustomEvent(DESTREAM_DETECT_EVENT, {
+                detail: {
+                    type: 'generalScroll',
+                    data: {
+                        top: scrollX,
+                        left: scrollY,
+                    },
                 },
-            },
-        });
+            });
 
-        this.target.dispatchEvent(event);
+            this.target.dispatchEvent(event);
+        });
     }
 }
 // #endregion module

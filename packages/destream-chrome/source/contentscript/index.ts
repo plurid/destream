@@ -8,6 +8,10 @@
 
     // #region internal
     import {
+        generalScrollTo,
+    } from './controllers/general';
+
+    import {
         youtubeMute,
         youtubePlayPause,
         youtubeLike,
@@ -40,6 +44,9 @@ export const handleEvent = (
     event: DestreamEvent,
 ) => {
     switch (event.type) {
+        case 'generalScroll':
+            generalScrollTo(event.payload.top, event.payload.left);
+            break;
         case 'youtubePlayPause':
             youtubePlayPause();
             break;
