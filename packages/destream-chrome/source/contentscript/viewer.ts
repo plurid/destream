@@ -61,7 +61,6 @@ export const runViewer = () => {
     }
 
     run();
-    // check when session starts
     chrome.storage.onChanged.addListener(run);
 }
 // #endregion module

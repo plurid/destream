@@ -15,7 +15,7 @@
 // #region module
 const main = () => {
     runViewer();
-    runStreamer();;
+    runStreamer();
 }
 
 main();
