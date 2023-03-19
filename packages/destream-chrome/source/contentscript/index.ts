@@ -7,6 +7,10 @@
     import {
         runStreamer,
     } from './streamer';
+
+    import {
+        injectView,
+    } from './view';
     // #endregion internal
 // #endregion imports
 
@@ -16,6 +20,7 @@
 const main = () => {
     runViewer();
     runStreamer();
+    // injectView();
 }
 
 main();
