@@ -13,6 +13,7 @@
         PureButton,
         LinkButton,
         Spinner,
+        InputSwitch,
     } from '@plurid/plurid-ui-components-react';
     // #endregion libraries
 
@@ -70,6 +71,21 @@ const Popup: React.FC<any> = (
         controllableTab,
         setControllableTab,
     ] = useState(false);
+
+    const [
+        sessionStarted,
+        setSessionStarted,
+    ] = useState(false);
+
+    const [
+        showStream,
+        setShowStream,
+    ] = useState(false);
+
+    const [
+        showStreamChat,
+        setShowStreamChat,
+    ] = useState(false);
     // #endregion state
 
 
@@ -107,6 +123,28 @@ const Popup: React.FC<any> = (
 
         getTab();
     }, []);
+
+    useEffect(() => {
+        if (!activeTab) {
+            return;
+        }
+
+        const setSettings = async () => {
+            const tabSettings: any = {};
+            const id = `tab-settings-${activeTab.id}`;
+            tabSettings[id] = {
+                showStream,
+                showStreamChat,
+            };
+            await chrome.storage.local.set(tabSettings);
+        }
+
+        setSettings();
+    }, [
+        activeTab,
+        showStream,
+        showStreamChat,
+    ]);
     // #endregion effects
 
 
@@ -199,6 +237,34 @@ const Popup: React.FC<any> = (
                     </div>
                 </StyledTabControl>
             )}
+
+
+            {activeTab
+            && sessionStarted
+            && (
+                <div>
+                    <InputSwitch
+                        name="show stream"
+                        checked={showStream}
+                        atChange={() => {
+                            setShowStream(!showStream);
+                        }}
+                        theme={plurid}
+                    />
+
+                    {showStream && (
+                        <InputSwitch
+                            name="show chat"
+                            checked={showStreamChat}
+                            atChange={() => {
+                                setShowStreamChat(!showStreamChat);
+                            }}
+                            theme={plurid}
+                        />
+                    )}
+                </div>
+            )}
+
 
             <LinkButton
                 text="options"

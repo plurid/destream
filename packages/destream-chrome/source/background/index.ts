@@ -71,10 +71,14 @@ const publishEvent = (
 
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    console.log(request.message);
+    try {
+        console.log(request.message);
 
-    const data = JSON.parse(request.message);
-    publishEvent(data.event);
+        const data = JSON.parse(request.message);
+        publishEvent(data.event);
+    } catch (error) {
+        return;
+    }
 });
 
 
@@ -138,3 +142,21 @@ const sendNotification = (
 
     return notificationID;
 }
+
+
+// chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+//     if (request.type === "getTabId") {
+//         var tabId = sender.tab.id;
+
+//         try {
+//             const result = await chrome.storage.local.get([`tab-settings-${tabId}`]);
+
+//             sendResponse({tabId: tabId, result});
+//         } catch (error) {
+//             sendResponse({tabId: tabId});
+//             return true;
+//         }
+//     }
+
+//     return true;
+// });
