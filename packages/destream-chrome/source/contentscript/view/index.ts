@@ -19,12 +19,26 @@
 
 
 // #region module
-export const injectView = () => {
-    if (!checkYoutubeOrigin()) return;
-
-
+export const renderTwitchStream = (
+    view: HTMLDivElement,
+) => {
     // get based on session
     const twitchChannelName = '';
+
+    const stream = document.createElement('div');
+    view.appendChild(stream);
+    styleStream(stream);
+
+    const chatIframe = createIframe('chat', stream);
+    chatIframe.src = `https://player.twitch.tv/?channel=${twitchChannelName}&parent=www.youtube.com`;
+
+    const streamIframe = createIframe('stream', stream);
+    streamIframe.src = `https://www.twitch.tv/embed/${twitchChannelName}/chat?parent=www.youtube.com`;
+}
+
+
+export const injectView = () => {
+    if (!checkYoutubeOrigin()) return;
 
 
     const view = document.createElement('div');
@@ -45,14 +59,7 @@ export const injectView = () => {
         }
     });
 
-    const stream = document.createElement('div');
-    view.appendChild(stream);
-    styleStream(stream);
 
-    const chatIframe = createIframe('chat', stream);
-    chatIframe.src = `https://player.twitch.tv/?channel=${twitchChannelName}&parent=www.youtube.com`;
-
-    const streamIframe = createIframe('stream', stream);
-    streamIframe.src = `https://www.twitch.tv/embed/${twitchChannelName}/chat?parent=www.youtube.com`;
+    renderTwitchStream(view);
 }
 // #endregion module
