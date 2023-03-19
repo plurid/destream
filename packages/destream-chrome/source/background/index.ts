@@ -144,19 +144,30 @@ const sendNotification = (
 }
 
 
-// chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
-//     if (request.type === "getTabId") {
-//         var tabId = sender.tab.id;
+chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+    if (request.type === 'getTabID') {
+        sendResponse({
+            tabID: sender.tab.id,
+        });
+    }
 
-//         try {
-//             const result = await chrome.storage.local.get([`tab-settings-${tabId}`]);
+    return true;
+});
 
-//             sendResponse({tabId: tabId, result});
-//         } catch (error) {
-//             sendResponse({tabId: tabId});
-//             return true;
-//         }
-//     }
 
-//     return true;
-// });
+chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+    if (request.type === 'getSession') {
+        const tabID = sender.tab.id;
+        const id = `tab-settings-${tabID}`;
+
+        try {
+            const result = await chrome.storage.local.get([id]);
+            sendResponse({
+                session: result[id],
+            });
+        } catch (error) {
+        }
+    }
+
+    return true;
+});
