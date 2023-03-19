@@ -49,6 +49,11 @@ const Popup: React.FC<any> = (
     ] = useState(true);
 
     const [
+        showLoginForm,
+        setShowLoginForm,
+    ] = useState(false);
+
+    const [
         loggedIn,
         setLoggedIn,
     ] = useLoggedIn();
@@ -163,7 +168,24 @@ const Popup: React.FC<any> = (
                 destream
             </h1>
 
-            {!loggedIn && (
+            {!loggedIn
+            && !showLoginForm
+            && (
+                <LinkButton
+                    text="login for extended features"
+                    atClick={() => {
+                        setShowLoginForm(true);
+                    }}
+                    theme={plurid}
+                    style={{
+                        marginTop: '1rem',
+                    }}
+                />
+            )}
+
+            {!loggedIn
+            && showLoginForm
+            && (
                 <Login
                     theme={plurid}
                     atLogin={() => {
