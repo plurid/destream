@@ -20,6 +20,10 @@
 
 
     // #region external
+    import {
+        DEFAULT_PUBLISH_ENDPOINT,
+    } from '../../../data/constants';
+
     import Login from '../../../common/components/Login';
 
     import {
@@ -36,7 +40,10 @@
     // #region internal
     import {
         StyledOptions,
+        StyledSpacer,
     } from './styled';
+
+    import Drawer from './components/Drawer';
     // #endregion internal
 // #endregion imports
 
@@ -47,6 +54,15 @@ const Options: React.FC<any> = (
     properties,
 ) => {
     // #region state
+    const [
+        extendedDrawers,
+        setExtendedDrawers,
+    ] = useState({
+        generalPermissions: true,
+        subscriptions: true,
+        endpoints: true,
+    });
+
     const [
         loggedIn,
         setLoggedIn,
@@ -110,6 +126,18 @@ const Options: React.FC<any> = (
         subscriptions,
         setSubscriptions,
     ] = useState([]);
+
+    const [
+        newEndpoint,
+        setNewEndpoint,
+    ] = useState('');
+
+    const [
+        endpoints,
+        setEndpoints,
+    ] = useState([
+        DEFAULT_PUBLISH_ENDPOINT,
+    ]);
     // #endregion state
 
 
@@ -160,8 +188,20 @@ const Options: React.FC<any> = (
             setSubscriptions(result.subscriptions);
         }
 
+        const getExtendedDrawers = async () => {
+            const result = await chrome.storage.local.get(['extendedDrawers']);
+            if (!result.extendedDrawers) {
+                return;
+            }
+
+            setExtendedDrawers({
+                ...result.extendedDrawers,
+            });
+        }
+
         getPermissions();
         getSubscriptions();
+        getExtendedDrawers();
     }, []);
 
     useEffect(() => {
@@ -197,6 +237,16 @@ const Options: React.FC<any> = (
         allowedURLOrigins,
 
         subscriptions,
+    ]);
+
+    useEffect(() => {
+        const setExtendedDrawers = async () => {
+            await chrome.storage.local.set({ extendedDrawers });
+        }
+
+        setExtendedDrawers();
+    }, [
+        JSON.stringify(extendedDrawers),
     ]);
     // #endregion effects
 
@@ -244,15 +294,17 @@ const Options: React.FC<any> = (
                 />
             )}
 
-            <div
-                style={{
-                    marginBottom: '4rem',
+            <Drawer
+                title="general permissions"
+                theme={plurid}
+                extended={extendedDrawers.generalPermissions}
+                onExtend={(extended) => {
+                    setExtendedDrawers({
+                        ...extendedDrawers,
+                        generalPermissions: extended,
+                    });
                 }}
             >
-                <h1>
-                    general permissions
-                </h1>
-
                 <InputSwitch
                     name="allow scroll"
                     checked={allowScroll}
@@ -368,13 +420,21 @@ const Options: React.FC<any> = (
                         )}
                     </>
                 )}
-            </div>
+            </Drawer>
 
-            <div>
-                <h1>
-                    subscriptions
-                </h1>
+            <StyledSpacer />
 
+            <Drawer
+                title="subscriptions"
+                theme={plurid}
+                extended={extendedDrawers.subscriptions}
+                onExtend={(extended) => {
+                    setExtendedDrawers({
+                        ...extendedDrawers,
+                        subscriptions: extended,
+                    });
+                }}
+            >
                 <InputLine
                     name="subscribe to"
                     text={newSubscription}
@@ -420,7 +480,59 @@ const Options: React.FC<any> = (
                         }}
                     />
                 )}
-            </div>
+            </Drawer>
+
+            <StyledSpacer />
+
+            <Drawer
+                title="endpoints"
+                theme={plurid}
+                extended={extendedDrawers.endpoints}
+                onExtend={(extended) => {
+                    setExtendedDrawers({
+                        ...extendedDrawers,
+                        endpoints: extended,
+                    });
+                }}
+            >
+                <InputLine
+                    name="new endpoint"
+                    text={newEndpoint}
+                    atChange={(event) => {
+                        setNewEndpoint(event.target.value);
+                    }}
+                    textline={{
+                        enterAtClick: () => {
+                            setEndpoints([
+                                ...endpoints,
+                                newEndpoint,
+                            ]);
+                            setNewEndpoint('');
+                        },
+                    }}
+                    theme={plurid}
+                    style={{
+                        width: '324px',
+                    }}
+                />
+
+                {endpoints.length > 0 && (
+                    <EntityPillGroup
+                        entities={endpoints}
+                        theme={plurid}
+                        remove={(entity) => {
+                            if (entity === DEFAULT_PUBLISH_ENDPOINT) {
+                                return;
+                            }
+
+                            setEndpoints(endpoints.filter(e => e !== entity));
+                        }}
+                        style={{
+                            marginTop: '1rem',
+                        }}
+                    />
+                )}
+            </Drawer>
         </StyledOptions>
     );
     // #endregion render

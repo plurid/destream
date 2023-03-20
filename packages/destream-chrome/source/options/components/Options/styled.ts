@@ -8,11 +8,10 @@
 
 // #region module
 export const StyledOptions = styled.div`
-    h1 {
-        font-size: 14px;
-        font-weight: 400;
-        margin-bottom: 2rem;
-        text-align: center;
-    }
+`;
+
+
+export const StyledSpacer = styled.div`
+    height: 2rem;
 `;
 // #endregion module
