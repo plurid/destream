@@ -51,9 +51,10 @@ export const runStreamer = () => {
             'destreamDetect',
             (event: CustomEvent<DestreamEvent>) => {
                 chrome.runtime.sendMessage({
-                    message: JSON.stringify({
+                    type: 'publishEvent',
+                    event: JSON.stringify({
                         type: 'destreamEvent',
-                        event: event.detail,
+                        data: event.detail,
                     }),
                 });
             },

@@ -1,20 +1,10 @@
-const sendMessage = async () => {
+const getActiveTab = async () => {
     const [tab] = await chrome.tabs.query({
         active: true,
         lastFocusedWindow: true,
     });
 
-    const response = await chrome.tabs.sendMessage(
-        tab.id,
-        {
-            event: {
-                type: 'youtubePlayPause',
-            },
-        },
-    );
-
-    console.log(response);
-    return response;
+    return tab;
 }
 
 const openTab = async (
@@ -55,11 +45,14 @@ const connectionManager = new ConnectionManager();
 connectionManager.listen();
 
 
+// const DEFAULT_PUBLISH_ENDPOINT = 'https://api.plurid.com/graphql';
+const DEFAULT_PUBLISH_ENDPOINT = 'http://localhost:3000/publish';
+
+
 const publishEvent = (
     data: any,
+    publishEndpoint = DEFAULT_PUBLISH_ENDPOINT,
 ) => {
-    const publishEndpoint = '';
-
     fetch(publishEndpoint, {
         method: 'POST',
         headers: {
@@ -68,18 +61,6 @@ const publishEvent = (
         body: JSON.stringify(data),
     });
 }
-
-
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    try {
-        console.log(request.message);
-
-        const data = JSON.parse(request.message);
-        publishEvent(data.event);
-    } catch (error) {
-        return;
-    }
-});
 
 
 
@@ -103,7 +84,7 @@ chrome.notifications.onButtonClicked.addListener(
                     if (!url) {
                         return;
                     }
-                    console.log({url});
+                    // console.log({url});
                     break;
             }
 
@@ -144,29 +125,57 @@ const sendNotification = (
 }
 
 
-chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
-    if (request.type === 'getTabID') {
+const handleGetTabID = (
+    _request: any,
+    sender: chrome.runtime.MessageSender,
+    sendResponse: (response?: any) => void,
+) => {
+    sendResponse({
+        tabID: sender.tab.id,
+    });
+
+    return true;
+}
+
+const handleGetSession = async (
+    request: any,
+    sender: chrome.runtime.MessageSender,
+    sendResponse: (response?: any) => void,
+) => {
+    const tabID = sender.tab.id;
+    const id = `tab-settings-${tabID}`;
+
+    try {
+        const result = await chrome.storage.local.get([id]);
         sendResponse({
-            tabID: sender.tab.id,
+            session: result[id],
         });
+    } catch (error) {
     }
 
     return true;
-});
+}
+
+const handlePublishEvent = async (
+    request: any,
+    sender: chrome.runtime.MessageSender,
+    sendResponse: (response?: any) => void,
+) => {
+    const data = JSON.parse(request.event);
+    publishEvent(data.event);
+
+    return true;
+}
 
 
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
-    if (request.type === 'getSession') {
-        const tabID = sender.tab.id;
-        const id = `tab-settings-${tabID}`;
-
-        try {
-            const result = await chrome.storage.local.get([id]);
-            sendResponse({
-                session: result[id],
-            });
-        } catch (error) {
-        }
+    switch (request.type) {
+        case 'publishEvent':
+            return handlePublishEvent(request, sender, sendResponse);
+        case 'getTabID':
+            return handleGetTabID(request, sender, sendResponse);
+        case 'getSession':
+            return handleGetSession(request, sender, sendResponse);
     }
 
     return true;
