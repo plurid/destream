@@ -1,22 +1,15 @@
-const getActiveTab = async () => {
-    const [tab] = await chrome.tabs.query({
-        active: true,
-        lastFocusedWindow: true,
-    });
-
-    return tab;
-}
-
-const openTab = async (
-    url: string,
-) => {
-    return await chrome.tabs.create({
-        url,
-        // active: false,
-    });
-}
+// #region imports
+    // #region external
+    import {
+        DEFAULT_PUBLISH_ENDPOINT,
+        NOTIFICATION_URL_CHANGE,
+    } from '../data';
+    // #endregion external
+// #endregion imports
 
 
+
+// #region module
 class ConnectionManager {
     private subscriptions: Record<string, any> = {};
 
@@ -45,26 +38,23 @@ const connectionManager = new ConnectionManager();
 connectionManager.listen();
 
 
-// const DEFAULT_PUBLISH_ENDPOINT = 'https://api.plurid.com/graphql';
-const DEFAULT_PUBLISH_ENDPOINT = 'http://localhost:3000/publish';
-
-
 const publishEvent = (
     data: any,
     publishEndpoint = DEFAULT_PUBLISH_ENDPOINT,
 ) => {
-    fetch(publishEndpoint, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
+    fetch(
+        publishEndpoint,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
         },
-        body: JSON.stringify(data),
-    });
+    );
 }
 
 
-
-const NOTIFICATION_URL_CHANGE = 'destream-url-change';
 
 const notifications: Record<string, string | undefined> = {};
 
@@ -94,7 +84,7 @@ chrome.notifications.onButtonClicked.addListener(
 );
 
 
-const sendNotification = (
+const sendNotificationURLChange = (
     url: string,
 ) => {
     const notificationID = `${NOTIFICATION_URL_CHANGE}-${Date.now()}`;
@@ -123,6 +113,7 @@ const sendNotification = (
 
     return notificationID;
 }
+
 
 
 const handleGetTabID = (
@@ -167,6 +158,20 @@ const handlePublishEvent = async (
     return true;
 }
 
+const handleSendNotification = async (
+    request: any,
+    sender: chrome.runtime.MessageSender,
+    sendResponse: (response?: any) => void,
+) => {
+    switch (request.kind) {
+        case 'urlChange':
+            sendNotificationURLChange(request.url);
+            break;
+    }
+
+    return true;
+}
+
 
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     switch (request.type) {
@@ -176,7 +181,10 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
             return handleGetTabID(request, sender, sendResponse);
         case 'getSession':
             return handleGetSession(request, sender, sendResponse);
+        case 'sendNotification':
+            return handleSendNotification(request, sender, sendResponse);
     }
 
     return true;
 });
+// #endregion module
