@@ -9,6 +9,7 @@ export const DESTREAM_DETECT_EVENT = 'destreamDetect';
 export const NOTIFICATION_URL_CHANGE = 'destream-url-change';
 
 
+
 export const YOUTUBE_EVENT = {
     PLAY: 'youtubePlay',
     PAUSE: 'youtubePause',
@@ -18,11 +19,19 @@ export const YOUTUBE_EVENT = {
     LIKE: 'youtubeLike',
 };
 
-
 export const NETFLIX_EVENT = {
     PLAY: 'netflixPlay',
     PAUSE: 'netflixPause',
     SEEK: 'netflixSeek',
     VOLUME_CHANGE: 'netflixVolumeChange',
+    RATE_CHANGE: 'netflixRateChange',
+};
+
+export const SPOTIFY_EVENT = {
+    PLAY: 'spotifyPlay',
+    PAUSE: 'spotifyPause',
+    SEEK: 'spotifySeek',
+    VOLUME_CHANGE: 'spotifyVolumeChange',
+    RATE_CHANGE: 'spotifyRateChange',
 };
 // #endregion module
