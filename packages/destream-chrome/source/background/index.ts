@@ -42,16 +42,20 @@ const publishEvent = (
     data: any,
     publishEndpoint = DEFAULT_PUBLISH_ENDPOINT,
 ) => {
-    fetch(
-        publishEndpoint,
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
+    try {
+        fetch(
+            publishEndpoint,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
             },
-            body: JSON.stringify(data),
-        },
-    );
+        );
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 
