@@ -4,6 +4,7 @@
         DestreamEvent,
         MESSAGE_TYPE,
         DESTREAM_DETECT_EVENT,
+        PublishEventMessage,
     } from '../data';
 
     import {
@@ -51,13 +52,12 @@ export const runStreamer = () => {
     let detector: Detector | undefined;
 
     const runLogic = (event: CustomEvent<DestreamEvent>) => {
-        chrome.runtime.sendMessage({
+        const message: PublishEventMessage = {
             type: MESSAGE_TYPE.PUBLISH_EVENT,
-            event: JSON.stringify({
-                type: 'destreamEvent',
-                data: event.detail,
-            }),
-        });
+            data: event.detail,
+        };
+
+        chrome.runtime.sendMessage(message);
     };
 
     const run = async () => {

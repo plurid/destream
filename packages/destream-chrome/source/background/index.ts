@@ -2,6 +2,12 @@
     // #region external
     import {
         MESSAGE_TYPE,
+        NOTIFICATION_KIND,
+        Message,
+        PublishEventMessage,
+        GetTabIDMessage,
+        GetSessionMessage,
+        SendNotificationMessage,
     } from '../data';
     // #endregion external
 
@@ -21,18 +27,17 @@
 
 // #region module
 const handlePublishEvent = async (
-    request: any,
+    request: PublishEventMessage,
     sender: chrome.runtime.MessageSender,
     sendResponse: (response?: any) => void,
 ) => {
-    const data = JSON.parse(request.event);
-    publishEvent(data.event);
+    publishEvent(request.data);
 
     return true;
 }
 
 const handleGetTabID = (
-    _request: any,
+    _request: GetTabIDMessage,
     sender: chrome.runtime.MessageSender,
     sendResponse: (response?: any) => void,
 ) => {
@@ -44,7 +49,7 @@ const handleGetTabID = (
 }
 
 const handleGetSession = async (
-    request: any,
+    _request: GetSessionMessage,
     sender: chrome.runtime.MessageSender,
     sendResponse: (response?: any) => void,
 ) => {
@@ -63,21 +68,21 @@ const handleGetSession = async (
 }
 
 const handleSendNotification = async (
-    request: any,
+    request: SendNotificationMessage,
     sender: chrome.runtime.MessageSender,
     sendResponse: (response?: any) => void,
 ) => {
-    switch (request.kind) {
-        case 'urlChange':
-            sendNotificationURLChange(request.url);
+    switch (request.data.kind) {
+        case NOTIFICATION_KIND.URL_CHANGE:
+            sendNotificationURLChange(request.data.url);
             break;
     }
 
     return true;
 }
 
-const messageHandler = (
-    request: any,
+const messageHandler = async (
+    request: Message,
     sender: chrome.runtime.MessageSender,
     sendResponse: (response?: any) => void,
 ) => {
@@ -90,9 +95,9 @@ const messageHandler = (
             return handleGetSession(request, sender, sendResponse);
         case MESSAGE_TYPE.SEND_NOTIFICATION:
             return handleSendNotification(request, sender, sendResponse);
+        default:
+            return true;
     }
-
-    return true;
 }
 
 chrome.runtime.onMessage.addListener(messageHandler);
