@@ -31,7 +31,8 @@ export type DestreamEvent =
     | DestreamPauseEvent
     | DestreamSeekEvent
     | DestreamVolumeChangeEvent
-    | DestreamRateChangeEvent;
+    | DestreamRateChangeEvent
+    | DestreamLikeEvent;
 
 export interface DestreamScrollEvent {
     type: typeof GENERAL_EVENT.SCROLL;
@@ -80,6 +81,11 @@ export interface DestreamRateChangeEvent {
         | typeof NETFLIX_EVENT.RATE_CHANGE;
     // 0 - 100
     payload: number;
+}
+
+export interface DestreamLikeEvent {
+    type:
+        | typeof YOUTUBE_EVENT.LIKE;
 }
 
 

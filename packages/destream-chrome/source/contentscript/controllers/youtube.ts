@@ -21,6 +21,20 @@ export const youtubePlayPause = () => {
     window.document.dispatchEvent(evt);
 }
 
+export const youtubeVolumeChange = (
+    volume: number,
+) => {
+    if (volume === 0) {
+        youtubeMute();
+        return;
+    }
+
+    const videoPlayer = getYoutubeVideoPlayer();
+    if (!videoPlayer) {
+        return;
+    }
+    videoPlayer.volume = volume;
+}
 
 export const youtubeMute = () => {
     const evt = new KeyboardEvent('keydown', {
@@ -31,7 +45,6 @@ export const youtubeMute = () => {
 
     window.document.dispatchEvent(evt);
 }
-
 
 export const youtubeLike = () => {
     const button = getYoutubeLikeButton();
@@ -46,6 +59,15 @@ export const youtubeLike = () => {
     button.click();
 }
 
+export const youtubeRateChange = (
+    rate: number,
+) => {
+    const videoPlayer = getYoutubeVideoPlayer();
+    if (!videoPlayer) {
+        return;
+    }
+    videoPlayer.playbackRate = rate;
+}
 
 export const youtubeSeek = (
     seconds: number,

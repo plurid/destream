@@ -15,16 +15,17 @@
     } from './controllers/general';
 
     import {
-        youtubeMute,
         youtubePlayPause,
-        youtubeLike,
         youtubeSeek,
+        youtubeVolumeChange,
+        youtubeRateChange,
+        youtubeLike,
     } from './controllers/youtube';
 
     import {
-        spotifyMute,
         spotifyPlayPause,
         spotifySeek,
+        spotifyVolumeChange,
     } from './controllers/spotify';
     // #endregion internal
 // #endregion imports
@@ -45,25 +46,28 @@ export const handleEvent = (
             case YOUTUBE_EVENT.PAUSE:
                 youtubePlayPause();
                 break;
-            case 'youtubeMute':
-                youtubeMute();
+            case YOUTUBE_EVENT.SEEK:
+                youtubeSeek(event.payload);
+                break;
+            case YOUTUBE_EVENT.VOLUME_CHANGE:
+                youtubeVolumeChange(event.payload);
+                break;
+            case YOUTUBE_EVENT.RATE_CHANGE:
+                youtubeRateChange(event.payload);
                 break;
             case YOUTUBE_EVENT.LIKE:
                 youtubeLike();
                 break;
-            case YOUTUBE_EVENT.SEEK:
-                youtubeSeek(event.payload ?? 0);
-                break;
 
-            case 'spotifyMute':
-                spotifyMute();
-                break;
             case SPOTIFY_EVENT.PLAY:
             case SPOTIFY_EVENT.PAUSE:
                 spotifyPlayPause();
                 break;
             case SPOTIFY_EVENT.SEEK:
-                spotifySeek(event.payload ?? 0);
+                spotifySeek(event.payload);
+                break;
+            case SPOTIFY_EVENT.VOLUME_CHANGE:
+                spotifyVolumeChange(event.payload);
                 break;
         }
     } catch (error) {
