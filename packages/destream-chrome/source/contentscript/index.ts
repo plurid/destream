@@ -48,8 +48,9 @@ export const getSession = async (
 
 
 const main = async () => {
-    runViewer();
-    runStreamer();
+    const chromeRuntimePort = chrome.runtime.connect();
+    const viewerCleanup = runViewer();
+    const streamerCleanup = runStreamer();
 
     const tabID = await getTabID();
     const session = await getSession(tabID);
@@ -59,6 +60,11 @@ const main = async () => {
         // inject view if active
         // injectView();
     }
+
+    chromeRuntimePort.onDisconnect.addListener(() => {
+        viewerCleanup();
+        streamerCleanup();
+    });
 }
 
 main();

@@ -73,20 +73,31 @@ export const handleEvent = (
 
 
 export const runViewer = () => {
+    const runLogic = (
+        request: any,
+        _sender: chrome.runtime.MessageSender,
+        sendResponse: (response?: any) => void,
+    ) => {
+        handleEvent(request.event);
+
+        sendResponse({
+            status: true,
+        });
+    }
+
     const run = async () => {
         // if session is started
         // listen for events
 
-        chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
-            handleEvent(request.event);
-
-            sendResponse({
-                status: true,
-            });
-        });
+        chrome.runtime.onMessage.addListener(runLogic);
     }
 
     run();
     chrome.storage.onChanged.addListener(run);
+
+    return () => {
+        chrome.runtime.onMessage.removeListener(runLogic);
+        chrome.storage.onChanged.removeListener(run);
+    }
 }
 // #endregion module

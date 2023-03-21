@@ -2,6 +2,7 @@
     // #region external
     import {
         DestreamEvent,
+        MESSAGE_TYPE,
         DESTREAM_DETECT_EVENT,
     } from '../data';
 
@@ -47,28 +48,43 @@ const getDetector = (): Detector => {
 
 
 export const runStreamer = () => {
+    let detector: Detector | undefined;
+
+    const runLogic = (event: CustomEvent<DestreamEvent>) => {
+        chrome.runtime.sendMessage({
+            type: MESSAGE_TYPE.PUBLISH_EVENT,
+            event: JSON.stringify({
+                type: 'destreamEvent',
+                data: event.detail,
+            }),
+        });
+    };
+
     const run = async () => {
         const isStreamer = await storageGetIsStreamer();
         if (!isStreamer) {
             return;
         }
 
-        const detector = getDetector();
+        detector = getDetector();
         detector.target.addEventListener(
             DESTREAM_DETECT_EVENT,
-            (event: CustomEvent<DestreamEvent>) => {
-                chrome.runtime.sendMessage({
-                    type: 'publishEvent',
-                    event: JSON.stringify({
-                        type: 'destreamEvent',
-                        data: event.detail,
-                    }),
-                });
-            },
+            runLogic,
         );
     }
 
     run();
     chrome.storage.onChanged.addListener(run);
+
+    return () => {
+        chrome.storage.onChanged.removeListener(run);
+
+        if (detector) {
+            detector.target.removeEventListener(
+                DESTREAM_DETECT_EVENT,
+                runLogic,
+            );
+        }
+    }
 }
 // #endregion module

@@ -9,6 +9,13 @@ export const DESTREAM_DETECT_EVENT = 'destreamDetect';
 export const NOTIFICATION_URL_CHANGE = 'destream-url-change';
 
 
+export const MESSAGE_TYPE = {
+    PUBLISH_EVENT: 'publishEvent',
+    GET_TAB_ID: 'getTabID',
+    GET_SESSION: 'getSession',
+    SEND_NOTIFICATION: 'sendNotification',
+};
+
 
 export const GENERAL_EVENT = {
     SCROLL: 'generalScroll',

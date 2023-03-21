@@ -1,124 +1,35 @@
 // #region imports
     // #region external
     import {
-        DEFAULT_PUBLISH_ENDPOINT,
-        NOTIFICATION_URL_CHANGE,
+        MESSAGE_TYPE,
     } from '../data';
     // #endregion external
+
+
+    // #region internal
+    import {
+        sendNotificationURLChange,
+    } from './notifications';
+
+    import {
+        publishEvent,
+    } from './event';
+    // #endregion internal
 // #endregion imports
 
 
 
 // #region module
-class ConnectionManager {
-    private subscriptions: Record<string, any> = {};
-
-    public listen() {
-        const subscriptionListener = (
-            changes: {
-                [key: string]: chrome.storage.StorageChange;
-            },
-        ) => {
-            for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-                if (key === 'subscriptions') {
-                    for (const subscription of newValue) {
-                        if (!this.subscriptions[subscription]) {
-                            this.subscriptions[subscription] = 'subscription';
-                        }
-                    }
-                }
-            }
-        }
-
-        chrome.storage.onChanged.addListener(subscriptionListener);
-    }
-}
-
-const connectionManager = new ConnectionManager();
-connectionManager.listen();
-
-
-const publishEvent = (
-    data: any,
-    publishEndpoint = DEFAULT_PUBLISH_ENDPOINT,
+const handlePublishEvent = async (
+    request: any,
+    sender: chrome.runtime.MessageSender,
+    sendResponse: (response?: any) => void,
 ) => {
-    try {
-        fetch(
-            publishEndpoint,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            },
-        );
-    } catch (error) {
-        console.log(error);
-    }
+    const data = JSON.parse(request.event);
+    publishEvent(data.event);
+
+    return true;
 }
-
-
-
-const notifications: Record<string, string | undefined> = {};
-
-
-chrome.notifications.onButtonClicked.addListener(
-    (notificationID, buttonIndex) => {
-        chrome.notifications.clear(notificationID);
-
-        if (notificationID.startsWith(NOTIFICATION_URL_CHANGE)) {
-            switch (buttonIndex) {
-                case 0:
-                    // Cancel
-                    break;
-                case 1:
-                    // Access Website
-                    const url = notifications[notificationID];
-                    if (!url) {
-                        return;
-                    }
-                    // console.log({url});
-                    break;
-            }
-
-            delete notifications[notificationID];
-        }
-    },
-);
-
-
-const sendNotificationURLChange = (
-    url: string,
-) => {
-    const notificationID = `${NOTIFICATION_URL_CHANGE}-${Date.now()}`;
-    notifications[notificationID] = url;
-
-    chrome.notifications.create(
-        notificationID,
-        {
-            type: "basic",
-            iconUrl: "assets/icons/icon.png",
-            title: "URL Change",
-            message: `Streamer wants to change the URL to '${url}'.`,
-            buttons: [
-                {
-                    title: "Cancel",
-                },
-                {
-                    title: "Access Website",
-                },
-            ],
-            isClickable: true,
-            requireInteraction: true,
-            priority: 2,
-        },
-    );
-
-    return notificationID;
-}
-
-
 
 const handleGetTabID = (
     _request: any,
@@ -151,17 +62,6 @@ const handleGetSession = async (
     return true;
 }
 
-const handlePublishEvent = async (
-    request: any,
-    sender: chrome.runtime.MessageSender,
-    sendResponse: (response?: any) => void,
-) => {
-    const data = JSON.parse(request.event);
-    publishEvent(data.event);
-
-    return true;
-}
-
 const handleSendNotification = async (
     request: any,
     sender: chrome.runtime.MessageSender,
@@ -176,19 +76,24 @@ const handleSendNotification = async (
     return true;
 }
 
-
-chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+const messageHandler = (
+    request: any,
+    sender: chrome.runtime.MessageSender,
+    sendResponse: (response?: any) => void,
+) => {
     switch (request.type) {
-        case 'publishEvent':
+        case MESSAGE_TYPE.PUBLISH_EVENT:
             return handlePublishEvent(request, sender, sendResponse);
-        case 'getTabID':
+        case MESSAGE_TYPE.GET_TAB_ID:
             return handleGetTabID(request, sender, sendResponse);
-        case 'getSession':
+        case MESSAGE_TYPE.GET_SESSION:
             return handleGetSession(request, sender, sendResponse);
-        case 'sendNotification':
+        case MESSAGE_TYPE.SEND_NOTIFICATION:
             return handleSendNotification(request, sender, sendResponse);
     }
 
     return true;
-});
+}
+
+chrome.runtime.onMessage.addListener(messageHandler);
 // #endregion module
