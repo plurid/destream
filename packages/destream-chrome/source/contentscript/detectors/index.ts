@@ -2,6 +2,7 @@
     // #region external
     import {
         DESTREAM_DETECT_EVENT,
+        GENERAL_EVENT,
     } from '../../data';
     // #endregion external
 // #endregion imports
@@ -30,7 +31,7 @@ export class GeneralDetector implements Detector {
 
             const event = new CustomEvent(DESTREAM_DETECT_EVENT, {
                 detail: {
-                    type: 'generalScroll',
+                    type: GENERAL_EVENT.SCROLL,
                     data: {
                         top: scrollX,
                         left: scrollY,

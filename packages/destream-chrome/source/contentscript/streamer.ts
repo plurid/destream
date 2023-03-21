@@ -2,6 +2,7 @@
     // #region external
     import {
         DestreamEvent,
+        DESTREAM_DETECT_EVENT,
     } from '../data';
 
     import {
@@ -13,6 +14,7 @@
     // #region internal
     import {
         Detector,
+        GeneralDetector,
     } from './detectors';
 
     import {
@@ -20,18 +22,27 @@
     } from './detectors/youtube';
 
     import {
+        SpotifyDetector,
+    } from './detectors/spotify';
+
+    import {
         checkYoutubeOrigin,
     } from './utilities/youtube';
+
+    import {
+        checkSpotifyOrigin,
+    } from './utilities/spotify';
     // #endregion internal
 // #endregion imports
 
 
 
 // #region module
-const getDetector = (): Detector | undefined => {
+const getDetector = (): Detector => {
     if (checkYoutubeOrigin()) return new YoutubeDetector();
+    if (checkSpotifyOrigin()) return new SpotifyDetector();
 
-    return;
+    return new GeneralDetector();
 }
 
 
@@ -43,12 +54,8 @@ export const runStreamer = () => {
         }
 
         const detector = getDetector();
-        if (!detector) {
-            return;
-        }
-
         detector.target.addEventListener(
-            'destreamDetect',
+            DESTREAM_DETECT_EVENT,
             (event: CustomEvent<DestreamEvent>) => {
                 chrome.runtime.sendMessage({
                     type: 'publishEvent',

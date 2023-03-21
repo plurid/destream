@@ -10,6 +10,10 @@ export const NOTIFICATION_URL_CHANGE = 'destream-url-change';
 
 
 
+export const GENERAL_EVENT = {
+    SCROLL: 'generalScroll',
+};
+
 export const YOUTUBE_EVENT = {
     PLAY: 'youtubePlay',
     PAUSE: 'youtubePause',
