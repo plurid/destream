@@ -35,6 +35,10 @@ export type DestreamEvent =
 
 export interface DestreamScrollEvent {
     type: typeof GENERAL_EVENT.SCROLL;
+    payload: {
+        top: number;
+        left: number;
+    };
 }
 
 export interface DestreamPlayEvent {

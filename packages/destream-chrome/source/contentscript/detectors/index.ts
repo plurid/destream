@@ -3,6 +3,7 @@
     import {
         DESTREAM_DETECT_EVENT,
         GENERAL_EVENT,
+        DestreamScrollEvent,
     } from '../../data';
     // #endregion external
 // #endregion imports
@@ -29,14 +30,16 @@ export class GeneralDetector implements Detector {
                 scrollY,
             } = window;
 
-            const event = new CustomEvent(DESTREAM_DETECT_EVENT, {
-                detail: {
-                    type: GENERAL_EVENT.SCROLL,
-                    data: {
-                        top: scrollX,
-                        left: scrollY,
-                    },
+            const scrollEvent: DestreamScrollEvent = {
+                type: GENERAL_EVENT.SCROLL,
+                payload: {
+                    top: scrollX,
+                    left: scrollY,
                 },
+            };
+
+            const event = new CustomEvent(DESTREAM_DETECT_EVENT, {
+                detail: scrollEvent,
             });
 
             this.target.dispatchEvent(event);
