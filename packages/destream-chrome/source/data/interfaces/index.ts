@@ -2,6 +2,10 @@
     // #region external
     import {
         MESSAGE_TYPE,
+        GENERAL_EVENT,
+        YOUTUBE_EVENT,
+        SPOTIFY_EVENT,
+        NETFLIX_EVENT,
     } from '../constants';
     // #endregion external
 // #endregion imports
@@ -9,12 +13,6 @@
 
 
 // #region module
-export interface DestreamEvent {
-    type: string;
-    payload?: any;
-}
-
-
 export type Message =
     | PublishEventMessage
     | GetTabIDMessage
@@ -23,8 +21,63 @@ export type Message =
 
 export interface PublishEventMessage {
     type: typeof MESSAGE_TYPE.PUBLISH_EVENT;
-    data: any;
+    data: DestreamEvent;
 }
+
+
+export type DestreamEvent =
+    | DestreamScrollEvent
+    | DestreamPlayEvent
+    | DestreamPauseEvent
+    | DestreamSeekEvent
+    | DestreamVolumeChangeEvent
+    | DestreamRateChangeEvent;
+
+export interface DestreamScrollEvent {
+    type: typeof GENERAL_EVENT.SCROLL;
+}
+
+export interface DestreamPlayEvent {
+    type:
+        | typeof YOUTUBE_EVENT.PLAY
+        | typeof SPOTIFY_EVENT.PLAY
+        | typeof NETFLIX_EVENT.PLAY;
+}
+
+export interface DestreamPauseEvent {
+    type:
+        | typeof YOUTUBE_EVENT.PAUSE
+        | typeof SPOTIFY_EVENT.PAUSE
+        | typeof NETFLIX_EVENT.PAUSE;
+}
+
+export interface DestreamSeekEvent {
+    type:
+        | typeof YOUTUBE_EVENT.SEEK
+        | typeof SPOTIFY_EVENT.SEEK
+        | typeof NETFLIX_EVENT.SEEK;
+    // seconds
+    payload: number;
+}
+
+export interface DestreamVolumeChangeEvent {
+    type:
+        | typeof YOUTUBE_EVENT.VOLUME_CHANGE
+        | typeof SPOTIFY_EVENT.VOLUME_CHANGE
+        | typeof NETFLIX_EVENT.VOLUME_CHANGE;
+    // 0 - 100
+    payload: number;
+}
+
+export interface DestreamRateChangeEvent {
+    type:
+        | typeof YOUTUBE_EVENT.RATE_CHANGE
+        | typeof SPOTIFY_EVENT.RATE_CHANGE
+        | typeof NETFLIX_EVENT.RATE_CHANGE;
+    // 0 - 100
+    payload: number;
+}
+
 
 export interface GetTabIDMessage {
     type: typeof MESSAGE_TYPE.GET_TAB_ID;
