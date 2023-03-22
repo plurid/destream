@@ -20,6 +20,7 @@ specifiers:
   jest: ^29.4.3
   react: ^18.2.0
   react-dom: ^18.2.0
+  rxjs: ^7.8.0
   styled-components: ^5.3.8
   ts-jest: ^29.0.5
   ts-loader: ^9.4.2
@@ -33,6 +34,7 @@ dependencies:
   '@plurid/plurid-ui-components-react': 0.0.0-22_xmz3brhctu2i5gx4tt3gsipfqi
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  rxjs: 7.8.0
   styled-components: 5.3.8_7i5myeigehqah43i5u7wbekgba
 
 devDependencies:
@@ -4364,6 +4366,12 @@ packages:
       queue-microtask: 1.2.3
     dev: true
 
+  /rxjs/7.8.0:
+    resolution: {integrity: sha512-F2+gxDshqmIub1KdvZkaEfGDwLNpPvk9Fs6LD/MyQxNgMds/WH9OdDDXOmxUZpME+iSK3rQCctkL0DYyytUqMg==}
+    dependencies:
+      tslib: 2.5.0
+    dev: false
+
   /safe-buffer/5.2.1:
     resolution: {integrity: sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==}
     dev: true
@@ -4713,7 +4721,6 @@ packages:
 
   /tslib/2.5.0:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
-    dev: true
 
   /type-detect/4.0.8:
     resolution: {integrity: sha512-0fr/mIH1dlO+x7TlcMy+bIDqKPsw/70tVyeHW787goQjhmqaZe10uwLujubK9q9Lg6Fiho1KUKDYz0Z7k7g5/g==}
