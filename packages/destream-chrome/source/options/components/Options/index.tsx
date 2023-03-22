@@ -50,6 +50,16 @@
 
 
 // #region module
+export const defaultPermissions = {
+    allowScroll: true,
+    allowPlayPause: true,
+    allowTimeSeek: true,
+    allowVolumeControl: true,
+    allowRateControl: true,
+    allowLike: false,
+    allowChangeURL: false,
+};
+
 const Options: React.FC<any> = (
     properties,
 ) => {
@@ -58,9 +68,9 @@ const Options: React.FC<any> = (
         extendedDrawers,
         setExtendedDrawers,
     ] = useState({
-        generalPermissions: true,
-        subscriptions: true,
-        endpoints: true,
+        generalPermissions: false,
+        subscriptions: false,
+        endpoints: false,
     });
 
     const [
@@ -75,32 +85,37 @@ const Options: React.FC<any> = (
     const [
         allowScroll,
         setAllowScroll,
-    ] = useState(true);
+    ] = useState(defaultPermissions.allowScroll);
 
     const [
         allowPlayPause,
         setAllowPlayPause,
-    ] = useState(true);
+    ] = useState(defaultPermissions.allowPlayPause);
 
     const [
-        allowTimeSkip,
-        setAllowTimeSkip,
-    ] = useState(true);
+        allowTimeSeek,
+        setAllowTimeSeek,
+    ] = useState(defaultPermissions.allowTimeSeek);
 
     const [
         allowVolumeControl,
         setAllowVolumeControl,
-    ] = useState(true);
+    ] = useState(defaultPermissions.allowVolumeControl);
+
+    const [
+        allowRateControl,
+        setAllowRateControl,
+    ] = useState(defaultPermissions.allowRateControl);
 
     const [
         allowLike,
         setAllowLike,
-    ] = useState(true);
+    ] = useState(defaultPermissions.allowLike);
 
     const [
         allowChangeURL,
         setAllowChangeURL,
-    ] = useState(false);
+    ] = useState(defaultPermissions.allowChangeURL);
 
     const [
         allowChangeURLAnyOrigin,
@@ -161,8 +176,9 @@ const Options: React.FC<any> = (
             const {
                 allowScroll,
                 allowPlayPause,
-                allowTimeSkip,
+                allowTimeSeek,
                 allowVolumeControl,
+                allowRateControl,
                 allowLike,
                 allowChangeURL,
                 allowChangeURLAnyOrigin,
@@ -171,8 +187,9 @@ const Options: React.FC<any> = (
 
             setAllowScroll(allowScroll);
             setAllowPlayPause(allowPlayPause);
-            setAllowTimeSkip(allowTimeSkip);
+            setAllowTimeSeek(allowTimeSeek);
             setAllowVolumeControl(allowVolumeControl);
+            setAllowRateControl(allowRateControl);
             setAllowLike(allowLike);
             setAllowChangeURL(allowChangeURL);
             setAllowChangeURLAnyOrigin(allowChangeURLAnyOrigin);
@@ -209,8 +226,9 @@ const Options: React.FC<any> = (
             const generalPermissions = {
                 allowScroll,
                 allowPlayPause,
-                allowTimeSkip,
+                allowTimeSeek,
                 allowVolumeControl,
+                allowRateControl,
                 allowLike,
                 allowChangeURL,
                 allowChangeURLAnyOrigin,
@@ -229,8 +247,9 @@ const Options: React.FC<any> = (
     }, [
         allowScroll,
         allowPlayPause,
-        allowTimeSkip,
+        allowTimeSeek,
         allowVolumeControl,
+        allowRateControl,
         allowLike,
         allowChangeURL,
         allowChangeURLAnyOrigin,
@@ -252,33 +271,33 @@ const Options: React.FC<any> = (
 
 
     // #region render
-    if (!loggedIn) {
-        return (
-            <Login
-                theme={plurid}
-                atLogin={() => {
-                    setLoggedIn(true);
-                }}
-            />
-        );
-    }
-
     return (
         <StyledOptions>
-            <PureButton
-                text="Logout"
-                atClick={() => {
-                    setLoggedIn(false);
-                    logout();
-                }}
-                theme={plurid}
-                level={2}
-                style={{
-                    width: '250px',
-                    margin: '0 auto',
-                    marginBottom: '3rem',
-                }}
-            />
+            {!loggedIn && (
+                <Login
+                    theme={plurid}
+                    atLogin={() => {
+                        setLoggedIn(true);
+                    }}
+                />
+            )}
+
+            {loggedIn && (
+                <PureButton
+                    text="Logout"
+                    atClick={() => {
+                        setLoggedIn(false);
+                        logout();
+                    }}
+                    theme={plurid}
+                    level={2}
+                    style={{
+                        width: '250px',
+                        margin: '0 auto',
+                    }}
+                />
+            )}
+
 
             {!isStreamer && (
                 <LinkButton
@@ -287,12 +306,12 @@ const Options: React.FC<any> = (
                         registerAsStreamer();
                     }}
                     theme={plurid}
-                    style={{
-                        margin: '0 auto',
-                        marginBottom: '3rem',
-                    }}
                 />
             )}
+
+
+            <StyledSpacer />
+
 
             <Drawer
                 title="general permissions"
@@ -325,9 +344,9 @@ const Options: React.FC<any> = (
 
                 <InputSwitch
                     name="allow time seek"
-                    checked={allowTimeSkip}
+                    checked={allowTimeSeek}
                     atChange={() => {
-                        setAllowTimeSkip(!allowTimeSkip);
+                        setAllowTimeSeek(!allowTimeSeek);
                     }}
                     theme={plurid}
                 />
@@ -337,6 +356,15 @@ const Options: React.FC<any> = (
                     checked={allowVolumeControl}
                     atChange={() => {
                         setAllowVolumeControl(!allowVolumeControl);
+                    }}
+                    theme={plurid}
+                />
+
+                <InputSwitch
+                    name="allow playback rate control"
+                    checked={allowRateControl}
+                    atChange={() => {
+                        setAllowRateControl(!allowRateControl);
                     }}
                     theme={plurid}
                 />
@@ -422,8 +450,6 @@ const Options: React.FC<any> = (
                 )}
             </Drawer>
 
-            <StyledSpacer />
-
             <Drawer
                 title="subscriptions"
                 theme={plurid}
@@ -481,8 +507,6 @@ const Options: React.FC<any> = (
                     />
                 )}
             </Drawer>
-
-            <StyledSpacer />
 
             <Drawer
                 title="endpoints"

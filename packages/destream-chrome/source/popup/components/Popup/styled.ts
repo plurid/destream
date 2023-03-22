@@ -17,6 +17,7 @@ export const StyledPopup = styled.div`
     display: grid;
     place-content: center;
     padding: 2rem;
+    grid-gap: 2rem;
 `;
 
 

@@ -84,6 +84,11 @@ const Login: React.FC<LoginProperties> = (
     ] = useState(false);
 
     const [
+        showLoginForm,
+        setShowLoginForm,
+    ] = useState(false);
+
+    const [
         error,
         setError,
     ] = useState(false);
@@ -139,6 +144,18 @@ const Login: React.FC<LoginProperties> = (
                     theme={theme}
                 />
             </div>
+        );
+    }
+
+    if (!showLoginForm) {
+        return (
+            <LinkButton
+                text="login for extended features"
+                atClick={() => {
+                    setShowLoginForm(true);
+                }}
+                theme={theme}
+            />
         );
     }
 

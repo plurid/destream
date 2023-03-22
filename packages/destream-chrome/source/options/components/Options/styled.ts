@@ -8,6 +8,8 @@
 
 // #region module
 export const StyledOptions = styled.div`
+    display: grid;
+    gap: 2rem;
 `;
 
 

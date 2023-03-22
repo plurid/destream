@@ -85,6 +85,9 @@ const Drawer: React.FC<DrawerProperties> = (
                     setExtended(newValue);
                     onExtend(newValue);
                 }}
+                style={{
+                    marginBottom: extended ? 0 : '2rem',
+                }}
             >
                 {title}&nbsp;{extended ? '▼' : '▲'}
             </h1>
