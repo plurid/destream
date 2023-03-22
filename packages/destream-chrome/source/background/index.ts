@@ -21,6 +21,10 @@
         publishEvent,
         run,
     } from './event';
+
+    import {
+        handleConnectExternal,
+    } from './persistent';
     // #endregion internal
 // #endregion imports
 
@@ -104,4 +108,8 @@ const messageHandler = async (
 chrome.runtime.onMessage.addListener(messageHandler);
 
 run();
+
+
+// Make service worker persistent.
+chrome.runtime.onConnectExternal.addListener(handleConnectExternal);
 // #endregion module
