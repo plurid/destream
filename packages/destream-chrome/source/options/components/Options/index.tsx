@@ -76,6 +76,8 @@ const Options: React.FC<any> = (
     const [
         loggedIn,
         setLoggedIn,
+        identonym,
+        setIdentonym,
     ] = useLoggedIn();
 
     const [
@@ -276,15 +278,16 @@ const Options: React.FC<any> = (
             {!loggedIn && (
                 <Login
                     theme={plurid}
-                    atLogin={() => {
+                    atLogin={(identonym) => {
                         setLoggedIn(true);
+                        setIdentonym(identonym);
                     }}
                 />
             )}
 
             {loggedIn && (
                 <PureButton
-                    text="Logout"
+                    text={`Logout ${identonym}`}
                     atClick={() => {
                         setLoggedIn(false);
                         logout();
@@ -314,7 +317,7 @@ const Options: React.FC<any> = (
 
 
             <Drawer
-                title="general permissions"
+                title="permissions"
                 theme={plurid}
                 extended={extendedDrawers.generalPermissions}
                 onExtend={(extended) => {

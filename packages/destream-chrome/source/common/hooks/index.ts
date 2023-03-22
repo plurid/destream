@@ -23,6 +23,12 @@ export const useLoggedIn = () => {
         setLoggedIn,
     ] = useState(false);
 
+    const [
+        identonym,
+        setIdentonym,
+    ] = useState('');
+
+
     useEffect(() => {
         const loggedInListener = (
             changes: {
@@ -37,9 +43,14 @@ export const useLoggedIn = () => {
         }
 
         const getLoggedIn = async () => {
-            const result = await chrome.storage.local.get(['loggedIn']);
+            const result = await chrome.storage.local.get(['loggedIn', 'identonym']);
+            console.log({result});
             if (result.loggedIn) {
                 setLoggedIn(true);
+            }
+
+            if (result.identonym) {
+                setIdentonym(result.identonym);
             }
         }
 
@@ -54,6 +65,8 @@ export const useLoggedIn = () => {
     return [
         loggedIn,
         setLoggedIn,
+        identonym,
+        setIdentonym,
     ] as const;
 }
 

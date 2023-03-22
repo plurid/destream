@@ -14,13 +14,14 @@ export const loginLogic = async (
     };
 
     const {
-        loginToken,
         isStreamer,
+        loginToken,
     } = user;
 
     await chrome.storage.local.set({
-        loginToken,
+        identonym,
         isStreamer,
+        loginToken,
         loggedIn: true,
     });
 

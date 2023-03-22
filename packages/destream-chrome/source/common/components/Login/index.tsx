@@ -38,7 +38,9 @@ export interface LoginProperties {
         // #endregion values
 
         // #region methods
-        atLogin: () => void;
+        atLogin: (
+            identonym: string,
+        ) => void;
         // #endregion methods
     // #endregion required
 
@@ -117,7 +119,7 @@ const Login: React.FC<LoginProperties> = (
             key,
         );
         if (result) {
-            atLogin();
+            atLogin(identonym);
         }
         setError(!result);
         setLoading(false);
