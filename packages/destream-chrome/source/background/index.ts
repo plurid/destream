@@ -19,6 +19,7 @@
 
     import {
         publishEvent,
+        run,
     } from './event';
     // #endregion internal
 // #endregion imports
@@ -101,4 +102,6 @@ const messageHandler = async (
 }
 
 chrome.runtime.onMessage.addListener(messageHandler);
+
+run();
 // #endregion module

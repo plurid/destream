@@ -5,6 +5,8 @@ export const DEFAULT_PUBLISH_ENDPOINT = 'http://localhost:3000/publish';
 
 export const DESTREAM_DETECT_EVENT = 'destreamDetect';
 
+export const DESTREAM_EVENT = 'destreamEvent';
+
 
 export const NOTIFICATION_URL_CHANGE = 'destream-url-change';
 

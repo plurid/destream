@@ -2,6 +2,7 @@
     // #region external
     import {
         DestreamEvent,
+        DESTREAM_EVENT,
         GENERAL_EVENT,
         YOUTUBE_EVENT,
         SPOTIFY_EVENT,
@@ -82,7 +83,11 @@ export const runViewer = () => {
         _sender: chrome.runtime.MessageSender,
         sendResponse: (response?: any) => void,
     ) => {
-        handleEvent(request.event);
+        if (request.type !== DESTREAM_EVENT) {
+            return;
+        }
+
+        handleEvent(request.data);
 
         sendResponse({
             status: true,
