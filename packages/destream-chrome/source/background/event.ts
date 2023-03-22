@@ -57,14 +57,18 @@ export const sendEventToPage = async (
     tabID: number,
     event: DestreamEvent,
 ) => {
-    const response = await chrome.tabs.sendMessage(
-        tabID,
-        {
-            type: DESTREAM_EVENT,
-            data: event,
-        },
-    );
-    console.log('response', response);
+    try {
+        const response = await chrome.tabs.sendMessage(
+            tabID,
+            {
+                type: DESTREAM_EVENT,
+                data: event,
+            },
+        );
+        console.log('response', response);
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 
@@ -82,7 +86,9 @@ export const publishEvent = (
                 },
                 body: JSON.stringify(data),
             },
-        );
+        ).catch(error => {
+            console.log(error);
+        });
     } catch (error) {
         console.log(error);
     }
@@ -101,6 +107,13 @@ export const streamPlayer = async (
 }
 
 
+export const delay = async (
+    milliseconds: number,
+) => {
+    await new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
+
 export const run = async () => {
     const sessionURL = 'https://pastebin.com/raw/hADNsQi8';
     const sesssionData = JSON.parse(
@@ -109,15 +122,17 @@ export const run = async () => {
 
     const eventStream = new Subject<DestreamEvent>();
 
-    streamPlayer(
+    await streamPlayer(
         sesssionData.url,
         eventStream,
     );
 
+    await delay(2_000);
+
     for (const event of sesssionData.events) {
         eventStream.next(event.data);
 
-        await new Promise(resolve => setTimeout(resolve, event.relativeTime));
+        await delay(event.relativeTime);
     }
 }
 // #endregion module
