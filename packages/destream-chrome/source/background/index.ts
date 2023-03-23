@@ -35,20 +35,26 @@
 
 
 // #region module
-const handlePublishEvent = async (
-    request: PublishEventMessage,
+export type Handler<R> = (
+    request: R,
     sender: chrome.runtime.MessageSender,
     sendResponse: (response?: any) => void,
+) => Promise<boolean>;
+
+const handlePublishEvent: Handler<PublishEventMessage> = async (
+    request,
+    sender,
+    sendResponse,
 ) => {
     publishEvent(request.data);
 
     return true;
 }
 
-const handleGetTabID = (
-    _request: GetTabIDMessage,
-    sender: chrome.runtime.MessageSender,
-    sendResponse: (response?: any) => void,
+const handleGetTabID: Handler<GetTabIDMessage> = async (
+    request,
+    sender,
+    sendResponse,
 ) => {
     sendResponse({
         tabID: sender.tab.id,
@@ -57,27 +63,24 @@ const handleGetTabID = (
     return true;
 }
 
-const handleGetSession = async (
-    _request: GetSessionMessage,
-    sender: chrome.runtime.MessageSender,
-    sendResponse: (response?: any) => void,
+const handleGetSession: Handler<GetSessionMessage> = async (
+    request,
+    sender,
+    sendResponse,
 ) => {
-    try {
-        const session = await getSession(sender.tab.id);
+    const session = await getSession(sender.tab.id);
 
-        sendResponse({
-            session,
-        });
-    } catch (error) {
-    }
+    sendResponse({
+        session,
+    });
 
     return true;
 }
 
-const handleSendNotification = async (
-    request: SendNotificationMessage,
-    sender: chrome.runtime.MessageSender,
-    sendResponse: (response?: any) => void,
+const handleSendNotification: Handler<SendNotificationMessage> = async (
+    request,
+    sender,
+    sendResponse,
 ) => {
     switch (request.data.kind) {
         case NOTIFICATION_KIND.URL_CHANGE:
@@ -96,10 +99,10 @@ const handleSendNotification = async (
     return true;
 }
 
-const messageHandler = async (
-    request: Message,
-    sender: chrome.runtime.MessageSender,
-    sendResponse: (response?: any) => void,
+const messageHandler: Handler<Message> = async (
+    request,
+    sender,
+    sendResponse,
 ) => {
     switch (request.type) {
         case MESSAGE_TYPE.PUBLISH_EVENT:
