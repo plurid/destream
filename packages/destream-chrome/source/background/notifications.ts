@@ -9,7 +9,12 @@
 
 
 // #region module
-const notifications: Record<string, string | undefined> = {};
+export interface NotificationURLChangeData {
+    tabID: number;
+    url: string;
+}
+
+const notifications: Record<string, NotificationURLChangeData | undefined> = {};
 
 
 chrome.notifications.onButtonClicked.addListener(
@@ -23,11 +28,22 @@ chrome.notifications.onButtonClicked.addListener(
                     break;
                 case 1:
                     // Access Website
-                    const url = notifications[notificationID];
-                    if (!url) {
+                    const data = notifications[notificationID];
+                    if (!data) {
                         return;
                     }
-                    // console.log({url});
+
+                    const {
+                        tabID,
+                        url,
+                    } = data;
+
+                    chrome.tabs.update(
+                        tabID,
+                        {
+                            url,
+                        },
+                    );
                     break;
             }
 
@@ -38,24 +54,29 @@ chrome.notifications.onButtonClicked.addListener(
 
 
 export const sendNotificationURLChange = (
+    streamerName: string,
+    tabID: number,
     url: string,
 ) => {
     const notificationID = `${NOTIFICATION_URL_CHANGE}-${Date.now()}`;
-    notifications[notificationID] = url;
+    notifications[notificationID] = {
+        tabID,
+        url,
+    };
 
     chrome.notifications.create(
         notificationID,
         {
-            type: "basic",
-            iconUrl: "assets/icons/icon.png",
-            title: "URL Change",
-            message: `Streamer wants to change the URL to '${url}'.`,
+            type: 'basic',
+            iconUrl: 'assets/icons/icon.png',
+            title: 'URL Change',
+            message: `Streamer '${streamerName}' wants to change the URL to '${url}'.`,
             buttons: [
                 {
-                    title: "Cancel",
+                    title: 'Cancel',
                 },
                 {
-                    title: "Access Website",
+                    title: 'Access Website',
                 },
             ],
             isClickable: true,
