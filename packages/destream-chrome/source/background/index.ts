@@ -25,6 +25,10 @@
     import {
         handleConnectExternal,
     } from './persistent';
+
+    import {
+        getSession,
+    } from './session';
     // #endregion internal
 // #endregion imports
 
@@ -58,13 +62,11 @@ const handleGetSession = async (
     sender: chrome.runtime.MessageSender,
     sendResponse: (response?: any) => void,
 ) => {
-    const tabID = sender.tab.id;
-    const id = `tab-settings-${tabID}`;
-
     try {
-        const result = await chrome.storage.local.get([id]);
+        const session = await getSession(sender.tab.id);
+
         sendResponse({
-            session: result[id],
+            session,
         });
     } catch (error) {
     }
@@ -79,7 +81,15 @@ const handleSendNotification = async (
 ) => {
     switch (request.data.kind) {
         case NOTIFICATION_KIND.URL_CHANGE:
-            sendNotificationURLChange(request.data.url);
+            // get session based on tab id
+            // get streamer name from session
+            const streamerName = '';
+
+            sendNotificationURLChange(
+                streamerName,
+                sender.tab.id,
+                request.data.url,
+            );
             break;
     }
 
