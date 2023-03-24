@@ -34,6 +34,7 @@
         "lint": "eslint --quiet -f codeframe source"
     },
     "dependencies": {
+        "@plurid/messager": "0.0.0-4",
         "@plurid/plurid-themes": "0.0.0-2",
         "@plurid/plurid-ui-components-react": "0.0.0-22",
         "react": "^18.2.0",
