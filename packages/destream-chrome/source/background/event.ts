@@ -19,6 +19,8 @@
     import {
         openTab,
     } from './utilities';
+
+    import messager from './messager';
     // #endregion internal
 // #endregion imports
 
@@ -126,6 +128,11 @@ export const run = async () => {
         sesssionData.url,
         eventStream,
     );
+
+    messager.subscribe('destream', (message: any) => {
+        console.log('destream message', message);
+        eventStream.next(message.data);
+    });
 
     await delay(2_000);
 
