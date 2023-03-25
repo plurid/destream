@@ -120,7 +120,7 @@ const messageHandler: Handler<Message> = async (
 
 chrome.runtime.onMessage.addListener(messageHandler);
 
-run();
+// run();
 
 
 // Make service worker persistent.

@@ -1,10 +1,22 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import App from './App';
+// #region imports
+    // #region libraries
+    import React from 'react';
+
+    import {
+        createRoot,
+    } from 'react-dom/client';
+    // #endregion libraries
+
+
+    // #region internal
+    import App from './App';
+    // #endregion internal
+// #endregion imports
 
 
 
-ReactDOM.render(
-    <App />,
-    document.getElementById('root') as HTMLElement,
-);
+// #region module
+const application = document.getElementById('root')!;
+
+createRoot(application).render(<App />);
+// #endregion module

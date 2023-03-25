@@ -1,17 +1,28 @@
-import * as React from 'react';
+// #region imports
+    // #region libraries
+    import React from 'react';
+    // #endregion libraries
 
-import Popup from './components/Popup';
+
+    // #region internal
+    import Popup from './components/Popup';
+    // #endregion internal
+// #endregion imports
 
 
 
-class App extends React.Component {
-    public render() {
-        return (
-            <div>
-                <Popup />
-            </div>
-        );
-    }
+// #region module
+const App = () => {
+    return (
+        <div>
+            <Popup />
+        </div>
+    );
 }
+// #endregion module
 
+
+
+// #region exports
 export default App;
+// #endregion exports
