@@ -1,4 +1,13 @@
 // #region module
+// export const DEFAULT_MESSAGER_ENDPOINT = 'messager.plurid.cloud';
+export const DEFAULT_MESSAGER_ENDPOINT = 'localhost:56865';
+
+export const DEFAULT_MESSAGER_TOKEN = '__TEST_MODE__';
+
+
+export const DEFAULT_API_ENDPOINT = 'https://api.plurid.com/graphql';
+
+
 // export const DEFAULT_PUBLISH_ENDPOINT = 'https://api.plurid.com/graphql';
 export const DEFAULT_PUBLISH_ENDPOINT = 'http://localhost:3000/publish';
 

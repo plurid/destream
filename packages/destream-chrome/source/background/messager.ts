@@ -2,17 +2,22 @@
     // #region libraries
     import Messager from '@plurid/messager';
     // #endregion libraries
+
+
+    // #region external
+    import {
+        DEFAULT_MESSAGER_ENDPOINT,
+        DEFAULT_MESSAGER_TOKEN,
+    } from '../data/constants';
+    // #endregion external
 // #endregion imports
 
 
 
 // #region module
-const endpoint = 'localhost:56865';
-const token = '__TEST_MODE__';
-
 const messager = new Messager(
-    endpoint,
-    token,
+    DEFAULT_MESSAGER_ENDPOINT,
+    DEFAULT_MESSAGER_TOKEN,
     'socket',
     {
         log: true,
