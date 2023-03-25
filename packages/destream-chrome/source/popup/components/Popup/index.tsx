@@ -19,6 +19,15 @@
 
 
     // #region external
+    import {
+        MESSAGE_TYPE,
+    } from '../../../data/constants';
+
+    import {
+        StartSessionMessage,
+        StopControlMessage,
+    } from '../../../data/interfaces';
+
     import Login from '../../../common/components/Login';
 
     import {
@@ -95,10 +104,27 @@ const Popup: React.FC<any> = (
     }
 
     const stopControl = async () => {
+        if (!activeTab) {
+            return;
+        }
+
         setActiveTabControlledBy('');
+
+        await chrome.runtime.sendMessage<StopControlMessage>({
+            type: MESSAGE_TYPE.STOP_CONTROL,
+            data: activeTab.id,
+        });
     }
 
     const startSession = async () => {
+        if (!activeTab) {
+            return;
+        }
+
+        await chrome.runtime.sendMessage<StartSessionMessage>({
+            type: MESSAGE_TYPE.START_SESSION,
+            data: activeTab.url,
+        });
     }
     // #endregion handlers
 
@@ -113,7 +139,10 @@ const Popup: React.FC<any> = (
 
     useEffect(() => {
         const getTab = async () => {
-            const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+            const [tab] = await chrome.tabs.query({
+                active: true,
+                lastFocusedWindow: true,
+            });
             setActiveTab(tab);
 
             if (!tab.url.startsWith('chrome://')) {

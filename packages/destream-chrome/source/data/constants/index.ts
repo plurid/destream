@@ -31,6 +31,8 @@ export const MESSAGE_TYPE = {
     GET_TAB_ID: 'getTabID',
     GET_SESSION: 'getSession',
     SEND_NOTIFICATION: 'sendNotification',
+    START_SESSION: 'startSession',
+    STOP_CONTROL: 'stopControl',
 } as const;
 
 

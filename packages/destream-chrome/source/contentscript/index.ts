@@ -1,4 +1,16 @@
 // #region imports
+    // #region external
+    import {
+        MESSAGE_TYPE,
+    } from '../data/constants';
+
+    import {
+        GetTabIDMessage,
+        GetSessionMessage,
+    } from '../data/interfaces';
+    // #endregion external
+
+
     // #region internal
     import {
         runViewer,
@@ -18,8 +30,8 @@
 
 // #region module
 export const getTabID = async (): Promise<number | undefined> => {
-    const response = await chrome.runtime.sendMessage({
-        type: 'getTabID',
+    const response = await chrome.runtime.sendMessage<GetTabIDMessage>({
+        type: MESSAGE_TYPE.GET_TAB_ID,
     });
     if (!response) {
         return;
@@ -35,9 +47,9 @@ export const getSession = async (
         return;
     }
 
-    const response = await chrome.runtime.sendMessage({
-        type: 'getSession',
-        tabID,
+    const response = await chrome.runtime.sendMessage<GetSessionMessage>({
+        type: MESSAGE_TYPE.GET_SESSION,
+        data: tabID,
     });
     if (!response) {
         return;

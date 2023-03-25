@@ -16,7 +16,9 @@
 export type Message =
     | PublishEventMessage
     | GetTabIDMessage
+    | StartSessionMessage
     | GetSessionMessage
+    | StopControlMessage
     | SendNotificationMessage;
 
 export interface PublishEventMessage {
@@ -93,8 +95,22 @@ export interface GetTabIDMessage {
     type: typeof MESSAGE_TYPE.GET_TAB_ID;
 }
 
+export interface StartSessionMessage {
+    type: typeof MESSAGE_TYPE.START_SESSION;
+    // tab URL
+    data: string;
+}
+
 export interface GetSessionMessage {
     type: typeof MESSAGE_TYPE.GET_SESSION;
+    // tabID
+    data: number;
+}
+
+export interface StopControlMessage {
+    type: typeof MESSAGE_TYPE.STOP_CONTROL;
+    // tabID
+    data: number;
 }
 
 export interface SendNotificationMessage {
