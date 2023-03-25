@@ -85,9 +85,11 @@ distribution-zip
 # Misc
 .DS_Store
 .env.local
+.env.local.deon
 .env.development.local
 .env.test.local
 .env.production.local
+.env.production.deon
 
 npm-debug.log*
 yarn-debug.log*

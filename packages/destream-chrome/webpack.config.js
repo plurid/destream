@@ -57,7 +57,10 @@ const base = {
         }),
         new webpack.DefinePlugin({
             'process.env': {
-                NODE_ENV: JSON.stringify(NODE_ENV)
+                NODE_ENV: JSON.stringify(NODE_ENV),
+                MESSAGER_ENDPOINT: JSON.stringify(process.env.MESSAGER_ENDPOINT),
+                MESSAGER_TOKEN: JSON.stringify(process.env.MESSAGER_TOKEN),
+                API_ENDPOINT: JSON.stringify(process.env.API_ENDPOINT),
             },
         }),
     ],
@@ -67,6 +70,7 @@ const base = {
 const development = {
     ...base,
     mode: 'development',
+    devtool: false,
     module: {
         ...base.module,
     },

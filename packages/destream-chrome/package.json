@@ -24,6 +24,7 @@
     "scripts": {
         "clean": "rm -rf distribution && rm -rf build && rm -rf distribution-zip",
         "dev": "pnpm clean && NODE_ENV=development webpack --watch",
+        "build.local": "pnpm clean && deon environment ./environment/.env.local.deon webpack",
         "build": "pnpm clean && NODE_ENV=production webpack",
         "distribute": "pnpm clean && NODE_ENV=production webpack && node scripts/zip.js",
         "test": "npm run unit-test && npm run e2e-test",
