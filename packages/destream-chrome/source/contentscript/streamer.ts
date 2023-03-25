@@ -52,12 +52,10 @@ export const runStreamer = () => {
     let detector: Detector | undefined;
 
     const runLogic = (event: CustomEvent<DestreamEvent>) => {
-        const message: PublishEventMessage = {
+        chrome.runtime.sendMessage<PublishEventMessage>({
             type: MESSAGE_TYPE.PUBLISH_EVENT,
             data: event.detail,
-        };
-
-        chrome.runtime.sendMessage(message);
+        });
     };
 
     const run = async () => {

@@ -2,6 +2,7 @@
     // #region external
     import {
         MESSAGE_TYPE,
+        DESTREAM_EVENT,
         GENERAL_EVENT,
         YOUTUBE_EVENT,
         SPOTIFY_EVENT,
@@ -19,7 +20,8 @@ export type Message =
     | StartSessionMessage
     | GetSessionMessage
     | StopControlMessage
-    | SendNotificationMessage;
+    | SendNotificationMessage
+    | DestreamEventMessage;
 
 export interface PublishEventMessage {
     type: typeof MESSAGE_TYPE.PUBLISH_EVENT;
@@ -116,5 +118,10 @@ export interface StopControlMessage {
 export interface SendNotificationMessage {
     type: typeof MESSAGE_TYPE.SEND_NOTIFICATION;
     data: any;
+}
+
+export interface DestreamEventMessage {
+    type: typeof MESSAGE_TYPE.DESTREAM_EVENT;
+    data: DestreamEvent;
 }
 // #endregion module

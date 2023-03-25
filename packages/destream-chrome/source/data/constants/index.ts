@@ -33,6 +33,7 @@ export const MESSAGE_TYPE = {
     SEND_NOTIFICATION: 'sendNotification',
     START_SESSION: 'startSession',
     STOP_CONTROL: 'stopControl',
+    DESTREAM_EVENT: 'destreamEvent',
 } as const;
 
 

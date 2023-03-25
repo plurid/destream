@@ -2,6 +2,7 @@
     // #region external
     import {
         DestreamEvent,
+        Message,
         DESTREAM_EVENT,
         GENERAL_EVENT,
         YOUTUBE_EVENT,
@@ -79,7 +80,7 @@ export const handleEvent = (
 
 export const runViewer = () => {
     const runLogic = (
-        request: any,
+        request: Message,
         _sender: chrome.runtime.MessageSender,
         sendResponse: (response?: any) => void,
     ) => {

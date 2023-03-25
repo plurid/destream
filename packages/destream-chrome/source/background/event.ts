@@ -8,8 +8,9 @@
 
     // #region external
     import {
-        DESTREAM_EVENT,
+        MESSAGE_TYPE,
         DestreamEvent,
+        DestreamEventMessage,
     } from '../data';
     // #endregion external
 
@@ -59,10 +60,10 @@ export const sendEventToPage = async (
     event: DestreamEvent,
 ) => {
     try {
-        const response = await chrome.tabs.sendMessage(
+        const response = await chrome.tabs.sendMessage<DestreamEventMessage>(
             tabID,
             {
-                type: DESTREAM_EVENT,
+                type: MESSAGE_TYPE.DESTREAM_EVENT,
                 data: event,
             },
         );
