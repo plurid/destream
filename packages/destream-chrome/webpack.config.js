@@ -8,6 +8,8 @@ const CopyPlugin = require('copy-webpack-plugin');
 const DEVELOPMENT = 'development';
 const { NODE_ENV = DEVELOPMENT } = process.env;
 
+const outputPath = path.join(__dirname, 'distribution');
+
 
 const base = {
     context: __dirname,
@@ -21,7 +23,7 @@ const base = {
         extensions: [".ts", ".tsx", ".js", ".jsx"]
     },
     output: {
-        path: path.join(__dirname, 'build'),
+        path: outputPath,
         filename: '[name].js',
     },
     module: {
@@ -71,22 +73,11 @@ const development = {
     ...base,
     mode: 'development',
     devtool: false,
-    module: {
-        ...base.module,
-    },
-    plugins: [
-        ...base.plugins,
-        new webpack.HotModuleReplacementPlugin(),
-    ],
 };
 
 
 const production = {
     ...base,
-    output: {
-        path: path.join(__dirname, 'distribution'),
-        filename: '[name].js',
-    },
     mode: 'production',
     plugins: [
         ...base.plugins,

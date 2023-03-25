@@ -1,7 +1,7 @@
 {
     "name": "@plurid/destream",
     "version": "0.0.0",
-    "description": "Chrome Extension for destream",
+    "description": "Chrome Extension for destream—collaborative browsing",
     "author": "ly3xqhl8g9 <ly3xqhl8g9@plurid.com> (https://plurid.com)",
     "keywords": [
         "destream",
@@ -19,20 +19,13 @@
     },
     "homepage": "https://github.com/plurid/destream",
     "files": [
-        "dist/"
+        "distribution/"
     ],
     "scripts": {
-        "clean": "rm -rf distribution && rm -rf build && rm -rf distribution-zip",
-        "dev": "pnpm clean && NODE_ENV=development webpack --watch",
+        "clean": "rm -rf distribution && rm -rf distribution-zip",
         "build.local": "pnpm clean && deon environment ./environment/.env.local.deon webpack",
-        "build": "pnpm clean && NODE_ENV=production webpack",
-        "distribute": "pnpm clean && NODE_ENV=production webpack && node scripts/zip.js",
-        "test": "npm run unit-test && npm run e2e-test",
-        "test.production": "NODE_ENV=production npm run unit-test && npm run e2e-test",
-        "unit-test": "jest __tests__/.*.spec.js --silent",
-        "e2e-test": "jest __e2e-tests__ --runInBand --silent",
-        "test.jest": "jest",
-        "lint": "eslint --quiet -f codeframe source"
+        "build": "pnpm clean && deon environment ./environment/.env.production.deon webpack",
+        "distribute": "pnpm build && node scripts/zip.js"
     },
     "dependencies": {
         "@plurid/messager": "0.0.0-4",
