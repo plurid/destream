@@ -8,6 +8,10 @@
     import {
         DEFAULT_MESSAGER_ENDPOINT,
         DEFAULT_MESSAGER_TOKEN,
+
+        defaultMessager,
+        messagerType,
+        messagerOptions,
     } from '../data/constants';
     // #endregion external
 // #endregion imports
@@ -15,19 +19,56 @@
 
 
 // #region module
-const messager = new Messager(
-    DEFAULT_MESSAGER_ENDPOINT,
-    DEFAULT_MESSAGER_TOKEN,
-    'socket',
-    {
-        log: true,
-        secure: false,
-    },
-);
+export class MessagerManager {
+    private messagers: Record<string, Messager> = {};
+
+
+    constructor() {
+        this.messagers[defaultMessager] = new Messager(
+            DEFAULT_MESSAGER_ENDPOINT,
+            DEFAULT_MESSAGER_TOKEN,
+            messagerType,
+            messagerOptions,
+        );
+    }
+
+
+    public new(
+        endpoint: string,
+        token: string,
+    ) {
+        this.messagers[endpoint] = new Messager(
+            endpoint,
+            token,
+            messagerType,
+            messagerOptions,
+        );
+    }
+
+    public remove(
+        endpoint: string,
+    ) {
+        delete this.messagers[endpoint];
+    }
+
+
+    public get(
+        endpoint?: string,
+    ) {
+        if (!endpoint || !this.messagers[endpoint]) {
+            return this.messagers[defaultMessager];
+        }
+
+        return this.messagers[endpoint];
+    }
+}
+
+
+const messagerManager = new MessagerManager();
 // #endregion module
 
 
 
 // #region exports
-export default messager;
+export default messagerManager;
 // #endregion exports

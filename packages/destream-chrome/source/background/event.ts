@@ -19,7 +19,7 @@
         openTab,
     } from './utilities';
 
-    import messager from './messager';
+    import messagerManager from './messager';
     // #endregion internal
 // #endregion imports
 
@@ -87,7 +87,7 @@ export const publishEvent = (
     try {
         const topicID = composeTopicID();
 
-        messager.publish(
+        messagerManager.get().publish(
             topicID,
             data,
         );
@@ -131,7 +131,7 @@ export const run = async () => {
 
     const topicID = composeTopicID();
 
-    messager.subscribe<{data: DestreamEvent}>(
+    messagerManager.get().subscribe<{data: DestreamEvent}>(
         topicID,
         (message) => {
             console.log('destream message', message);

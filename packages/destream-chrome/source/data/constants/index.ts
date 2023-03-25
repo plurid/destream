@@ -11,6 +11,14 @@ export const DESTREAM_DETECT_EVENT = 'destreamDetect';
 export const DESTREAM_EVENT = 'destreamEvent';
 
 
+export const defaultMessager = '__DEFAULT__';
+export const messagerType = 'socket';
+export const messagerOptions = {
+    log: true,
+    secure: false,
+};
+
+
 export const NOTIFICATION_URL_CHANGE = 'destream-url-change';
 
 export const NOTIFICATION_KIND = {
