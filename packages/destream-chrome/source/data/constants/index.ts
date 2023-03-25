@@ -37,6 +37,13 @@ export const defaultPermissions = {
 };
 
 
+export const defaultAllowedURLOrigins = [
+    'https://www.netflix.com',
+    'https://open.spotify.com',
+    'https://www.youtube.com',
+];
+
+
 export const GENERAL_EVENT = {
     SCROLL: 'generalScroll',
 } as const;

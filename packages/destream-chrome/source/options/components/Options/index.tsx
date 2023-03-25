@@ -23,6 +23,7 @@
     import {
         DEFAULT_API_ENDPOINT,
         defaultPermissions,
+        defaultAllowedURLOrigins,
     } from '../../../data/constants';
 
     import Login from '../../../common/components/Login';
@@ -123,7 +124,9 @@ const Options: React.FC<any> = (
     const [
         allowedURLOrigins,
         setAllowedURLOrigins,
-    ] = useState([]);
+    ] = useState([
+        ...defaultAllowedURLOrigins,
+    ]);
 
     const [
         newSubscription,
