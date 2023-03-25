@@ -6,9 +6,6 @@ export const DEFAULT_MESSAGER_TOKEN = process.env.MESSAGER_TOKEN;
 export const DEFAULT_API_ENDPOINT = process.env.API_ENDPOINT;
 
 
-export const DEFAULT_PUBLISH_ENDPOINT = 'http://localhost:3000/publish';
-
-
 export const DESTREAM_DETECT_EVENT = 'destreamDetect';
 
 export const DESTREAM_EVENT = 'destreamEvent';
@@ -27,6 +24,17 @@ export const MESSAGE_TYPE = {
     GET_SESSION: 'getSession',
     SEND_NOTIFICATION: 'sendNotification',
 } as const;
+
+
+export const defaultPermissions = {
+    allowScroll: true,
+    allowPlayPause: true,
+    allowTimeSeek: true,
+    allowVolumeControl: true,
+    allowRateControl: true,
+    allowLike: false,
+    allowChangeURL: false,
+};
 
 
 export const GENERAL_EVENT = {

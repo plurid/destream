@@ -8,7 +8,6 @@
 
     // #region external
     import {
-        DEFAULT_PUBLISH_ENDPOINT,
         DESTREAM_EVENT,
         DestreamEvent,
     } from '../data';
@@ -74,23 +73,24 @@ export const sendEventToPage = async (
 }
 
 
+const composeTopicID = () => {
+    const topicID = 'destream';
+
+    return topicID;
+}
+
+
 export const publishEvent = (
-    data: any,
-    publishEndpoint = DEFAULT_PUBLISH_ENDPOINT,
+    data: DestreamEvent,
+    // messager,
 ) => {
     try {
-        fetch(
-            publishEndpoint,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            },
-        ).catch(error => {
-            console.log(error);
-        });
+        const topicID = composeTopicID();
+
+        messager.publish(
+            topicID,
+            data,
+        );
     } catch (error) {
         console.log(error);
     }
@@ -129,10 +129,15 @@ export const run = async () => {
         eventStream,
     );
 
-    messager.subscribe('destream', (message: any) => {
-        console.log('destream message', message);
-        eventStream.next(message.data);
-    });
+    const topicID = composeTopicID();
+
+    messager.subscribe<{data: DestreamEvent}>(
+        topicID,
+        (message) => {
+            console.log('destream message', message);
+            eventStream.next(message.data);
+        },
+    );
 
     await delay(2_000);
 

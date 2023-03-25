@@ -21,7 +21,8 @@
 
     // #region external
     import {
-        DEFAULT_PUBLISH_ENDPOINT,
+        DEFAULT_API_ENDPOINT,
+        defaultPermissions,
     } from '../../../data/constants';
 
     import Login from '../../../common/components/Login';
@@ -50,16 +51,6 @@
 
 
 // #region module
-export const defaultPermissions = {
-    allowScroll: true,
-    allowPlayPause: true,
-    allowTimeSeek: true,
-    allowVolumeControl: true,
-    allowRateControl: true,
-    allowLike: false,
-    allowChangeURL: false,
-};
-
 const Options: React.FC<any> = (
     properties,
 ) => {
@@ -153,7 +144,7 @@ const Options: React.FC<any> = (
         endpoints,
         setEndpoints,
     ] = useState([
-        DEFAULT_PUBLISH_ENDPOINT,
+        DEFAULT_API_ENDPOINT,
     ]);
     // #endregion state
 
@@ -548,7 +539,7 @@ const Options: React.FC<any> = (
                         entities={endpoints}
                         theme={plurid}
                         remove={(entity) => {
-                            if (entity === DEFAULT_PUBLISH_ENDPOINT) {
+                            if (entity === DEFAULT_API_ENDPOINT) {
                                 return;
                             }
 
