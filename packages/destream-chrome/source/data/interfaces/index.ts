@@ -101,7 +101,7 @@ export interface GetTabIDMessage {
 export interface GetSessionMessage {
     type: typeof MESSAGE_TYPE.GET_SESSION;
     // tabID
-    data: number;
+    data?: number;
 }
 
 export interface StartSessionMessage {
@@ -124,8 +124,8 @@ export interface StartSubscriptionMessage {
 
 export interface StopSubscriptionMessage {
     type: typeof MESSAGE_TYPE.STOP_SUBSCRIPTION;
-    // tabID
-    data: number;
+    // streamer identonym
+    data: string;
 }
 
 export interface SendNotificationMessage {

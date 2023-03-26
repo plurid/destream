@@ -13,6 +13,10 @@
         StopSubscriptionMessage,
         SendNotificationMessage,
     } from '../data';
+
+    import {
+        storageGetIsStreamer,
+    } from '../common/logic';
     // #endregion external
 
 
@@ -23,7 +27,6 @@
 
     import {
         publishEvent,
-        run,
     } from './event';
 
     import {
@@ -32,7 +35,11 @@
 
     import {
         getSession,
+        startSession,
+        deleteSession,
     } from './session';
+
+    import subscriptionManager from './subscriptions';
     // #endregion internal
 // #endregion imports
 
@@ -86,6 +93,13 @@ const handleStartSession: Handler<StartSessionMessage> = async (
     sender,
     sendResponse,
 ) => {
+    const isStreamer = await storageGetIsStreamer();
+    if (!isStreamer) {
+        return;
+    }
+
+    await startSession(sender.tab.id);
+
     return true;
 }
 
@@ -94,6 +108,8 @@ const handleStopSession: Handler<StopSessionMessage> = async (
     sender,
     sendResponse,
 ) => {
+    await deleteSession(sender.tab.id);
+
     return true;
 }
 
@@ -102,7 +118,7 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
     sender,
     sendResponse,
 ) => {
-    run();
+    subscriptionManager.new(request.data);
 
     return true;
 }
@@ -112,6 +128,7 @@ const handleStopSubscription: Handler<StopSubscriptionMessage> = async (
     sender,
     sendResponse,
 ) => {
+    subscriptionManager.remove(request.data);
 
     return true;
 }

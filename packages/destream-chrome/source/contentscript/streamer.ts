@@ -5,6 +5,8 @@
         MESSAGE_TYPE,
         DESTREAM_DETECT_EVENT,
         PublishEventMessage,
+        GetTabIDMessage,
+        GetSessionMessage,
     } from '../data';
 
     import {
@@ -61,6 +63,13 @@ export const runStreamer = () => {
     const run = async () => {
         const isStreamer = await storageGetIsStreamer();
         if (!isStreamer) {
+            return;
+        }
+
+        const session = await chrome.runtime.sendMessage<GetSessionMessage>({
+            type: MESSAGE_TYPE.GET_SESSION,
+        });
+        if (!session) {
             return;
         }
 
