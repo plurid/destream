@@ -30,6 +30,7 @@
     } from '../../../data/interfaces';
 
     import Login from '../../../common/components/Login';
+    import Subscriptions from '../../../common/components/Subscriptions';
 
     import {
         useLoggedIn,
@@ -322,6 +323,14 @@ const Popup: React.FC<any> = (
                         />
                     )}
                 </div>
+            )}
+
+
+            {activeTab && (
+                <Subscriptions
+                    theme={plurid}
+                    width={280}
+                />
             )}
 
 

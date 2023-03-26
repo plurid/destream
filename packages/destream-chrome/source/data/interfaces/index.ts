@@ -118,8 +118,8 @@ export interface StopSessionMessage {
 
 export interface StartSubscriptionMessage {
     type: typeof MESSAGE_TYPE.START_SUBSCRIPTION;
-    // tabID
-    data: number;
+    // streamer identonym
+    data: string;
 }
 
 export interface StopSubscriptionMessage {

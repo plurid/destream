@@ -6,6 +6,9 @@ export const DEFAULT_MESSAGER_TOKEN = process.env.MESSAGER_TOKEN;
 export const DEFAULT_API_ENDPOINT = process.env.API_ENDPOINT;
 
 
+export const STREAMER_REGISTRATION_URL = 'https://destream.plurid.com';
+
+
 export const DESTREAM_DETECT_EVENT = 'destreamDetect';
 
 

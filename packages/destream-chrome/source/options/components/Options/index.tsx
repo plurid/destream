@@ -21,12 +21,14 @@
 
     // #region external
     import {
+        STREAMER_REGISTRATION_URL,
         DEFAULT_API_ENDPOINT,
         defaultPermissions,
         defaultAllowedURLOrigins,
     } from '../../../data/constants';
 
     import Login from '../../../common/components/Login';
+    import Subscriptions from '../../../common/components/Subscriptions';
 
     import {
         useLoggedIn,
@@ -129,16 +131,6 @@ const Options: React.FC<any> = (
     ]);
 
     const [
-        newSubscription,
-        setNewSubscription,
-    ] = useState('');
-
-    const [
-        subscriptions,
-        setSubscriptions,
-    ] = useState([]);
-
-    const [
         newEndpoint,
         setNewEndpoint,
     ] = useState('');
@@ -154,9 +146,9 @@ const Options: React.FC<any> = (
 
     // #region handlers
     const registerAsStreamer = () => {
-        const url = 'https://destream.plurid.com';
-
-        chrome.tabs.create({url});
+        chrome.tabs.create({
+            url: STREAMER_REGISTRATION_URL,
+        });
     }
     // #endregion handlers
 
@@ -192,15 +184,6 @@ const Options: React.FC<any> = (
             setAllowedURLOrigins(allowedURLOrigins);
         }
 
-        const getSubscriptions = async () => {
-            const result = await chrome.storage.local.get(['subscriptions']);
-            if (!result.subscriptions) {
-                return;
-            }
-
-            setSubscriptions(result.subscriptions);
-        }
-
         const getExtendedDrawers = async () => {
             const result = await chrome.storage.local.get(['extendedDrawers']);
             if (!result.extendedDrawers) {
@@ -213,7 +196,6 @@ const Options: React.FC<any> = (
         }
 
         getPermissions();
-        getSubscriptions();
         getExtendedDrawers();
     }, []);
 
@@ -234,12 +216,7 @@ const Options: React.FC<any> = (
             await chrome.storage.local.set({ generalPermissions });
         }
 
-        const setSubscriptions = async () => {
-            await chrome.storage.local.set({ subscriptions });
-        }
-
         setPermissions();
-        setSubscriptions();
     }, [
         allowScroll,
         allowPlayPause,
@@ -250,8 +227,6 @@ const Options: React.FC<any> = (
         allowChangeURL,
         allowChangeURLAnyOrigin,
         allowedURLOrigins,
-
-        subscriptions,
     ]);
 
     useEffect(() => {
@@ -458,51 +433,9 @@ const Options: React.FC<any> = (
                     });
                 }}
             >
-                <InputLine
-                    name="subscribe to"
-                    text={newSubscription}
-                    atChange={(event) => {
-                        setNewSubscription(event.target.value);
-                    }}
-                    textline={{
-                        enterAtClick: () => {
-                            setSubscriptions([
-                                ...subscriptions,
-                                newSubscription,
-                            ]);
-                            setNewSubscription('');
-                        },
-                    }}
+                <Subscriptions
                     theme={plurid}
-                    style={{
-                        width: '324px',
-                    }}
                 />
-
-                {subscriptions.length === 0 && (
-                    <div
-                        style={{
-                            display: 'grid',
-                            placeContent: 'center',
-                            margin: '2rem 0',
-                        }}
-                    >
-                        no subscriptions
-                    </div>
-                )}
-
-                {subscriptions.length > 0 && (
-                    <EntityPillGroup
-                        entities={subscriptions}
-                        theme={plurid}
-                        remove={(entity) => {
-                            setSubscriptions(subscriptions.filter(e => e !== entity));
-                        }}
-                        style={{
-                            marginTop: '1rem',
-                        }}
-                    />
-                )}
             </Drawer>
 
             <Drawer
