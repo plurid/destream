@@ -16,6 +16,7 @@
 
     import {
         storageGetIsStreamer,
+        storageGetIdentonym,
     } from '../common/logic';
     // #endregion external
 
@@ -39,6 +40,7 @@
         deleteSession,
     } from './session';
 
+    import messagerManager from './messager';
     import subscriptionManager from './subscriptions';
     // #endregion internal
 // #endregion imports
@@ -94,11 +96,20 @@ const handleStartSession: Handler<StartSessionMessage> = async (
     sendResponse,
 ) => {
     const isStreamer = await storageGetIsStreamer();
-    if (!isStreamer) {
+    const identonym = await storageGetIdentonym();
+    if (!isStreamer || !identonym) {
         return;
     }
 
     await startSession(sender.tab.id);
+
+    messagerManager.get().publish(
+        `destream-${identonym}`,
+        {
+            type: MESSAGE_TYPE.START_SESSION,
+            url: request.data,
+        },
+    );
 
     return true;
 }
@@ -108,7 +119,21 @@ const handleStopSession: Handler<StopSessionMessage> = async (
     sender,
     sendResponse,
 ) => {
+    const isStreamer = await storageGetIsStreamer();
+    const identonym = await storageGetIdentonym();
+    if (!isStreamer || !identonym) {
+        return;
+    }
+
     await deleteSession(sender.tab.id);
+
+    messagerManager.get().publish(
+        `destream-${identonym}`,
+        {
+            type: MESSAGE_TYPE.STOP_SESSION,
+            url: request.data,
+        },
+    );
 
     return true;
 }

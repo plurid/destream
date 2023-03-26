@@ -5,9 +5,16 @@ export const storageGetIsStreamer = async () => {
 }
 
 
+export const storageGetIdentonym = async (): Promise<string> => {
+    const result = await chrome.storage.local.get(['identonym']);
+    return result.identonym || '';
+}
+
+
 export const logout = async () => {
     await chrome.storage.local.set({
         loginToken: '',
+        identonym: '',
         isStreamer: false,
         loggedIn: false,
     });
