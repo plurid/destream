@@ -2,7 +2,6 @@
     // #region external
     import {
         MESSAGE_TYPE,
-        DESTREAM_EVENT,
         GENERAL_EVENT,
         YOUTUBE_EVENT,
         SPOTIFY_EVENT,
@@ -17,9 +16,11 @@
 export type Message =
     | PublishEventMessage
     | GetTabIDMessage
-    | StartSessionMessage
     | GetSessionMessage
-    | StopControlMessage
+    | StartSessionMessage
+    | StopSessionMessage
+    | StartSubscriptionMessage
+    | StopSubscriptionMessage
     | SendNotificationMessage
     | DestreamEventMessage;
 
@@ -97,20 +98,32 @@ export interface GetTabIDMessage {
     type: typeof MESSAGE_TYPE.GET_TAB_ID;
 }
 
-export interface StartSessionMessage {
-    type: typeof MESSAGE_TYPE.START_SESSION;
-    // tab URL
-    data: string;
-}
-
 export interface GetSessionMessage {
     type: typeof MESSAGE_TYPE.GET_SESSION;
     // tabID
     data: number;
 }
 
-export interface StopControlMessage {
-    type: typeof MESSAGE_TYPE.STOP_CONTROL;
+export interface StartSessionMessage {
+    type: typeof MESSAGE_TYPE.START_SESSION;
+    // tab URL
+    data: string;
+}
+
+export interface StopSessionMessage {
+    type: typeof MESSAGE_TYPE.STOP_SESSION;
+    // tab URL
+    data: string;
+}
+
+export interface StartSubscriptionMessage {
+    type: typeof MESSAGE_TYPE.START_SUBSCRIPTION;
+    // tabID
+    data: number;
+}
+
+export interface StopSubscriptionMessage {
+    type: typeof MESSAGE_TYPE.STOP_SUBSCRIPTION;
     // tabID
     data: number;
 }

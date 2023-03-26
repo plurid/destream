@@ -25,7 +25,8 @@
 
     import {
         StartSessionMessage,
-        StopControlMessage,
+        StopSessionMessage,
+        StopSubscriptionMessage,
     } from '../../../data/interfaces';
 
     import Login from '../../../common/components/Login';
@@ -110,8 +111,8 @@ const Popup: React.FC<any> = (
 
         setActiveTabControlledBy('');
 
-        await chrome.runtime.sendMessage<StopControlMessage>({
-            type: MESSAGE_TYPE.STOP_CONTROL,
+        await chrome.runtime.sendMessage<StopSubscriptionMessage>({
+            type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
             data: activeTab.id,
         });
     }
@@ -123,6 +124,17 @@ const Popup: React.FC<any> = (
 
         await chrome.runtime.sendMessage<StartSessionMessage>({
             type: MESSAGE_TYPE.START_SESSION,
+            data: activeTab.url,
+        });
+    }
+
+    const stopSession = async () => {
+        if (!activeTab) {
+            return;
+        }
+
+        await chrome.runtime.sendMessage<StopSessionMessage>({
+            type: MESSAGE_TYPE.STOP_SESSION,
             data: activeTab.url,
         });
     }
@@ -241,11 +253,29 @@ const Popup: React.FC<any> = (
 
                     {isStreamer
                     && controllableTab
+                    && !sessionStarted
                     && (
                         <PureButton
                             text="Start Session"
                             atClick={() => {
                                 startSession();
+                            }}
+                            theme={plurid}
+                            level={2}
+                            style={{
+                                marginTop: '1rem',
+                            }}
+                        />
+                    )}
+
+                    {isStreamer
+                    && controllableTab
+                    && sessionStarted
+                    && (
+                        <PureButton
+                            text="Stop Session"
+                            atClick={() => {
+                                stopSession();
                             }}
                             theme={plurid}
                             level={2}

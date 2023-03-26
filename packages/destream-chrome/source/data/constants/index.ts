@@ -8,8 +8,6 @@ export const DEFAULT_API_ENDPOINT = process.env.API_ENDPOINT;
 
 export const DESTREAM_DETECT_EVENT = 'destreamDetect';
 
-export const DESTREAM_EVENT = 'destreamEvent';
-
 
 export const defaultMessager = '__DEFAULT__';
 export const messagerType = 'socket';
@@ -32,7 +30,9 @@ export const MESSAGE_TYPE = {
     GET_SESSION: 'getSession',
     SEND_NOTIFICATION: 'sendNotification',
     START_SESSION: 'startSession',
-    STOP_CONTROL: 'stopControl',
+    STOP_SESSION: 'stopSession',
+    START_SUBSCRIPTION: 'startSubscription',
+    STOP_SUBSCRIPTION: 'stopSubscription',
     DESTREAM_EVENT: 'destreamEvent',
 } as const;
 

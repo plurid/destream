@@ -7,6 +7,10 @@
         PublishEventMessage,
         GetTabIDMessage,
         GetSessionMessage,
+        StartSessionMessage,
+        StopSessionMessage,
+        StartSubscriptionMessage,
+        StopSubscriptionMessage,
         SendNotificationMessage,
     } from '../data';
     // #endregion external
@@ -77,6 +81,41 @@ const handleGetSession: Handler<GetSessionMessage> = async (
     return true;
 }
 
+const handleStartSession: Handler<StartSessionMessage> = async (
+    request,
+    sender,
+    sendResponse,
+) => {
+    return true;
+}
+
+const handleStopSession: Handler<StopSessionMessage> = async (
+    request,
+    sender,
+    sendResponse,
+) => {
+    return true;
+}
+
+const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
+    request,
+    sender,
+    sendResponse,
+) => {
+    run();
+
+    return true;
+}
+
+const handleStopSubscription: Handler<StopSubscriptionMessage> = async (
+    request,
+    sender,
+    sendResponse,
+) => {
+
+    return true;
+}
+
 const handleSendNotification: Handler<SendNotificationMessage> = async (
     request,
     sender,
@@ -111,6 +150,14 @@ const messageHandler: Handler<Message> = async (
             return handleGetTabID(request, sender, sendResponse);
         case MESSAGE_TYPE.GET_SESSION:
             return handleGetSession(request, sender, sendResponse);
+        case MESSAGE_TYPE.START_SESSION:
+            return handleStartSession(request, sender, sendResponse);
+        case MESSAGE_TYPE.STOP_SESSION:
+            return handleStopSession(request, sender, sendResponse);
+        case MESSAGE_TYPE.START_SUBSCRIPTION:
+            return handleStartSubscription(request, sender, sendResponse);
+        case MESSAGE_TYPE.STOP_SUBSCRIPTION:
+            return handleStopSubscription(request, sender, sendResponse);
         case MESSAGE_TYPE.SEND_NOTIFICATION:
             return handleSendNotification(request, sender, sendResponse);
         default:
@@ -119,8 +166,6 @@ const messageHandler: Handler<Message> = async (
 }
 
 chrome.runtime.onMessage.addListener(messageHandler);
-
-// run();
 
 
 // Make service worker persistent.

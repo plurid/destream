@@ -3,7 +3,7 @@
     import {
         DestreamEvent,
         Message,
-        DESTREAM_EVENT,
+        MESSAGE_TYPE,
         GENERAL_EVENT,
         YOUTUBE_EVENT,
         SPOTIFY_EVENT,
@@ -84,7 +84,7 @@ export const runViewer = () => {
         _sender: chrome.runtime.MessageSender,
         sendResponse: (response?: any) => void,
     ) => {
-        if (request.type !== DESTREAM_EVENT) {
+        if (request.type !== MESSAGE_TYPE.DESTREAM_EVENT) {
             return;
         }
 
