@@ -1,6 +1,10 @@
 // #region imports
     // #region internal
     import messagerManager from './messager';
+
+    import {
+        sessionManager,
+    } from './session';
     // #endregion internal
 // #endregion imports
 
@@ -21,13 +25,22 @@ class SubscriptionManager {
     ) {
         const id = getID(identonym);
 
-        messagerManager.get().subscribe<{data: any}>(
+        messagerManager.get().subscribe<{type: string; data: any}>(
             id,
             (message) => {
-                console.log('start destream session', message);
+                console.log('start stop destream session', message);
 
                 // create event stream based on message.sessionID
                 // start listening for messager events by sessionID
+
+                switch (message.type) {
+                    case 'start':
+                        sessionManager.new();
+                        break;
+                    case 'stop':
+                        sessionManager.stop();
+                        break;
+                }
             },
         );
     }

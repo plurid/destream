@@ -56,4 +56,23 @@ export class SessionPlayer {
         );
     }
 }
+
+
+
+export class SessionManager {
+    constructor() {
+
+    }
+
+    public new() {
+
+    }
+
+    public stop() {
+
+    }
+}
+
+
+export const sessionManager = new SessionManager();
 // #endregion module
