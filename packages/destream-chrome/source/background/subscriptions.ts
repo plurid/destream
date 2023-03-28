@@ -35,10 +35,10 @@ class SubscriptionManager {
 
                 switch (message.type) {
                     case 'start':
-                        sessionManager.new();
+                        sessionManager.new(message.data);
                         break;
                     case 'stop':
-                        sessionManager.stop();
+                        sessionManager.stop(message.data);
                         break;
                 }
             },

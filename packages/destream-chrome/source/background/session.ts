@@ -1,3 +1,32 @@
+// #region imports
+    // #region libraries
+    import {
+        Subject,
+    } from 'rxjs';
+    // #endregion libraries
+
+
+    // #region external
+    import {
+        MESSAGE_TYPE,
+        DestreamEvent,
+        DestreamEventMessage,
+    } from '../data';
+    // #endregion external
+
+
+    // #region internal
+    import {
+        streamPlayer,
+        composeTopicID,
+    } from './event';
+
+    import messagerManager from './messager';
+    // #endregion internal
+// #endregion imports
+
+
+
 // #region module
 export const getSessionStorageID = (
     tabID: number,
@@ -60,16 +89,42 @@ export class SessionPlayer {
 
 
 export class SessionManager {
+    private eventStreams = new Map<string, Subject<DestreamEvent>>();
+
+
     constructor() {
 
     }
 
-    public new() {
 
+    public async new(
+        url: string,
+    ) {
+        const eventStream = new Subject<DestreamEvent>();
+
+        await streamPlayer(
+            url,
+            eventStream,
+        );
+
+        const topicID = composeTopicID();
+
+        messagerManager.get().subscribe<{data: DestreamEvent}>(
+            topicID,
+            (message) => {
+                console.log('destream message', message);
+                eventStream.next(message.data);
+            },
+        );
+
+        this.eventStreams.set(topicID, eventStream);
     }
 
-    public stop() {
-
+    public stop(
+        id: string,
+    ) {
+        this.eventStreams.get(id)?.complete();
+        this.eventStreams.delete(id);
     }
 }
 

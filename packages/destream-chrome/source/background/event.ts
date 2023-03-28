@@ -74,7 +74,7 @@ export const sendEventToPage = async (
 }
 
 
-const composeTopicID = () => {
+export const composeTopicID = () => {
     const topicID = 'destream';
 
     return topicID;

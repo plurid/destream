@@ -107,7 +107,7 @@ const handleStartSession: Handler<StartSessionMessage> = async (
         `destream-${identonym}`,
         {
             type: MESSAGE_TYPE.START_SESSION,
-            url: request.data,
+            data: request.data, // url
         },
     );
 
@@ -131,7 +131,7 @@ const handleStopSession: Handler<StopSessionMessage> = async (
         `destream-${identonym}`,
         {
             type: MESSAGE_TYPE.STOP_SESSION,
-            url: request.data,
+            data: request.data, // id
         },
     );
 
