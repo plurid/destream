@@ -20,10 +20,9 @@ export const messagerOptions = {
 };
 
 
-export const NOTIFICATION_URL_CHANGE = 'destream-url-change';
-
 export const NOTIFICATION_KIND = {
     URL_CHANGE: 'urlChange',
+    SESSION_START: 'sessionStart',
 } as const;
 
 

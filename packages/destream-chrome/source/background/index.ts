@@ -24,6 +24,7 @@
     // #region internal
     import {
         sendNotificationURLChange,
+        sendNotificationSessionStart,
     } from './notifications';
 
     import {
@@ -189,6 +190,13 @@ const handleSendNotification: Handler<SendNotificationMessage> = async (
     switch (request.data.kind) {
         case NOTIFICATION_KIND.URL_CHANGE:
             sendNotificationURLChange(
+                session.streamer,
+                sender.tab.id,
+                request.data.url,
+            );
+            break;
+        case NOTIFICATION_KIND.SESSION_START:
+            sendNotificationSessionStart(
                 session.streamer,
                 sender.tab.id,
                 request.data.url,

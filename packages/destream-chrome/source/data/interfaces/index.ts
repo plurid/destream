@@ -2,6 +2,7 @@
     // #region external
     import {
         MESSAGE_TYPE,
+        NOTIFICATION_KIND,
         GENERAL_EVENT,
         YOUTUBE_EVENT,
         SPOTIFY_EVENT,
@@ -30,11 +31,27 @@ export interface PublishEventMessage {
 }
 
 
+
 export interface Session {
     tabID: number;
     startedAt: number;
     streamer: string;
 }
+
+
+
+export type Notification =
+    | {
+        kind: typeof NOTIFICATION_KIND.URL_CHANGE;
+        tabID: number;
+        url: string;
+    } | {
+        kind: typeof NOTIFICATION_KIND.SESSION_START;
+        tabID: number;
+        streamer: string;
+        url: string;
+    };
+
 
 
 export type DestreamEvent =
@@ -137,7 +154,7 @@ export interface StopSubscriptionMessage {
 
 export interface SendNotificationMessage {
     type: typeof MESSAGE_TYPE.SEND_NOTIFICATION;
-    data: any;
+    data: Notification;
 }
 
 export interface DestreamEventMessage {

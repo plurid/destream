@@ -1,7 +1,8 @@
 // #region imports
     // #region external
     import {
-        NOTIFICATION_URL_CHANGE,
+        NOTIFICATION_KIND,
+        Notification,
     } from '../data';
     // #endregion external
 // #endregion imports
@@ -9,19 +10,23 @@
 
 
 // #region module
-export interface NotificationURLChangeData {
-    tabID: number;
-    url: string;
-}
+const NOTIFICATIONS_TYPE = 'basic';
+const NOTIFICATIONS_ICON_URL = 'assets/icons/icon.png';
+const defaultNewNotification = {
+    type: NOTIFICATIONS_TYPE,
+    iconUrl: NOTIFICATIONS_ICON_URL,
+} as const;
 
-const notifications: Record<string, NotificationURLChangeData | undefined> = {};
+
+const notifications: Record<string, Notification | undefined> = {};
+
 
 
 chrome.notifications.onButtonClicked.addListener(
     (notificationID, buttonIndex) => {
         chrome.notifications.clear(notificationID);
 
-        if (notificationID.startsWith(NOTIFICATION_URL_CHANGE)) {
+        if (notificationID.startsWith(NOTIFICATION_KIND.URL_CHANGE)) {
             switch (buttonIndex) {
                 case 0:
                     // Cancel
@@ -53,13 +58,15 @@ chrome.notifications.onButtonClicked.addListener(
 );
 
 
+
 export const sendNotificationURLChange = (
     streamerName: string,
     tabID: number,
     url: string,
 ) => {
-    const notificationID = `${NOTIFICATION_URL_CHANGE}-${Date.now()}`;
+    const notificationID = `${NOTIFICATION_KIND.URL_CHANGE}-${Date.now()}`;
     notifications[notificationID] = {
+        kind: NOTIFICATION_KIND.URL_CHANGE,
         tabID,
         url,
     };
@@ -67,8 +74,7 @@ export const sendNotificationURLChange = (
     chrome.notifications.create(
         notificationID,
         {
-            type: 'basic',
-            iconUrl: 'assets/icons/icon.png',
+            ...defaultNewNotification,
             title: 'URL Change',
             message: `Streamer '${streamerName}' wants to change the URL to '${url}'.`,
             buttons: [
@@ -82,6 +88,32 @@ export const sendNotificationURLChange = (
             isClickable: true,
             requireInteraction: true,
             priority: 2,
+        },
+    );
+
+    return notificationID;
+}
+
+
+export const sendNotificationSessionStart = (
+    streamerName: string,
+    tabID: number,
+    url: string,
+) => {
+    const notificationID = `${NOTIFICATION_KIND.SESSION_START}-${Date.now()}`;
+    notifications[notificationID] = {
+        kind: NOTIFICATION_KIND.SESSION_START,
+        tabID,
+        streamer: streamerName,
+        url,
+    };
+
+    chrome.notifications.create(
+        notificationID,
+        {
+            ...defaultNewNotification,
+            title: 'Session Start',
+            message: `Started session for streamer '${streamerName}'.`,
         },
     );
 
