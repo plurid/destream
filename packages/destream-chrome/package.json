@@ -28,6 +28,7 @@
         "distribute": "pnpm build && node scripts/zip.js"
     },
     "dependencies": {
+        "@aws-sdk/client-sns": "^3.301.0",
         "@plurid/messager": "0.0.0-4",
         "@plurid/plurid-themes": "0.0.0-2",
         "@plurid/plurid-ui-components-react": "0.0.0-22",
