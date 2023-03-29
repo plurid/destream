@@ -112,9 +112,11 @@ const Popup: React.FC<any> = (
 
         setActiveTabControlledBy('');
 
+        const streamerName = '';
+
         await chrome.runtime.sendMessage<StopSubscriptionMessage>({
             type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
-            data: activeTab.id,
+            data: streamerName,
         });
     }
 
