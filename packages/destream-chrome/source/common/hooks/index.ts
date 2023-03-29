@@ -9,7 +9,16 @@
 
     // #region external
     import {
+        Session,
+    } from '../../data';
+
+    import {
+        getSession,
+    } from '../../background/session';
+
+    import {
         storageGetIsStreamer,
+        getActiveTab,
     } from '../logic';
     // #endregion external
 // #endregion imports
@@ -108,6 +117,31 @@ export const useIsStreamer = () => {
     return [
         isStreamer,
         setIsStreamer,
+    ] as const;
+}
+
+
+export const useSession = () => {
+    const [
+        session,
+        setSession,
+    ] = useState<Session | undefined>();
+
+    useEffect(() => {
+        const sessionLoader = async () => {
+            const activeTab = await getActiveTab();
+            const session = await getSession(activeTab.id);
+            if (session) {
+                setSession(session);
+            }
+        }
+
+        sessionLoader();
+    }, []);
+
+    return [
+        session,
+        setSession,
     ] as const;
 }
 // #endregion module

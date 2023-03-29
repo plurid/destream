@@ -11,6 +11,16 @@ export const storageGetIdentonym = async (): Promise<string> => {
 }
 
 
+export const getActiveTab = async () => {
+    const [tab] = await chrome.tabs.query({
+        active: true,
+        lastFocusedWindow: true,
+    });
+
+    return tab;
+}
+
+
 export const logout = async () => {
     await chrome.storage.local.set({
         loginToken: '',

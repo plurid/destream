@@ -85,4 +85,11 @@ export const SPOTIFY_EVENT = {
     VOLUME_CHANGE: 'spotifyVolumeChange',
     RATE_CHANGE: 'spotifyRateChange',
 } as const;
+
+
+
+
+export const uncontrollableURLsBase = [
+    'chrome://',
+];
 // #endregion module

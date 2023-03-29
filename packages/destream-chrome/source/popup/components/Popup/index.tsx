@@ -21,6 +21,7 @@
     // #region external
     import {
         MESSAGE_TYPE,
+        uncontrollableURLsBase,
     } from '../../../data/constants';
 
     import {
@@ -35,7 +36,12 @@
     import {
         useLoggedIn,
         useIsStreamer,
+        useSession,
     } from '../../../common/hooks';
+
+    import {
+        getActiveTab,
+    } from '../../../common/logic';
     // #endregion external
 
 
@@ -67,6 +73,10 @@ const Popup: React.FC<any> = (
     const [
         isStreamer,
     ] = useIsStreamer();
+
+    const [
+        session,
+    ] = useSession();
 
     const [
         activeTab,
@@ -105,18 +115,16 @@ const Popup: React.FC<any> = (
         chrome.runtime.openOptionsPage();
     }
 
-    const stopControl = async () => {
-        if (!activeTab) {
+    const stopSubscription = async () => {
+        if (!activeTab || !session) {
             return;
         }
 
         setActiveTabControlledBy('');
 
-        const streamerName = '';
-
         await chrome.runtime.sendMessage<StopSubscriptionMessage>({
             type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
-            data: streamerName,
+            data: session.streamer,
         });
     }
 
@@ -154,15 +162,13 @@ const Popup: React.FC<any> = (
 
     useEffect(() => {
         const getTab = async () => {
-            const [tab] = await chrome.tabs.query({
-                active: true,
-                lastFocusedWindow: true,
-            });
+            const tab = await getActiveTab();
             setActiveTab(tab);
 
-            if (!tab.url.startsWith('chrome://')) {
-                setControllableTab(true);
-            }
+            const isControllable = !uncontrollableURLsBase.some(
+                start => tab.url.startsWith(start),
+            );
+            setControllableTab(isControllable);
         }
 
         getTab();
@@ -232,7 +238,7 @@ const Popup: React.FC<any> = (
                     <PureButton
                         text="Stop Control"
                         atClick={() => {
-                            stopControl();
+                            stopSubscription();
                         }}
                         theme={plurid}
                         level={2}
