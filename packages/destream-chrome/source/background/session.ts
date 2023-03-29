@@ -8,9 +8,8 @@
 
     // #region external
     import {
-        MESSAGE_TYPE,
         DestreamEvent,
-        DestreamEventMessage,
+        Session,
     } from '../data';
     // #endregion external
 
@@ -40,10 +39,15 @@ export const startSession = async (
 ) => {
     try {
         const id = getSessionStorageID(tabID);
-        const storage: any = {};
-        storage[id] = {
+        const session: Session = {
             tabID,
+            startedAt: Date.now(),
+            streamer: '',
         };
+
+        const storage: any = {};
+        storage[id] = session;
+
         await chrome.storage.local.set(storage);
     } catch (error) {
         return;
@@ -61,7 +65,7 @@ export const deleteSession = async (
 
 export const getSession = async (
     tabID: number,
-) => {
+): Promise<Session | undefined> => {
     try {
         const id = getSessionStorageID(tabID);
         const result = await chrome.storage.local.get([id]);

@@ -27,34 +27,6 @@
 
 
 // #region module
-// class ConnectionManager {
-//     private subscriptions: Record<string, any> = {};
-
-//     public listen() {
-//         const subscriptionListener = (
-//             changes: {
-//                 [key: string]: chrome.storage.StorageChange;
-//             },
-//         ) => {
-//             for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-//                 if (key === 'subscriptions') {
-//                     for (const subscription of newValue) {
-//                         if (!this.subscriptions[subscription]) {
-//                             this.subscriptions[subscription] = 'subscription';
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-
-//         chrome.storage.onChanged.addListener(subscriptionListener);
-//     }
-// }
-
-// const connectionManager = new ConnectionManager();
-// connectionManager.listen();
-
-
 export const sendEventToPage = async (
     tabID: number,
     event: DestreamEvent,

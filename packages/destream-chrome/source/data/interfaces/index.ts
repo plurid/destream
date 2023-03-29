@@ -30,6 +30,13 @@ export interface PublishEventMessage {
 }
 
 
+export interface Session {
+    tabID: number;
+    startedAt: number;
+    streamer: string;
+}
+
+
 export type DestreamEvent =
     | DestreamScrollEvent
     | DestreamPlayEvent

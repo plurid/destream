@@ -56,8 +56,8 @@ export type Handler<R> = (
 
 const handlePublishEvent: Handler<PublishEventMessage> = async (
     request,
-    sender,
-    sendResponse,
+    _sender,
+    _sendResponse,
 ) => {
     publishEvent(request.data);
 
@@ -65,11 +65,12 @@ const handlePublishEvent: Handler<PublishEventMessage> = async (
 }
 
 const handleGetTabID: Handler<GetTabIDMessage> = async (
-    request,
+    _request,
     sender,
     sendResponse,
 ) => {
     sendResponse({
+        status: true,
         tabID: sender.tab.id,
     });
 
@@ -77,13 +78,14 @@ const handleGetTabID: Handler<GetTabIDMessage> = async (
 }
 
 const handleGetSession: Handler<GetSessionMessage> = async (
-    request,
+    _request,
     sender,
     sendResponse,
 ) => {
     const session = await getSession(sender.tab.id);
 
     sendResponse({
+        status: true,
         session,
     });
 
@@ -111,6 +113,10 @@ const handleStartSession: Handler<StartSessionMessage> = async (
         },
     );
 
+    sendResponse({
+        status: true,
+    });
+
     return true;
 }
 
@@ -135,25 +141,37 @@ const handleStopSession: Handler<StopSessionMessage> = async (
         },
     );
 
+    sendResponse({
+        status: true,
+    });
+
     return true;
 }
 
 const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
     request,
-    sender,
+    _sender,
     sendResponse,
 ) => {
     subscriptionManager.new(request.data);
+
+    sendResponse({
+        status: true,
+    });
 
     return true;
 }
 
 const handleStopSubscription: Handler<StopSubscriptionMessage> = async (
     request,
-    sender,
+    _sender,
     sendResponse,
 ) => {
     subscriptionManager.remove(request.data);
+
+    sendResponse({
+        status: true,
+    });
 
     return true;
 }
@@ -163,19 +181,24 @@ const handleSendNotification: Handler<SendNotificationMessage> = async (
     sender,
     sendResponse,
 ) => {
+    const session = await getSession(sender.tab.id);
+    if (!session) {
+        return true;
+    }
+
     switch (request.data.kind) {
         case NOTIFICATION_KIND.URL_CHANGE:
-            // get session based on tab id
-            // get streamer name from session
-            const streamerName = '';
-
             sendNotificationURLChange(
-                streamerName,
+                session.streamer,
                 sender.tab.id,
                 request.data.url,
             );
             break;
     }
+
+    sendResponse({
+        status: true,
+    });
 
     return true;
 }
