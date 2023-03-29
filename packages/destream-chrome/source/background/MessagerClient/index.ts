@@ -1,12 +1,6 @@
 // #region imports
     // #region libraries
     import Messager from '@plurid/messager';
-
-    import {
-        SNSClient,
-        PublishCommand,
-        SubscribeCommand,
-    } from '@aws-sdk/client-sns';
     // #endregion libraries
 // #endregion imports
 
@@ -22,8 +16,8 @@ class MessagerClient {
             messager: Messager;
         } | {
             id: string;
-            type: 'sns';
-            sns: SNSClient;
+            type: 'aws';
+            aws: any;
         }
     > = {};
 
@@ -57,18 +51,7 @@ class MessagerClient {
                 };
                 break;
             case 'sns':
-                const sns = new SNSClient({
-                    region: data.region,
-                    credentials: {
-                        accessKeyId: data.accessKeyId,
-                        secretAccessKey: data.secretAccessKey,
-                    },
-                });
-                this.messagers[id] = {
-                    id,
-                    type: 'sns',
-                    sns,
-                };
+                break;
         }
     }
 
@@ -90,13 +73,7 @@ class MessagerClient {
                     message,
                 );
                 break;
-            case 'sns':
-                await messager.sns.send(
-                    new PublishCommand({
-                        TopicArn: topic,
-                        Message: JSON.stringify(message),
-                    }),
-                );
+            case 'aws':
                 break;
         }
     }
@@ -119,15 +96,7 @@ class MessagerClient {
                     listener,
                 );
                 break;
-            case 'sns':
-                await messager.sns.send(
-                    new SubscribeCommand(
-                        {
-                            Protocol: 'https',
-                            TopicArn: topic,
-                        },
-                    ),
-                );
+            case 'aws':
                 break;
         }
     }
