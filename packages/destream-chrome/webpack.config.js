@@ -60,9 +60,13 @@ const base = {
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify(NODE_ENV),
+                // temporary
                 MESSAGER_ENDPOINT: JSON.stringify(process.env.MESSAGER_ENDPOINT),
                 MESSAGER_TOKEN: JSON.stringify(process.env.MESSAGER_TOKEN),
                 API_ENDPOINT: JSON.stringify(process.env.API_ENDPOINT),
+                AWS_ENDPOINT: JSON.stringify(process.env.AWS_ENDPOINT),
+                AWS_REGION: JSON.stringify(process.env.AWS_REGION),
+                AWS_API_KEY: JSON.stringify(process.env.AWS_API_KEY),
             },
         }),
     ],
