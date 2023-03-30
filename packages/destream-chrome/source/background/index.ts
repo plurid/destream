@@ -32,10 +32,6 @@
     } from './event';
 
     import {
-        handleConnectExternal,
-    } from './persistent';
-
-    import {
         getSession,
         startSession,
         deleteSession,
@@ -239,8 +235,4 @@ const messageHandler: Handler<Message> = async (
 }
 
 chrome.runtime.onMessage.addListener(messageHandler);
-
-
-// Make service worker persistent.
-chrome.runtime.onConnectExternal.addListener(handleConnectExternal);
 // #endregion module
