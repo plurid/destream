@@ -23,8 +23,6 @@
     import {
         injectView,
     } from './view';
-
-    // import './messager/AWS/index';
     // #endregion internal
 // #endregion imports
 
