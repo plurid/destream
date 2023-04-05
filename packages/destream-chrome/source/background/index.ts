@@ -39,12 +39,21 @@
 
     import messagerManager from './messager';
     import subscriptionManager from './subscriptions';
+
+    import {
+        generateClient,
+        START_SESSION,
+        STOP_SESSION,
+    } from './graphql';
     // #endregion internal
 // #endregion imports
 
 
 
 // #region module
+const graphqlClient = generateClient();
+
+
 export type Handler<R> = (
     request: R,
     sender: chrome.runtime.MessageSender,
@@ -102,13 +111,15 @@ const handleStartSession: Handler<StartSessionMessage> = async (
 
     await startSession(sender.tab.id);
 
-    messagerManager.get().publish(
-        `destream-${identonym}`,
-        {
-            type: MESSAGE_TYPE.START_SESSION,
-            data: request.data, // url
+    const graphqlRequest = await graphqlClient.mutate({
+        mutation: START_SESSION,
+        variables: {
+            input: {
+                url: request.data,
+            },
         },
-    );
+    });
+    const response = graphqlRequest.data.destreamStartSession;
 
     sendResponse({
         status: true,
@@ -130,13 +141,15 @@ const handleStopSession: Handler<StopSessionMessage> = async (
 
     await deleteSession(sender.tab.id);
 
-    messagerManager.get().publish(
-        `destream-${identonym}`,
-        {
-            type: MESSAGE_TYPE.STOP_SESSION,
-            data: request.data, // id
+    const graphqlRequest = await graphqlClient.mutate({
+        mutation: STOP_SESSION,
+        variables: {
+            input: {
+                id: request.data,
+            },
         },
-    );
+    });
+    const response = graphqlRequest.data.destreamStopSession;
 
     sendResponse({
         status: true,
