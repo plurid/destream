@@ -40,7 +40,7 @@ export const LOGOUT = gql`
 
 
 export const START_SESSION = gql`
-    mutation DestreamStartSession(input: InputDestreamStartSession!) {
+    mutation DestreamStartSession($input: InputDestreamStartSession!) {
         destreamStartSession(input: $input) {
             status
         }
@@ -48,7 +48,7 @@ export const START_SESSION = gql`
 `;
 
 export const STOP_SESSION = gql`
-    mutation DestreamStopSession(input: InputDestreamStopSession!) {
+    mutation DestreamStopSession($input: InputDestreamStopSession!) {
         destreamStopSession(input: $input) {
             status
         }
@@ -56,7 +56,7 @@ export const STOP_SESSION = gql`
 `;
 
 export const START_SESSION_SUBSCRIPTION = gql`
-    mutation DestreamStartSessionSubscription(input: InputDestreamStartSessionSubscription!) {
+    mutation DestreamStartSessionSubscription($input: InputDestreamStartSessionSubscription!) {
         destreamStartSessionSubscription(input: $input) {
             status
         }
@@ -64,7 +64,7 @@ export const START_SESSION_SUBSCRIPTION = gql`
 `;
 
 export const STOP_SESSION_SUBSCRIPTION = gql`
-    mutation DestreamStopSessionSubscription(input: InputDestreamStopSessionSubscription!) {
+    mutation DestreamStopSessionSubscription($input: InputDestreamStopSessionSubscription!) {
         destreamStopSessionSubscription(input: $input) {
             status
         }
@@ -73,7 +73,7 @@ export const STOP_SESSION_SUBSCRIPTION = gql`
 
 
 export const RECORD_SESSION_EVENT = gql`
-    mutation DestreamRecordSessionEvent(input: InputDestreamRecordSessionEvent!) {
+    mutation DestreamRecordSessionEvent($input: InputDestreamRecordSessionEvent!) {
         destreamRecordSessionEvent(input: $input) {
             status
         }
