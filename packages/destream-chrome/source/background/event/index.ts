@@ -11,17 +11,14 @@
         MESSAGE_TYPE,
         DestreamEvent,
         DestreamEventMessage,
-    } from '../data';
-    // #endregion external
+    } from '../../data';
 
-
-    // #region internal
     import {
         openTab,
-    } from './utilities';
+    } from '../utilities';
 
-    import messagerManager from './messager';
-    // #endregion internal
+    import messagerManager from '../messager';
+    // #endregion external
 // #endregion imports
 
 

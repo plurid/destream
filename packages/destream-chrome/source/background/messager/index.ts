@@ -12,7 +12,7 @@
         defaultMessager,
         messagerType,
         messagerOptions,
-    } from '../data/constants';
+    } from '../../data/constants';
     // #endregion external
 // #endregion imports
 

@@ -10,18 +10,15 @@
     import {
         DestreamEvent,
         Session,
-    } from '../data';
-    // #endregion external
+    } from '../../data';
 
-
-    // #region internal
     import {
         streamPlayer,
         composeTopicID,
-    } from './event';
+    } from '../event';
 
-    import messagerManager from './messager';
-    // #endregion internal
+    import messagerManager from '../messager';
+    // #endregion external
 // #endregion imports
 
 

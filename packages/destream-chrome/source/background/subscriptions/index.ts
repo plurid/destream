@@ -1,11 +1,11 @@
 // #region imports
-    // #region internal
-    import messagerManager from './messager';
+    // #region external
+    import messagerManager from '../messager';
 
     import {
         sessionManager,
-    } from './session';
-    // #endregion internal
+    } from '../session';
+    // #endregion external
 // #endregion imports
 
 

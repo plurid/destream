@@ -4,6 +4,10 @@ export const storageGetIsStreamer = async () => {
     return !!result.isStreamer;
 }
 
+export const storageGetLoginToken = async (): Promise<string> => {
+    const result = await chrome.storage.local.get(['loginToken']);
+    return result.loginToken || '';
+}
 
 export const storageGetIdentonym = async (): Promise<string> => {
     const result = await chrome.storage.local.get(['identonym']);

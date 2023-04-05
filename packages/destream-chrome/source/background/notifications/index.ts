@@ -3,7 +3,7 @@
     import {
         NOTIFICATION_KIND,
         Notification,
-    } from '../data';
+    } from '../../data';
     // #endregion external
 // #endregion imports
 
