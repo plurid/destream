@@ -130,8 +130,10 @@ export interface GetSessionMessage {
 
 export interface StartSessionMessage {
     type: typeof MESSAGE_TYPE.START_SESSION;
-    // tab URL
-    data: string;
+    data: {
+        tabID: number;
+        url: string;
+    };
 }
 
 export interface StopSessionMessage {

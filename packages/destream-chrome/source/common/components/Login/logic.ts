@@ -57,14 +57,16 @@ export const loginLogic = async (
         } = data.owner.zones.com.tools;
 
         const user = {
-            loginToken: data.ssoToken,
             isStreamer: destream.isStreamer,
+            accessToken: data.tokens.access,
+            refreshToken: data.tokens.refresh,
         };
 
         await chrome.storage.local.set({
             identonym,
-            isStreamer: user.loginToken,
-            loginToken: user.isStreamer,
+            isStreamer: user.isStreamer,
+            accessToken: user.accessToken,
+            refreshToken: user.refreshToken,
             loggedIn: true,
         });
 

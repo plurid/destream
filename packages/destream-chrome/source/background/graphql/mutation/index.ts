@@ -42,7 +42,10 @@ export const LOGIN_BY_IDENTONYM = gql`
                         }
                     }
                 }
-                ssoToken
+                tokens {
+                    access
+                    refresh
+                }
             }
             errors {
                 path
@@ -64,7 +67,7 @@ export const LOGOUT = gql`
 
 
 export const START_SESSION = gql`
-    mutation DestreamStartSession($input: InputDestreamStartSession!) {
+    mutation DestreamStartSession($input: InputValueString!) {
         destreamStartSession(input: $input) {
             status
         }
@@ -72,7 +75,7 @@ export const START_SESSION = gql`
 `;
 
 export const STOP_SESSION = gql`
-    mutation DestreamStopSession($input: InputDestreamStopSession!) {
+    mutation DestreamStopSession($input: InputValueString!) {
         destreamStopSession(input: $input) {
             status
         }
@@ -80,7 +83,7 @@ export const STOP_SESSION = gql`
 `;
 
 export const START_SESSION_SUBSCRIPTION = gql`
-    mutation DestreamStartSessionSubscription($input: InputDestreamStartSessionSubscription!) {
+    mutation DestreamStartSessionSubscription($input: InputValueString!) {
         destreamStartSessionSubscription(input: $input) {
             status
         }

@@ -20,10 +20,16 @@
 // #region module
 const generateClient = (
     uri: string = DEFAULT_API_ENDPOINT,
+    accessToken = '',
+    refreshToken = '',
 ) => new ApolloClient({
     link: createHttpLink({
         uri,
         credentials: 'include',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Authorization-Refresh': `Bearer Refresh ${refreshToken}`,
+        },
     }),
     cache: new InMemoryCache(),
 });

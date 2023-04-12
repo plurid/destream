@@ -12,6 +12,8 @@
         StartSubscriptionMessage,
         StopSubscriptionMessage,
         SendNotificationMessage,
+
+        DEFAULT_API_ENDPOINT,
     } from '../data';
 
     import {
@@ -51,6 +53,15 @@
 
 
 // #region module
+const getTokens = async () => {
+    const result = await chrome.storage.local.get(['accessToken', 'refreshToken']);
+
+    return {
+        accessToken: result.accessToken || '',
+        refreshToken: result.refreshToken || '',
+    };
+}
+
 const graphqlClient = generateClient();
 
 
@@ -100,7 +111,7 @@ const handleGetSession: Handler<GetSessionMessage> = async (
 
 const handleStartSession: Handler<StartSessionMessage> = async (
     request,
-    sender,
+    _sender,
     sendResponse,
 ) => {
     const isStreamer = await storageGetIsStreamer();
@@ -109,21 +120,35 @@ const handleStartSession: Handler<StartSessionMessage> = async (
         return;
     }
 
-    await startSession(sender.tab.id);
+    await startSession(request.data.tabID);
+
+    const {
+        accessToken,
+        refreshToken,
+    } = await getTokens();
+    const graphqlClient = generateClient(
+        DEFAULT_API_ENDPOINT,
+        accessToken,
+        refreshToken,
+    );
 
     const graphqlRequest = await graphqlClient.mutate({
         mutation: START_SESSION,
         variables: {
             input: {
-                url: request.data,
+                value: request.data.url,
             },
         },
     });
     const response = graphqlRequest.data.destreamStartSession;
 
-    sendResponse({
-        status: true,
+    console.log({
+        response,
     });
+    sendResponse({
+        status: response.status,
+    });
+    console.log('sent');
 
     return true;
 }
@@ -145,7 +170,7 @@ const handleStopSession: Handler<StopSessionMessage> = async (
         mutation: STOP_SESSION,
         variables: {
             input: {
-                id: request.data,
+                value: request.data, // id
             },
         },
     });

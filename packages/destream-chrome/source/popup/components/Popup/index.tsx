@@ -133,10 +133,15 @@ const Popup: React.FC<any> = (
             return;
         }
 
-        await chrome.runtime.sendMessage<StartSessionMessage>({
-            type: MESSAGE_TYPE.START_SESSION,
-            data: activeTab.url,
-        });
+        await chrome.runtime.sendMessage<StartSessionMessage>(
+            {
+                type: MESSAGE_TYPE.START_SESSION,
+                data: {
+                    tabID: activeTab.id,
+                    url: activeTab.url,
+                },
+            },
+        );
     }
 
     const stopSession = async () => {
