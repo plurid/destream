@@ -51,23 +51,20 @@ export const loginLogic = async (
             return false;
         }
 
-        const owner = response.data.loginByIdentonym.data.owner;
-
-        // receive from network
-        const user = {
-            loginToken: 'login-token',
-            isStreamer: true,
-        };
-
+        const data = response.data;
         const {
-            isStreamer,
-            loginToken,
-        } = user;
+            destream,
+        } = data.owner.zones.com.tools;
+
+        const user = {
+            loginToken: data.ssoToken,
+            isStreamer: destream.isStreamer,
+        };
 
         await chrome.storage.local.set({
             identonym,
-            isStreamer,
-            loginToken,
+            isStreamer: user.loginToken,
+            loginToken: user.isStreamer,
             loggedIn: true,
         });
 

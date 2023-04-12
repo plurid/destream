@@ -208,6 +208,7 @@ const Login: React.FC<LoginProperties> = (
                 }}
                 disabled={!identonym || !key}
                 theme={theme}
+                level={2}
                 style={{
                     width: '250px',
                 }}

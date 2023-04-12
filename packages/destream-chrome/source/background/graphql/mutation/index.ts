@@ -17,6 +17,30 @@ export const LOGIN_BY_IDENTONYM = gql`
                 owner {
                     id
                     identonym
+                    zones {
+                        com {
+                            tools {
+                                destream {
+                                    isStreamer
+                                    streamerDetails {
+                                        streamerName
+                                        twitchName
+                                        youtubeName
+                                    }
+                                    access {
+                                        role
+                                        subscription {
+                                            active
+                                            start
+                                            end
+                                            canceled
+                                            plan
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 ssoToken
             }

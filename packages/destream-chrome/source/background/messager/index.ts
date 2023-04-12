@@ -24,12 +24,16 @@ export class MessagerManager {
 
 
     constructor() {
-        this.messagers[defaultMessager] = new Messager(
-            DEFAULT_MESSAGER_ENDPOINT,
-            DEFAULT_MESSAGER_TOKEN,
-            messagerType,
-            messagerOptions,
-        );
+        try {
+            this.messagers[defaultMessager] = new Messager(
+                DEFAULT_MESSAGER_ENDPOINT,
+                DEFAULT_MESSAGER_TOKEN,
+                messagerType,
+                messagerOptions,
+            );
+        } catch (error) {
+            console.log('Could not initialize default messager.');
+        }
     }
 
 

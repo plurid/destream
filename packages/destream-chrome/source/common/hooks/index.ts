@@ -53,7 +53,6 @@ export const useLoggedIn = () => {
 
         const getLoggedIn = async () => {
             const result = await chrome.storage.local.get(['loggedIn', 'identonym']);
-            console.log({result});
             if (result.loggedIn) {
                 setLoggedIn(true);
             }
