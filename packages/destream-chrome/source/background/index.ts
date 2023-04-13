@@ -19,6 +19,7 @@
     import {
         storageGetIsStreamer,
         storageGetIdentonym,
+        storageGetTokens,
     } from '../common/logic';
     // #endregion external
 
@@ -53,15 +54,6 @@
 
 
 // #region module
-const getTokens = async () => {
-    const result = await chrome.storage.local.get(['accessToken', 'refreshToken']);
-
-    return {
-        accessToken: result.accessToken || '',
-        refreshToken: result.refreshToken || '',
-    };
-}
-
 const graphqlClient = generateClient();
 
 
@@ -74,9 +66,13 @@ export type Handler<R> = (
 const handlePublishEvent: Handler<PublishEventMessage> = async (
     request,
     _sender,
-    _sendResponse,
+    sendResponse,
 ) => {
     publishEvent(request.data);
+
+    sendResponse({
+        status: true,
+    });
 
     return true;
 }
@@ -117,6 +113,9 @@ const handleStartSession: Handler<StartSessionMessage> = async (
     const isStreamer = await storageGetIsStreamer();
     const identonym = await storageGetIdentonym();
     if (!isStreamer || !identonym) {
+        sendResponse({
+            status: false,
+        });
         return;
     }
 
@@ -125,7 +124,7 @@ const handleStartSession: Handler<StartSessionMessage> = async (
     const {
         accessToken,
         refreshToken,
-    } = await getTokens();
+    } = await storageGetTokens();
     const graphqlClient = generateClient(
         DEFAULT_API_ENDPOINT,
         accessToken,
@@ -142,13 +141,9 @@ const handleStartSession: Handler<StartSessionMessage> = async (
     });
     const response = graphqlRequest.data.destreamStartSession;
 
-    console.log({
-        response,
-    });
     sendResponse({
         status: response.status,
     });
-    console.log('sent');
 
     return true;
 }
@@ -161,6 +156,9 @@ const handleStopSession: Handler<StopSessionMessage> = async (
     const isStreamer = await storageGetIsStreamer();
     const identonym = await storageGetIdentonym();
     if (!isStreamer || !identonym) {
+        sendResponse({
+            status: false,
+        });
         return;
     }
 
@@ -218,6 +216,9 @@ const handleSendNotification: Handler<SendNotificationMessage> = async (
 ) => {
     const session = await getSession(sender.tab.id);
     if (!session) {
+        sendResponse({
+            status: false,
+        });
         return true;
     }
 
@@ -272,5 +273,11 @@ const messageHandler: Handler<Message> = async (
     }
 }
 
-chrome.runtime.onMessage.addListener(messageHandler);
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    messageHandler(request, sender, sendResponse);
+
+    // Indicate the response is asynchronous.
+    return true;
+});
 // #endregion module

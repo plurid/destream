@@ -51,22 +51,19 @@ export const loginLogic = async (
             return false;
         }
 
-        const data = response.data;
+        const {
+            owner,
+            tokens,
+        } = response.data;
         const {
             destream,
-        } = data.owner.zones.com.tools;
-
-        const user = {
-            isStreamer: destream.isStreamer,
-            accessToken: data.tokens.access,
-            refreshToken: data.tokens.refresh,
-        };
+        } = owner.zones.com.tools;
 
         await chrome.storage.local.set({
             identonym,
-            isStreamer: user.isStreamer,
-            accessToken: user.accessToken,
-            refreshToken: user.refreshToken,
+            accessToken: tokens.access,
+            refreshToken: tokens.refresh,
+            isStreamer: destream.isStreamer,
             loggedIn: true,
         });
 

@@ -4,9 +4,13 @@ export const storageGetIsStreamer = async () => {
     return !!result.isStreamer;
 }
 
-export const storageGetAccessToken = async (): Promise<string> => {
-    const result = await chrome.storage.local.get(['accessToken']);
-    return result.accessToken || '';
+export const storageGetTokens = async () => {
+    const result = await chrome.storage.local.get(['accessToken', 'refreshToken']);
+
+    return {
+        accessToken: (result.accessToken as string) || '',
+        refreshToken: (result.refreshToken as string) || '',
+    };
 }
 
 export const storageGetIdentonym = async (): Promise<string> => {
@@ -27,8 +31,9 @@ export const getActiveTab = async () => {
 
 export const logout = async () => {
     await chrome.storage.local.set({
-        loginToken: '',
         identonym: '',
+        accessToken: '',
+        refreshToken: '',
         isStreamer: false,
         loggedIn: false,
     });
