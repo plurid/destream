@@ -33,6 +33,7 @@ export interface PublishEventMessage {
 
 
 export interface Session {
+    id: string;
     tabID: number;
     startedAt: number;
     streamer: string;
@@ -138,8 +139,10 @@ export interface StartSessionMessage {
 
 export interface StopSessionMessage {
     type: typeof MESSAGE_TYPE.STOP_SESSION;
-    // tab URL
-    data: string;
+    data: {
+        tabID: number;
+        url: string;
+    };
 }
 
 export interface StartSubscriptionMessage {

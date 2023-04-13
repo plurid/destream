@@ -91,14 +91,14 @@ const handleGetTabID: Handler<GetTabIDMessage> = async (
 }
 
 const handleGetSession: Handler<GetSessionMessage> = async (
-    _request,
+    request,
     sender,
     sendResponse,
 ) => {
-    const session = await getSession(sender.tab.id);
+    const session = await getSession(request.data);
 
     sendResponse({
-        status: true,
+        status: !!session,
         session,
     });
 
@@ -119,8 +119,6 @@ const handleStartSession: Handler<StartSessionMessage> = async (
         return;
     }
 
-    await startSession(request.data.tabID);
-
     const {
         accessToken,
         refreshToken,
@@ -140,6 +138,9 @@ const handleStartSession: Handler<StartSessionMessage> = async (
         },
     });
     const response = graphqlRequest.data.destreamStartSession;
+
+    const sessionID = 'sessionID';
+    await startSession(request.data.tabID, sessionID);
 
     sendResponse({
         status: response.status,
@@ -162,20 +163,34 @@ const handleStopSession: Handler<StopSessionMessage> = async (
         return;
     }
 
-    await deleteSession(sender.tab.id);
+    const session = await getSession(request.data.tabID);
+
+    const {
+        accessToken,
+        refreshToken,
+    } = await storageGetTokens();
+    const graphqlClient = generateClient(
+        DEFAULT_API_ENDPOINT,
+        accessToken,
+        refreshToken,
+    );
 
     const graphqlRequest = await graphqlClient.mutate({
         mutation: STOP_SESSION,
         variables: {
             input: {
-                value: request.data, // id
+                value: session.id,
             },
         },
     });
     const response = graphqlRequest.data.destreamStopSession;
 
+    if (response.status) {
+        await deleteSession(request.data.tabID);
+    }
+
     sendResponse({
-        status: true,
+        status: response.status,
     });
 
     return true;

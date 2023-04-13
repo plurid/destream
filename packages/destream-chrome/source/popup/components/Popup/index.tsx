@@ -28,6 +28,7 @@
         StartSessionMessage,
         StopSessionMessage,
         StopSubscriptionMessage,
+        GetSessionMessage,
     } from '../../../data/interfaces';
 
     import Login from '../../../common/components/Login';
@@ -133,6 +134,8 @@ const Popup: React.FC<any> = (
             return;
         }
 
+        setLoading(true);
+
         chrome.runtime.sendMessage<StartSessionMessage>(
             {
                 type: MESSAGE_TYPE.START_SESSION,
@@ -142,6 +145,8 @@ const Popup: React.FC<any> = (
                 },
             },
             (response) => {
+                setLoading(false);
+
                 if (response.status) {
                     setSessionStarted(true);
                 }
@@ -156,7 +161,10 @@ const Popup: React.FC<any> = (
 
         await chrome.runtime.sendMessage<StopSessionMessage>({
             type: MESSAGE_TYPE.STOP_SESSION,
-            data: activeTab.url,
+            data: {
+                tabID: activeTab.id,
+                url: activeTab.url,
+            },
         });
     }
     // #endregion handlers
@@ -204,6 +212,30 @@ const Popup: React.FC<any> = (
         activeTab,
         showStream,
         showStreamChat,
+    ]);
+
+    useEffect(() => {
+        const load = async () => {
+            if (!activeTab) {
+                return;
+            }
+
+            chrome.runtime.sendMessage<GetSessionMessage>(
+                {
+                    type: MESSAGE_TYPE.GET_SESSION,
+                    data: activeTab.id,
+                },
+                (response: any) => {
+                    if (response.status) {
+                        setSessionStarted(true);
+                    }
+                },
+            );
+        }
+
+        load();
+    }, [
+        activeTab,
     ]);
     // #endregion effects
 
@@ -264,11 +296,21 @@ const Popup: React.FC<any> = (
             && !activeTabControlledBy
             && (
                 <StyledTabControl>
-                    <div>
-                        {activeTab.url}
-                        <br />
-                        is not controlled
-                    </div>
+                    {!sessionStarted && (
+                        <div>
+                            {activeTab.url}
+                            <br />
+                            is not controlled
+                        </div>
+                    )}
+
+                    {sessionStarted && (
+                        <div>
+                            you are controlling
+                            <br />
+                            {activeTab.url}
+                        </div>
+                    )}
 
                     {isStreamer
                     && controllableTab

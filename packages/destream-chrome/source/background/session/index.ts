@@ -33,10 +33,12 @@ export const getSessionStorageID = (
 
 export const startSession = async (
     tabID: number,
+    sessionID: string,
 ) => {
     try {
         const id = getSessionStorageID(tabID);
         const session: Session = {
+            id: sessionID,
             tabID,
             startedAt: Date.now(),
             streamer: '',
