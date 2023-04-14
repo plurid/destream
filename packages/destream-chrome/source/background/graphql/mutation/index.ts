@@ -70,6 +70,10 @@ export const START_SESSION = gql`
     mutation DestreamStartSession($input: InputValueString!) {
         destreamStartSession(input: $input) {
             status
+            data {
+                id
+                token
+            }
         }
     }
 `;

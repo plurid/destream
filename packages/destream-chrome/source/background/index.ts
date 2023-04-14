@@ -139,8 +139,12 @@ const handleStartSession: Handler<StartSessionMessage> = async (
     });
     const response = graphqlRequest.data.destreamStartSession;
 
-    const sessionID = 'sessionID';
-    await startSession(request.data.tabID, sessionID);
+    if (response.status) {
+        const sessionID = response.data.id;
+        await startSession(request.data.tabID, sessionID);
+
+        // save token for publishing
+    }
 
     sendResponse({
         status: response.status,
