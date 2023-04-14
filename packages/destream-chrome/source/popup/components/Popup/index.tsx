@@ -159,13 +159,24 @@ const Popup: React.FC<any> = (
             return;
         }
 
-        await chrome.runtime.sendMessage<StopSessionMessage>({
-            type: MESSAGE_TYPE.STOP_SESSION,
-            data: {
-                tabID: activeTab.id,
-                url: activeTab.url,
+        setLoading(true);
+
+        chrome.runtime.sendMessage<StopSessionMessage>(
+            {
+                type: MESSAGE_TYPE.STOP_SESSION,
+                data: {
+                    tabID: activeTab.id,
+                    url: activeTab.url,
+                },
             },
-        });
+            (response: any) => {
+                setLoading(false);
+
+                if (response.status) {
+                    setSessionStarted(false);
+                }
+            },
+        );
     }
     // #endregion handlers
 
