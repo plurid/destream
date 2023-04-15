@@ -40,7 +40,6 @@
         deleteSession,
     } from './session';
 
-    import messagerManager from './messager';
     import subscriptionManager from './subscriptions';
 
     import {
@@ -54,9 +53,6 @@
 
 
 // #region module
-const graphqlClient = generateClient();
-
-
 export type Handler<R> = (
     request: R,
     sender: chrome.runtime.MessageSender,
@@ -293,10 +289,18 @@ const messageHandler: Handler<Message> = async (
 }
 
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    messageHandler(request, sender, sendResponse);
+const main = () => {
+    try {
+        chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+            messageHandler(request, sender, sendResponse);
 
-    // Indicate the response is asynchronous.
-    return true;
-});
+            // Indicate the response is asynchronous.
+            return true;
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+main();
 // #endregion module

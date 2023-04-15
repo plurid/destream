@@ -60,23 +60,28 @@ export const getSession = async (
 
 
 const main = async () => {
-    const chromeRuntimePort = chrome.runtime.connect();
-    const viewerCleanup = runViewer();
-    const streamerCleanup = runStreamer();
+    try {
+        const chromeRuntimePort = chrome.runtime.connect();
 
-    const tabID = await getTabID();
-    const session = await getSession(tabID);
+        const viewerCleanup = runViewer();
+        const streamerCleanup = runStreamer();
 
-    if (session) {
-        // check if there is an active session
-        // inject view if active
-        // injectView();
+        const tabID = await getTabID();
+        const session = await getSession(tabID);
+
+        if (session) {
+            // check if there is an active session
+            // inject view if active
+            // injectView();
+        }
+
+        chromeRuntimePort.onDisconnect.addListener(() => {
+            viewerCleanup();
+            streamerCleanup();
+        });
+    } catch (error) {
+        console.log(error);
     }
-
-    chromeRuntimePort.onDisconnect.addListener(() => {
-        viewerCleanup();
-        streamerCleanup();
-    });
 }
 
 main();
