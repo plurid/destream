@@ -151,7 +151,7 @@ const handleStartSession: Handler<StartSessionMessage> = async (
 
 const handleStopSession: Handler<StopSessionMessage> = async (
     request,
-    sender,
+    _sender,
     sendResponse,
 ) => {
     const isStreamer = await storageGetIsStreamer();

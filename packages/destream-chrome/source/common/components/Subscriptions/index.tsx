@@ -19,6 +19,7 @@
     // #region external
     import {
         StartSubscriptionMessage,
+        StopSubscriptionMessage,
     } from '../../../data/interfaces';
 
     import {
@@ -100,10 +101,49 @@ const Subscriptions: React.FC<SubscriptionsProperties> = (
     const startSubscription = async (
         name: string,
     ) => {
-        chrome.runtime.sendMessage<StartSubscriptionMessage>({
-            type: MESSAGE_TYPE.START_SUBSCRIPTION,
-            data: name,
-        });
+        chrome.runtime.sendMessage<StartSubscriptionMessage>(
+            {
+                type: MESSAGE_TYPE.START_SUBSCRIPTION,
+                data: name,
+            },
+            (response) => {
+                // check for errors
+                // console.log(response);
+            },
+        );
+    }
+
+    const stopSubscription = async (
+        name: string,
+    ) => {
+        chrome.runtime.sendMessage<StopSubscriptionMessage>(
+            {
+                type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
+                data: name,
+            },
+            (response) => {
+                // check for errors
+                // console.log(response);
+            },
+        );
+    }
+
+    const handleNewSubscription = () => {
+        startSubscription(newSubscription);
+
+        setSubscriptions([
+            ...subscriptions,
+            newSubscription,
+        ]);
+        setNewSubscription('');
+    }
+
+    const handleStopSubscription = (
+        name: string,
+    ) => {
+        stopSubscription(name);
+
+        setSubscriptions(subscriptions.filter(subscription => subscription !== name));
     }
     // #endregion handlers
 
@@ -149,13 +189,7 @@ const Subscriptions: React.FC<SubscriptionsProperties> = (
                 }}
                 textline={{
                     enterAtClick: () => {
-                        startSubscription(newSubscription);
-
-                        setSubscriptions([
-                            ...subscriptions,
-                            newSubscription,
-                        ]);
-                        setNewSubscription('');
+                        handleNewSubscription();
                     },
                 }}
                 theme={theme}
@@ -181,7 +215,7 @@ const Subscriptions: React.FC<SubscriptionsProperties> = (
                     entities={subscriptions}
                     theme={theme}
                     remove={(entity) => {
-                        setSubscriptions(subscriptions.filter(e => e !== entity));
+                        handleStopSubscription(entity);
                     }}
                     style={{
                         marginTop: '1rem',
