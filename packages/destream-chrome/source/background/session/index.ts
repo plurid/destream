@@ -34,6 +34,8 @@ export const getSessionStorageID = (
 export const startSession = async (
     tabID: number,
     sessionID: string,
+    streamer: string,
+    token: string,
 ) => {
     try {
         const id = getSessionStorageID(tabID);
@@ -41,7 +43,8 @@ export const startSession = async (
             id: sessionID,
             tabID,
             startedAt: Date.now(),
-            streamer: '',
+            streamer,
+            token,
         };
 
         const storage: any = {};
@@ -110,7 +113,7 @@ export class SessionManager {
             eventStream,
         );
 
-        const topicID = composeTopicID();
+        const topicID = composeTopicID('');
 
         messagerManager.get().subscribe<{data: DestreamEvent}>(
             topicID,

@@ -66,10 +66,10 @@ export const runStreamer = () => {
             return;
         }
 
-        const session = await chrome.runtime.sendMessage<GetSessionMessage>({
+        const sessionRequest = await chrome.runtime.sendMessage<GetSessionMessage>({
             type: MESSAGE_TYPE.GET_SESSION,
         });
-        if (!session) {
+        if (!sessionRequest.status) {
             return;
         }
 

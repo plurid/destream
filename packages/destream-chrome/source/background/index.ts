@@ -61,10 +61,15 @@ export type Handler<R> = (
 
 const handlePublishEvent: Handler<PublishEventMessage> = async (
     request,
-    _sender,
+    sender,
     sendResponse,
 ) => {
-    publishEvent(request.data);
+    const session = await getSession(sender.tab.id);
+    if (!session) {
+        return true;
+    }
+
+    publishEvent(session, request.data);
 
     sendResponse({
         status: true,
@@ -91,7 +96,7 @@ const handleGetSession: Handler<GetSessionMessage> = async (
     sender,
     sendResponse,
 ) => {
-    const session = await getSession(request.data);
+    const session = await getSession(request.data || sender.tab.id);
 
     sendResponse({
         status: !!session,
@@ -136,10 +141,17 @@ const handleStartSession: Handler<StartSessionMessage> = async (
     const response = graphqlRequest.data.destreamStartSession;
 
     if (response.status) {
-        const sessionID = response.data.id;
-        await startSession(request.data.tabID, sessionID);
+        const {
+            id,
+            token,
+        } = response.data;
 
-        // save token for publishing
+        await startSession(
+            request.data.tabID,
+            id,
+            identonym,
+            token,
+        );
     }
 
     sendResponse({
@@ -157,6 +169,9 @@ const handleStopSession: Handler<StopSessionMessage> = async (
     const isStreamer = await storageGetIsStreamer();
     const identonym = await storageGetIdentonym();
     if (!isStreamer || !identonym) {
+        // Try session delete anyway.
+        await deleteSession(request.data.tabID);
+
         sendResponse({
             status: false,
         });

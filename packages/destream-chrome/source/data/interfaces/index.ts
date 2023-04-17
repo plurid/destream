@@ -37,6 +37,7 @@ export interface Session {
     tabID: number;
     startedAt: number;
     streamer: string;
+    token: string;
 }
 
 
