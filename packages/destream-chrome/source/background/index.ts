@@ -55,7 +55,12 @@
         START_SESSION,
         STOP_SESSION,
         RECORD_SESSION_EVENT,
+        GET_SESSION,
     } from './graphql';
+
+    import {
+        openTab,
+    } from './utilities';
     // #endregion internal
 // #endregion imports
 
@@ -252,6 +257,36 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
     _sender,
     sendResponse,
 ) => {
+    const {
+        accessToken,
+        refreshToken,
+    } = await storageGetTokens();
+    const graphqlClient = generateClient(
+        DEFAULT_API_ENDPOINT,
+        accessToken,
+        refreshToken,
+    );
+
+    // record viewer
+
+    // get streamer's live session id
+    const sessionID = '';
+
+    // query session
+    const graphqlRequest = await graphqlClient.query({
+        query: GET_SESSION,
+        variables: {
+            input: {
+                value: sessionID,
+            },
+        },
+    });
+    const response = graphqlRequest.data.destreamGetSession;
+
+    // open tab with session.url
+    const tab = await openTab(response.data.url);
+
+
     subscriptionManager.new(request.data);
 
     // record subscription
