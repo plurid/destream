@@ -55,6 +55,7 @@
         START_SESSION,
         STOP_SESSION,
         RECORD_SESSION_EVENT,
+        GET_STREAMER_SESSION,
         GET_SESSION,
     } from './graphql';
 
@@ -267,24 +268,44 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
         refreshToken,
     );
 
-    // record viewer
-
     // get streamer's live session id
-    const sessionID = '';
-
-    // query session
-    const graphqlRequest = await graphqlClient.query({
-        query: GET_SESSION,
+    const streamerSessionRequest = await graphqlClient.query({
+        query: GET_STREAMER_SESSION,
         variables: {
             input: {
-                value: sessionID,
+                value: request.data, // identonym
             },
         },
     });
-    const response = graphqlRequest.data.destreamGetSession;
+    const streamerSessionResponse = streamerSessionRequest.data.destreamGetStreamerSession;
+    if (!streamerSessionResponse.status) {
+        sendResponse({
+            status: false,
+        });
+        return;
+    }
+
+    // query session
+    const sessionRequest = await graphqlClient.query({
+        query: GET_SESSION,
+        variables: {
+            input: {
+                value: streamerSessionResponse.data.id,
+            },
+        },
+    });
+    const sessionResponse = sessionRequest.data.destreamGetSession;
+    if (!sessionResponse.status) {
+        sendResponse({
+            status: false,
+        });
+        return;
+    }
+
+    // record viewer
 
     // open tab with session.url
-    const tab = await openTab(response.data.url);
+    const tab = await openTab(sessionResponse.data.url);
 
 
     subscriptionManager.new(request.data);
