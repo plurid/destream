@@ -71,8 +71,12 @@ export const publishEvent = (
         //     topicID,
         //     data,
         // );
+
+        return true;
     } catch (error) {
         console.log(error);
+
+        return false;
     }
 }
 

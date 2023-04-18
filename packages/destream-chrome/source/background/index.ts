@@ -57,7 +57,8 @@ export type Handler<R> = (
     request: R,
     sender: chrome.runtime.MessageSender,
     sendResponse: (response?: any) => void,
-) => Promise<boolean>;
+) => Promise<void>;
+
 
 const handlePublishEvent: Handler<PublishEventMessage> = async (
     request,
@@ -66,16 +67,16 @@ const handlePublishEvent: Handler<PublishEventMessage> = async (
 ) => {
     const session = await getSession(sender.tab.id);
     if (!session) {
-        return true;
+        return;
     }
 
-    publishEvent(session, request.data);
+    const published = publishEvent(session, request.data);
 
     sendResponse({
-        status: true,
+        status: published,
     });
 
-    return true;
+    return;
 }
 
 const handleGetTabID: Handler<GetTabIDMessage> = async (
@@ -88,7 +89,7 @@ const handleGetTabID: Handler<GetTabIDMessage> = async (
         tabID: sender.tab.id,
     });
 
-    return true;
+    return;
 }
 
 const handleGetSession: Handler<GetSessionMessage> = async (
@@ -103,7 +104,7 @@ const handleGetSession: Handler<GetSessionMessage> = async (
         session,
     });
 
-    return true;
+    return;
 }
 
 const handleStartSession: Handler<StartSessionMessage> = async (
@@ -158,7 +159,7 @@ const handleStartSession: Handler<StartSessionMessage> = async (
         status: response.status,
     });
 
-    return true;
+    return;
 }
 
 const handleStopSession: Handler<StopSessionMessage> = async (
@@ -208,7 +209,7 @@ const handleStopSession: Handler<StopSessionMessage> = async (
         status: response.status,
     });
 
-    return true;
+    return;
 }
 
 const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
@@ -222,7 +223,7 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
         status: true,
     });
 
-    return true;
+    return;
 }
 
 const handleStopSubscription: Handler<StopSubscriptionMessage> = async (
@@ -236,7 +237,7 @@ const handleStopSubscription: Handler<StopSubscriptionMessage> = async (
         status: true,
     });
 
-    return true;
+    return;
 }
 
 const handleSendNotification: Handler<SendNotificationMessage> = async (
@@ -249,7 +250,7 @@ const handleSendNotification: Handler<SendNotificationMessage> = async (
         sendResponse({
             status: false,
         });
-        return true;
+        return;
     }
 
     switch (request.data.kind) {
@@ -273,8 +274,9 @@ const handleSendNotification: Handler<SendNotificationMessage> = async (
         status: true,
     });
 
-    return true;
+    return;
 }
+
 
 const messageHandler: Handler<Message> = async (
     request,
@@ -299,7 +301,7 @@ const messageHandler: Handler<Message> = async (
         case MESSAGE_TYPE.SEND_NOTIFICATION:
             return handleSendNotification(request, sender, sendResponse);
         default:
-            return true;
+            return;
     }
 }
 
