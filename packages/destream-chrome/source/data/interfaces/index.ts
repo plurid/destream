@@ -42,6 +42,14 @@ export interface Session {
 }
 
 
+export interface Subscription {
+    sessionID: string;
+    startedAt: number;
+    streamer: string;
+    tabIDs: [];
+}
+
+
 
 export type Notification =
     | {

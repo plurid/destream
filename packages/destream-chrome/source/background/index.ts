@@ -43,6 +43,9 @@
 
     import {
         getSubscription,
+        getSubscriptionByTabID,
+        startSubscription,
+        deleteSubscription,
     } from './subscriptions';
 
     import subscriptionManager from './subscriptions';
@@ -252,6 +255,8 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
     subscriptionManager.new(request.data);
 
     // record subscription
+    // startSubscription(
+    // );
 
     sendResponse({
         status: true,
@@ -268,6 +273,7 @@ const handleStopSubscription: Handler<StopSubscriptionMessage> = async (
     subscriptionManager.remove(request.data);
 
     // remove subscription
+    // await deleteSession(request.data.tabID);
 
     sendResponse({
         status: true,
@@ -281,7 +287,8 @@ const handleGetSubscription: Handler<GetSubscriptionMessage> = async (
     sender,
     sendResponse,
 ) => {
-    const subscription = await getSubscription(request.data || sender.tab.id);
+    const tabID = request.data || sender.tab.id;
+    const subscription = await getSubscriptionByTabID(tabID);
 
     sendResponse({
         status: true,

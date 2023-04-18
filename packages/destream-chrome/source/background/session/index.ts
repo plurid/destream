@@ -47,10 +47,9 @@ export const startSession = async (
             token,
         };
 
-        const storage: any = {};
-        storage[id] = session;
-
-        await chrome.storage.local.set(storage);
+        await chrome.storage.local.set({
+            [id]: session,
+        });
     } catch (error) {
         return;
     }
