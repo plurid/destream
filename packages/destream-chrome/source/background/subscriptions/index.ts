@@ -14,6 +14,26 @@
 const getID = (identonym: string) => `destream-${identonym}`;
 
 
+export const getSubscriptionStorageID = (
+    tabID: number,
+) => {
+    return `subscription-${tabID}`;
+}
+
+
+export const getSubscription = async (
+    tabID: number,
+) => {
+    try {
+        const id = getSubscriptionStorageID(tabID);
+        const result = await chrome.storage.local.get([id]);
+        return result[id];
+    } catch (error) {
+        return;
+    }
+}
+
+
 class SubscriptionManager {
     constructor() {
 

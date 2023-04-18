@@ -35,6 +35,7 @@ export const MESSAGE_TYPE = {
     STOP_SESSION: 'stopSession',
     START_SUBSCRIPTION: 'startSubscription',
     STOP_SUBSCRIPTION: 'stopSubscription',
+    GET_SUBSCRIPTION: 'getSubscription',
     DESTREAM_EVENT: 'destreamEvent',
 } as const;
 

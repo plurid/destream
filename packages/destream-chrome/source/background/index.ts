@@ -11,6 +11,7 @@
         StopSessionMessage,
         StartSubscriptionMessage,
         StopSubscriptionMessage,
+        GetSubscriptionMessage,
         SendNotificationMessage,
 
         DEFAULT_API_ENDPOINT,
@@ -39,6 +40,10 @@
         startSession,
         deleteSession,
     } from './session';
+
+    import {
+        getSubscription,
+    } from './subscriptions';
 
     import subscriptionManager from './subscriptions';
 
@@ -219,6 +224,8 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
 ) => {
     subscriptionManager.new(request.data);
 
+    // record subscription
+
     sendResponse({
         status: true,
     });
@@ -233,8 +240,25 @@ const handleStopSubscription: Handler<StopSubscriptionMessage> = async (
 ) => {
     subscriptionManager.remove(request.data);
 
+    // remove subscription
+
     sendResponse({
         status: true,
+    });
+
+    return;
+}
+
+const handleGetSubscription: Handler<GetSubscriptionMessage> = async (
+    request,
+    sender,
+    sendResponse,
+) => {
+    const subscription = await getSubscription(request.data || sender.tab.id);
+
+    sendResponse({
+        status: true,
+        subscription,
     });
 
     return;
@@ -298,6 +322,8 @@ const messageHandler: Handler<Message> = async (
             return handleStartSubscription(request, sender, sendResponse);
         case MESSAGE_TYPE.STOP_SUBSCRIPTION:
             return handleStopSubscription(request, sender, sendResponse);
+        case MESSAGE_TYPE.GET_SUBSCRIPTION:
+            return handleGetSubscription(request, sender, sendResponse);
         case MESSAGE_TYPE.SEND_NOTIFICATION:
             return handleSendNotification(request, sender, sendResponse);
         default:

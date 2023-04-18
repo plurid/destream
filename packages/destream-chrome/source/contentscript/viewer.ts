@@ -7,6 +7,7 @@
         GENERAL_EVENT,
         YOUTUBE_EVENT,
         SPOTIFY_EVENT,
+        GetSubscriptionMessage,
     } from '../data';
     // #endregion external
 
@@ -77,36 +78,40 @@ export const handleEvent = (
     }
 }
 
+export const handleMessage = (
+    request: Message,
+    _sender: chrome.runtime.MessageSender,
+    sendResponse: (response?: any) => void,
+) => {
+    if (request.type !== MESSAGE_TYPE.DESTREAM_EVENT) {
+        return;
+    }
+
+    handleEvent(request.data);
+
+    sendResponse({
+        status: true,
+    });
+}
+
 
 export const runViewer = () => {
-    const runLogic = (
-        request: Message,
-        _sender: chrome.runtime.MessageSender,
-        sendResponse: (response?: any) => void,
-    ) => {
-        if (request.type !== MESSAGE_TYPE.DESTREAM_EVENT) {
+    const run = async () => {
+        const subscriptionRequest = await chrome.runtime.sendMessage<GetSubscriptionMessage>({
+            type: MESSAGE_TYPE.GET_SUBSCRIPTION,
+        });
+        if (!subscriptionRequest.status) {
             return;
         }
 
-        handleEvent(request.data);
-
-        sendResponse({
-            status: true,
-        });
-    }
-
-    const run = async () => {
-        // if session is started
-        // listen for events
-
-        chrome.runtime.onMessage.addListener(runLogic);
+        chrome.runtime.onMessage.addListener(handleMessage);
     }
 
     run();
     chrome.storage.onChanged.addListener(run);
 
     return () => {
-        chrome.runtime.onMessage.removeListener(runLogic);
+        chrome.runtime.onMessage.removeListener(handleMessage);
         chrome.storage.onChanged.removeListener(run);
     }
 }
