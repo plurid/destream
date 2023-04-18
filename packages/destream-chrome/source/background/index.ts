@@ -51,6 +51,7 @@
         generateClient,
         START_SESSION,
         STOP_SESSION,
+        RECORD_SESSION_EVENT,
     } from './graphql';
     // #endregion internal
 // #endregion imports
@@ -75,8 +76,34 @@ const handlePublishEvent: Handler<PublishEventMessage> = async (
         return;
     }
 
-    const published = publishEvent(session, request.data);
+    const {
+        accessToken,
+        refreshToken,
+    } = await storageGetTokens();
+    const graphqlClient = generateClient(
+        DEFAULT_API_ENDPOINT,
+        accessToken,
+        refreshToken,
+    );
 
+    const graphqlRequest = await graphqlClient.mutate({
+        mutation: RECORD_SESSION_EVENT,
+        variables: {
+            input: {
+                id: session.id,
+                event: JSON.stringify(request.data),
+            },
+        },
+    });
+    const response = graphqlRequest.data.destreamRecordSessionEvent;
+    if (!response.status) {
+        sendResponse({
+            status: false,
+        });
+        return;
+    }
+
+    const published = publishEvent(session, request.data);
     sendResponse({
         status: published,
     });

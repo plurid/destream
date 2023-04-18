@@ -102,7 +102,6 @@ export const STOP_SESSION_SUBSCRIPTION = gql`
     }
 `;
 
-
 export const RECORD_SESSION_EVENT = gql`
     mutation DestreamRecordSessionEvent($input: InputDestreamRecordSessionEvent!) {
         destreamRecordSessionEvent(input: $input) {
