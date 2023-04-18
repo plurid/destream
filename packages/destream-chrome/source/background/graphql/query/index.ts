@@ -9,9 +9,9 @@
 
 
 // #region module
-export const GET_STREAMER_SESSION = gql`
-    query DestreamGetStreamerSession($input: InputValueString!) {
-        destreamGetStreamerSession(input: $input) {
+export const GET_ACTIVE_SESSIONS = gql`
+    query DestreamGetActiveSessions($input: InputValueString!) {
+        destreamGetActiveSessions(input: $input) {
             status
             data {
                 id

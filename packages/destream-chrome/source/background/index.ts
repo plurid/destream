@@ -55,7 +55,7 @@
         START_SESSION,
         STOP_SESSION,
         RECORD_SESSION_EVENT,
-        GET_STREAMER_SESSION,
+        GET_ACTIVE_SESSIONS,
         GET_SESSION,
     } from './graphql';
 
@@ -268,51 +268,51 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
         refreshToken,
     );
 
-    // get streamer's live session id
-    const streamerSessionRequest = await graphqlClient.query({
-        query: GET_STREAMER_SESSION,
+    const activeSessionsRequest = await graphqlClient.query({
+        query: GET_ACTIVE_SESSIONS,
         variables: {
             input: {
                 value: request.data, // identonym
             },
         },
     });
-    const streamerSessionResponse = streamerSessionRequest.data.destreamGetStreamerSession;
-    if (!streamerSessionResponse.status) {
+    const activeSessionsResponse = activeSessionsRequest.data.destreamGetActiveSessions;
+    if (!activeSessionsResponse.status) {
         sendResponse({
             status: false,
         });
         return;
     }
 
-    // query session
-    const sessionRequest = await graphqlClient.query({
-        query: GET_SESSION,
-        variables: {
-            input: {
-                value: streamerSessionResponse.data.id,
+    for (const session of activeSessionsResponse.data) {
+        const sessionRequest = await graphqlClient.query({
+            query: GET_SESSION,
+            variables: {
+                input: {
+                    value: session.id,
+                },
             },
-        },
-    });
-    const sessionResponse = sessionRequest.data.destreamGetSession;
-    if (!sessionResponse.status) {
-        sendResponse({
-            status: false,
         });
-        return;
+        const sessionResponse = sessionRequest.data.destreamGetSession;
+        if (!sessionResponse.status) {
+            sendResponse({
+                status: false,
+            });
+            return;
+        }
+
+        // record viewer
+
+        // open tab with session.url
+        const tab = await openTab(sessionResponse.data.url);
+
+        subscriptionManager.new(request.data);
+
+        // record subscription
+        // startSubscription(
+        // );
     }
 
-    // record viewer
-
-    // open tab with session.url
-    const tab = await openTab(sessionResponse.data.url);
-
-
-    subscriptionManager.new(request.data);
-
-    // record subscription
-    // startSubscription(
-    // );
 
     sendResponse({
         status: true,
