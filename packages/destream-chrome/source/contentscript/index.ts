@@ -61,7 +61,7 @@ export const getSession = async (
 
 const main = async () => {
     try {
-        const chromeRuntimePort = chrome.runtime.connect();
+        // const chromeRuntimePort = chrome.runtime.connect();
 
         const viewerCleanup = await runViewer();
         const streamerCleanup = await runStreamer();
@@ -75,10 +75,10 @@ const main = async () => {
             // injectView();
         }
 
-        chromeRuntimePort.onDisconnect.addListener(() => {
-            viewerCleanup();
-            streamerCleanup();
-        });
+        // chromeRuntimePort.onDisconnect.addListener(() => {
+        //     viewerCleanup();
+        //     streamerCleanup();
+        // });
     } catch (error) {
         console.log(error);
     }
