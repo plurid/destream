@@ -5,7 +5,6 @@
         MESSAGE_TYPE,
         DESTREAM_DETECT_EVENT,
         PublishEventMessage,
-        GetTabIDMessage,
         GetSessionMessage,
     } from '../data';
 
@@ -50,7 +49,7 @@ const getDetector = (): Detector => {
 }
 
 
-export const runStreamer = () => {
+export const runStreamer = async () => {
     let detector: Detector | undefined;
 
     const runLogic = (event: CustomEvent<DestreamEvent>) => {
@@ -63,14 +62,14 @@ export const runStreamer = () => {
     const run = async () => {
         const isStreamer = await storageGetIsStreamer();
         if (!isStreamer) {
-            return;
+            return () => {};
         }
 
         const sessionRequest = await chrome.runtime.sendMessage<GetSessionMessage>({
             type: MESSAGE_TYPE.GET_SESSION,
         });
         if (!sessionRequest.status) {
-            return;
+            return () => {};
         }
 
         detector = getDetector();
@@ -78,13 +77,27 @@ export const runStreamer = () => {
             DESTREAM_DETECT_EVENT,
             runLogic,
         );
+
+        return () => {
+            detector.target.removeEventListener(
+                DESTREAM_DETECT_EVENT,
+                runLogic,
+            );
+        }
     }
 
-    run();
-    chrome.storage.onChanged.addListener(run);
+    let runCleanup = await run();
+
+    const storageLogic = async () => {
+        runCleanup();
+        runCleanup = await run();
+    }
+
+    chrome.storage.onChanged.addListener(storageLogic);
 
     return () => {
-        chrome.storage.onChanged.removeListener(run);
+        runCleanup();
+        chrome.storage.onChanged.removeListener(storageLogic);
 
         if (detector) {
             detector.target.removeEventListener(

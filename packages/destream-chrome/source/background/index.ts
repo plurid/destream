@@ -57,7 +57,6 @@
         STOP_SESSION,
         RECORD_SESSION_EVENT,
         GET_ACTIVE_SESSIONS,
-        GET_SESSION,
     } from './graphql';
 
     import {
@@ -96,7 +95,7 @@ const handlePublishEvent: Handler<PublishEventMessage> = async (
         refreshToken,
     );
 
-    const orderIndex = sessionOrderIndex.get(session.id);
+    const orderIndex = await sessionOrderIndex.get(session.id);
     const relativeTime = Date.now() - session.startedAt;
     const data = JSON.stringify(request.data);
 
@@ -215,19 +214,27 @@ const handleStopSession: Handler<StopSessionMessage> = async (
     _sender,
     sendResponse,
 ) => {
-    const isStreamer = await storageGetIsStreamer();
-    const identonym = await storageGetIdentonym();
-    if (!isStreamer || !identonym) {
+    const emptyResponse = async () => {
         // Try session delete anyway.
         await deleteSession(request.data.tabID);
 
         sendResponse({
             status: false,
         });
+
         return;
     }
 
+    const isStreamer = await storageGetIsStreamer();
+    const identonym = await storageGetIdentonym();
+    if (!isStreamer || !identonym) {
+        return await emptyResponse();
+    }
+
     const session = await getSession(request.data.tabID);
+    if (!session) {
+        return await emptyResponse();
+    }
 
     const {
         accessToken,
@@ -251,6 +258,7 @@ const handleStopSession: Handler<StopSessionMessage> = async (
 
     if (response.status) {
         await deleteSession(request.data.tabID);
+        sessionOrderIndex.cleanup(session.id);
     }
 
     sendResponse({

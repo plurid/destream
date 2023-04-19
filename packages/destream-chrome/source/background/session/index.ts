@@ -149,6 +149,12 @@ export class SessionOrderIndex {
     }
 
 
+    private orderID(
+        session: string,
+    ) {
+        return orderIndexBase + session;
+    }
+
     private async load() {
         const storage: any = await chrome.storage.local.get(null);
         const indicesIDs = Object
@@ -156,9 +162,11 @@ export class SessionOrderIndex {
             .filter(item => item.startsWith(orderIndexBase));
 
         for (const index of indicesIDs) {
-            const indexStore = orderIndexBase.replace(orderIndexBase, '');
             const query = await chrome.storage.local.get(index);
-            this.indices[indexStore] = query[index];
+            if (typeof query[index] !== 'number') {
+                continue;
+            }
+            this.indices[index] = query[index];
         }
     }
 
@@ -166,27 +174,36 @@ export class SessionOrderIndex {
         let values: Record<string, number> = {};
 
         for (const [id, value] of Object.entries(this.indices)) {
-            values[orderIndexBase + id] = value;
+            values[id] = value;
         }
 
         await chrome.storage.local.set(values);
     }
 
 
-    public get(
+    public async get(
         session: string,
     ) {
-        const value = this.indices[session];
+        await this.load();
+
+        const value = this.indices[this.orderID(session)];
 
         if (typeof value === 'number') {
-            this.indices[session] += 1;
-            this.update();
+            this.indices[this.orderID(session)] += 1;
+            await this.update();
             return value;
         }
 
-        this.indices[session] = 0;
-        this.update();
+        this.indices[this.orderID(session)] = 0;
+        await this.update();
         return 0;
+    }
+
+    public async cleanup(
+        session: string,
+    ) {
+        delete this.indices[this.orderID(session)];
+        await chrome.storage.local.remove(this.orderID(session));
     }
 }
 

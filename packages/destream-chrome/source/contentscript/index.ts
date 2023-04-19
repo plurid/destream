@@ -63,8 +63,8 @@ const main = async () => {
     try {
         const chromeRuntimePort = chrome.runtime.connect();
 
-        const viewerCleanup = runViewer();
-        const streamerCleanup = runStreamer();
+        const viewerCleanup = await runViewer();
+        const streamerCleanup = await runStreamer();
 
         const tabID = await getTabID();
         const session = await getSession(tabID);

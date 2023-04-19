@@ -95,24 +95,33 @@ export const handleMessage = (
 }
 
 
-export const runViewer = () => {
+export const runViewer = async () => {
     const run = async () => {
         const subscriptionRequest = await chrome.runtime.sendMessage<GetSubscriptionMessage>({
             type: MESSAGE_TYPE.GET_SUBSCRIPTION,
         });
         if (!subscriptionRequest.status) {
-            return;
+            return () => {};
         }
 
         chrome.runtime.onMessage.addListener(handleMessage);
+
+        return () => {
+            chrome.runtime.onMessage.removeListener(handleMessage);
+        }
     }
 
-    run();
-    chrome.storage.onChanged.addListener(run);
+    let runCleanup = await run();
+
+    const storageLogic = async () => {
+        runCleanup();
+        runCleanup = await run();
+    }
+    chrome.storage.onChanged.addListener(storageLogic);
 
     return () => {
-        chrome.runtime.onMessage.removeListener(handleMessage);
-        chrome.storage.onChanged.removeListener(run);
+        runCleanup();
+        chrome.storage.onChanged.removeListener(storageLogic);
     }
 }
 // #endregion module
