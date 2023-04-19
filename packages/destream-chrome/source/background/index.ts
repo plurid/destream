@@ -39,7 +39,6 @@
         getSession,
         startSession,
         deleteSession,
-        sessionOrderIndex,
     } from './session';
 
     import {
@@ -95,7 +94,6 @@ const handlePublishEvent: Handler<PublishEventMessage> = async (
         refreshToken,
     );
 
-    const orderIndex = await sessionOrderIndex.get(session.id);
     const relativeTime = Date.now() - session.startedAt;
     const data = JSON.stringify(request.data);
 
@@ -103,8 +101,7 @@ const handlePublishEvent: Handler<PublishEventMessage> = async (
         mutation: RECORD_SESSION_EVENT,
         variables: {
             input: {
-                id: session.id,
-                orderIndex,
+                sessionID: session.id,
                 relativeTime,
                 data,
             },
@@ -258,7 +255,6 @@ const handleStopSession: Handler<StopSessionMessage> = async (
 
     if (response.status) {
         await deleteSession(request.data.tabID);
-        sessionOrderIndex.cleanup(session.id);
     }
 
     sendResponse({
