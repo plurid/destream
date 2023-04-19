@@ -285,26 +285,10 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
     }
 
     for (const session of activeSessionsResponse.data) {
-        const sessionRequest = await graphqlClient.query({
-            query: GET_SESSION,
-            variables: {
-                input: {
-                    value: session.id,
-                },
-            },
-        });
-        const sessionResponse = sessionRequest.data.destreamGetSession;
-        if (!sessionResponse.status) {
-            sendResponse({
-                status: false,
-            });
-            return;
-        }
-
         // record viewer
 
         // open tab with session.url
-        const tab = await openTab(sessionResponse.data.url);
+        const tab = await openTab(session.url);
 
         subscriptionManager.new(request.data);
 

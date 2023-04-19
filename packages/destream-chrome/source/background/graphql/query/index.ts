@@ -15,6 +15,15 @@ export const GET_ACTIVE_SESSIONS = gql`
             status
             data {
                 id
+                url
+                generatedAt
+                status
+                events {
+                    generatedAt
+                    orderIndex
+                    relativeTime
+                    data
+                }
             }
         }
     }
