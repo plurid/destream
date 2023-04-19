@@ -39,6 +39,7 @@
         getSession,
         startSession,
         deleteSession,
+        sessionOrderIndex,
     } from './session';
 
     import {
@@ -95,12 +96,18 @@ const handlePublishEvent: Handler<PublishEventMessage> = async (
         refreshToken,
     );
 
+    const orderIndex = sessionOrderIndex.get(session.id);
+    const relativeTime = Date.now() - session.startedAt;
+    const data = JSON.stringify(request.data);
+
     const graphqlRequest = await graphqlClient.mutate({
         mutation: RECORD_SESSION_EVENT,
         variables: {
             input: {
                 id: session.id,
-                event: JSON.stringify(request.data),
+                orderIndex,
+                relativeTime,
+                data,
             },
         },
     });

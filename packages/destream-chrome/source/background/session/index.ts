@@ -135,4 +135,60 @@ export class SessionManager {
 
 
 export const sessionManager = new SessionManager();
+
+
+
+const orderIndexBase = 'orderIndex-';
+
+export class SessionOrderIndex {
+    private indices: Record<string, number> = {};
+
+
+    constructor() {
+        this.load();
+    }
+
+
+    private async load() {
+        const storage: any = await chrome.storage.local.get(null);
+        const indicesIDs = Object
+            .keys(storage)
+            .filter(item => item.startsWith(orderIndexBase));
+
+        for (const index of indicesIDs) {
+            const indexStore = orderIndexBase.replace(orderIndexBase, '');
+            const query = await chrome.storage.local.get(index);
+            this.indices[indexStore] = query[index];
+        }
+    }
+
+    private async update() {
+        let values: Record<string, number> = {};
+
+        for (const [id, value] of Object.entries(this.indices)) {
+            values[orderIndexBase + id] = value;
+        }
+
+        await chrome.storage.local.set(values);
+    }
+
+
+    public get(
+        session: string,
+    ) {
+        const value = this.indices[session];
+
+        if (typeof value === 'number') {
+            this.indices[session] += 1;
+            this.update();
+            return value;
+        }
+
+        this.indices[session] = 0;
+        this.update();
+        return 0;
+    }
+}
+
+export const sessionOrderIndex = new SessionOrderIndex();
 // #endregion module
