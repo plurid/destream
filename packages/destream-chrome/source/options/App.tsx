@@ -14,9 +14,7 @@
 // #region module
 const App = () => {
     return (
-        <div>
-            <Options />
-        </div>
+        <Options />
     );
 }
 // #endregion module

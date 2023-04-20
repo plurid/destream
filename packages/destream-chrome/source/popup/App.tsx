@@ -14,9 +14,7 @@
 // #region module
 const App = () => {
     return (
-        <div>
-            <Popup />
-        </div>
+        <Popup />
     );
 }
 // #endregion module
