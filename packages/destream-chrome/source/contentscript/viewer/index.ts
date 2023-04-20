@@ -8,6 +8,8 @@
         YOUTUBE_EVENT,
         SPOTIFY_EVENT,
         GetSubscriptionMessage,
+
+        DEFAULT_API_ENDPOINT,
     } from '../../data';
 
     import MessagerClient from '../client';
@@ -108,8 +110,10 @@ const runViewer = async (
             return () => {};
         }
 
-        const endpoint = '';
+
+        const endpoint = DEFAULT_API_ENDPOINT;
         await client.addMessager(endpoint);
+
 
         chrome.runtime.onMessage.addListener(handleMessage);
 

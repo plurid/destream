@@ -7,6 +7,14 @@
     // #endregion libraries
 
 
+    // #region external
+    import {
+        DEFAULT_MESSAGER_ENDPOINT,
+        DEFAULT_MESSAGER_TOKEN,
+    } from '../../data/constants';
+    // #endregion external
+
+
     // #region internal
     import aws from './AWS';
     // #endregion internal
@@ -53,15 +61,15 @@ const requestClientEndpointData = async (
 
     // const data = {
     //     type: messagerType.aws,
-    //     endpoint: '',
-    //     region: '',
-    //     apiKey: '',
+    //     endpoint: process.env.AWS_ENDPOINT,
+    //     region: process.env.AWS_REGION,
+    //     apiKey: process.env.AWS_API_KEY,
     // } as MessagerData;
 
     const data = {
         type: messagerType.messager,
-        endpoint: '',
-        token: '',
+        endpoint: DEFAULT_MESSAGER_ENDPOINT,
+        token: DEFAULT_MESSAGER_TOKEN,
         // messagerKind: 'socket',
         // messagerOptions: {},
     } as MessagerData;

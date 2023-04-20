@@ -6,6 +6,8 @@
         DESTREAM_DETECT_EVENT,
         PublishEventMessage,
         GetSessionMessage,
+
+        DEFAULT_API_ENDPOINT,
     } from '../../data';
 
     import MessagerClient from '../client';
@@ -77,7 +79,7 @@ const runStreamer = async (
         }
 
 
-        const endpoint = '';
+        const endpoint = DEFAULT_API_ENDPOINT;
         await client.addMessager(endpoint);
 
 
