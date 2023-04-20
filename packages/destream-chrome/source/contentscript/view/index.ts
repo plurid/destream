@@ -3,6 +3,11 @@
     import {
         checkYoutubeOrigin,
     } from '../utilities/youtube';
+
+    import {
+        getSession,
+        getTabID,
+    } from '../messaging';
     // #endregion external
 
 
@@ -37,7 +42,7 @@ export const renderTwitchStream = (
 }
 
 
-const injectView = () => {
+export const injectView = () => {
     if (!checkYoutubeOrigin()) return;
 
 
@@ -62,10 +67,25 @@ const injectView = () => {
 
     renderTwitchStream(view);
 }
+
+
+const runView = async () => {
+    const tabID = await getTabID();
+    const session = await getSession(tabID);
+
+    if (session) {
+        // check if there is an active session
+        // inject view if active
+        // injectView();
+    }
+
+    return () => {
+    }
+}
 // #endregion module
 
 
 
 // #region exports
-export default injectView;
+export default runView;
 // #endregion exports

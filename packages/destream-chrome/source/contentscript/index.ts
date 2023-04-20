@@ -9,12 +9,7 @@
     // #region internal
     import runViewer from './viewer';
     import runStreamer from './streamer';
-    // import injectView from './view';
-
-    import {
-        getSession,
-        getTabID,
-    } from './messaging';
+    import runView from './view';
     // #endregion internal
 // #endregion imports
 
@@ -23,23 +18,15 @@
 // #region module
 const main = async () => {
     try {
-        // const chromeRuntimePort = chrome.runtime.connect();
-
         const viewerCleanup = await runViewer();
         const streamerCleanup = await runStreamer();
+        const viewCleanup = await runView();
 
-        const tabID = await getTabID();
-        const session = await getSession(tabID);
-
-        if (session) {
-            // check if there is an active session
-            // inject view if active
-            // injectView();
-        }
-
+        // const chromeRuntimePort = chrome.runtime.connect();
         // chromeRuntimePort.onDisconnect.addListener(() => {
         //     viewerCleanup();
         //     streamerCleanup();
+        //     viewCleanup();
         // });
     } catch (error) {
         log(error);
