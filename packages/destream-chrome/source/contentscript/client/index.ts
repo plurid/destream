@@ -187,7 +187,7 @@ class MessagerClient {
         for (const [id, client] of Object.entries(this.clients)) {
             switch (client.type) {
                 case messagerType.messager:
-                    client.messager.close()
+                    client.messager.close();
                     break;
                 case messagerType.aws:
                     break;
