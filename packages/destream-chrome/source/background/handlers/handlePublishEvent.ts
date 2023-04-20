@@ -3,6 +3,7 @@
     import {
         Handler,
         PublishEventMessage,
+        PublishEventResponse,
         DEFAULT_API_ENDPOINT,
     } from '../../data';
 
@@ -11,11 +12,8 @@
     } from '../../common/logic';
 
     import {
-        publishEvent,
-    } from '../event';
-
-    import {
         getSession,
+        composeTopicID,
     } from '../session';
 
     import {
@@ -50,15 +48,16 @@ const handlePublishEvent: Handler<PublishEventMessage> = async (
 
     const relativeTime = Date.now() - session.startedAt;
     const data = JSON.stringify(request.data);
+    const event = {
+        sessionID: session.id,
+        relativeTime,
+        data,
+    };
 
     const graphqlRequest = await graphqlClient.mutate({
         mutation: RECORD_SESSION_EVENT,
         variables: {
-            input: {
-                sessionID: session.id,
-                relativeTime,
-                data,
-            },
+            input: event,
         },
     });
     const response = graphqlRequest.data.destreamRecordSessionEvent;
@@ -69,10 +68,16 @@ const handlePublishEvent: Handler<PublishEventMessage> = async (
         return;
     }
 
-    const published = publishEvent(session, request.data);
-    sendResponse({
-        status: published,
-    });
+    const topic = composeTopicID(session.id);
+    const publishEventResponse: PublishEventResponse = {
+        status: true,
+        data: {
+            token: session.token,
+            topic,
+            message: event,
+        },
+    };
+    sendResponse(publishEventResponse);
 
     return;
 }

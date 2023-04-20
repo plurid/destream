@@ -14,7 +14,6 @@
 
     import {
         streamPlayer,
-        composeTopicID,
     } from '../event';
 
     import messagerManager from '../messager';
@@ -24,6 +23,15 @@
 
 
 // #region module
+export const composeTopicID = (
+    id: string,
+) => {
+    const topicID = 'destream-' + id;
+
+    return topicID;
+}
+
+
 export const getSessionStorageID = (
     tabID: number,
 ) => {

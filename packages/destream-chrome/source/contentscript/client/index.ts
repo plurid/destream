@@ -70,8 +70,10 @@ const requestClientEndpointData = async (
         type: messagerType.messager,
         endpoint: DEFAULT_MESSAGER_ENDPOINT,
         token: DEFAULT_MESSAGER_TOKEN,
-        // messagerKind: 'socket',
-        // messagerOptions: {},
+        messagerKind: 'socket',
+        messagerOptions: {
+            secure: false,
+        },
     } as MessagerData;
 
     return data;
@@ -179,6 +181,26 @@ class MessagerClient {
                         }
                     },
                 );
+                break;
+        }
+    }
+
+    public async unsubscribe(
+        messagerID: string,
+        topic: string,
+    ) {
+        const client = this.clients[messagerID];
+        if (!client) {
+            return;
+        }
+
+        switch (client.type) {
+            case messagerType.messager:
+                client.messager.unsubscribe(
+                    topic,
+                );
+                break;
+            case messagerType.aws:
                 break;
         }
     }

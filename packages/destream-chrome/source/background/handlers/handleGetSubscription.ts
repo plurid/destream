@@ -23,7 +23,7 @@ const handleGetSubscription: Handler<GetSubscriptionMessage> = async (
     const subscription = await getSubscriptionByTabID(tabID);
 
     sendResponse({
-        status: true,
+        status: !!subscription,
         subscription,
     });
 

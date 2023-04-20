@@ -1,4 +1,11 @@
 // #region imports
+    // #region libraries
+    // import {
+    //     Subject,
+    // } from 'rxjs';
+    // #endregion libraries
+
+
     // #region external
     import {
         DestreamEvent,
@@ -114,11 +121,28 @@ const runViewer = async (
         const endpoint = DEFAULT_API_ENDPOINT;
         await client.addMessager(endpoint);
 
+        // const eventStream = new Subject<DestreamEvent>();
 
-        chrome.runtime.onMessage.addListener(handleMessage);
+        const subscription = subscriptionRequest.data;
+
+        await client.subscribe(
+            DEFAULT_API_ENDPOINT,
+            subscription.topic,
+            (data) => {
+                handleEvent(data);
+            },
+        );
+
+
+        // chrome.runtime.onMessage.addListener(handleMessage);
 
         return () => {
-            chrome.runtime.onMessage.removeListener(handleMessage);
+            client.unsubscribe(
+                DEFAULT_API_ENDPOINT,
+                subscription.topic,
+            );
+
+            // chrome.runtime.onMessage.removeListener(handleMessage);
         }
     }
 

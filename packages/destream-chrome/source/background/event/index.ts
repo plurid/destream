@@ -11,7 +11,6 @@
         MESSAGE_TYPE,
         DestreamEvent,
         DestreamEventMessage,
-        Session,
     } from '../../data';
 
     import {
@@ -40,43 +39,6 @@ export const sendEventToPage = async (
         console.log('response', response);
     } catch (error) {
         console.log(error);
-    }
-}
-
-
-export const composeTopicID = (
-    id: string,
-) => {
-    const topicID = 'destream-' + id;
-
-    return topicID;
-}
-
-
-export const publishEvent = (
-    session: Session,
-    data: DestreamEvent,
-    // messager,
-) => {
-    try {
-        const {
-            id,
-            token,
-        } = session;
-
-        const topicID = composeTopicID(id);
-
-        // messagerManager.get().publish(
-        //     token,
-        //     topicID,
-        //     data,
-        // );
-
-        return true;
-    } catch (error) {
-        console.log(error);
-
-        return false;
     }
 }
 
@@ -113,7 +75,7 @@ export const run = async () => {
         eventStream,
     );
 
-    const topicID = composeTopicID('');
+    const topicID = '';
 
     messagerManager.get().subscribe<{data: DestreamEvent}>(
         topicID,

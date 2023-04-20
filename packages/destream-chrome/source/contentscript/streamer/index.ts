@@ -5,6 +5,7 @@
         MESSAGE_TYPE,
         DESTREAM_DETECT_EVENT,
         PublishEventMessage,
+        PublishEventResponse,
         GetSessionMessage,
 
         DEFAULT_API_ENDPOINT,
@@ -59,10 +60,22 @@ const runStreamer = async (
     let detector: Detector | undefined;
 
     const runLogic = (event: CustomEvent<DestreamEvent>) => {
-        chrome.runtime.sendMessage<PublishEventMessage>({
-            type: MESSAGE_TYPE.PUBLISH_EVENT,
-            data: event.detail,
-        });
+        chrome.runtime.sendMessage<PublishEventMessage>(
+            {
+                type: MESSAGE_TYPE.PUBLISH_EVENT,
+                data: event.detail,
+            }, (response: PublishEventResponse) => {
+                if (!response.status) {
+                    return;
+                }
+
+                client.publish(
+                    DEFAULT_API_ENDPOINT,
+                    response.data.topic,
+                    response.data.message,
+                );
+            },
+        );
     };
 
     const run = async () => {

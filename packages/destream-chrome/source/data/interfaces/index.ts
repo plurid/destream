@@ -31,6 +31,21 @@ export interface PublishEventMessage {
     data: DestreamEvent;
 }
 
+export type PublishEventResponse =
+    {
+        status: false;
+    } | {
+        status: true;
+        data: {
+            token: string;
+            topic: string;
+            message: {
+                sessionID: string;
+                relativeTime: number;
+                data: string;
+            };
+        };
+    };
 
 
 export interface Session {
