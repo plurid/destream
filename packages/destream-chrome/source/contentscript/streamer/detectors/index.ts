@@ -4,7 +4,7 @@
         DESTREAM_DETECT_EVENT,
         GENERAL_EVENT,
         DestreamScrollEvent,
-    } from '../../data';
+    } from '../../../data';
     // #endregion external
 // #endregion imports
 

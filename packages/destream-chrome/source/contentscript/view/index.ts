@@ -37,7 +37,7 @@ export const renderTwitchStream = (
 }
 
 
-export const injectView = () => {
+const injectView = () => {
     if (!checkYoutubeOrigin()) return;
 
 
@@ -63,3 +63,9 @@ export const injectView = () => {
     renderTwitchStream(view);
 }
 // #endregion module
+
+
+
+// #region exports
+export default injectView;
+// #endregion exports

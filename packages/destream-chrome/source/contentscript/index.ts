@@ -7,17 +7,9 @@
 
 
     // #region internal
-    import {
-        runViewer,
-    } from './viewer';
-
-    import {
-        runStreamer,
-    } from './streamer';
-
-    import {
-        injectView,
-    } from './view';
+    import runViewer from './viewer';
+    import runStreamer from './streamer';
+    // import injectView from './view';
 
     import {
         getSession,

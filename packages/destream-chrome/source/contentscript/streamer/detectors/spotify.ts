@@ -3,16 +3,16 @@
     import {
         DESTREAM_DETECT_EVENT,
         SPOTIFY_EVENT,
-    } from '../../data';
+    } from '../../../data';
 
     import {
         retryGet,
         debounce,
-    } from '../../common/utilities';
+    } from '../../../common/utilities';
 
     import {
         checkSpotifyOrigin
-    } from '../utilities/spotify';
+    } from '../../utilities/spotify';
     // #endregion external
 
 

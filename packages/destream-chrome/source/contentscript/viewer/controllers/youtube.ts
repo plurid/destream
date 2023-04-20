@@ -4,7 +4,7 @@
         getYoutubeVideoPlayer,
         getYoutubeLikeButton,
         checkYoutubeLikeButtonPressed,
-    } from '../utilities/youtube';
+    } from '../../utilities/youtube';
     // #endregion external
 // #endregion imports
 

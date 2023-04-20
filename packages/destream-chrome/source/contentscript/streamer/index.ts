@@ -6,11 +6,19 @@
         DESTREAM_DETECT_EVENT,
         PublishEventMessage,
         GetSessionMessage,
-    } from '../data';
+    } from '../../data';
 
     import {
         storageGetIsStreamer,
-    } from '../common/logic';
+    } from '../../common/logic';
+
+    import {
+        checkYoutubeOrigin,
+    } from '../utilities/youtube';
+
+    import {
+        checkSpotifyOrigin,
+    } from '../utilities/spotify';
     // #endregion external
 
 
@@ -27,14 +35,6 @@
     import {
         SpotifyDetector,
     } from './detectors/spotify';
-
-    import {
-        checkYoutubeOrigin,
-    } from './utilities/youtube';
-
-    import {
-        checkSpotifyOrigin,
-    } from './utilities/spotify';
     // #endregion internal
 // #endregion imports
 
@@ -49,7 +49,7 @@ const getDetector = (): Detector => {
 }
 
 
-export const runStreamer = async () => {
+const runStreamer = async () => {
     let detector: Detector | undefined;
 
     const runLogic = (event: CustomEvent<DestreamEvent>) => {
@@ -108,3 +108,9 @@ export const runStreamer = async () => {
     }
 }
 // #endregion module
+
+
+
+// #region exports
+export default runStreamer;
+// #endregion exports

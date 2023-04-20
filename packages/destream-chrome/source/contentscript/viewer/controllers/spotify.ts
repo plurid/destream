@@ -2,7 +2,7 @@
     // #region external
     import {
         getSpotifyPlayButton,
-    } from '../utilities/spotify';
+    } from '../../utilities/spotify';
     // #endregion external
 // #endregion imports
 

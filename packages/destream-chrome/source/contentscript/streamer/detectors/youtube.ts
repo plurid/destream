@@ -3,19 +3,19 @@
     import {
         DESTREAM_DETECT_EVENT,
         YOUTUBE_EVENT,
-    } from '../../data';
+    } from '../../../data';
 
     import {
         retryGet,
         debounce,
-    } from '../../common/utilities';
+    } from '../../../common/utilities';
 
     import {
         getYoutubeVideoPlayer,
         getYoutubeLikeButton,
         checkYoutubeLikeButtonPressed,
         checkYoutubeOrigin,
-    } from '../utilities/youtube';
+    } from '../../utilities/youtube';
     // #endregion external
 
 

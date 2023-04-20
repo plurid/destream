@@ -8,7 +8,7 @@
         YOUTUBE_EVENT,
         SPOTIFY_EVENT,
         GetSubscriptionMessage,
-    } from '../data';
+    } from '../../data';
     // #endregion external
 
 
@@ -95,7 +95,7 @@ export const handleMessage = (
 }
 
 
-export const runViewer = async () => {
+const runViewer = async () => {
     const run = async () => {
         const subscriptionRequest = await chrome.runtime.sendMessage<GetSubscriptionMessage>({
             type: MESSAGE_TYPE.GET_SUBSCRIPTION,
@@ -125,3 +125,9 @@ export const runViewer = async () => {
     }
 }
 // #endregion module
+
+
+
+// #region exports
+export default runViewer;
+// #endregion exports
