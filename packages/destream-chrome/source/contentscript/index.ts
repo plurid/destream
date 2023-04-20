@@ -7,6 +7,7 @@
 
 
     // #region internal
+    import MessagerClient from './client';
     import runViewer from './viewer';
     import runStreamer from './streamer';
     import runView from './view';
@@ -18,8 +19,10 @@
 // #region module
 const main = async () => {
     try {
-        const viewerCleanup = await runViewer();
-        const streamerCleanup = await runStreamer();
+        const client = new MessagerClient();
+
+        const viewerCleanup = await runViewer(client);
+        const streamerCleanup = await runStreamer(client);
         const viewCleanup = await runView();
 
         // const chromeRuntimePort = chrome.runtime.connect();

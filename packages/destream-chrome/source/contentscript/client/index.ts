@@ -7,13 +7,6 @@
     // #endregion libraries
 
 
-    // #region external
-    import {
-        generateRandomID,
-    } from '../../common/utilities';
-    // #endregion external
-
-
     // #region internal
     import aws from './AWS';
     // #endregion internal
@@ -31,11 +24,9 @@ export const messagerType = {
 
 export type IMessagerClient =
     {
-        id: string;
         type: typeof messagerType.messager;
         messager: Messager;
     } | {
-        id: string;
         type: typeof messagerType.aws;
         aws: ReturnType<typeof aws>;
     };
@@ -91,16 +82,18 @@ class MessagerClient {
     public async addMessager(
         endpoint: string,
     ) {
+        if (this.clients[endpoint]) {
+            return;
+        }
+
         const data = await requestClientEndpointData(endpoint);
         if (!data) {
             return;
         }
-        const id = generateRandomID();
 
         switch (data.type) {
             case messagerType.messager:
-                this.clients[id] = {
-                    id,
+                this.clients[endpoint] = {
                     type: messagerType.messager,
                     messager: new Messager(
                         data.endpoint,
@@ -111,8 +104,7 @@ class MessagerClient {
                 };
                 break;
             case messagerType.aws:
-                this.clients[id] = {
-                    id,
+                this.clients[endpoint] = {
                     type: messagerType.aws,
                     aws: aws({
                         endpoint: data.endpoint,

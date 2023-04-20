@@ -9,6 +9,8 @@
         SPOTIFY_EVENT,
         GetSubscriptionMessage,
     } from '../../data';
+
+    import MessagerClient from '../client';
     // #endregion external
 
 
@@ -95,7 +97,9 @@ export const handleMessage = (
 }
 
 
-const runViewer = async () => {
+const runViewer = async (
+    client: MessagerClient,
+) => {
     const run = async () => {
         const subscriptionRequest = await chrome.runtime.sendMessage<GetSubscriptionMessage>({
             type: MESSAGE_TYPE.GET_SUBSCRIPTION,
@@ -103,6 +107,9 @@ const runViewer = async () => {
         if (!subscriptionRequest.status) {
             return () => {};
         }
+
+        const endpoint = '';
+        await client.addMessager(endpoint);
 
         chrome.runtime.onMessage.addListener(handleMessage);
 

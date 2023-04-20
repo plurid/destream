@@ -8,6 +8,8 @@
         GetSessionMessage,
     } from '../../data';
 
+    import MessagerClient from '../client';
+
     import {
         storageGetIsStreamer,
     } from '../../common/logic';
@@ -49,7 +51,9 @@ const getDetector = (): Detector => {
 }
 
 
-const runStreamer = async () => {
+const runStreamer = async (
+    client: MessagerClient,
+) => {
     let detector: Detector | undefined;
 
     const runLogic = (event: CustomEvent<DestreamEvent>) => {
@@ -71,6 +75,11 @@ const runStreamer = async () => {
         if (!sessionRequest.status) {
             return () => {};
         }
+
+
+        const endpoint = '';
+        await client.addMessager(endpoint);
+
 
         detector = getDetector();
         detector.target.addEventListener(
