@@ -124,7 +124,6 @@ class MessagerClient {
         }
     }
 
-
     public async publish(
         messagerID: string,
         topic: string,
@@ -150,7 +149,6 @@ class MessagerClient {
                 break;
         }
     }
-
 
     public async subscribe(
         messagerID: string,
@@ -183,6 +181,22 @@ class MessagerClient {
                 );
                 break;
         }
+    }
+
+    public close() {
+        for (const [id, client] of Object.entries(this.clients)) {
+            switch (client.type) {
+                case messagerType.messager:
+                    client.messager.close()
+                    break;
+                case messagerType.aws:
+                    break;
+            }
+
+            delete this.clients[id];
+        }
+
+        this.clients = {};
     }
 }
 // #endregion module
