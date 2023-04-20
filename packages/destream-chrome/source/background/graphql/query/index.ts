@@ -19,8 +19,6 @@ export const GET_ACTIVE_SESSIONS = gql`
                 generatedAt
                 status
                 events {
-                    generatedAt
-                    orderIndex
                     relativeTime
                     data
                 }
