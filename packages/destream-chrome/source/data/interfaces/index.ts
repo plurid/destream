@@ -182,4 +182,13 @@ export interface DestreamEventMessage {
     type: typeof MESSAGE_TYPE.DESTREAM_EVENT;
     data: DestreamEvent;
 }
+
+
+
+
+export type Handler<R> = (
+    request: R,
+    sender: chrome.runtime.MessageSender,
+    sendResponse: (response?: any) => void,
+) => Promise<void>;
 // #endregion module
