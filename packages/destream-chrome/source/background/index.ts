@@ -1,6 +1,10 @@
 // #region imports
     // #region internal
     import messageHandler from './handlers';
+
+    import {
+        log,
+    } from './utilities';
     // #endregion internal
 // #endregion imports
 
@@ -16,7 +20,7 @@ const main = () => {
             return true;
         });
     } catch (error) {
-        console.log(error);
+        log(error);
     }
 }
 

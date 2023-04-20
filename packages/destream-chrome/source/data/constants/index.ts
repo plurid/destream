@@ -1,4 +1,7 @@
 // #region module
+export const IN_PRODUCTION = process.env.NODE_ENV === 'production';
+
+
 export const DEFAULT_MESSAGER_ENDPOINT = process.env.MESSAGER_ENDPOINT;
 export const DEFAULT_MESSAGER_TOKEN = process.env.MESSAGER_TOKEN;
 
