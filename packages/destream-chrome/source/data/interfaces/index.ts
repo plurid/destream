@@ -144,6 +144,7 @@ export interface StartSessionMessage {
     data: {
         tabID: number;
         url: string;
+        title: string;
     };
 }
 

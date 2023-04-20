@@ -54,7 +54,8 @@ const handleStartSession: Handler<StartSessionMessage> = async (
         mutation: START_SESSION,
         variables: {
             input: {
-                value: request.data.url,
+                url: request.data.url,
+                title: request.data.title,
             },
         },
     });

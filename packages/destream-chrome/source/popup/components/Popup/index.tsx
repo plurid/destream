@@ -142,6 +142,7 @@ const Popup: React.FC<any> = (
                 data: {
                     tabID: activeTab.id,
                     url: activeTab.url,
+                    title: activeTab.title,
                 },
             },
             (response) => {
