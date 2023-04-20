@@ -56,4 +56,9 @@ export const log = (
 
     console.log('log', message);
 }
+
+
+export const generateRandomID = () => {
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+}
 // #endregion module
