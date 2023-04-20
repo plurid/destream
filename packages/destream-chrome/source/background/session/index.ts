@@ -1,22 +1,8 @@
 // #region imports
-    // #region libraries
-    import {
-        Subject,
-    } from 'rxjs';
-    // #endregion libraries
-
-
     // #region external
     import {
-        DestreamEvent,
         Session,
     } from '../../data';
-
-    import {
-        streamPlayer,
-    } from '../event';
-
-    import messagerManager from '../messager';
     // #endregion external
 // #endregion imports
 
@@ -83,64 +69,4 @@ export const getSession = async (
         return;
     }
 }
-
-
-export class SessionPlayer {
-    public async sendMessage(
-        tabID: number,
-        event: any,
-    ) {
-        await chrome.tabs.sendMessage(
-            tabID,
-            {
-                event,
-            },
-        );
-    }
-}
-
-
-
-export class SessionManager {
-    private eventStreams = new Map<string, Subject<DestreamEvent>>();
-
-
-    constructor() {
-
-    }
-
-
-    public async new(
-        url: string,
-    ) {
-        const eventStream = new Subject<DestreamEvent>();
-
-        await streamPlayer(
-            url,
-            eventStream,
-        );
-
-        const topicID = composeTopicID('');
-
-        messagerManager.get().subscribe<{data: DestreamEvent}>(
-            topicID,
-            (message) => {
-                console.log('destream message', message);
-                eventStream.next(message.data);
-            },
-        );
-
-        this.eventStreams.set(topicID, eventStream);
-    }
-
-    public stop(
-        id: string,
-    ) {
-        this.eventStreams.get(id)?.complete();
-        this.eventStreams.delete(id);
-    }
-}
-
-
-export const sessionManager = new SessionManager();
 // #endregion module

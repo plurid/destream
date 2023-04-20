@@ -15,14 +15,6 @@ export const STREAMER_REGISTRATION_URL = 'https://destream.plurid.com';
 export const DESTREAM_DETECT_EVENT = 'destreamDetect';
 
 
-export const defaultMessager = '__DEFAULT__';
-export const messagerType = 'socket';
-export const messagerOptions = {
-    log: true,
-    secure: false,
-};
-
-
 export const NOTIFICATION_KIND = {
     URL_CHANGE: 'urlChange',
     SESSION_START: 'sessionStart',

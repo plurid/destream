@@ -1,15 +1,7 @@
 // #region imports
-    // #region libraries
-    // import {
-    //     Subject,
-    // } from 'rxjs';
-    // #endregion libraries
-
-
     // #region external
     import {
         DestreamEvent,
-        Message,
         MESSAGE_TYPE,
         GENERAL_EVENT,
         YOUTUBE_EVENT,
@@ -89,22 +81,6 @@ export const handleEvent = (
     }
 }
 
-export const handleMessage = (
-    request: Message,
-    _sender: chrome.runtime.MessageSender,
-    sendResponse: (response?: any) => void,
-) => {
-    if (request.type !== MESSAGE_TYPE.DESTREAM_EVENT) {
-        return;
-    }
-
-    handleEvent(request.data);
-
-    sendResponse({
-        status: true,
-    });
-}
-
 
 const runViewer = async (
     client: MessagerClient,
@@ -117,11 +93,8 @@ const runViewer = async (
             return () => {};
         }
 
-
         const endpoint = DEFAULT_API_ENDPOINT;
         await client.addMessager(endpoint);
-
-        // const eventStream = new Subject<DestreamEvent>();
 
         const subscription = subscriptionRequest.data;
 
@@ -133,16 +106,11 @@ const runViewer = async (
             },
         );
 
-
-        // chrome.runtime.onMessage.addListener(handleMessage);
-
         return () => {
             client.unsubscribe(
                 DEFAULT_API_ENDPOINT,
                 subscription.topic,
             );
-
-            // chrome.runtime.onMessage.removeListener(handleMessage);
         }
     }
 

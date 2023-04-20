@@ -10,8 +10,6 @@
         storageGetTokens,
     } from '../../common/logic';
 
-    import subscriptionManager from '../subscriptions';
-
     import {
         generateClient,
         GET_ACTIVE_SESSIONS,
@@ -63,7 +61,7 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
         // open tab with session.url
         const tab = await openTab(session.url);
 
-        subscriptionManager.new(request.data);
+        // subscriptionManager.new(request.data);
 
         // record subscription
         // startSubscription(
