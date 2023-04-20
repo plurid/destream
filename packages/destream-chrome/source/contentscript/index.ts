@@ -1,13 +1,8 @@
 // #region imports
     // #region external
     import {
-        MESSAGE_TYPE,
-    } from '../data/constants';
-
-    import {
-        GetTabIDMessage,
-        GetSessionMessage,
-    } from '../data/interfaces';
+        log,
+    } from '../common/utilities';
     // #endregion external
 
 
@@ -23,42 +18,17 @@
     import {
         injectView,
     } from './view';
+
+    import {
+        getSession,
+        getTabID,
+    } from './messaging';
     // #endregion internal
 // #endregion imports
 
 
 
 // #region module
-export const getTabID = async (): Promise<number | undefined> => {
-    const response = await chrome.runtime.sendMessage<GetTabIDMessage>({
-        type: MESSAGE_TYPE.GET_TAB_ID,
-    });
-    if (!response) {
-        return;
-    }
-
-    return response.tabID;
-}
-
-export const getSession = async (
-    tabID: number | undefined,
-) => {
-    if (!tabID) {
-        return;
-    }
-
-    const response = await chrome.runtime.sendMessage<GetSessionMessage>({
-        type: MESSAGE_TYPE.GET_SESSION,
-        data: tabID,
-    });
-    if (!response) {
-        return;
-    }
-
-    return true;
-}
-
-
 const main = async () => {
     try {
         // const chromeRuntimePort = chrome.runtime.connect();
@@ -80,7 +50,7 @@ const main = async () => {
         //     streamerCleanup();
         // });
     } catch (error) {
-        console.log(error);
+        log(error);
     }
 }
 

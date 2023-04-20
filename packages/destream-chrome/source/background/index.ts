@@ -1,10 +1,13 @@
 // #region imports
-    // #region internal
-    import messageHandler from './handlers';
-
+    // #region external
     import {
         log,
-    } from './utilities';
+    } from '../common/utilities';
+    // #endregion external
+
+
+    // #region internal
+    import messageHandler from './handlers';
     // #endregion internal
 // #endregion imports
 

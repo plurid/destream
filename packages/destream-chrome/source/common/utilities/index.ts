@@ -1,3 +1,13 @@
+// #region imports
+    // #region external
+    import {
+        IN_PRODUCTION,
+    } from '../../data/constants';
+    // #endregion external
+// #endregion imports
+
+
+
 // #region module
 export const retryGet = async <T>(
     getter: () => T | undefined,
@@ -34,5 +44,16 @@ export function debounce(
             timeout,
         );
     };
+}
+
+
+export const log = (
+    message: any,
+) => {
+    if (IN_PRODUCTION) {
+        return;
+    }
+
+    console.log('log', message);
 }
 // #endregion module
