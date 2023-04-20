@@ -67,7 +67,7 @@ export const LOGOUT = gql`
 
 
 export const START_SESSION = gql`
-    mutation DestreamStartSession($input: InputValueString!) {
+    mutation DestreamStartSession($input: InputDestreamStartSession!) {
         destreamStartSession(input: $input) {
             status
             data {
