@@ -16,6 +16,10 @@
     } from '../graphql';
 
     import {
+        startSubscription,
+    } from '../subscriptions';
+
+    import {
         openTab,
     } from '../utilities';
     // #endregion external
@@ -39,11 +43,13 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
         refreshToken,
     );
 
+    const streamerIdentonym = request.data;
+
     const activeSessionsRequest = await graphqlClient.query({
         query: GET_ACTIVE_SESSIONS,
         variables: {
             input: {
-                value: request.data, // identonym
+                value: streamerIdentonym,
             },
         },
     });
@@ -58,16 +64,14 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
     for (const session of activeSessionsResponse.data) {
         // record viewer
 
-        // open tab with session.url
         const tab = await openTab(session.url);
 
-        // subscriptionManager.new(request.data);
-
-        // record subscription
-        // startSubscription(
-        // );
+        await startSubscription(
+            streamerIdentonym,
+            session.id,
+            tab.id,
+        );
     }
-
 
     sendResponse({
         status: true,

@@ -3,6 +3,10 @@
     import {
         Subscription,
     } from '../../data';
+
+    import {
+        composeTopicID,
+    } from '../session';
     // #endregion external
 // #endregion imports
 
@@ -17,16 +21,18 @@ export const getSubscriptionStorageID = (
 
 
 export const startSubscription = async (
-    sessionID: string,
     streamer: string,
+    sessionID: string,
+    tabID: number,
 ) => {
     try {
         const id = getSubscriptionStorageID(sessionID);
         const subscription: Subscription = {
             sessionID,
+            topic: composeTopicID(sessionID),
             startedAt: Date.now(),
             streamer,
-            tabIDs: [],
+            tabID,
         };
 
         await chrome.storage.local.set({
@@ -55,7 +61,7 @@ export const getSubscriptions = async () => {
 
         const subscriptions = subscriptionsIDs.map(id => storage[id]);
 
-        return subscriptions;
+        return subscriptions as Subscription[];
     } catch (error) {
         return;
     }
@@ -67,7 +73,7 @@ export const getSubscriptionByTabID = async (
 ) => {
     try {
         const subscriptions = await getSubscriptions();
-        const subscription = subscriptions.find(subscription => subscription.tabIDs.includes(tabID));
+        const subscription = subscriptions.find(subscription => subscription.tabID === tabID);
 
         return subscription;
     } catch (error) {

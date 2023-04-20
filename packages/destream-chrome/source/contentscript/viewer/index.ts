@@ -96,13 +96,17 @@ const runViewer = async (
         const endpoint = DEFAULT_API_ENDPOINT;
         await client.addMessager(endpoint);
 
-        const subscription = subscriptionRequest.data;
+        const {
+            subscription,
+        } = subscriptionRequest;
 
         await client.subscribe(
             DEFAULT_API_ENDPOINT,
             subscription.topic,
-            (data) => {
-                handleEvent(data);
+            (message) => {
+                handleEvent(
+                    JSON.parse(message.data),
+                );
             },
         );
 

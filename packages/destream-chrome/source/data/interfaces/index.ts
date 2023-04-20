@@ -59,9 +59,10 @@ export interface Session {
 
 export interface Subscription {
     sessionID: string;
+    topic: string;
     startedAt: number;
     streamer: string;
-    tabIDs: [];
+    tabID: number;
 }
 
 
