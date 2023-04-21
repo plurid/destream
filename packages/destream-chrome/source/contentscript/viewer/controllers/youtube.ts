@@ -11,6 +11,24 @@
 
 
 // #region module
+export const youtubePlay = () => {
+    const videoPlayer = getYoutubeVideoPlayer();
+    if (!videoPlayer) {
+        return;
+    }
+
+    videoPlayer.play();
+}
+
+export const youtubePause = () => {
+    const videoPlayer = getYoutubeVideoPlayer();
+    if (!videoPlayer) {
+        return;
+    }
+
+    videoPlayer.pause();
+}
+
 export const youtubePlayPause = () => {
     const evt = new KeyboardEvent('keydown', {
         key: 'k',

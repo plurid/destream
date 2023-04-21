@@ -22,7 +22,8 @@
     } from './controllers/general';
 
     import {
-        youtubePlayPause,
+        youtubePlay,
+        youtubePause,
         youtubeSeek,
         youtubeVolumeChange,
         youtubeRateChange,
@@ -50,8 +51,10 @@ export const handleEvent = (
                 break;
 
             case YOUTUBE_EVENT.PLAY:
+                youtubePlay();
+                break;
             case YOUTUBE_EVENT.PAUSE:
-                youtubePlayPause();
+                youtubePause();
                 break;
             case YOUTUBE_EVENT.SEEK:
                 youtubeSeek(event.payload);
