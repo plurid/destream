@@ -13,14 +13,18 @@
     } from '../../common/storage';
 
     import {
+        generateClient,
+        STOP_SESSION,
+    } from '../graphql';
+
+    import {
         getSession,
         deleteSession,
     } from '../session';
 
     import {
-        generateClient,
-        STOP_SESSION,
-    } from '../graphql';
+        removeTabSettings,
+    } from '../utilities';
     // #endregion external
 // #endregion imports
 
@@ -76,6 +80,7 @@ const handleStopSession: Handler<StopSessionMessage> = async (
 
     if (response.status) {
         await deleteSession(request.data.tabID);
+        await removeTabSettings(request.data.tabID);
     }
 
     sendResponse({

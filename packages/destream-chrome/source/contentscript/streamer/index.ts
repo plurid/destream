@@ -14,6 +14,10 @@
     import MessagerClient from '../client';
 
     import {
+        sendMessage,
+    } from '../../common/messaging';
+
+    import {
         storageGetIsStreamer,
     } from '../../common/storage';
 
@@ -60,11 +64,12 @@ const runStreamer = async (
     let detector: Detector | undefined;
 
     const runLogic = (event: CustomEvent<DestreamEvent>) => {
-        chrome.runtime.sendMessage<PublishEventMessage>(
+        sendMessage<PublishEventMessage>(
             {
                 type: MESSAGE_TYPE.PUBLISH_EVENT,
                 data: event.detail,
-            }, (response: PublishEventResponse) => {
+            },
+            (response: PublishEventResponse) => {
                 if (!response.status) {
                     return;
                 }
@@ -84,7 +89,7 @@ const runStreamer = async (
             return () => {};
         }
 
-        const sessionRequest = await chrome.runtime.sendMessage<GetSessionMessage>({
+        const sessionRequest = await sendMessage<GetSessionMessage>({
             type: MESSAGE_TYPE.GET_SESSION,
         });
         if (!sessionRequest.status) {

@@ -3,6 +3,10 @@
     import {
         storagePrefix,
     } from '../../data/constants';
+
+    import {
+        storageRemove,
+    } from '../../common/storage';
     // #endregion external
 // #endregion imports
 
@@ -13,6 +17,14 @@ export const getTabSettingsID = (
     id: number,
 ) => {
     return storagePrefix.tabSettings + id;
+}
+
+export const removeTabSettings = async (
+    id: number,
+) => {
+    const tabSettingsID = getTabSettingsID(id);
+
+    await storageRemove(tabSettingsID);
 }
 
 

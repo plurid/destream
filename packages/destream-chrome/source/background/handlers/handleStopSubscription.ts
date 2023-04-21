@@ -6,8 +6,13 @@
     } from '../../data';
 
     import {
+        getSubscription,
         deleteSubscription,
     } from '../subscriptions';
+
+    import {
+        removeTabSettings,
+    } from '../utilities';
     // #endregion external
 // #endregion imports
 
@@ -19,7 +24,17 @@ const handleStopSubscription: Handler<StopSubscriptionMessage> = async (
     _sender,
     sendResponse,
 ) => {
-    deleteSubscription(request.data);
+    const subscription = await getSubscription(request.data);
+    if (!subscription) {
+        sendResponse({
+            status: false,
+        });
+
+        return;
+    }
+
+    await deleteSubscription(subscription.sessionID);
+    await removeTabSettings(subscription.tabID);
 
     sendResponse({
         status: true,

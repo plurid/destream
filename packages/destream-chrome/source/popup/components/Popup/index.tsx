@@ -38,6 +38,14 @@
     } from '../../../common/storage';
 
     import {
+        sendMessage,
+    } from '../../../common/messaging';
+
+    import {
+        openOptionsPage,
+    } from '../../../common/utilities';
+
+    import {
         getTabSettingsID,
     } from '../../../background/utilities';
 
@@ -128,7 +136,7 @@ const Popup: React.FC<any> = (
 
     // #region handlers
     const openOptions = () => {
-        chrome.runtime.openOptionsPage();
+        openOptionsPage();
     }
 
     const stopSubscription = async () => {
@@ -138,7 +146,7 @@ const Popup: React.FC<any> = (
 
         setActiveTabControlledBy('');
 
-        await chrome.runtime.sendMessage<StopSubscriptionMessage>({
+        await sendMessage<StopSubscriptionMessage>({
             type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
             data: subscription.sessionID,
         });
@@ -151,7 +159,7 @@ const Popup: React.FC<any> = (
 
         setLoading(true);
 
-        chrome.runtime.sendMessage<StartSessionMessage>(
+        sendMessage<StartSessionMessage>(
             {
                 type: MESSAGE_TYPE.START_SESSION,
                 data: {
@@ -177,7 +185,7 @@ const Popup: React.FC<any> = (
 
         setLoading(true);
 
-        chrome.runtime.sendMessage<StopSessionMessage>(
+        sendMessage<StopSessionMessage>(
             {
                 type: MESSAGE_TYPE.STOP_SESSION,
                 data: {
@@ -250,7 +258,7 @@ const Popup: React.FC<any> = (
                 return;
             }
 
-            chrome.runtime.sendMessage<GetSessionMessage>(
+            sendMessage<GetSessionMessage>(
                 {
                     type: MESSAGE_TYPE.GET_SESSION,
                     data: activeTab.id,
@@ -262,7 +270,7 @@ const Popup: React.FC<any> = (
                 },
             );
 
-            chrome.runtime.sendMessage<GetSubscriptionMessage>(
+            sendMessage<GetSubscriptionMessage>(
                 {
                     type: MESSAGE_TYPE.GET_SUBSCRIPTION,
                     data: activeTab.id,
