@@ -29,6 +29,8 @@
         StopSessionMessage,
         StopSubscriptionMessage,
         GetSessionMessage,
+        GetSubscriptionMessage,
+        Subscription,
     } from '../../../data/interfaces';
 
     import Login from '../../../common/components/Login';
@@ -95,6 +97,11 @@ const Popup: React.FC<any> = (
     ] = useState(false);
 
     const [
+        subscription,
+        setSubscription,
+    ] = useState<Subscription | null>(null);
+
+    const [
         sessionStarted,
         setSessionStarted,
     ] = useState(false);
@@ -117,7 +124,7 @@ const Popup: React.FC<any> = (
     }
 
     const stopSubscription = async () => {
-        if (!activeTab || !session) {
+        if (!activeTab || !subscription) {
             return;
         }
 
@@ -125,7 +132,7 @@ const Popup: React.FC<any> = (
 
         await chrome.runtime.sendMessage<StopSubscriptionMessage>({
             type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
-            data: session.streamer,
+            data: subscription.sessionID,
         });
     }
 
@@ -240,6 +247,20 @@ const Popup: React.FC<any> = (
                 (response: any) => {
                     if (response.status) {
                         setSessionStarted(true);
+                    }
+                },
+            );
+
+            chrome.runtime.sendMessage<GetSubscriptionMessage>(
+                {
+                    type: MESSAGE_TYPE.GET_SUBSCRIPTION,
+                    data: activeTab.id,
+                },
+                (response: any) => {
+                    if (response.status) {
+                        const subscription: Subscription = response.subscription;
+                        setActiveTabControlledBy(subscription.streamer);
+                        setSubscription(subscription);
                     }
                 },
             );

@@ -180,7 +180,7 @@ export interface StartSubscriptionMessage {
 
 export interface StopSubscriptionMessage {
     type: typeof MESSAGE_TYPE.STOP_SUBSCRIPTION;
-    // streamer identonym
+    // session id
     data: string;
 }
 

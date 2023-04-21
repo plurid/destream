@@ -4,6 +4,10 @@
         Handler,
         StopSubscriptionMessage,
     } from '../../data';
+
+    import {
+        deleteSubscription,
+    } from '../subscriptions';
     // #endregion external
 // #endregion imports
 
@@ -15,10 +19,7 @@ const handleStopSubscription: Handler<StopSubscriptionMessage> = async (
     _sender,
     sendResponse,
 ) => {
-    // subscriptionManager.remove(request.data);
-
-    // remove subscription
-    // await deleteSession(request.data.tabID);
+    deleteSubscription(request.data);
 
     sendResponse({
         status: true,
