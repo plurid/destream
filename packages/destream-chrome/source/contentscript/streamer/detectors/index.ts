@@ -5,6 +5,10 @@
         GENERAL_EVENT,
         DestreamScrollEvent,
     } from '../../../data';
+
+    import {
+        debounce,
+    } from '../../../common/utilities';
     // #endregion external
 // #endregion imports
 
@@ -21,29 +25,39 @@ export class GeneralDetector implements Detector {
 
     constructor() {
         this.target = new EventTarget();
+
+        this.generalInitialize();
     }
 
-    protected onGeneralScroll() {
-        window.addEventListener('scroll', () => {
-            const {
-                scrollX,
-                scrollY,
-            } = window;
 
-            const scrollEvent: DestreamScrollEvent = {
-                type: GENERAL_EVENT.SCROLL,
-                payload: {
-                    top: scrollX,
-                    left: scrollY,
-                },
-            };
+    private generalInitialize() {
+        this.onGeneralScroll();
+    }
 
-            const event = new CustomEvent(DESTREAM_DETECT_EVENT, {
-                detail: scrollEvent,
-            });
 
-            this.target.dispatchEvent(event);
+    private scrollFunction = debounce(() => {
+        const {
+            scrollY,
+            scrollX,
+        } = window;
+
+        const scrollEvent: DestreamScrollEvent = {
+            type: GENERAL_EVENT.SCROLL,
+            payload: {
+                top: scrollY,
+                left: scrollX,
+            },
+        };
+
+        const event = new CustomEvent(DESTREAM_DETECT_EVENT, {
+            detail: scrollEvent,
         });
+
+        this.target.dispatchEvent(event);
+    }, 600);
+
+    protected onGeneralScroll() {
+        window.addEventListener('scroll', this.scrollFunction.bind(this));
     }
 }
 // #endregion module
