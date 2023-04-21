@@ -81,8 +81,8 @@ export const getSubscriptionByTabID = async (
 
 export const getSubscription = async (
     sessionID: string,
-) => {
+): Promise<Subscription | undefined> => {
     const id = getSubscriptionStorageID(sessionID);
-    return await storageGet(id);
+    return await storageGet<Subscription>(id);
 }
 // #endregion module
