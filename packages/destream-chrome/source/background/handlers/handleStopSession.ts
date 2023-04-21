@@ -10,7 +10,7 @@
         storageGetIsStreamer,
         storageGetIdentonym,
         storageGetTokens,
-    } from '../../common/logic';
+    } from '../../common/storage';
 
     import {
         getSession,

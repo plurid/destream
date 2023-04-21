@@ -9,17 +9,20 @@
 
     import {
         storageGetTokens,
-    } from '../../common/logic';
+    } from '../../common/storage';
 
     import {
         getSession,
-        composeTopicID,
     } from '../session';
 
     import {
         generateClient,
         RECORD_SESSION_EVENT,
     } from '../graphql';
+
+    import {
+        getTopicID,
+    } from '../utilities';
     // #endregion external
 // #endregion imports
 
@@ -68,7 +71,7 @@ const handlePublishEvent: Handler<PublishEventMessage> = async (
         return;
     }
 
-    const topic = composeTopicID(session.id);
+    const topic = getTopicID(session.id);
     const publishEventResponse: PublishEventResponse = {
         status: true,
         data: {

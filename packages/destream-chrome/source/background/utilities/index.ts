@@ -1,20 +1,35 @@
-// #region module
-export const getActiveTab = async () => {
-    const [tab] = await chrome.tabs.query({
-        active: true,
-        lastFocusedWindow: true,
-    });
+// #region imports
+    // #region external
+    import {
+        storagePrefix,
+    } from '../../data/constants';
+    // #endregion external
+// #endregion imports
 
-    return tab;
+
+
+// #region module
+export const getTabSettingsID = (
+    id: number,
+) => {
+    return storagePrefix.tabSettings + id;
+}
+
+
+export const getTopicID = (
+    id: string,
+) => {
+    return storagePrefix.destreamTopic + id;
 }
 
 
 export const openTab = async (
     url: string,
+    active = false,
 ) => {
     return await chrome.tabs.create({
         url,
-        // active: false,
+        active,
     });
 }
 // #endregion module

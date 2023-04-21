@@ -25,7 +25,15 @@
         DEFAULT_API_ENDPOINT,
         defaultPermissions,
         defaultAllowedURLOrigins,
+        storagePrefix,
+        storageFields,
     } from '../../../data/constants';
+
+    import {
+        storageGetAll,
+        storageGet,
+        storageSet,
+    } from '../../../common/storage';
 
     import Login from '../../../common/components/Login';
     import Subscriptions from '../../../common/components/Subscriptions';
@@ -141,6 +149,11 @@ const Options: React.FC<any> = (
     ] = useState([
         DEFAULT_API_ENDPOINT,
     ]);
+
+    const [
+        showStopEverything,
+        setShowStopEverything,
+    ] = useState(false);
     // #endregion state
 
 
@@ -150,14 +163,38 @@ const Options: React.FC<any> = (
             url: STREAMER_REGISTRATION_URL,
         });
     }
+
+    const checkEverythingKey = (
+        key: string,
+    ) => {
+        return key.startsWith(storagePrefix.session)
+            || key.startsWith(storagePrefix.subscription)
+            || key.startsWith(storagePrefix.tabSettings);
+    }
+
+    const stopEverything = async () => {
+        setShowStopEverything(false);
+
+        try {
+            const storage = await storageGetAll();
+
+            Object.keys(storage).forEach(async (key) => {
+                if (checkEverythingKey(key)) {
+                    await chrome.storage.local.remove(key);
+                }
+            });
+        } catch (error) {
+            return;
+        }
+    }
     // #endregion handlers
 
 
     // #region effects
     useEffect(() => {
         const getPermissions = async () => {
-            const result = await chrome.storage.local.get(['generalPermissions']);
-            if (!result.generalPermissions) {
+            const generalPermissions = await storageGet(storageFields.generalPermissions);
+            if (!generalPermissions) {
                 return;
             }
 
@@ -171,7 +208,7 @@ const Options: React.FC<any> = (
                 allowChangeURL,
                 allowChangeURLAnyOrigin,
                 allowedURLOrigins,
-            } = result.generalPermissions;
+            } = generalPermissions;
 
             setAllowScroll(allowScroll);
             setAllowPlayPause(allowPlayPause);
@@ -185,13 +222,13 @@ const Options: React.FC<any> = (
         }
 
         const getExtendedDrawers = async () => {
-            const result = await chrome.storage.local.get(['extendedDrawers']);
-            if (!result.extendedDrawers) {
+            const extendedDrawers = await storageGet(storageFields.extendedDrawers);
+            if (!extendedDrawers) {
                 return;
             }
 
             setExtendedDrawers({
-                ...result.extendedDrawers,
+                ...extendedDrawers,
             });
         }
 
@@ -213,7 +250,7 @@ const Options: React.FC<any> = (
                 allowedURLOrigins,
             };
 
-            await chrome.storage.local.set({ generalPermissions });
+            await storageSet(storageFields.generalPermissions, generalPermissions);
         }
 
         setPermissions();
@@ -231,13 +268,30 @@ const Options: React.FC<any> = (
 
     useEffect(() => {
         const setExtendedDrawers = async () => {
-            await chrome.storage.local.set({ extendedDrawers });
+            await storageSet(storageFields.extendedDrawers, extendedDrawers);
         }
 
         setExtendedDrawers();
     }, [
         JSON.stringify(extendedDrawers),
     ]);
+
+    useEffect(() => {
+        const checkShowEverything = async () => {
+            try {
+                const storage = await storageGetAll();
+                const showEverything = Object
+                    .keys(storage)
+                    .some(checkEverythingKey);
+
+                setShowStopEverything(showEverything)
+            } catch (error) {
+                return;
+            }
+        }
+
+        checkShowEverything();
+    }, []);
     // #endregion effects
 
 
@@ -487,6 +541,22 @@ const Options: React.FC<any> = (
                     />
                 )}
             </Drawer>
+
+
+            {showStopEverything && (
+                <PureButton
+                    text="Stop Everything"
+                    atClick={() => {
+                        stopEverything();
+                    }}
+                    theme={plurid}
+                    level={2}
+                    style={{
+                        width: '250px',
+                        margin: '0 auto',
+                    }}
+                />
+            )}
         </StyledOptions>
     );
     // #endregion render

@@ -17,9 +17,12 @@
     } from '../../background/session';
 
     import {
-        storageGetIsStreamer,
         getActiveTab,
     } from '../logic';
+
+    import {
+        storageGetIsStreamer,
+    } from '../storage';
     // #endregion external
 // #endregion imports
 

@@ -12,6 +12,21 @@ export const DEFAULT_API_ENDPOINT = process.env.API_ENDPOINT;
 export const STREAMER_REGISTRATION_URL = 'https://destream.plurid.com';
 
 
+
+export const storagePrefix = {
+    session: 'session-',
+    subscription: 'subscription-',
+    tabSettings: 'tab-settings-',
+    destreamTopic: 'destream-',
+};
+
+export const storageFields = {
+    generalPermissions: 'generalPermissions',
+    extendedDrawers: 'extendedDrawers',
+} as const;
+
+
+
 export const DESTREAM_DETECT_EVENT = 'destreamDetect';
 
 

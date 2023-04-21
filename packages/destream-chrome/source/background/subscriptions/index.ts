@@ -2,11 +2,19 @@
     // #region external
     import {
         Subscription,
+        storagePrefix,
     } from '../../data';
 
     import {
-        composeTopicID,
-    } from '../session';
+        getTopicID,
+    } from '../utilities';
+
+    import {
+        storageGet,
+        storageSet,
+        storageGetAll,
+        storageRemove,
+    } from '../../common/storage';
     // #endregion external
 // #endregion imports
 
@@ -16,7 +24,7 @@
 export const getSubscriptionStorageID = (
     sessionID: string,
 ) => {
-    return `subscription-${sessionID}`;
+    return storagePrefix.subscription + sessionID;
 }
 
 
@@ -25,22 +33,16 @@ export const startSubscription = async (
     sessionID: string,
     tabID: number,
 ) => {
-    try {
-        const id = getSubscriptionStorageID(sessionID);
-        const subscription: Subscription = {
-            sessionID,
-            topic: composeTopicID(sessionID),
-            startedAt: Date.now(),
-            streamer,
-            tabID,
-        };
+    const id = getSubscriptionStorageID(sessionID);
+    const subscription: Subscription = {
+        sessionID,
+        topic: getTopicID(sessionID),
+        startedAt: Date.now(),
+        streamer,
+        tabID,
+    };
 
-        await chrome.storage.local.set({
-            [id]: subscription,
-        });
-    } catch (error) {
-        return;
-    }
+    storageSet(id, subscription);
 }
 
 
@@ -48,49 +50,39 @@ export const deleteSubscription = async (
     sessionID: string,
 ) => {
     const id = getSubscriptionStorageID(sessionID);
-    await chrome.storage.local.remove(id);
+    await storageRemove(id);
 }
 
 
 export const getSubscriptions = async () => {
     try {
-        const storage: any = await chrome.storage.local.get(null);
-        const subscriptionsIDs = Object
+        const storage = await storageGetAll();
+        const subscriptions = Object
             .keys(storage)
-            .filter(item => item.startsWith('subscription-'));
-
-        const subscriptions = subscriptionsIDs.map(id => storage[id]);
+            .filter(item => item.startsWith(storagePrefix.subscription))
+            .map(id => storage[id]);
 
         return subscriptions as Subscription[];
     } catch (error) {
-        return;
+        return [];
     }
 }
 
 
 export const getSubscriptionByTabID = async (
     tabID: number,
-) => {
-    try {
-        const subscriptions = await getSubscriptions();
-        const subscription = subscriptions.find(subscription => subscription.tabID === tabID);
+): Promise<Subscription | undefined> => {
+    const subscriptions = await getSubscriptions();
+    const subscription = subscriptions.find(subscription => subscription.tabID === tabID);
 
-        return subscription;
-    } catch (error) {
-        return;
-    }
+    return subscription;
 }
 
 
 export const getSubscription = async (
     sessionID: string,
 ) => {
-    try {
-        const id = getSubscriptionStorageID(sessionID);
-        const result = await chrome.storage.local.get([id]);
-        return result[id];
-    } catch (error) {
-        return;
-    }
+    const id = getSubscriptionStorageID(sessionID);
+    return await storageGet(id);
 }
 // #endregion module

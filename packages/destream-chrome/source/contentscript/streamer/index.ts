@@ -15,7 +15,7 @@
 
     import {
         storageGetIsStreamer,
-    } from '../../common/logic';
+    } from '../../common/storage';
 
     import {
         checkYoutubeOrigin,

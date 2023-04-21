@@ -33,6 +33,14 @@
         Subscription,
     } from '../../../data/interfaces';
 
+    import {
+        storageSet,
+    } from '../../../common/storage';
+
+    import {
+        getTabSettingsID,
+    } from '../../../background/utilities';
+
     import Login from '../../../common/components/Login';
     import Subscriptions from '../../../common/components/Subscriptions';
 
@@ -212,23 +220,25 @@ const Popup: React.FC<any> = (
     }, []);
 
     useEffect(() => {
-        if (!activeTab || !subscription) {
+        if (!activeTab && (!session || !subscription)) {
             return;
         }
 
         const setSettings = async () => {
-            const tabSettings: any = {};
-            const id = `tab-settings-${activeTab.id}`;
-            tabSettings[id] = {
-                showStream,
-                showStreamChat,
-            };
-            await chrome.storage.local.set(tabSettings);
+            const id = getTabSettingsID(activeTab.id);
+            await storageSet(
+                id,
+                {
+                    showStream,
+                    showStreamChat,
+                },
+            );
         }
 
         setSettings();
     }, [
         activeTab,
+        session,
         subscription,
         showStream,
         showStreamChat,

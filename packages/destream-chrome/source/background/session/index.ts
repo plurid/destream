@@ -2,26 +2,24 @@
     // #region external
     import {
         Session,
+        storagePrefix,
     } from '../../data';
+
+    import {
+        storageGet,
+        storageSet,
+        storageRemove,
+    } from '../../common/storage';
     // #endregion external
 // #endregion imports
 
 
 
 // #region module
-export const composeTopicID = (
-    id: string,
-) => {
-    const topicID = 'destream-' + id;
-
-    return topicID;
-}
-
-
 export const getSessionStorageID = (
     tabID: number,
 ) => {
-    return `session-${tabID}`;
+    return storagePrefix.session + tabID;
 }
 
 
@@ -31,22 +29,16 @@ export const startSession = async (
     streamer: string,
     token: string,
 ) => {
-    try {
-        const id = getSessionStorageID(tabID);
-        const session: Session = {
-            id: sessionID,
-            tabID,
-            startedAt: Date.now(),
-            streamer,
-            token,
-        };
+    const id = getSessionStorageID(tabID);
+    const session: Session = {
+        id: sessionID,
+        tabID,
+        startedAt: Date.now(),
+        streamer,
+        token,
+    };
 
-        await chrome.storage.local.set({
-            [id]: session,
-        });
-    } catch (error) {
-        return;
-    }
+    await storageSet(id, session);
 }
 
 
@@ -54,19 +46,14 @@ export const deleteSession = async (
     tabID: number,
 ) => {
     const id = getSessionStorageID(tabID);
-    await chrome.storage.local.remove(id);
+    await storageRemove(id);
 }
 
 
 export const getSession = async (
     tabID: number,
 ): Promise<Session | undefined> => {
-    try {
-        const id = getSessionStorageID(tabID);
-        const result = await chrome.storage.local.get([id]);
-        return result[id];
-    } catch (error) {
-        return;
-    }
+    const id = getSessionStorageID(tabID);
+    return await storageGet<Session>(id);
 }
 // #endregion module
