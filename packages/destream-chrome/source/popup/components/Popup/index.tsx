@@ -212,7 +212,7 @@ const Popup: React.FC<any> = (
     }, []);
 
     useEffect(() => {
-        if (!activeTab) {
+        if (!activeTab || !subscription) {
             return;
         }
 
@@ -229,6 +229,7 @@ const Popup: React.FC<any> = (
         setSettings();
     }, [
         activeTab,
+        subscription,
         showStream,
         showStreamChat,
     ]);
