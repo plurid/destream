@@ -7,6 +7,7 @@
         YOUTUBE_EVENT,
         SPOTIFY_EVENT,
         GetSubscriptionMessage,
+        Subscription,
 
         DEFAULT_API_ENDPOINT,
     } from '../../data';
@@ -98,12 +99,16 @@ const runViewer = async (
 
         const {
             subscription,
-        } = subscriptionRequest;
+        }: { subscription: Subscription } = subscriptionRequest;
 
         await client.subscribe(
             DEFAULT_API_ENDPOINT,
             subscription.topic,
             (message) => {
+                if (message.sessionID !== subscription.sessionID) {
+                    return;
+                }
+
                 handleEvent(
                     JSON.parse(message.data),
                 );
