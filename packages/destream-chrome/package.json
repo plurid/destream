@@ -28,29 +28,29 @@
         "distribute": "pnpm build && node scripts/zip.js"
     },
     "dependencies": {
-        "@apollo/client": "^3.7.12",
-        "@aws-amplify/api": "^5.0.29",
-        "@aws-amplify/core": "^5.1.12",
+        "@apollo/client": "^3.7.13",
+        "@aws-amplify/api": "^5.0.30",
+        "@aws-amplify/core": "^5.1.13",
         "@plurid/messager": "0.0.0-4",
         "@plurid/plurid-themes": "0.0.0-2",
         "@plurid/plurid-ui-components-react": "0.0.0-22",
         "graphql": "^16.6.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "styled-components": "^5.3.9"
+        "styled-components": "^5.3.10"
     },
     "devDependencies": {
-        "@babel/core": "^7.21.4",
-        "@babel/preset-env": "^7.21.4",
+        "@babel/core": "^7.21.5",
+        "@babel/preset-env": "^7.21.5",
         "@babel/preset-react": "^7.18.6",
-        "@babel/preset-typescript": "^7.21.4",
+        "@babel/preset-typescript": "^7.21.5",
         "@babel/register": "^7.21.0",
         "@plurid/deon": "0.0.0-10",
-        "@types/chrome": "^0.0.233",
+        "@types/chrome": "^0.0.234",
         "@types/jest": "^29.5.1",
-        "@types/node": "^18.15.13",
-        "@types/react": "^18.0.37",
-        "@types/react-dom": "^18.0.11",
+        "@types/node": "^18.16.3",
+        "@types/react": "^18.2.0",
+        "@types/react-dom": "^18.2.1",
         "@types/styled-components": "^5.1.26",
         "copy-webpack-plugin": "^11.0.0",
         "css-loader": "^6.7.3",
@@ -59,8 +59,8 @@
         "ts-jest": "^29.1.0",
         "ts-loader": "^9.4.2",
         "typescript": "^5.0.4",
-        "webpack": "^5.80.0",
-        "webpack-cli": "^5.0.1",
+        "webpack": "^5.81.0",
+        "webpack-cli": "^5.0.2",
         "zip-folder": "^1.0.0"
     }
 }
