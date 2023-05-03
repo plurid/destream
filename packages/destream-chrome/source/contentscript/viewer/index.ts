@@ -8,8 +8,6 @@
         SPOTIFY_EVENT,
         GetSubscriptionMessage,
         Subscription,
-
-        DEFAULT_API_ENDPOINT,
     } from '../../data';
 
     import MessagerClient from '../client';
@@ -97,15 +95,18 @@ const runViewer = async (
             return () => {};
         }
 
-        const endpoint = DEFAULT_API_ENDPOINT;
-        await client.addMessager(endpoint);
-
         const {
             subscription,
         }: { subscription: Subscription } = subscriptionRequest;
 
+        const {
+            endpoint,
+        } = subscription;
+
+        await client.addMessager(endpoint);
+
         await client.subscribe(
-            DEFAULT_API_ENDPOINT,
+            endpoint,
             subscription.topic,
             (message) => {
                 if (message.sessionID !== subscription.sessionID) {
@@ -120,7 +121,7 @@ const runViewer = async (
 
         return () => {
             client.unsubscribe(
-                DEFAULT_API_ENDPOINT,
+                endpoint,
                 subscription.topic,
             );
         }

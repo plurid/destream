@@ -73,6 +73,7 @@ export const START_SESSION = gql`
             data {
                 id
                 token
+                customPubSubLink
             }
         }
     }

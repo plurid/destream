@@ -31,6 +31,7 @@ export const getSubscriptionStorageID = (
 export const startSubscription = async (
     streamer: string,
     sessionID: string,
+    endpoint: string,
     tabID: number,
 ) => {
     const id = getSubscriptionStorageID(sessionID);
@@ -40,6 +41,7 @@ export const startSubscription = async (
         startedAt: Date.now(),
         streamer,
         tabID,
+        endpoint,
     };
 
     storageSet(id, subscription);

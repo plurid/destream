@@ -12,6 +12,12 @@
         DEFAULT_MESSAGER_ENDPOINT,
         DEFAULT_MESSAGER_TOKEN,
     } from '../../data/constants';
+
+    import generateClient from '../../background/graphql/client';
+
+    import {
+        GET_MESSAGER_DATA,
+    } from '../../background/graphql/query';
     // #endregion external
 
 
@@ -57,7 +63,18 @@ export type MessagerData =
 const requestClientEndpointData = async (
     endpoint: string,
 ): Promise<MessagerData | undefined> => {
-    // request from endpoint
+    const client = generateClient(endpoint);
+    const request = await client.query({
+        query: GET_MESSAGER_DATA,
+    });
+
+    const response = request.data?.destreamGetMessagerData;
+    if (!response.status) {
+        return;
+    }
+
+    const endpointData = JSON.parse(response.data);
+    return endpointData as MessagerData;
 
     // const data = {
     //     type: messagerType.aws,
@@ -66,17 +83,17 @@ const requestClientEndpointData = async (
     //     apiKey: process.env.AWS_API_KEY,
     // } as MessagerData;
 
-    const data = {
-        type: messagerType.messager,
-        endpoint: DEFAULT_MESSAGER_ENDPOINT,
-        token: DEFAULT_MESSAGER_TOKEN,
-        messagerKind: 'socket',
-        messagerOptions: {
-            secure: false,
-        },
-    } as MessagerData;
+    // const data = {
+    //     type: messagerType.messager,
+    //     endpoint: DEFAULT_MESSAGER_ENDPOINT,
+    //     token: DEFAULT_MESSAGER_TOKEN,
+    //     messagerKind: 'socket',
+    //     messagerOptions: {
+    //         secure: false,
+    //     },
+    // } as MessagerData;
 
-    return data;
+    // return data;
 }
 
 

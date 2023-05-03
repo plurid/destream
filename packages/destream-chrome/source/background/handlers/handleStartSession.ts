@@ -65,13 +65,17 @@ const handleStartSession: Handler<StartSessionMessage> = async (
         const {
             id,
             token,
+            customPubSubLink,
         } = response.data;
+
+        const pubsubEndpoint = customPubSubLink || DEFAULT_API_ENDPOINT;
 
         await startSession(
             request.data.tabID,
             id,
             identonym,
             token,
+            pubsubEndpoint,
         );
     }
 

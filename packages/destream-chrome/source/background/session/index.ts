@@ -28,6 +28,7 @@ export const startSession = async (
     sessionID: string,
     streamer: string,
     token: string,
+    endpoint: string,
 ) => {
     const id = getSessionStorageID(tabID);
     const session: Session = {
@@ -36,6 +37,7 @@ export const startSession = async (
         startedAt: Date.now(),
         streamer,
         token,
+        endpoint,
     };
 
     await storageSet(id, session);

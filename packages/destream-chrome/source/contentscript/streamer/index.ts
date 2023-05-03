@@ -7,6 +7,7 @@
         PublishEventMessage,
         PublishEventResponse,
         GetSessionMessage,
+        Session,
 
         DEFAULT_API_ENDPOINT,
     } from '../../data';
@@ -62,6 +63,7 @@ const runStreamer = async (
     client: MessagerClient,
 ) => {
     let detector: Detector | undefined;
+    let endpoint: string | undefined;
 
     const runLogic = (event: CustomEvent<DestreamEvent>) => {
         sendMessage<PublishEventMessage>(
@@ -74,8 +76,12 @@ const runStreamer = async (
                     return;
                 }
 
+                if (!endpoint) {
+                    return;
+                }
+
                 client.publish(
-                    DEFAULT_API_ENDPOINT,
+                    endpoint,
                     response.data.topic,
                     response.data.message,
                 );
@@ -97,7 +103,15 @@ const runStreamer = async (
         }
 
 
-        const endpoint = DEFAULT_API_ENDPOINT;
+        const {
+            session,
+        }: { session: Session } = sessionRequest;
+
+        const {
+            endpoint: sessionEndpoint,
+        } = session;
+
+        endpoint = sessionEndpoint;
         await client.addMessager(endpoint);
 
 

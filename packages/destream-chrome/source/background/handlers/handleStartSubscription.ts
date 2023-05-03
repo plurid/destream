@@ -66,9 +66,12 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
 
         const tab = await openTab(session.url);
 
+        const pubsubEndpoint = session.customPubSubLink || DEFAULT_API_ENDPOINT;
+
         await startSubscription(
             streamerIdentonym,
             session.id,
+            pubsubEndpoint,
             tab.id,
         );
     }

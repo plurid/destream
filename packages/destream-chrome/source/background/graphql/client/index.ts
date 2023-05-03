@@ -27,8 +27,8 @@ const generateClient = (
         uri,
         credentials: 'include',
         headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Authorization-Refresh': `Bearer Refresh ${refreshToken}`,
+            'Authorization': accessToken ? `Bearer ${accessToken}` : undefined,
+            'Authorization-Refresh': refreshToken ? `Bearer Refresh ${refreshToken}` : undefined,
         },
     }),
     cache: new InMemoryCache(),

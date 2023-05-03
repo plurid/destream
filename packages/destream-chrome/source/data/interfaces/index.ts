@@ -54,6 +54,7 @@ export interface Session {
     startedAt: number;
     streamer: string;
     token: string;
+    endpoint: string;
 }
 
 
@@ -63,6 +64,7 @@ export interface Subscription {
     startedAt: number;
     streamer: string;
     tabID: number;
+    endpoint: string;
 }
 
 

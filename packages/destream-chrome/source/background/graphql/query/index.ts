@@ -22,6 +22,7 @@ export const GET_ACTIVE_SESSIONS = gql`
                     relativeTime
                     data
                 }
+                customPubSubLink
             }
         }
     }
@@ -34,6 +35,16 @@ export const GET_SESSION = gql`
             data {
                 id
             }
+        }
+    }
+`;
+
+
+export const GET_MESSAGER_DATA = gql`
+    query DestreamGetMessagerData {
+        destreamGetMessagerData {
+            status
+            data
         }
     }
 `;
