@@ -126,10 +126,12 @@ const runViewer = async (
                     const data: DestreamEvent = JSON.parse(message.data);
 
                     if (data.type === GENERAL_EVENT.STOP_SESSION) {
-                        sendMessage<StopSubscriptionMessage>({
-                            type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
-                            data: subscription.sessionID,
-                        });
+                        sendMessage<StopSubscriptionMessage>(
+                            {
+                                type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
+                                data: subscription.sessionID,
+                            },
+                        );
 
                         client.unsubscribe(
                             endpoint,

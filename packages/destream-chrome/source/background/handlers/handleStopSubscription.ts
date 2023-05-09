@@ -36,6 +36,13 @@ const handleStopSubscription: Handler<StopSubscriptionMessage> = async (
     await deleteSubscription(subscription.sessionID);
     await removeTabSettings(subscription.tabID);
 
+
+    const result = await chrome.storage.local.get(['subscriptions']);
+    await chrome.storage.local.set({
+        subscriptions: result.subscriptions.filter((s: string) => s !== subscription.streamer),
+    });
+
+
     sendResponse({
         status: true,
     });

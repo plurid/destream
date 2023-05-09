@@ -91,20 +91,30 @@ const runStreamer = async (
     const stopSessionListener = (
         request: any,
         _sender: any,
-        _sendResponse: any,
+        sendResponse: any,
     ) => {
         if (!endpoint || request.type !== GENERAL_EVENT.STOP_SESSION) {
+            sendResponse();
             return true;
         }
+
+        const relativeTime = Date.now() - request.session.startedAt;
+        const data = JSON.stringify({
+            type: GENERAL_EVENT.STOP_SESSION,
+        });
+        const event = {
+            sessionID: request.session.id,
+            relativeTime,
+            data,
+        };
 
         client.publish(
             endpoint,
             request.topic,
-            {
-                type: GENERAL_EVENT.STOP_SESSION,
-            },
+            event,
         );
 
+        sendResponse();
         return true;
     }
 

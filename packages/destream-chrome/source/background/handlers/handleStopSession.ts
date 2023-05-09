@@ -85,9 +85,10 @@ const handleStopSession: Handler<StopSessionMessage> = async (
         await removeTabSettings(request.data.tabID);
     }
 
-    chrome.tabs.sendMessage(session.tabID, {
+    await chrome.tabs.sendMessage(session.tabID, {
         type: GENERAL_EVENT.STOP_SESSION,
         topic: getTopicID(session.id),
+        session,
     });
 
     sendResponse({
