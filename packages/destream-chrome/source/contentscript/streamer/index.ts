@@ -4,6 +4,7 @@
         DestreamEvent,
         MESSAGE_TYPE,
         DESTREAM_DETECT_EVENT,
+        GENERAL_EVENT,
         PublishEventMessage,
         PublishEventResponse,
         GetSessionMessage,
@@ -87,6 +88,26 @@ const runStreamer = async (
         );
     };
 
+    const stopSessionListener = (
+        request: any,
+        _sender: any,
+        _sendResponse: any,
+    ) => {
+        if (!endpoint || request.type !== GENERAL_EVENT.STOP_SESSION) {
+            return true;
+        }
+
+        client.publish(
+            endpoint,
+            request.topic,
+            {
+                type: GENERAL_EVENT.STOP_SESSION,
+            },
+        );
+
+        return true;
+    }
+
     const run = async () => {
         const isStreamer = await storageGetIsStreamer();
         if (!isStreamer) {
@@ -135,10 +156,12 @@ const runStreamer = async (
     }
 
     chrome.storage.onChanged.addListener(storageLogic);
+    chrome.runtime.onMessage.addListener(stopSessionListener);
 
     return () => {
         runCleanup();
         chrome.storage.onChanged.removeListener(storageLogic);
+        chrome.runtime.onMessage.removeListener(stopSessionListener);
 
         if (detector) {
             detector.target.removeEventListener(

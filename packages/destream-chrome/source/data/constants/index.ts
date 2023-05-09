@@ -64,6 +64,7 @@ export const defaultAllowedURLOrigins = [
 
 export const GENERAL_EVENT = {
     SCROLL: 'generalScroll',
+    STOP_SESSION: 'generalStopSession',
 } as const;
 
 export const YOUTUBE_EVENT = {

@@ -4,6 +4,7 @@
         Handler,
         StopSessionMessage,
         DEFAULT_API_ENDPOINT,
+        GENERAL_EVENT,
     } from '../../data';
 
     import {
@@ -24,6 +25,7 @@
 
     import {
         removeTabSettings,
+        getTopicID,
     } from '../utilities';
     // #endregion external
 // #endregion imports
@@ -82,6 +84,11 @@ const handleStopSession: Handler<StopSessionMessage> = async (
         await deleteSession(request.data.tabID);
         await removeTabSettings(request.data.tabID);
     }
+
+    await chrome.tabs.sendMessage(session.tabID, {
+        type: GENERAL_EVENT.STOP_SESSION,
+        topic: getTopicID(session.id),
+    });
 
     sendResponse({
         status: response.status,

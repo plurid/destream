@@ -85,6 +85,7 @@ export type Notification =
 
 export type DestreamEvent =
     | DestreamScrollEvent
+    | DestreamStopSessionEvent
     | DestreamPlayEvent
     | DestreamPauseEvent
     | DestreamSeekEvent
@@ -98,6 +99,10 @@ export interface DestreamScrollEvent {
         top: number;
         left: number;
     };
+}
+
+export interface DestreamStopSessionEvent {
+    type: typeof GENERAL_EVENT.STOP_SESSION;
 }
 
 export interface DestreamPlayEvent {

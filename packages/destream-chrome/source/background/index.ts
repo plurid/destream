@@ -17,7 +17,10 @@
 const main = () => {
     try {
         chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-            messageHandler(request, sender, sendResponse);
+            messageHandler(request, sender, sendResponse)
+                .catch(error => {
+                    log(error);
+                });
 
             // Indicate the response is asynchronous.
             return true;
