@@ -10,6 +10,10 @@
         Subscription,
     } from '../../data';
 
+    import {
+        log,
+    } from '../../common/utilities';
+
     import MessagerClient from '../client';
     // #endregion external
 
@@ -113,9 +117,21 @@ const runViewer = async (
                     return;
                 }
 
-                handleEvent(
-                    JSON.parse(message.data),
-                );
+                try {
+                    const data: DestreamEvent = JSON.parse(message.data);
+
+                    if (data.type === GENERAL_EVENT.STOP_SESSION) {
+                        client.unsubscribe(
+                            endpoint,
+                            subscription.topic,
+                        );
+                        return;
+                    }
+
+                    handleEvent(data);
+                } catch (error) {
+                    log(error);
+                }
             },
         );
 
