@@ -7,15 +7,16 @@
     } from '../../data';
 
     import {
-        getTopicID,
-    } from '../utilities';
-
-    import {
         storageGet,
         storageSet,
         storageGetAll,
         storageRemove,
     } from '../../common/storage';
+
+    import {
+        getTopicID,
+        removeTabSettings,
+    } from '../utilities';
     // #endregion external
 // #endregion imports
 
@@ -117,6 +118,13 @@ export const removeStreamerSubscription = async (
 export const stopSubscriptionWithTabID = async (
     tabID: number,
 ) => {
+    const subscription = await getSubscriptionByTabID(tabID);
+    if (!subscription) {
+        return;
+    }
 
+    await deleteSubscription(subscription.sessionID);
+    await removeTabSettings(subscription.tabID);
+    await removeStreamerSubscription(subscription.streamer);
 }
 // #endregion module
