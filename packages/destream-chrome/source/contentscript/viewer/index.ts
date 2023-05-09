@@ -7,12 +7,17 @@
         YOUTUBE_EVENT,
         SPOTIFY_EVENT,
         GetSubscriptionMessage,
+        StopSubscriptionMessage,
         Subscription,
     } from '../../data';
 
     import {
         log,
     } from '../../common/utilities';
+
+    import {
+        sendMessage,
+    } from '../../common/messaging';
 
     import MessagerClient from '../client';
     // #endregion external
@@ -121,6 +126,11 @@ const runViewer = async (
                     const data: DestreamEvent = JSON.parse(message.data);
 
                     if (data.type === GENERAL_EVENT.STOP_SESSION) {
+                        sendMessage<StopSubscriptionMessage>({
+                            type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
+                            data: subscription.sessionID,
+                        });
+
                         client.unsubscribe(
                             endpoint,
                             subscription.topic,
