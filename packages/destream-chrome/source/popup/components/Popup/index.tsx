@@ -316,8 +316,7 @@ const Popup: React.FC<any> = (
                 />
             )}
 
-            {loggedIn
-            && activeTab
+            {activeTab
             && activeTabControlledBy
             && (
                 <StyledTabControl>
@@ -343,8 +342,7 @@ const Popup: React.FC<any> = (
                 </StyledTabControl>
             )}
 
-            {loggedIn
-            && activeTab
+            {activeTab
             && !activeTabControlledBy
             && (
                 <StyledTabControl>
@@ -400,8 +398,7 @@ const Popup: React.FC<any> = (
                 </StyledTabControl>
             )}
 
-            {loggedIn
-            && !activeTab
+            {!activeTab
             && (
                 <StyledTabControl>
                     <div>
