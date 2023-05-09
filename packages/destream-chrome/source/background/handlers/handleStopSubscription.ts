@@ -8,6 +8,7 @@
     import {
         getSubscription,
         deleteSubscription,
+        removeStreamerSubscription,
     } from '../subscriptions';
 
     import {
@@ -35,12 +36,7 @@ const handleStopSubscription: Handler<StopSubscriptionMessage> = async (
 
     await deleteSubscription(subscription.sessionID);
     await removeTabSettings(subscription.tabID);
-
-
-    const result = await chrome.storage.local.get(['subscriptions']);
-    await chrome.storage.local.set({
-        subscriptions: result.subscriptions.filter((s: string) => s !== subscription.streamer),
-    });
+    await removeStreamerSubscription(subscription.streamer);
 
 
     sendResponse({

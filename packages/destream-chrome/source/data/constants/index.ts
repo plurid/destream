@@ -17,6 +17,7 @@ export const storagePrefix = {
 export const storageFields = {
     generalPermissions: 'generalPermissions',
     extendedDrawers: 'extendedDrawers',
+    subscriptions: 'subscriptions',
 } as const;
 
 

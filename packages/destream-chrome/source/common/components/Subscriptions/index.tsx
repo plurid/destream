@@ -24,6 +24,7 @@
 
     import {
         MESSAGE_TYPE,
+        storageFields,
     } from '../../../data/constants';
     // #endregion external
 
@@ -151,7 +152,7 @@ const Subscriptions: React.FC<SubscriptionsProperties> = (
     // #region effects
     useEffect(() => {
         const getSubscriptions = async () => {
-            const result = await chrome.storage.local.get(['subscriptions']);
+            const result = await chrome.storage.local.get([storageFields.subscriptions]);
             if (!result.subscriptions) {
                 return;
             }

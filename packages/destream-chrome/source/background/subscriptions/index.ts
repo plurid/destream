@@ -3,6 +3,7 @@
     import {
         Subscription,
         storagePrefix,
+        storageFields,
     } from '../../data';
 
     import {
@@ -86,5 +87,19 @@ export const getSubscription = async (
 ): Promise<Subscription | undefined> => {
     const id = getSubscriptionStorageID(sessionID);
     return await storageGet<Subscription>(id);
+}
+
+
+export const removeStreamerSubscription = async (
+    streamer: string,
+) => {
+    const result = await chrome.storage.local.get([storageFields.subscriptions]);
+    if (!result.subscriptions) {
+        return;
+    }
+
+    await chrome.storage.local.set({
+        subscriptions: result.subscriptions.filter((name: string) => name !== streamer),
+    });
 }
 // #endregion module
