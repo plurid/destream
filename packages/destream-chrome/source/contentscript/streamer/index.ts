@@ -14,6 +14,10 @@
     import MessagerClient from '../client';
 
     import {
+        composeEventData,
+    } from '../../background/session';
+
+    import {
         sendMessage,
     } from '../../common/messaging';
 
@@ -98,15 +102,9 @@ const runStreamer = async (
             return true;
         }
 
-        const relativeTime = Date.now() - request.session.startedAt;
-        const data = JSON.stringify({
+        const event = composeEventData(request.session, {
             type: GENERAL_EVENT.STOP_SESSION,
         });
-        const event = {
-            sessionID: request.session.id,
-            relativeTime,
-            data,
-        };
 
         client.publish(
             endpoint,

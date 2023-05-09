@@ -58,4 +58,21 @@ export const getSession = async (
     const id = getSessionStorageID(tabID);
     return await storageGet<Session>(id);
 }
+
+
+export const composeEventData = (
+    session: Session,
+    eventData: any,
+) => {
+    const relativeTime = Date.now() - session.startedAt;
+    const data = JSON.stringify(eventData);
+
+    const event = {
+        sessionID: session.id,
+        relativeTime,
+        data,
+    };
+
+    return event;
+}
 // #endregion module

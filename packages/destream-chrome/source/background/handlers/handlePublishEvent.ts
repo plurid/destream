@@ -13,6 +13,7 @@
 
     import {
         getSession,
+        composeEventData,
     } from '../session';
 
     import {
@@ -49,13 +50,7 @@ const handlePublishEvent: Handler<PublishEventMessage> = async (
         refreshToken,
     );
 
-    const relativeTime = Date.now() - session.startedAt;
-    const data = JSON.stringify(request.data);
-    const event = {
-        sessionID: session.id,
-        relativeTime,
-        data,
-    };
+    const event = composeEventData(session, request.data);
 
     const graphqlRequest = await graphqlClient.mutate({
         mutation: RECORD_SESSION_EVENT,
