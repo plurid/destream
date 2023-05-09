@@ -16,6 +16,7 @@
     import handleStopSession from './handleStopSession';
     import handleStartSubscription from './handleStartSubscription';
     import handleStopSubscription from './handleStopSubscription';
+    import handleStopSubscriptions from './handleStopSubscriptions';
     import handleGetSubscription from './handleGetSubscription';
     import handleSendNotification from './handleSendNotification';
     // #endregion internal
@@ -44,6 +45,8 @@ const messageHandler: Handler<Message> = async (
             return handleStartSubscription(request, sender, sendResponse);
         case MESSAGE_TYPE.STOP_SUBSCRIPTION:
             return handleStopSubscription(request, sender, sendResponse);
+        case MESSAGE_TYPE.STOP_SUBSCRIPTIONS:
+            return handleStopSubscriptions(request, sender, sendResponse);
         case MESSAGE_TYPE.GET_SUBSCRIPTION:
             return handleGetSubscription(request, sender, sendResponse);
         case MESSAGE_TYPE.SEND_NOTIFICATION:

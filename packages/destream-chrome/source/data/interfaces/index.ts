@@ -22,6 +22,7 @@ export type Message =
     | StopSessionMessage
     | StartSubscriptionMessage
     | StopSubscriptionMessage
+    | StopSubscriptionsMessage
     | GetSubscriptionMessage
     | SendNotificationMessage
     | DestreamEventMessage;
@@ -191,6 +192,12 @@ export interface StartSubscriptionMessage {
 export interface StopSubscriptionMessage {
     type: typeof MESSAGE_TYPE.STOP_SUBSCRIPTION;
     // session id
+    data: string;
+}
+
+export interface StopSubscriptionsMessage {
+    type: typeof MESSAGE_TYPE.STOP_SUBSCRIPTIONS;
+    // streamer name
     data: string;
 }
 

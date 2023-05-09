@@ -19,7 +19,7 @@
     // #region external
     import {
         StartSubscriptionMessage,
-        StopSubscriptionMessage,
+        StopSubscriptionsMessage,
     } from '../../../data/interfaces';
 
     import {
@@ -55,6 +55,7 @@ export interface SubscriptionsProperties {
         // #endregion values
 
         // #region methods
+        removeSubscription?: (name: string) => void;
         // #endregion methods
     // #endregion optional
 }
@@ -79,6 +80,7 @@ const Subscriptions: React.FC<SubscriptionsProperties> = (
             // #endregion values
 
             // #region methods
+            removeSubscription,
             // #endregion methods
         // #endregion optional
     } = properties;
@@ -107,9 +109,7 @@ const Subscriptions: React.FC<SubscriptionsProperties> = (
                 type: MESSAGE_TYPE.START_SUBSCRIPTION,
                 data: name,
             },
-            (response) => {
-                // check for errors
-                // console.log(response);
+            (_response) => {
             },
         );
     }
@@ -117,14 +117,16 @@ const Subscriptions: React.FC<SubscriptionsProperties> = (
     const stopSubscription = async (
         name: string,
     ) => {
-        chrome.runtime.sendMessage<StopSubscriptionMessage>(
+        if (removeSubscription) {
+            removeSubscription(name);
+        }
+
+        chrome.runtime.sendMessage<StopSubscriptionsMessage>(
             {
-                type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
+                type: MESSAGE_TYPE.STOP_SUBSCRIPTIONS,
                 data: name,
             },
-            (response) => {
-                // check for errors
-                // console.log(response);
+            (_response) => {
             },
         );
     }

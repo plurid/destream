@@ -82,6 +82,16 @@ export const getSubscriptionByTabID = async (
 }
 
 
+export const getSubscriptionsByStreamerName = async (
+    streamer: string,
+) => {
+    const subscriptions = await getSubscriptions();
+    const streamerSubscriptions = subscriptions.filter(subscription => subscription.streamer === streamer);
+
+    return streamerSubscriptions;
+}
+
+
 export const getSubscription = async (
     sessionID: string,
 ): Promise<Subscription | undefined> => {

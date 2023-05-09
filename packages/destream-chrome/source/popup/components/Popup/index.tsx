@@ -307,6 +307,7 @@ const Popup: React.FC<any> = (
                 destream
             </h1>
 
+
             {!loggedIn && (
                 <Login
                     theme={plurid}
@@ -315,6 +316,7 @@ const Popup: React.FC<any> = (
                     }}
                 />
             )}
+
 
             {activeTab
             && activeTabControlledBy
@@ -439,6 +441,12 @@ const Popup: React.FC<any> = (
                 <Subscriptions
                     theme={plurid}
                     width={280}
+                    removeSubscription={(name) => {
+                        if (name === activeTabControlledBy) {
+                            setActiveTabControlledBy('');
+                            setSubscription(null);
+                        }
+                    }}
                 />
             )}
 
