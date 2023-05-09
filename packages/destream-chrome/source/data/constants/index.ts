@@ -1,13 +1,7 @@
 // #region module
 export const IN_PRODUCTION = process.env.NODE_ENV === 'production';
 
-
-export const DEFAULT_MESSAGER_ENDPOINT = process.env.MESSAGER_ENDPOINT;
-export const DEFAULT_MESSAGER_TOKEN = process.env.MESSAGER_TOKEN;
-
-
 export const DEFAULT_API_ENDPOINT = process.env.API_ENDPOINT;
-
 
 export const STREAMER_REGISTRATION_URL = 'https://destream.plurid.com';
 

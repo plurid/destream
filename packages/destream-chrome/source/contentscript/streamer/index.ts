@@ -8,8 +8,6 @@
         PublishEventResponse,
         GetSessionMessage,
         Session,
-
-        DEFAULT_API_ENDPOINT,
     } from '../../data';
 
     import MessagerClient from '../client';
