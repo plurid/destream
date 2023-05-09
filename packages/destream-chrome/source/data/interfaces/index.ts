@@ -93,6 +93,7 @@ export type DestreamEvent =
     | DestreamRateChangeEvent
     | DestreamLikeEvent;
 
+
 export interface DestreamScrollEvent {
     type: typeof GENERAL_EVENT.SCROLL;
     payload: {
@@ -104,6 +105,7 @@ export interface DestreamScrollEvent {
 export interface DestreamStopSessionEvent {
     type: typeof GENERAL_EVENT.STOP_SESSION;
 }
+
 
 export interface DestreamPlayEvent {
     type:
@@ -150,6 +152,7 @@ export interface DestreamLikeEvent {
     type:
         | typeof YOUTUBE_EVENT.LIKE;
 }
+
 
 
 export interface GetTabIDMessage {
