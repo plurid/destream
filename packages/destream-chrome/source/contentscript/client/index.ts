@@ -13,6 +13,10 @@
     import {
         GET_MESSAGER_DATA,
     } from '../../background/graphql/query';
+
+    import {
+        log,
+    } from '../../common/utilities';
     // #endregion external
 
 
@@ -72,6 +76,7 @@ const requestClientEndpointData = async (
         const endpointData = JSON.parse(response.data);
         return endpointData as MessagerData;
     } catch (error) {
+        log(error);
         return;
     }
 }
