@@ -3,28 +3,21 @@
     import {
         Handler,
         StopSessionMessage,
-        DEFAULT_API_ENDPOINT,
         GENERAL_EVENT,
     } from '../../data';
 
     import {
         storageGetIsStreamer,
         storageGetIdentonym,
-        storageGetTokens,
     } from '../../common/storage';
-
-    import {
-        generateClient,
-        STOP_SESSION,
-    } from '../graphql';
 
     import {
         getSession,
         deleteSession,
-    } from '../session';
+        stopSessionLogic,
+    } from '../sessions';
 
     import {
-        removeTabSettings,
         getTopicID,
     } from '../utilities';
     // #endregion external
@@ -55,35 +48,19 @@ const handleStopSession: Handler<StopSessionMessage> = async (
         return await emptyResponse();
     }
 
-    const session = await getSession(request.data.tabID);
+    const {
+        tabID,
+    } = request.data;
+
+    const session = await getSession(tabID);
     if (!session) {
         return await emptyResponse();
     }
 
-    const {
-        accessToken,
-        refreshToken,
-    } = await storageGetTokens();
-    const graphqlClient = generateClient(
-        DEFAULT_API_ENDPOINT,
-        accessToken,
-        refreshToken,
+    const response = await stopSessionLogic(
+        session.id,
+        tabID,
     );
-
-    const graphqlRequest = await graphqlClient.mutate({
-        mutation: STOP_SESSION,
-        variables: {
-            input: {
-                value: session.id,
-            },
-        },
-    });
-    const response = graphqlRequest.data.destreamStopSession;
-
-    if (response.status) {
-        await deleteSession(request.data.tabID);
-        await removeTabSettings(request.data.tabID);
-    }
 
     await chrome.tabs.sendMessage(session.tabID, {
         type: GENERAL_EVENT.STOP_SESSION,

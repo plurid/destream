@@ -8,6 +8,14 @@
 
     // #region internal
     import messageHandler from './handlers';
+
+    import {
+        stopSessionWithTabID,
+    } from './sessions';
+
+    import {
+        stopSubscriptionWithTabID,
+    } from './subscriptions';
     // #endregion internal
 // #endregion imports
 
@@ -24,6 +32,11 @@ const main = () => {
 
             // Indicate the response is asynchronous.
             return true;
+        });
+
+        chrome.tabs.onRemoved.addListener((tabID) => {
+            stopSessionWithTabID(tabID);
+            stopSubscriptionWithTabID(tabID);
         });
     } catch (error) {
         log(error);

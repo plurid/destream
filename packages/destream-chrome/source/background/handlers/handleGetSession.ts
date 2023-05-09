@@ -7,7 +7,7 @@
 
     import {
         getSession,
-    } from '../session';
+    } from '../sessions';
     // #endregion external
 // #endregion imports
 

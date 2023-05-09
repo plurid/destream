@@ -15,7 +15,7 @@
 
     import {
         composeEventData,
-    } from '../../background/session';
+    } from '../../background/sessions';
 
     import {
         sendMessage,

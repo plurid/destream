@@ -3,13 +3,24 @@
     import {
         Session,
         storagePrefix,
+        DEFAULT_API_ENDPOINT,
     } from '../../data';
 
     import {
         storageGet,
         storageSet,
         storageRemove,
+        storageGetTokens,
     } from '../../common/storage';
+
+    import {
+        generateClient,
+        STOP_SESSION,
+    } from '../graphql';
+
+    import {
+        removeTabSettings,
+    } from '../utilities';
     // #endregion external
 // #endregion imports
 
@@ -57,6 +68,54 @@ export const getSession = async (
 ): Promise<Session | undefined> => {
     const id = getSessionStorageID(tabID);
     return await storageGet<Session>(id);
+}
+
+
+export const stopSessionLogic = async (
+    sessionID: string,
+    tabID: number
+) => {
+    const {
+        accessToken,
+        refreshToken,
+    } = await storageGetTokens();
+    const graphqlClient = generateClient(
+        DEFAULT_API_ENDPOINT,
+        accessToken,
+        refreshToken,
+    );
+
+    const graphqlRequest = await graphqlClient.mutate({
+        mutation: STOP_SESSION,
+        variables: {
+            input: {
+                value: sessionID,
+            },
+        },
+    });
+    const response = graphqlRequest.data.destreamStopSession;
+
+    if (response.status) {
+        await deleteSession(tabID);
+        await removeTabSettings(tabID);
+    }
+
+    return response;
+}
+
+
+export const stopSessionWithTabID = async (
+    tabID: number,
+) => {
+    const session = await getSession(tabID);
+    if (!session) {
+        return;
+    }
+
+    await stopSessionLogic(
+        session.id,
+        tabID,
+    );
 }
 
 

@@ -112,4 +112,11 @@ export const removeStreamerSubscription = async (
         subscriptions: result.subscriptions.filter((name: string) => name !== streamer),
     });
 }
+
+
+export const stopSubscriptionWithTabID = async (
+    tabID: number,
+) => {
+
+}
 // #endregion module

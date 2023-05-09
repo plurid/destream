@@ -14,7 +14,7 @@
 
     import {
         getSession,
-    } from '../../background/session';
+    } from '../../background/sessions';
 
     import {
         getActiveTab,

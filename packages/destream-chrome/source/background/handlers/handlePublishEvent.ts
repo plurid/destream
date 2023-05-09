@@ -14,7 +14,7 @@
     import {
         getSession,
         composeEventData,
-    } from '../session';
+    } from '../sessions';
 
     import {
         generateClient,

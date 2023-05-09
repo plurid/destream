@@ -14,7 +14,7 @@
 
     import {
         startSession,
-    } from '../session';
+    } from '../sessions';
 
     import {
         generateClient,
