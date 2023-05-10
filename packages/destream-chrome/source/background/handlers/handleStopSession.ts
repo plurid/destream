@@ -19,6 +19,7 @@
 
     import {
         getTopicID,
+        removeTabSettings,
     } from '../utilities';
     // #endregion external
 // #endregion imports
@@ -31,9 +32,14 @@ const handleStopSession: Handler<StopSessionMessage> = async (
     _sender,
     sendResponse,
 ) => {
+    const {
+        tabID,
+    } = request.data;
+
     const emptyResponse = async () => {
         // Try session delete anyway.
-        await deleteSession(request.data.tabID);
+        await deleteSession(tabID);
+        await removeTabSettings(tabID);
 
         sendResponse({
             status: false,
@@ -47,10 +53,6 @@ const handleStopSession: Handler<StopSessionMessage> = async (
     if (!isStreamer || !identonym) {
         return await emptyResponse();
     }
-
-    const {
-        tabID,
-    } = request.data;
 
     const session = await getSession(tabID);
     if (!session) {

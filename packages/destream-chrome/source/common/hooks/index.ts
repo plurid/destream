@@ -129,20 +129,30 @@ export const useSession = () => {
         setSession,
     ] = useState<Session | undefined>();
 
-    useEffect(() => {
-        const sessionLoader = async () => {
+    const sessionLoader = async (
+        tabID?: number,
+    ) => {
+        if (!tabID) {
             const activeTab = await getActiveTab();
-            const session = await getSession(activeTab.id);
-            if (session) {
-                setSession(session);
+            if (!activeTab) {
+                return;
             }
+            tabID = activeTab.id;
         }
 
+        const session = await getSession(tabID);
+        if (session) {
+            setSession(session);
+        }
+    }
+
+    useEffect(() => {
         sessionLoader();
     }, []);
 
     return [
         session,
+        sessionLoader,
         setSession,
     ] as const;
 }

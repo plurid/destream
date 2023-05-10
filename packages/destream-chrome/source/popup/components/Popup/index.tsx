@@ -95,6 +95,8 @@ const Popup: React.FC<any> = (
 
     const [
         session,
+        sessionLoader,
+        setSession,
     ] = useSession();
 
     const [
@@ -173,6 +175,7 @@ const Popup: React.FC<any> = (
 
                 if (response.status) {
                     setSessionStarted(true);
+                    sessionLoader(activeTab.id);
                 }
             },
         );
@@ -198,6 +201,7 @@ const Popup: React.FC<any> = (
 
                 if (response.status) {
                     setSessionStarted(false);
+                    setSession(undefined);
                 }
             },
         );
@@ -228,13 +232,16 @@ const Popup: React.FC<any> = (
     }, []);
 
     useEffect(() => {
-        if (!activeTab && (!session || !subscription)) {
+        if (!activeTab) {
+            return;
+        }
+        if (!session && !subscription) {
             return;
         }
 
         const setSettings = async () => {
             const id = getTabSettingsID(activeTab.id);
-            await storageSet(
+                await storageSet(
                 id,
                 {
                     showStream,
