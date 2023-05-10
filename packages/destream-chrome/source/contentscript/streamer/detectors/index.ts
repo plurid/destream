@@ -15,6 +15,8 @@
 
 
 // #region module
+const SCROLL_DEBOUNCE = 600; // milliseconds
+
 export interface Detector {
     target: EventTarget;
 }
@@ -64,7 +66,7 @@ export class GeneralDetector implements Detector {
         });
 
         this.target.dispatchEvent(event);
-    }, 600);
+    }, SCROLL_DEBOUNCE);
 
     protected onGeneralScroll() {
         window.addEventListener('scroll', this.scrollFunction.bind(this));
