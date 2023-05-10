@@ -1,6 +1,10 @@
 // #region imports
     // #region external
     import {
+        Session,
+    } from '../../data/interfaces';
+
+    import {
         checkYoutubeOrigin,
     } from '../utilities/youtube';
 
@@ -26,6 +30,7 @@
 // #region module
 export const renderTwitchStream = (
     view: HTMLDivElement,
+    session: Session,
 ) => {
     // get based on session
     const twitchChannelName = '';
@@ -45,7 +50,9 @@ export const renderTwitchStream = (
 export const DESTREAM_VIEW_ID = 'destream-view';
 
 
-export const injectView = () => {
+export const injectView = (
+    session: Session,
+) => {
     if (!checkYoutubeOrigin()) return;
 
 
@@ -68,7 +75,7 @@ export const injectView = () => {
     });
 
 
-    renderTwitchStream(view);
+    renderTwitchStream(view, session);
 }
 
 
@@ -86,7 +93,7 @@ const runView = async () => {
         const session = await getSession(tabID);
 
         if (session) {
-            injectView();
+            injectView(session);
         } else {
             cleanupView();
         }

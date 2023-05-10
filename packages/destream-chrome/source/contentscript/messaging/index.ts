@@ -7,6 +7,7 @@
     import {
         GetTabIDMessage,
         GetSessionMessage,
+        Session,
     } from '../../data/interfaces';
     // #endregion external
 // #endregion imports
@@ -28,7 +29,7 @@ export const getTabID = async (): Promise<number | undefined> => {
 
 export const getSession = async (
     tabID: number | undefined,
-) => {
+): Promise<Session | undefined> => {
     if (!tabID) {
         return;
     }
