@@ -63,6 +63,14 @@ export const generateRandomID = () => {
 }
 
 
+export const getTabIDFromKey = (
+    key: string,
+    prefix: string,
+) => {
+    return parseInt(key.replace(prefix, ''));
+}
+
+
 
 export const openOptionsPage = () => {
     chrome.runtime.openOptionsPage();

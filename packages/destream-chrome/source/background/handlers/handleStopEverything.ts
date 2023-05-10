@@ -15,7 +15,12 @@
     } from '../../common/logic';
 
     import {
-        stopSessionLogic
+        getTabIDFromKey,
+    } from '../../common/utilities';
+
+    import {
+        getSession,
+        stopSessionLogic,
     } from '../sessions';
 
     import {
@@ -37,13 +42,14 @@ const handleStopEverything: Handler<StopEverythingMessage> = async (
     Object.keys(storage).forEach(async (key) => {
         if (checkEverythingKey(key)) {
             if (key.startsWith(storagePrefix.session)) {
-                const tabID = parseInt(key.replace(storagePrefix.session, ''));
-                await stopSessionLogic(key, tabID);
+                const tabID = getTabIDFromKey(key, storagePrefix.session);
+                const session = await getSession(tabID);
+                await stopSessionLogic(session.id, tabID);
                 return;
             }
 
             if (key.startsWith(storagePrefix.subscription)) {
-                const tabID = parseInt(key.replace(storagePrefix.subscription, ''));
+                const tabID = getTabIDFromKey(key, storagePrefix.subscription);
                 await stopSubscriptionWithTabID(tabID);
                 return;
             }
