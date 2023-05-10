@@ -2,6 +2,7 @@
     // #region external
     import {
         Subscription,
+        StreamerDetails,
         storagePrefix,
         storageFields,
     } from '../../data';
@@ -32,6 +33,7 @@ export const getSubscriptionStorageID = (
 
 export const startSubscription = async (
     streamer: string,
+    streamerDetails: StreamerDetails,
     sessionID: string,
     endpoint: string,
     tabID: number,
@@ -44,10 +46,7 @@ export const startSubscription = async (
         streamer,
         tabID,
         endpoint,
-        streamerDetails: {
-            twitchName: 'blastpremier',
-            useTwitch: true,
-        },
+        streamerDetails,
     };
 
     storageSet(id, subscription);

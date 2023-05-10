@@ -14,15 +14,23 @@ export const GET_ACTIVE_SESSIONS = gql`
         destreamGetActiveSessions(input: $input) {
             status
             data {
-                id
-                url
-                generatedAt
-                status
-                events {
-                    relativeTime
-                    data
+                streamerDetails {
+                    twitchName
+                    useTwitch
+                    useYoutube
+                    youtubeName
                 }
-                customPubSubLink
+                sessions {
+                    id
+                    url
+                    generatedAt
+                    status
+                    events {
+                        relativeTime
+                        data
+                    }
+                    customPubSubLink
+                }
             }
         }
     }

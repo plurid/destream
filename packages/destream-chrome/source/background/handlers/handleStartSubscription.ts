@@ -61,7 +61,12 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
         return;
     }
 
-    for (const session of activeSessionsResponse.data) {
+    const {
+        sessions,
+        streamerDetails,
+    } = activeSessionsResponse.data;
+
+    for (const session of sessions) {
         // record viewer
 
         const tab = await openTab(session.url);
@@ -70,6 +75,7 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
 
         await startSubscription(
             streamerIdentonym,
+            streamerDetails,
             session.id,
             pubsubEndpoint,
             tab.id,
