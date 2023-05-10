@@ -267,13 +267,23 @@ export const styleView = (
 }
 
 
-export const styleStream = (
+export const styleTwitchStream = (
     stream: HTMLElement,
 ) => {
     stream.style.width = '100%';
     stream.style.height = '100%';
     stream.style.display = 'grid';
     stream.style.gridTemplateColumns = '3fr 1fr';
+}
+
+
+export const styleYoutubeStream = (
+    stream: HTMLElement,
+) => {
+    stream.style.width = '100%';
+    stream.style.height = '100%';
+    stream.style.display = 'grid';
+    stream.style.gridTemplateColumns = '1fr';
 }
 
 

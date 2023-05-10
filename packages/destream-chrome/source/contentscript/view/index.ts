@@ -23,7 +23,8 @@
     import {
         makeResizable,
         styleView,
-        styleStream,
+        styleTwitchStream,
+        styleYoutubeStream,
         createIframe,
     } from './utilities';
     // #endregion internal
@@ -59,13 +60,65 @@ export const renderTwitchStream = (
 
     const stream = document.createElement('div');
     view.appendChild(stream);
-    styleStream(stream);
+    styleTwitchStream(stream);
 
     const chatIframe = createIframe('chat', stream);
     chatIframe.src = `https://player.twitch.tv/?channel=${twitchChannelName}&parent=www.youtube.com`;
 
     const streamIframe = createIframe('stream', stream);
     streamIframe.src = `https://www.twitch.tv/embed/${twitchChannelName}/chat?parent=www.youtube.com`;
+}
+
+
+export const resolveYoutubeChannelName = (
+    session?: Session,
+    subscription?: Subscription,
+) => {
+    if (session && session.streamerDetails && session.streamerDetails.useYoutube) {
+        return session.streamerDetails.youtubeName;
+    }
+
+    if (subscription && subscription.streamerDetails && subscription.streamerDetails.useYoutube) {
+        return subscription.streamerDetails.youtubeName;
+    }
+}
+
+export const renderYoutubeStream = (
+    view: HTMLDivElement,
+    session?: Session,
+    subscription?: Subscription,
+) => {
+    const youtubeChannelName = resolveYoutubeChannelName(session, subscription);
+    if (!youtubeChannelName) {
+        return;
+    }
+
+    const stream = document.createElement('div');
+    view.appendChild(stream);
+    styleYoutubeStream(stream);
+
+    const streamIframe = createIframe('stream', stream);
+    streamIframe.src = `https://www.youtube.com/@${youtubeChannelName}/live`;
+}
+
+
+export const resolveRenderType = (
+    session?: Session,
+    subscription?: Subscription,
+) => {
+    if (session && session.streamerDetails && session.streamerDetails.useTwitch) {
+        return 'twitch';
+    }
+    if (subscription && subscription.streamerDetails && subscription.streamerDetails.useTwitch) {
+        return 'twitch';
+    }
+
+    if (session && session.streamerDetails && session.streamerDetails.useYoutube) {
+        return 'youtube';
+    }
+    if (subscription && subscription.streamerDetails && subscription.streamerDetails.useYoutube) {
+        return 'youtube';
+    }
 }
 
 
@@ -116,7 +169,16 @@ export const injectView = (
     });
 
 
-    renderTwitchStream(view, session, subscription);
+    const renderType = resolveRenderType(session, subscription);
+
+    switch (renderType) {
+        case 'twitch':
+            renderTwitchStream(view, session, subscription);
+            break;
+        case 'youtube':
+            renderYoutubeStream(view, session, subscription);
+            break;
+    }
 }
 
 export const cleanupView = () => {
