@@ -73,7 +73,7 @@ export const getSession = async (
 
 export const stopSessionLogic = async (
     sessionID: string,
-    tabID?: number,
+    tabID: number,
 ) => {
     const {
         accessToken,
@@ -95,7 +95,7 @@ export const stopSessionLogic = async (
     });
     const response = graphqlRequest.data.destreamStopSession;
 
-    if (response.status && tabID) {
+    if (response.status) {
         await deleteSession(tabID);
         await removeTabSettings(tabID);
     }

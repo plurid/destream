@@ -37,7 +37,8 @@ const handleStopEverything: Handler<StopEverythingMessage> = async (
     Object.keys(storage).forEach(async (key) => {
         if (checkEverythingKey(key)) {
             if (key.startsWith(storagePrefix.session)) {
-                await stopSessionLogic(key);
+                const tabID = parseInt(key.replace(storagePrefix.session, ''));
+                await stopSessionLogic(key, tabID);
                 return;
             }
 
