@@ -411,7 +411,7 @@ const Popup: React.FC<any> = (
 
 
             {activeTab
-            && sessionStarted
+            && activeTabControlledBy
             && (
                 <div>
                     <InputSwitch
