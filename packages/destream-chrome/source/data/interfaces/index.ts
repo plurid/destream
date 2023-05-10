@@ -25,6 +25,7 @@ export type Message =
     | StopSubscriptionsMessage
     | GetSubscriptionMessage
     | SendNotificationMessage
+    | StopEverythingMessage
     | DestreamEventMessage;
 
 export interface PublishEventMessage {
@@ -210,6 +211,10 @@ export interface GetSubscriptionMessage {
 export interface SendNotificationMessage {
     type: typeof MESSAGE_TYPE.SEND_NOTIFICATION;
     data: Notification;
+}
+
+export interface StopEverythingMessage {
+    type: typeof MESSAGE_TYPE.STOP_EVERYTHING;
 }
 
 export interface DestreamEventMessage {

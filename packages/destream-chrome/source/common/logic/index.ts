@@ -1,3 +1,13 @@
+// #region imports
+    // #region external
+    import {
+        storagePrefix,
+    } from '../../data/constants';
+    // #endregion external
+// #endregion imports
+
+
+
 // #region module
 export const getActiveTab = async () => {
     const [tab] = await chrome.tabs.query({
@@ -17,5 +27,14 @@ export const logout = async () => {
         isStreamer: false,
         loggedIn: false,
     });
+}
+
+
+export const checkEverythingKey = (
+    key: string,
+) => {
+    return key.startsWith(storagePrefix.session)
+        || key.startsWith(storagePrefix.subscription)
+        || key.startsWith(storagePrefix.tabSettings);
 }
 // #endregion module

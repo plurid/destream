@@ -19,6 +19,7 @@
     import handleStopSubscriptions from './handleStopSubscriptions';
     import handleGetSubscription from './handleGetSubscription';
     import handleSendNotification from './handleSendNotification';
+    import handleStopEverything from './handleStopEverything';
     // #endregion internal
 // #endregion imports
 
@@ -51,6 +52,8 @@ const messageHandler: Handler<Message> = async (
             return handleGetSubscription(request, sender, sendResponse);
         case MESSAGE_TYPE.SEND_NOTIFICATION:
             return handleSendNotification(request, sender, sendResponse);
+        case MESSAGE_TYPE.STOP_EVERYTHING:
+            return handleStopEverything(request, sender, sendResponse);
         default:
             return;
     }

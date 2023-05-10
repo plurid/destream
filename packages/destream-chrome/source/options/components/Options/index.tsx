@@ -23,17 +23,29 @@
     import {
         STREAMER_REGISTRATION_URL,
         DEFAULT_API_ENDPOINT,
+        MESSAGE_TYPE,
         defaultPermissions,
         defaultAllowedURLOrigins,
-        storagePrefix,
         storageFields,
     } from '../../../data/constants';
+
+    import {
+        StopEverythingMessage,
+    } from '../../../data/interfaces';
 
     import {
         storageGetAll,
         storageGet,
         storageSet,
     } from '../../../common/storage';
+
+    import {
+        checkEverythingKey,
+    } from '../../../common/logic';
+
+    import {
+        sendMessage,
+    } from '../../../common/messaging';
 
     import Login from '../../../common/components/Login';
     import Subscriptions from '../../../common/components/Subscriptions';
@@ -164,28 +176,12 @@ const Options: React.FC<any> = (
         });
     }
 
-    const checkEverythingKey = (
-        key: string,
-    ) => {
-        return key.startsWith(storagePrefix.session)
-            || key.startsWith(storagePrefix.subscription)
-            || key.startsWith(storagePrefix.tabSettings);
-    }
-
     const stopEverything = async () => {
         setShowStopEverything(false);
 
-        try {
-            const storage = await storageGetAll();
-
-            Object.keys(storage).forEach(async (key) => {
-                if (checkEverythingKey(key)) {
-                    await chrome.storage.local.remove(key);
-                }
-            });
-        } catch (error) {
-            return;
-        }
+        await sendMessage<StopEverythingMessage>({
+            type: MESSAGE_TYPE.STOP_EVERYTHING,
+        });
     }
     // #endregion handlers
 

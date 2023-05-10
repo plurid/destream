@@ -3,7 +3,7 @@ export const IN_PRODUCTION = process.env.NODE_ENV === 'production';
 
 export const DEFAULT_API_ENDPOINT = process.env.API_ENDPOINT;
 
-export const STREAMER_REGISTRATION_URL = 'https://destream.plurid.com';
+export const STREAMER_REGISTRATION_URL = 'https://account.plurid.com/destream';
 
 
 
@@ -42,6 +42,7 @@ export const MESSAGE_TYPE = {
     STOP_SUBSCRIPTION: 'stopSubscription',
     STOP_SUBSCRIPTIONS: 'stopSubscriptions',
     GET_SUBSCRIPTION: 'getSubscription',
+    STOP_EVERYTHING: 'stopEverything',
     DESTREAM_EVENT: 'destreamEvent',
 } as const;
 
