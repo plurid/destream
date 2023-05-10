@@ -7,7 +7,9 @@
     import {
         GetTabIDMessage,
         GetSessionMessage,
+        GetSubscriptionMessage,
         Session,
+        Subscription,
     } from '../../data/interfaces';
     // #endregion external
 // #endregion imports
@@ -43,5 +45,24 @@ export const getSession = async (
     }
 
     return response.session;
+}
+
+
+export const getSubscription = async (
+    tabID: number | undefined,
+): Promise<Subscription | undefined> => {
+    if (!tabID) {
+        return;
+    }
+
+    const response = await chrome.runtime.sendMessage<GetSubscriptionMessage>({
+        type: MESSAGE_TYPE.GET_SUBSCRIPTION,
+        data: tabID,
+    });
+    if (!response || !response.status) {
+        return;
+    }
+
+    return response.subscription;
 }
 // #endregion module

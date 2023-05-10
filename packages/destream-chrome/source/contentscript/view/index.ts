@@ -2,6 +2,7 @@
     // #region external
     import {
         Session,
+        Subscription,
     } from '../../data/interfaces';
 
     import {
@@ -9,8 +10,9 @@
     } from '../utilities/youtube';
 
     import {
-        getSession,
         getTabID,
+        getSession,
+        getSubscription,
     } from '../messaging';
     // #endregion external
 
@@ -30,7 +32,8 @@
 // #region module
 export const renderTwitchStream = (
     view: HTMLDivElement,
-    session: Session,
+    session?: Session,
+    subscription?: Subscription,
 ) => {
     // get based on session
     const twitchChannelName = '';
@@ -51,7 +54,8 @@ export const DESTREAM_VIEW_ID = 'destream-view';
 
 
 export const injectView = (
-    session: Session,
+    session?: Session,
+    subscription?: Subscription,
 ) => {
     if (!checkYoutubeOrigin()) return;
 
@@ -75,7 +79,7 @@ export const injectView = (
     });
 
 
-    renderTwitchStream(view, session);
+    renderTwitchStream(view, session, subscription);
 }
 
 
@@ -91,9 +95,10 @@ const runView = async () => {
     const run = async () => {
         const tabID = await getTabID();
         const session = await getSession(tabID);
+        const subscription = await getSubscription(tabID);
 
-        if (session) {
-            injectView(session);
+        if (session || subscription) {
+            injectView(session, subscription);
         } else {
             cleanupView();
         }
