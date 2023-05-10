@@ -44,6 +44,10 @@ export const startSubscription = async (
         streamer,
         tabID,
         endpoint,
+        streamerDetails: {
+            twitchName: 'blastpremier',
+            useTwitch: true,
+        },
     };
 
     storageSet(id, subscription);

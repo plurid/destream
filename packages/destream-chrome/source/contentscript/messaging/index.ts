@@ -8,8 +8,10 @@
         GetTabIDMessage,
         GetSessionMessage,
         GetSubscriptionMessage,
+        GetTabSettingsMessage,
         Session,
         Subscription,
+        TabSettings,
     } from '../../data/interfaces';
     // #endregion external
 // #endregion imports
@@ -64,5 +66,24 @@ export const getSubscription = async (
     }
 
     return response.subscription;
+}
+
+
+export const getTabSettings = async (
+    tabID: number | undefined,
+): Promise<TabSettings | undefined> => {
+    if (!tabID) {
+        return;
+    }
+
+    const response = await chrome.runtime.sendMessage<GetTabSettingsMessage>({
+        type: MESSAGE_TYPE.GET_TAB_SETTINGS,
+        data: tabID,
+    });
+    if (!response || !response.status) {
+        return;
+    }
+
+    return response.tabSettings;
 }
 // #endregion module

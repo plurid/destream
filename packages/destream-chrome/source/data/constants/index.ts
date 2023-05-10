@@ -42,6 +42,7 @@ export const MESSAGE_TYPE = {
     STOP_SUBSCRIPTION: 'stopSubscription',
     STOP_SUBSCRIPTIONS: 'stopSubscriptions',
     GET_SUBSCRIPTION: 'getSubscription',
+    GET_TAB_SETTINGS: 'getTabSettings',
     STOP_EVERYTHING: 'stopEverything',
     DESTREAM_EVENT: 'destreamEvent',
 } as const;

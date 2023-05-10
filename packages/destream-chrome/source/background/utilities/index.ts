@@ -5,6 +5,11 @@
     } from '../../data/constants';
 
     import {
+        TabSettings,
+    } from '../../data/interfaces';
+
+    import {
+        storageGet,
         storageRemove,
     } from '../../common/storage';
     // #endregion external
@@ -17,6 +22,16 @@ export const getTabSettingsID = (
     id: number,
 ) => {
     return storagePrefix.tabSettings + id;
+}
+
+export const getTabSettings = async (
+    id: number,
+): Promise<TabSettings | undefined> => {
+    const tabSettings = await storageGet(
+        getTabSettingsID(id),
+    );
+
+    return tabSettings;
 }
 
 export const removeTabSettings = async (

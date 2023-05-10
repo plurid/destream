@@ -24,6 +24,7 @@ export type Message =
     | StopSubscriptionMessage
     | StopSubscriptionsMessage
     | GetSubscriptionMessage
+    | GetTabSettingsMessage
     | SendNotificationMessage
     | StopEverythingMessage
     | DestreamEventMessage;
@@ -50,6 +51,7 @@ export type PublishEventResponse =
     };
 
 
+
 export interface Session {
     id: string;
     tabID: number;
@@ -57,8 +59,8 @@ export interface Session {
     streamer: string;
     token: string;
     endpoint: string;
+    streamerDetails?: StreamerDetails;
 }
-
 
 export interface Subscription {
     sessionID: string;
@@ -67,6 +69,19 @@ export interface Subscription {
     streamer: string;
     tabID: number;
     endpoint: string;
+    streamerDetails?: StreamerDetails;
+}
+
+export interface StreamerDetails {
+    twitchName?: string;
+    useTwitch?: boolean;
+    youtubeName?: string;
+    useYoutube?: boolean;
+}
+
+export interface TabSettings {
+    showStream: boolean;
+    showStreamChat: boolean;
 }
 
 
@@ -204,6 +219,12 @@ export interface StopSubscriptionsMessage {
 
 export interface GetSubscriptionMessage {
     type: typeof MESSAGE_TYPE.GET_SUBSCRIPTION;
+    // tabID
+    data?: number;
+}
+
+export interface GetTabSettingsMessage {
+    type: typeof MESSAGE_TYPE.GET_TAB_SETTINGS;
     // tabID
     data?: number;
 }

@@ -47,6 +47,7 @@
 
     import {
         getTabSettingsID,
+        getTabSettings,
     } from '../../../background/utilities';
 
     import Login from '../../../common/components/Login';
@@ -235,13 +236,33 @@ const Popup: React.FC<any> = (
         if (!activeTab) {
             return;
         }
+
+        const loadTabSettings = async () => {
+            const tabSettings = await getTabSettings(activeTab.id);
+            if (!tabSettings) {
+                return;
+            }
+
+            setShowStream(tabSettings.showStream);
+            setShowStreamChat(tabSettings.showStreamChat);
+        }
+
+        loadTabSettings();
+    }, [
+        activeTab,
+    ]);
+
+    useEffect(() => {
+        if (!activeTab) {
+            return;
+        }
         if (!session && !subscription) {
             return;
         }
 
         const setSettings = async () => {
             const id = getTabSettingsID(activeTab.id);
-                await storageSet(
+            await storageSet(
                 id,
                 {
                     showStream,
