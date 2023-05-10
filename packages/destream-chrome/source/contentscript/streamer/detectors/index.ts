@@ -21,7 +21,11 @@ export interface Detector {
 
 
 export class GeneralDetector implements Detector {
+    private scrollHash: string = '';
+
+
     public target: EventTarget;
+
 
     constructor() {
         this.target = new EventTarget();
@@ -48,6 +52,12 @@ export class GeneralDetector implements Detector {
                 left: scrollX,
             },
         };
+
+        if (JSON.stringify(scrollEvent) === this.scrollHash) {
+            // Prevent from sending multiple events with the same scroll data.
+            return;
+        }
+        this.scrollHash = JSON.stringify(scrollEvent);
 
         const event = new CustomEvent(DESTREAM_DETECT_EVENT, {
             detail: scrollEvent,
