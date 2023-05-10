@@ -267,7 +267,7 @@ export const styleView = (
 }
 
 
-export const styleTwitchStream = (
+export const styleSplitStream = (
     stream: HTMLElement,
 ) => {
     stream.style.width = '100%';
@@ -277,7 +277,7 @@ export const styleTwitchStream = (
 }
 
 
-export const styleYoutubeStream = (
+export const styleFullStream = (
     stream: HTMLElement,
 ) => {
     stream.style.width = '100%';

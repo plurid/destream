@@ -23,8 +23,8 @@
     import {
         makeResizable,
         styleView,
-        styleTwitchStream,
-        styleYoutubeStream,
+        styleSplitStream,
+        styleFullStream,
         createIframe,
     } from './utilities';
     // #endregion internal
@@ -52,6 +52,7 @@ export const renderTwitchStream = (
     view: HTMLDivElement,
     session?: Session,
     subscription?: Subscription,
+    tabSettings?: TabSettings,
 ) => {
     const twitchChannelName = resolveTwitchChannelName(session, subscription);
     if (!twitchChannelName) {
@@ -60,13 +61,22 @@ export const renderTwitchStream = (
 
     const stream = document.createElement('div');
     view.appendChild(stream);
-    styleTwitchStream(stream);
 
-    const chatIframe = createIframe('chat', stream);
-    chatIframe.src = `https://player.twitch.tv/?channel=${twitchChannelName}&parent=www.youtube.com`;
+    const showChat = tabSettings?.showStreamChat === true;
+
+    if (showChat) {
+        styleSplitStream(stream);
+    } else {
+        styleFullStream(stream);
+    }
 
     const streamIframe = createIframe('stream', stream);
-    streamIframe.src = `https://www.twitch.tv/embed/${twitchChannelName}/chat?parent=www.youtube.com`;
+    streamIframe.src = `https://player.twitch.tv/?channel=${twitchChannelName}&parent=www.youtube.com`;
+
+    if (showChat) {
+        const chatIframe = createIframe('chat', stream);
+        chatIframe.src = `https://www.twitch.tv/embed/${twitchChannelName}/chat?parent=www.youtube.com`;
+    }
 }
 
 
@@ -95,7 +105,7 @@ export const renderYoutubeStream = (
 
     const stream = document.createElement('div');
     view.appendChild(stream);
-    styleYoutubeStream(stream);
+    styleFullStream(stream);
 
     const streamIframe = createIframe('stream', stream);
     streamIframe.src = `https://www.youtube.com/@${youtubeChannelName}/live`;
@@ -173,7 +183,7 @@ export const injectView = (
 
     switch (renderType) {
         case 'twitch':
-            renderTwitchStream(view, session, subscription);
+            renderTwitchStream(view, session, subscription, tabSettings);
             break;
         case 'youtube':
             renderYoutubeStream(view, session, subscription);
