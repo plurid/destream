@@ -18,7 +18,7 @@ export const getTabID = async (): Promise<number | undefined> => {
     const response = await chrome.runtime.sendMessage<GetTabIDMessage>({
         type: MESSAGE_TYPE.GET_TAB_ID,
     });
-    if (!response) {
+    if (!response || !response.status) {
         return;
     }
 
@@ -37,10 +37,10 @@ export const getSession = async (
         type: MESSAGE_TYPE.GET_SESSION,
         data: tabID,
     });
-    if (!response) {
+    if (!response || !response.status) {
         return;
     }
 
-    return true;
+    return response.session;
 }
 // #endregion module
