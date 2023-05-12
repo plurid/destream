@@ -5,6 +5,7 @@
         StreamerDetails,
         storagePrefix,
         storageFields,
+        DEFAULT_API_ENDPOINT,
     } from '../../data';
 
     import {
@@ -12,7 +13,13 @@
         storageSet,
         storageGetAll,
         storageRemove,
+        storageGetTokens,
     } from '../../common/storage';
+
+    import {
+        generateClient,
+        STOP_SESSION_SUBSCRIPTION,
+    } from '../graphql';
 
     import {
         getTopicID,
@@ -52,14 +59,6 @@ export const startSubscription = async (
     };
 
     storageSet(id, subscription);
-}
-
-
-export const deleteSubscription = async (
-    sessionID: string,
-) => {
-    const id = getSubscriptionStorageID(sessionID);
-    await storageRemove(id);
 }
 
 
@@ -106,6 +105,14 @@ export const getSubscription = async (
 }
 
 
+export const deleteSubscription = async (
+    sessionID: string,
+) => {
+    const id = getSubscriptionStorageID(sessionID);
+    await storageRemove(id);
+}
+
+
 export const removeStreamerSubscription = async (
     streamer: string,
 ) => {
@@ -120,6 +127,35 @@ export const removeStreamerSubscription = async (
 }
 
 
+export const stopSubscription = async (
+    subscription: Subscription,
+) => {
+    const {
+        accessToken,
+        refreshToken,
+    } = await storageGetTokens();
+    const graphqlClient = generateClient(
+        DEFAULT_API_ENDPOINT,
+        accessToken,
+        refreshToken,
+    );
+    await graphqlClient.mutate({
+        mutation: STOP_SESSION_SUBSCRIPTION,
+        variables: {
+            input: {
+                sessionID: subscription.sessionID,
+                subscriptionID: subscription.subscriptionID,
+            },
+        },
+    });
+
+
+    await deleteSubscription(subscription.sessionID);
+    await removeTabSettings(subscription.tabID);
+    await removeStreamerSubscription(subscription.streamer);
+}
+
+
 export const stopSubscriptionWithTabID = async (
     tabID: number,
 ) => {
@@ -128,8 +164,6 @@ export const stopSubscriptionWithTabID = async (
         return;
     }
 
-    await deleteSubscription(subscription.sessionID);
-    await removeTabSettings(subscription.tabID);
-    await removeStreamerSubscription(subscription.streamer);
+    await stopSubscription(subscription);
 }
 // #endregion module

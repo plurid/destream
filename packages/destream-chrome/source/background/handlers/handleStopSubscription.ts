@@ -3,27 +3,12 @@
     import {
         Handler,
         StopSubscriptionMessage,
-        DEFAULT_API_ENDPOINT,
     } from '../../data';
 
     import {
-        storageGetTokens,
-    } from '../../common/storage';
-
-    import {
-        generateClient,
-        STOP_SESSION_SUBSCRIPTION,
-    } from '../graphql';
-
-    import {
         getSubscription,
-        deleteSubscription,
-        removeStreamerSubscription,
+        stopSubscription,
     } from '../subscriptions';
-
-    import {
-        removeTabSettings,
-    } from '../utilities';
     // #endregion external
 // #endregion imports
 
@@ -44,30 +29,7 @@ const handleStopSubscription: Handler<StopSubscriptionMessage> = async (
         return;
     }
 
-    const {
-        accessToken,
-        refreshToken,
-    } = await storageGetTokens();
-    const graphqlClient = generateClient(
-        DEFAULT_API_ENDPOINT,
-        accessToken,
-        refreshToken,
-    );
-    await graphqlClient.mutate({
-        mutation: STOP_SESSION_SUBSCRIPTION,
-        variables: {
-            input: {
-                sessionID: subscription.sessionID,
-                subscriptionID: subscription.subscriptionID,
-            },
-        },
-    });
-
-
-    await deleteSubscription(subscription.sessionID);
-    await removeTabSettings(subscription.tabID);
-    await removeStreamerSubscription(subscription.streamer);
-
+    await stopSubscription(subscription);;
 
     sendResponse({
         status: true,

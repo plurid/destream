@@ -7,13 +7,8 @@
 
     import {
         getSubscriptionsByStreamerName,
-        deleteSubscription,
-        removeStreamerSubscription,
+        stopSubscription,
     } from '../subscriptions';
-
-    import {
-        removeTabSettings,
-    } from '../utilities';
     // #endregion external
 // #endregion imports
 
@@ -28,9 +23,7 @@ const handleStopSubscriptions: Handler<StopSubscriptionsMessage> = async (
     const subscriptions = await getSubscriptionsByStreamerName(request.data);
 
     for (const subscription of subscriptions) {
-        await deleteSubscription(subscription.sessionID);
-        await removeTabSettings(subscription.tabID);
-        await removeStreamerSubscription(subscription.streamer);
+        await stopSubscription(subscription);
     }
 
     sendResponse({
