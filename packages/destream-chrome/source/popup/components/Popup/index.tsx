@@ -394,8 +394,12 @@ const Popup: React.FC<any> = (
                     )}
 
                     {sessionStarted && (
-                        <div>
-                            session audience {sessionAudience}
+                        <div
+                            style={{
+                                marginTop: '1rem',
+                            }}
+                        >
+                            {sessionAudience} viewers
                         </div>
                     )}
 
