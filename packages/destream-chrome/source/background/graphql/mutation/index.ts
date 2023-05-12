@@ -91,6 +91,7 @@ export const START_SESSION_SUBSCRIPTION = gql`
     mutation DestreamStartSessionSubscription($input: InputValueString!) {
         destreamStartSessionSubscription(input: $input) {
             status
+            data
         }
     }
 `;

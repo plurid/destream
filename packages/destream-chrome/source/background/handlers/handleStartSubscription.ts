@@ -13,6 +13,7 @@
     import {
         generateClient,
         GET_ACTIVE_SESSIONS,
+        START_SESSION_SUBSCRIPTION,
     } from '../graphql';
 
     import {
@@ -67,7 +68,18 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
     } = activeSessionsResponse.data;
 
     for (const session of sessions) {
-        // record viewer
+        const sessionSubscription = await graphqlClient.mutate({
+            mutation: START_SESSION_SUBSCRIPTION,
+            variables: {
+                input: {
+                    value: session.id,
+                },
+            },
+        });
+        const sessionSubscriptionResponse = sessionSubscription.data.destreamStartSessionSubscription;
+        if (!sessionSubscriptionResponse.status) {
+            continue;
+        }
 
         const tab = await openTab(session.url);
 
@@ -77,6 +89,7 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
             streamerIdentonym,
             streamerDetails,
             session.id,
+            sessionSubscriptionResponse.data,
             pubsubEndpoint,
             tab.id,
         );

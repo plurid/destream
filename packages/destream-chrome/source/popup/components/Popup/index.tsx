@@ -98,6 +98,7 @@ const Popup: React.FC<any> = (
         session,
         sessionLoader,
         setSession,
+        sessionAudience,
     ] = useSession();
 
     const [
@@ -389,6 +390,12 @@ const Popup: React.FC<any> = (
                             you are controlling
                             <br />
                             {activeTab.url}
+                        </div>
+                    )}
+
+                    {sessionStarted && (
+                        <div>
+                            session audience {sessionAudience}
                         </div>
                     )}
 

@@ -47,6 +47,15 @@ export const GET_SESSION = gql`
     }
 `;
 
+export const GET_SESSION_AUDIENCE = gql`
+    query DestreamGetSessionAudience($input: InputValueString!) {
+        destreamGetSessionAudience(input: $input) {
+            status
+            data
+        }
+    }
+`;
+
 
 export const GET_MESSAGER_DATA = gql`
     query DestreamGetMessagerData {

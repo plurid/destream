@@ -35,12 +35,14 @@ export const startSubscription = async (
     streamer: string,
     streamerDetails: StreamerDetails,
     sessionID: string,
+    subscriptionID: string,
     endpoint: string,
     tabID: number,
 ) => {
     const id = getSubscriptionStorageID(sessionID);
     const subscription: Subscription = {
         sessionID,
+        subscriptionID,
         topic: getTopicID(sessionID),
         startedAt: Date.now(),
         streamer,

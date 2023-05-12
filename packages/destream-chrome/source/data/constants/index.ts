@@ -35,6 +35,7 @@ export const MESSAGE_TYPE = {
     PUBLISH_EVENT: 'publishEvent',
     GET_TAB_ID: 'getTabID',
     GET_SESSION: 'getSession',
+    GET_SESSION_AUDIENCE: 'getSessionAudience',
     SEND_NOTIFICATION: 'sendNotification',
     START_SESSION: 'startSession',
     STOP_SESSION: 'stopSession',

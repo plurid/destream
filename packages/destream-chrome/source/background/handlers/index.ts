@@ -12,6 +12,7 @@
     import handlePublishEvent from './handlePublishEvent';
     import handleGetTabID from './handleGetTabID';
     import handleGetSession from './handleGetSession';
+    import handleGetSessionAudience from './handleGetSessionAudience';
     import handleStartSession from './handleStartSession';
     import handleStopSession from './handleStopSession';
     import handleStartSubscription from './handleStartSubscription';
@@ -39,6 +40,8 @@ const messageHandler: Handler<Message> = async (
             return handleGetTabID(request, sender, sendResponse);
         case MESSAGE_TYPE.GET_SESSION:
             return handleGetSession(request, sender, sendResponse);
+        case MESSAGE_TYPE.GET_SESSION_AUDIENCE:
+            return handleGetSessionAudience(request, sender, sendResponse);
         case MESSAGE_TYPE.START_SESSION:
             return handleStartSession(request, sender, sendResponse);
         case MESSAGE_TYPE.STOP_SESSION:

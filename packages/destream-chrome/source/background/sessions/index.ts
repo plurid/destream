@@ -16,6 +16,7 @@
     import {
         generateClient,
         STOP_SESSION,
+        GET_SESSION_AUDIENCE,
     } from '../graphql';
 
     import {
@@ -68,6 +69,33 @@ export const getSession = async (
 ): Promise<Session | undefined> => {
     const id = getSessionStorageID(tabID);
     return await storageGet<Session>(id);
+}
+
+
+export const getSessionAudience = async (
+    sessionID: string,
+) => {
+    const {
+        accessToken,
+        refreshToken,
+    } = await storageGetTokens();
+    const graphqlClient = generateClient(
+        DEFAULT_API_ENDPOINT,
+        accessToken,
+        refreshToken,
+    );
+
+    const graphqlRequest = await graphqlClient.mutate({
+        mutation: GET_SESSION_AUDIENCE,
+        variables: {
+            input: {
+                value: sessionID,
+            },
+        },
+    });
+    const response = graphqlRequest.data.destreamGetSessionAudience;
+
+    return response;
 }
 
 

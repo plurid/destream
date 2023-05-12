@@ -14,6 +14,7 @@
 
     import {
         getSession,
+        getSessionAudience
     } from '../../background/sessions';
 
     import {
@@ -129,6 +130,12 @@ export const useSession = () => {
         setSession,
     ] = useState<Session | undefined>();
 
+    const [
+        sessionAudience,
+        setSessionAudience,
+    ] = useState(0);
+
+
     const sessionLoader = async (
         tabID?: number,
     ) => {
@@ -143,6 +150,11 @@ export const useSession = () => {
         const session = await getSession(tabID);
         if (session) {
             setSession(session);
+
+            const sessionAudience = await getSessionAudience(session.id);
+            if (sessionAudience.status) {
+                setSessionAudience(sessionAudience.data);
+            }
         }
     }
 
@@ -154,6 +166,7 @@ export const useSession = () => {
         session,
         sessionLoader,
         setSession,
+        sessionAudience,
     ] as const;
 }
 // #endregion module

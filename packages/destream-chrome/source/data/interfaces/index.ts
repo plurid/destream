@@ -18,6 +18,7 @@ export type Message =
     | PublishEventMessage
     | GetTabIDMessage
     | GetSessionMessage
+    | GetSessionAudienceMessage
     | StartSessionMessage
     | StopSessionMessage
     | StartSubscriptionMessage
@@ -64,6 +65,7 @@ export interface Session {
 
 export interface Subscription {
     sessionID: string;
+    subscriptionID: string;
     topic: string;
     startedAt: number;
     streamer: string;
@@ -180,6 +182,12 @@ export interface GetSessionMessage {
     type: typeof MESSAGE_TYPE.GET_SESSION;
     // tabID
     data?: number;
+}
+
+export interface GetSessionAudienceMessage {
+    type: typeof MESSAGE_TYPE.GET_SESSION_AUDIENCE;
+    // sessionID
+    data: string;
 }
 
 export interface StartSessionMessage {
