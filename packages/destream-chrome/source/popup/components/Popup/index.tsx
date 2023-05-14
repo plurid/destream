@@ -69,6 +69,7 @@
     import {
         StyledPopup,
         StyledTabControl,
+        buttonStyle,
     } from './styled';
     // #endregion internal
 // #endregion imports
@@ -366,9 +367,7 @@ const Popup: React.FC<any> = (
                         }}
                         theme={plurid}
                         level={2}
-                        style={{
-                            marginTop: '1rem',
-                        }}
+                        style={buttonStyle}
                     />
                 </StyledTabControl>
             )}
@@ -414,9 +413,7 @@ const Popup: React.FC<any> = (
                             }}
                             theme={plurid}
                             level={2}
-                            style={{
-                                marginTop: '1rem',
-                            }}
+                            style={buttonStyle}
                         />
                     )}
 
@@ -431,9 +428,7 @@ const Popup: React.FC<any> = (
                             }}
                             theme={plurid}
                             level={2}
-                            style={{
-                                marginTop: '1rem',
-                            }}
+                            style={buttonStyle}
                         />
                     )}
                 </StyledTabControl>

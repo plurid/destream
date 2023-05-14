@@ -29,4 +29,10 @@ export const StyledTabControl = styled.div`
     word-break: break-all;
     line-height: 1.5rem;
 `;
+
+
+export const buttonStyle = {
+    marginTop: '1rem',
+    width: '280px',
+};
 // #endregion module
