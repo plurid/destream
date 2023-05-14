@@ -71,12 +71,14 @@ export const sendNotificationURLChange = (
         url,
     };
 
+    const host = new URL(url).host;
+
     chrome.notifications.create(
         notificationID,
         {
             ...defaultNewNotification,
             title: 'URL Change',
-            message: `Streamer '${streamerName}' wants to change the URL to '${url}'.`,
+            message: `Streamer '${streamerName}' wants to access ${host} (${url}).`,
             buttons: [
                 {
                     title: 'Cancel',
@@ -108,12 +110,14 @@ export const sendNotificationSessionStart = (
         url,
     };
 
+    const host = new URL(url).host;
+
     chrome.notifications.create(
         notificationID,
         {
             ...defaultNewNotification,
             title: 'Session Start',
-            message: `Started session for streamer '${streamerName}'.`,
+            message: `Started destream for ${streamerName} (${host}).`,
         },
     );
 
