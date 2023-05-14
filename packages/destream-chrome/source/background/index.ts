@@ -16,6 +16,8 @@
     import {
         stopSubscriptionWithTabID,
     } from './subscriptions';
+
+    import update from './update';
     // #endregion internal
 // #endregion imports
 
@@ -38,6 +40,8 @@ const main = () => {
             stopSessionWithTabID(tabID);
             stopSubscriptionWithTabID(tabID);
         });
+
+        chrome.tabs.onUpdated.addListener(update);
     } catch (error) {
         log(error);
     }
