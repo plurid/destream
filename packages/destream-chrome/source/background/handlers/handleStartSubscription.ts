@@ -21,6 +21,10 @@
     } from '../subscriptions';
 
     import {
+        sendNotificationSessionStart,
+    } from '../notifications';
+
+    import {
         openTab,
     } from '../utilities';
     // #endregion external
@@ -84,6 +88,12 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
         const tab = await openTab(session.url);
 
         const pubsubEndpoint = session.customPubSubLink || DEFAULT_API_ENDPOINT;
+
+        sendNotificationSessionStart(
+            streamerIdentonym,
+            tab.id,
+            session.url,
+        );
 
         await startSubscription(
             streamerIdentonym,

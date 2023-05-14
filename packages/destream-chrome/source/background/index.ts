@@ -7,6 +7,10 @@
 
 
     // #region internal
+    import {
+        initialize,
+    } from './general';
+
     import messageHandler from './handlers';
 
     import {
@@ -25,6 +29,8 @@
 // #region module
 const main = () => {
     try {
+        initialize();
+
         chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             messageHandler(request, sender, sendResponse)
                 .catch(error => {

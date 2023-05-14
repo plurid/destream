@@ -1,3 +1,13 @@
+// #region imports
+    // #region external
+    import {
+        GeneralPermissions,
+    } from '../interfaces';
+    // #endregion external
+// #endregion imports
+
+
+
 // #region module
 export const IN_PRODUCTION = process.env.NODE_ENV === 'production';
 
@@ -45,19 +55,10 @@ export const MESSAGE_TYPE = {
     GET_SUBSCRIPTION: 'getSubscription',
     GET_TAB_SETTINGS: 'getTabSettings',
     STOP_EVERYTHING: 'stopEverything',
+    URL_CHANGE: 'urlChange',
     DESTREAM_EVENT: 'destreamEvent',
 } as const;
 
-
-export const defaultPermissions = {
-    allowScroll: true,
-    allowPlayPause: true,
-    allowTimeSeek: true,
-    allowVolumeControl: true,
-    allowRateControl: true,
-    allowLike: false,
-    allowChangeURL: false,
-};
 
 
 export const defaultAllowedURLOrigins = [
@@ -65,6 +66,22 @@ export const defaultAllowedURLOrigins = [
     'https://open.spotify.com',
     'https://www.youtube.com',
 ];
+
+export const defaultPermissions: GeneralPermissions = {
+    useNotifications: true,
+    allowScroll: true,
+    allowPlayPause: true,
+    allowTimeSeek: true,
+    allowVolumeControl: true,
+    allowRateControl: true,
+    allowLike: false,
+    allowChangeURL: false,
+    allowChangeURLAnyOrigin: false,
+    allowedURLOrigins: [
+        ...defaultAllowedURLOrigins,
+    ],
+};
+
 
 
 export const GENERAL_EVENT = {

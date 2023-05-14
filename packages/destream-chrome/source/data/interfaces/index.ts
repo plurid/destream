@@ -28,6 +28,7 @@ export type Message =
     | GetTabSettingsMessage
     | SendNotificationMessage
     | StopEverythingMessage
+    | URLChangeMessage
     | DestreamEventMessage;
 
 export interface PublishEventMessage {
@@ -100,6 +101,19 @@ export type Notification =
         url: string;
     };
 
+
+export interface GeneralPermissions {
+    useNotifications: boolean;
+    allowScroll: boolean;
+    allowPlayPause: boolean;
+    allowTimeSeek: boolean;
+    allowVolumeControl: boolean;
+    allowRateControl: boolean;
+    allowLike: boolean;
+    allowChangeURL: boolean;
+    allowChangeURLAnyOrigin: boolean;
+    allowedURLOrigins: string[];
+};
 
 
 export type DestreamEvent =
@@ -252,6 +266,12 @@ export interface SendNotificationMessage {
 
 export interface StopEverythingMessage {
     type: typeof MESSAGE_TYPE.STOP_EVERYTHING;
+}
+
+export interface URLChangeMessage {
+    type: typeof MESSAGE_TYPE.URL_CHANGE
+    // url
+    data: string;
 }
 
 export interface DestreamEventMessage {

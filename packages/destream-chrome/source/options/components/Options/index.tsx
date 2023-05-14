@@ -31,6 +31,7 @@
 
     import {
         StopEverythingMessage,
+        GeneralPermissions,
     } from '../../../data/interfaces';
 
     import {
@@ -99,6 +100,11 @@ const Options: React.FC<any> = (
     ] = useIsStreamer();
 
     const [
+        useNotifications,
+        setUseNotifications,
+    ] = useState(defaultPermissions.useNotifications);
+
+    const [
         allowScroll,
         setAllowScroll,
     ] = useState(defaultPermissions.allowScroll);
@@ -136,7 +142,7 @@ const Options: React.FC<any> = (
     const [
         allowChangeURLAnyOrigin,
         setAllowChangeURLAnyOrigin,
-    ] = useState(false);
+    ] = useState(defaultPermissions.allowChangeURLAnyOrigin);
 
     const [
         newAllowedURLOrigin,
@@ -147,7 +153,7 @@ const Options: React.FC<any> = (
         allowedURLOrigins,
         setAllowedURLOrigins,
     ] = useState([
-        ...defaultAllowedURLOrigins,
+        ...defaultPermissions.allowedURLOrigins,
     ]);
 
     const [
@@ -190,11 +196,15 @@ const Options: React.FC<any> = (
     useEffect(() => {
         const getPermissions = async () => {
             const generalPermissions = await storageGet(storageFields.generalPermissions);
+            console.log({
+                generalPermissions,
+            });
             if (!generalPermissions) {
                 return;
             }
 
             const {
+                useNotifications,
                 allowScroll,
                 allowPlayPause,
                 allowTimeSeek,
@@ -206,6 +216,7 @@ const Options: React.FC<any> = (
                 allowedURLOrigins,
             } = generalPermissions;
 
+            setUseNotifications(useNotifications);
             setAllowScroll(allowScroll);
             setAllowPlayPause(allowPlayPause);
             setAllowTimeSeek(allowTimeSeek);
@@ -234,7 +245,8 @@ const Options: React.FC<any> = (
 
     useEffect(() => {
         const setPermissions = async () => {
-            const generalPermissions = {
+            const generalPermissions: GeneralPermissions = {
+                useNotifications,
                 allowScroll,
                 allowPlayPause,
                 allowTimeSeek,
@@ -251,6 +263,7 @@ const Options: React.FC<any> = (
 
         setPermissions();
     }, [
+        useNotifications,
         allowScroll,
         allowPlayPause,
         allowTimeSeek,
@@ -346,6 +359,15 @@ const Options: React.FC<any> = (
                     });
                 }}
             >
+                <InputSwitch
+                    name="use notifications"
+                    checked={useNotifications}
+                    atChange={() => {
+                        setUseNotifications(!useNotifications);
+                    }}
+                    theme={plurid}
+                />
+
                 <InputSwitch
                     name="allow scroll"
                     checked={allowScroll}

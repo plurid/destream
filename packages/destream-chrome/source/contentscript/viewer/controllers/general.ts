@@ -1,3 +1,18 @@
+// #region imports
+    // #region external
+    import {
+        MESSAGE_TYPE,
+        URLChangeMessage,
+    } from '../../../data';
+
+    import {
+        sendMessage,
+    } from '../../../common/messaging';
+    // #endregion external
+// #endregion imports
+
+
+
 // #region module
 export const generalScrollTo = (
     top: number,
@@ -14,6 +29,18 @@ export const generalScrollTo = (
 export const generalURLChange = (
     url: string,
 ) => {
-    location.href = url;
+    sendMessage<URLChangeMessage>(
+        {
+            type: MESSAGE_TYPE.URL_CHANGE,
+            data: url,
+        },
+        (response) => {
+            if (response.status) {
+                // URL might be changed from the background script using notifications
+                // or it might allow the contentscript to change the URL itself.
+                location.href = url;
+            }
+        },
+    );
 }
 // #endregion module

@@ -22,6 +22,7 @@
     import handleGetTabSettings from './handleGetTabSettings';
     import handleSendNotification from './handleSendNotification';
     import handleStopEverything from './handleStopEverything';
+    import handleURLChange from './handleURLChange';
     // #endregion internal
 // #endregion imports
 
@@ -60,6 +61,8 @@ const messageHandler: Handler<Message> = async (
             return handleSendNotification(request, sender, sendResponse);
         case MESSAGE_TYPE.STOP_EVERYTHING:
             return handleStopEverything(request, sender, sendResponse);
+        case MESSAGE_TYPE.URL_CHANGE:
+            return handleURLChange(request, sender, sendResponse);
         default:
             return;
     }
