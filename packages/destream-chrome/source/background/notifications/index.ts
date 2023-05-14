@@ -78,7 +78,7 @@ export const sendNotificationURLChange = (
         {
             ...defaultNewNotification,
             title: 'URL Change',
-            message: `Streamer '${streamerName}' wants to access ${host} (${url}).`,
+            message: `${streamerName} wants to access ${host} (${url})`,
             buttons: [
                 {
                     title: 'Cancel',
@@ -116,10 +116,14 @@ export const sendNotificationSessionStart = (
         notificationID,
         {
             ...defaultNewNotification,
-            title: 'Session Start',
-            message: `Started destream for ${streamerName} (${host}).`,
+            title: 'destream session',
+            message: `${streamerName} started destream ${host} (${url})`,
         },
     );
+
+    setTimeout(() => {
+        chrome.notifications.clear(notificationID);
+    }, 5_000);
 
     return notificationID;
 }

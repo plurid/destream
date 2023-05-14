@@ -3,11 +3,14 @@
     import {
         Handler,
         StartSubscriptionMessage,
+        GeneralPermissions,
         DEFAULT_API_ENDPOINT,
+        storageFields,
     } from '../../data';
 
     import {
         storageGetTokens,
+        storageGet,
     } from '../../common/storage';
 
     import {
@@ -66,6 +69,8 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
         return;
     }
 
+    const generalPermissions: GeneralPermissions = await storageGet(storageFields.generalPermissions);
+
     const {
         sessions,
         streamerDetails,
@@ -89,11 +94,13 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
 
         const pubsubEndpoint = session.customPubSubLink || DEFAULT_API_ENDPOINT;
 
-        sendNotificationSessionStart(
-            streamerIdentonym,
-            tab.id,
-            session.url,
-        );
+        if (generalPermissions?.useNotifications) {
+            sendNotificationSessionStart(
+                streamerIdentonym,
+                tab.id,
+                session.url,
+            );
+        }
 
         await startSubscription(
             streamerIdentonym,
