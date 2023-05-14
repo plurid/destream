@@ -11,13 +11,12 @@
 
     import {
         stopSessionWithTabID,
+        updateSession,
     } from './sessions';
 
     import {
         stopSubscriptionWithTabID,
     } from './subscriptions';
-
-    import update from './update';
     // #endregion internal
 // #endregion imports
 
@@ -41,7 +40,7 @@ const main = () => {
             stopSubscriptionWithTabID(tabID);
         });
 
-        chrome.tabs.onUpdated.addListener(update);
+        chrome.tabs.onUpdated.addListener(updateSession);
     } catch (error) {
         log(error);
     }

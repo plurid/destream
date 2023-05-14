@@ -26,6 +26,7 @@
     // #region internal
     import {
         generalScrollTo,
+        generalURLChange,
     } from './controllers/general';
 
     import {
@@ -55,6 +56,9 @@ export const handleEvent = (
         switch (event.type) {
             case GENERAL_EVENT.SCROLL:
                 generalScrollTo(event.payload.top, event.payload.left);
+                break;
+            case GENERAL_EVENT.URL_CHANGE:
+                generalURLChange(event.payload.url);
                 break;
 
             case YOUTUBE_EVENT.PLAY:

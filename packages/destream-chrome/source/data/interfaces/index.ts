@@ -104,6 +104,7 @@ export type Notification =
 
 export type DestreamEvent =
     | DestreamScrollEvent
+    | DestreamURLChangeEvent
     | DestreamStopSessionEvent
     | DestreamPlayEvent
     | DestreamPauseEvent
@@ -118,6 +119,13 @@ export interface DestreamScrollEvent {
     payload: {
         top: number;
         left: number;
+    };
+}
+
+export interface DestreamURLChangeEvent {
+    type: typeof GENERAL_EVENT.URL_CHANGE;
+    payload: {
+        url: string;
     };
 }
 

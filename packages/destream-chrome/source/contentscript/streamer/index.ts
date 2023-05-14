@@ -68,6 +68,7 @@ const runStreamer = async (
     let detector: Detector | undefined;
     let endpoint: string | undefined;
 
+
     const runLogic = (event: CustomEvent<DestreamEvent>) => {
         sendMessage<PublishEventMessage>(
             {
@@ -92,16 +93,10 @@ const runStreamer = async (
         );
     };
 
-    const stopSessionListener = (
-        request: any,
-        _sender: any,
-        sendResponse: any,
-    ) => {
-        if (!endpoint || request.type !== GENERAL_EVENT.STOP_SESSION) {
-            sendResponse();
-            return true;
-        }
 
+    const stopSession = (
+        request: any,
+    ) => {
         const event = composeEventData(request.session, {
             type: GENERAL_EVENT.STOP_SESSION,
         });
@@ -111,10 +106,48 @@ const runStreamer = async (
             request.topic,
             event,
         );
+    }
+
+    const urlChange = (
+        request: any,
+    ) => {
+        const event = composeEventData(request.session, {
+            type: GENERAL_EVENT.URL_CHANGE,
+            payload: {
+                url: request.url,
+            },
+        });
+
+        client.publish(
+            endpoint,
+            request.topic,
+            event,
+        );
+    }
+
+    const messageListener = (
+        request: any,
+        _sender: chrome.runtime.MessageSender,
+        sendResponse: (response?: any) => void,
+    ) => {
+        if (!endpoint) {
+            sendResponse();
+            return true;
+        }
+
+        switch (request.type) {
+            case GENERAL_EVENT.STOP_SESSION:
+                stopSession(request);
+                break;
+            case GENERAL_EVENT.URL_CHANGE:
+                urlChange(request);
+                break;
+        }
 
         sendResponse();
         return true;
     }
+
 
     const run = async () => {
         const isStreamer = await storageGetIsStreamer();
@@ -163,13 +196,15 @@ const runStreamer = async (
         runCleanup = await run();
     }
 
+
     chrome.storage.onChanged.addListener(storageLogic);
-    chrome.runtime.onMessage.addListener(stopSessionListener);
+    chrome.runtime.onMessage.addListener(messageListener);
+
 
     return () => {
         runCleanup();
         chrome.storage.onChanged.removeListener(storageLogic);
-        chrome.runtime.onMessage.removeListener(stopSessionListener);
+        chrome.runtime.onMessage.removeListener(messageListener);
 
         if (detector) {
             detector.target.removeEventListener(

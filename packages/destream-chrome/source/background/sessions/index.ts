@@ -4,6 +4,7 @@
         Session,
         storagePrefix,
         DEFAULT_API_ENDPOINT,
+        GENERAL_EVENT,
     } from '../../data';
 
     import {
@@ -21,6 +22,7 @@
 
     import {
         removeTabSettings,
+        getTopicID,
     } from '../utilities';
     // #endregion external
 // #endregion imports
@@ -161,5 +163,28 @@ export const composeEventData = (
     };
 
     return event;
+}
+
+
+export const updateSession = async (
+    tabID: number,
+    changeInfo: chrome.tabs.TabChangeInfo,
+    _tab: chrome.tabs.Tab,
+) => {
+    if (!changeInfo.url) {
+        return;
+    }
+
+    const session = await getSession(tabID);
+    if (!session) {
+        return;
+    }
+
+    await chrome.tabs.sendMessage(session.tabID, {
+        type: GENERAL_EVENT.URL_CHANGE,
+        topic: getTopicID(session.id),
+        session,
+        url: changeInfo.url,
+    });
 }
 // #endregion module

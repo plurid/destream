@@ -69,6 +69,7 @@ export const defaultAllowedURLOrigins = [
 
 export const GENERAL_EVENT = {
     SCROLL: 'generalScroll',
+    URL_CHANGE: 'generalURLChange',
     STOP_SESSION: 'generalStopSession',
 } as const;
 
