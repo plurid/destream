@@ -110,14 +110,16 @@ export const youtubeApplyCurrentState = (
         return;
     }
 
-    if (state.video.paused) {
-        youtubePause();
-    } else {
-        youtubePlay();
-    }
-
     youtubeSeek(state.video.currentTime);
     youtubeVolumeChange(state.video.volume);
     youtubeRateChange(state.video.playbackRate);
+
+    setTimeout(() => {
+        if (state.video.paused) {
+            youtubePause();
+        } else {
+            youtubePlay();
+        }
+    }, 500);
 }
 // #endregion module

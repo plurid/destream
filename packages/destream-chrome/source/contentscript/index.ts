@@ -21,16 +21,9 @@ const main = async () => {
     try {
         const client = new MessagerClient();
 
-        const viewerCleanup = await runViewer(client);
-        const streamerCleanup = await runStreamer(client);
-        const viewCleanup = await runView();
-
-        // const chromeRuntimePort = chrome.runtime.connect();
-        // chromeRuntimePort.onDisconnect.addListener(() => {
-        //     viewerCleanup();
-        //     streamerCleanup();
-        //     viewCleanup();
-        // });
+        await runViewer(client);
+        await runStreamer(client);
+        await runView();
     } catch (error) {
         log(error);
     }

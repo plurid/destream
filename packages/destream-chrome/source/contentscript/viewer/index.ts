@@ -115,13 +115,23 @@ export const handleEvent = (
 const runViewer = async (
     client: MessagerClient,
 ) => {
+    let setup = false;
+
+
     const run = async () => {
         const subscriptionRequest = await chrome.runtime.sendMessage<GetSubscriptionMessage>({
             type: MESSAGE_TYPE.GET_SUBSCRIPTION,
         });
         if (!subscriptionRequest.status) {
-            return () => {};
+            return;
         }
+
+        if (setup) {
+            return;
+        } else {
+            setup = true;
+        }
+
 
         const {
             subscription,
@@ -166,34 +176,20 @@ const runViewer = async (
             },
         );
 
-
         await client.publish(
             endpoint,
             subscription.joinTopic,
             {},
         );
-
-
-        return () => {
-            client.unsubscribe(
-                endpoint,
-                subscription.publishTopic,
-            );
-        }
     }
 
-    let runCleanup = await run();
+    await run();
 
     const storageLogic = async () => {
-        runCleanup();
-        runCleanup = await run();
+        await run();
     }
-    chrome.storage.onChanged.addListener(storageLogic);
 
-    return () => {
-        runCleanup();
-        chrome.storage.onChanged.removeListener(storageLogic);
-    }
+    chrome.storage.onChanged.addListener(storageLogic);
 }
 // #endregion module
 

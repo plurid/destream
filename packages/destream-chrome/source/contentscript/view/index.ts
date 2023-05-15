@@ -211,24 +211,16 @@ const runView = async () => {
         } else {
             cleanupView();
         }
-
-        return () => {
-        }
     }
 
 
-    let runCleanup = await run();
+    await run();
 
     const storageLogic = async () => {
-        runCleanup();
-        runCleanup = await run();
+        await run();
     }
-    chrome.storage.onChanged.addListener(storageLogic);
 
-    return () => {
-        runCleanup();
-        chrome.storage.onChanged.removeListener(storageLogic);
-    }
+    chrome.storage.onChanged.addListener(storageLogic);
 }
 // #endregion module
 

@@ -65,6 +65,7 @@ const getDetector = (): Detector => {
 const runStreamer = async (
     client: MessagerClient,
 ) => {
+    let setup = false;
     let detector: Detector | undefined;
     let endpoint: string | undefined;
 
@@ -152,14 +153,20 @@ const runStreamer = async (
     const run = async () => {
         const isStreamer = await storageGetIsStreamer();
         if (!isStreamer) {
-            return () => {};
+            return;
         }
 
         const sessionRequest = await sendMessage<GetSessionMessage>({
             type: MESSAGE_TYPE.GET_SESSION,
         });
         if (!sessionRequest.status) {
-            return () => {};
+            return;
+        }
+
+        if (setup) {
+            return;
+        } else {
+            setup = true;
         }
 
 
@@ -202,45 +209,18 @@ const runStreamer = async (
                 publishCurrentState();
             },
         );
-
-
-        return () => {
-            detector.target.removeEventListener(
-                DESTREAM_DETECT_EVENT,
-                runLogic,
-            );
-
-            client.unsubscribe(
-                endpoint,
-                session.joinTopic,
-            );
-        }
     }
 
-    let runCleanup = await run();
+
+    await run();
 
     const storageLogic = async () => {
-        runCleanup();
-        runCleanup = await run();
+        await run();
     }
 
 
     chrome.storage.onChanged.addListener(storageLogic);
     chrome.runtime.onMessage.addListener(messageListener);
-
-
-    return () => {
-        runCleanup();
-        chrome.storage.onChanged.removeListener(storageLogic);
-        chrome.runtime.onMessage.removeListener(messageListener);
-
-        if (detector) {
-            detector.target.removeEventListener(
-                DESTREAM_DETECT_EVENT,
-                runLogic,
-            );
-        }
-    }
 }
 // #endregion module
 
