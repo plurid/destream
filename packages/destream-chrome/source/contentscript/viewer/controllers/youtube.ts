@@ -1,6 +1,10 @@
 // #region imports
     // #region external
     import {
+        YoutubeCurrentState,
+    } from '../../../data';
+
+    import {
         getYoutubeVideoPlayer,
         getYoutubeLikeButton,
         checkYoutubeLikeButtonPressed,
@@ -99,7 +103,7 @@ export const youtubeSeek = (
 }
 
 export const youtubeApplyCurrentState = (
-    state: any,
+    state: YoutubeCurrentState,
 ) => {
     const videoPlayer = getYoutubeVideoPlayer();
     if (!videoPlayer) {

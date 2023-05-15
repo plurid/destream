@@ -289,6 +289,17 @@ export interface DestreamEventMessage {
 }
 
 
+export interface YoutubeCurrentState {
+    url: string;
+    video: {
+        currentTime: number;
+        volume: number;
+        playbackRate: number;
+        paused: boolean;
+    };
+}
+
+
 
 
 export type Handler<R> = (
