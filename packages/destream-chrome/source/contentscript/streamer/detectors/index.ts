@@ -19,6 +19,8 @@ const SCROLL_DEBOUNCE = 600; // milliseconds
 
 export interface Detector {
     target: EventTarget;
+
+    getCurrentState: () => any;
 }
 
 
@@ -70,6 +72,13 @@ export class GeneralDetector implements Detector {
 
     protected onGeneralScroll() {
         window.addEventListener('scroll', this.scrollFunction.bind(this));
+    }
+
+
+    public getCurrentState() {
+        return {
+            // url: window.location.href,
+        };
     }
 }
 // #endregion module

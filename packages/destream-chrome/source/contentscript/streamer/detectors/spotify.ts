@@ -68,5 +68,10 @@ export class SpotifyDetector extends GeneralDetector {
     //     });
     //     this.target.dispatchEvent(event);
     // }
+
+
+    public getCurrentState() {
+        return {};
+    }
 }
 // #endregion module

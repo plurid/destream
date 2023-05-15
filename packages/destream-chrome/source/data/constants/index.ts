@@ -24,6 +24,8 @@ export const storagePrefix = {
     destreamTopic: 'destream-',
 };
 
+export const destreamTopicSuffix = '/join';
+
 export const storageFields = {
     generalPermissions: 'generalPermissions',
     extendedDrawers: 'extendedDrawers',
@@ -88,6 +90,7 @@ export const GENERAL_EVENT = {
     SCROLL: 'generalScroll',
     URL_CHANGE: 'generalURLChange',
     STOP_SESSION: 'generalStopSession',
+    CURRENT_STATE: 'currentState',
 } as const;
 
 export const YOUTUBE_EVENT = {

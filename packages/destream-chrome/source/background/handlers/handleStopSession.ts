@@ -18,7 +18,7 @@
     } from '../sessions';
 
     import {
-        getTopicID,
+        getPublishTopicID,
         removeTabSettings,
     } from '../utilities';
     // #endregion external
@@ -66,7 +66,7 @@ const handleStopSession: Handler<StopSessionMessage> = async (
 
     await chrome.tabs.sendMessage(session.tabID, {
         type: GENERAL_EVENT.STOP_SESSION,
-        topic: getTopicID(session.id),
+        topic: getPublishTopicID(session.id),
         session,
     });
 

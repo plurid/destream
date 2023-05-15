@@ -22,7 +22,7 @@
     } from '../graphql';
 
     import {
-        getTopicID,
+        getPublishTopicID,
     } from '../utilities';
     // #endregion external
 // #endregion imports
@@ -66,7 +66,7 @@ const handlePublishEvent: Handler<PublishEventMessage> = async (
         return;
     }
 
-    const topic = getTopicID(session.id);
+    const topic = getPublishTopicID(session.id);
     const publishEventResponse: PublishEventResponse = {
         status: true,
         data: {

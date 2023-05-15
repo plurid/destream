@@ -36,6 +36,7 @@
         youtubeVolumeChange,
         youtubeRateChange,
         youtubeLike,
+        youtubeApplyCurrentState,
     } from './controllers/youtube';
 
     import {
@@ -49,6 +50,17 @@
 
 
 // #region module
+export const applyCurrentState = (
+    state: any,
+) => {
+    switch (window.location.host) {
+        case 'www.youtube.com':
+            youtubeApplyCurrentState(state);
+            break;
+    }
+}
+
+
 export const handleEvent = (
     event: DestreamEvent,
 ) => {
@@ -59,6 +71,9 @@ export const handleEvent = (
                 break;
             case GENERAL_EVENT.URL_CHANGE:
                 generalURLChange(event.payload.url);
+                break;
+            case GENERAL_EVENT.CURRENT_STATE:
+                applyCurrentState(event.payload);
                 break;
 
             case YOUTUBE_EVENT.PLAY:
@@ -120,7 +135,7 @@ const runViewer = async (
 
         await client.subscribe(
             endpoint,
-            subscription.topic,
+            subscription.publishTopic,
             (message) => {
                 if (message.sessionID !== subscription.sessionID) {
                     return;
@@ -139,7 +154,7 @@ const runViewer = async (
 
                         client.unsubscribe(
                             endpoint,
-                            subscription.topic,
+                            subscription.publishTopic,
                         );
                         return;
                     }
@@ -151,10 +166,18 @@ const runViewer = async (
             },
         );
 
+
+        await client.publish(
+            endpoint,
+            subscription.joinTopic,
+            {},
+        );
+
+
         return () => {
             client.unsubscribe(
                 endpoint,
-                subscription.topic,
+                subscription.publishTopic,
             );
         }
     }

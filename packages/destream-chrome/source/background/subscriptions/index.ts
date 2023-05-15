@@ -22,7 +22,8 @@
     } from '../graphql';
 
     import {
-        getTopicID,
+        getPublishTopicID,
+        getJoinTopicID,
         removeTabSettings,
     } from '../utilities';
     // #endregion external
@@ -50,7 +51,8 @@ export const startSubscription = async (
     const subscription: Subscription = {
         sessionID,
         subscriptionID,
-        topic: getTopicID(sessionID),
+        publishTopic: getPublishTopicID(sessionID),
+        joinTopic: getJoinTopicID(sessionID),
         startedAt: Date.now(),
         streamer,
         tabID,

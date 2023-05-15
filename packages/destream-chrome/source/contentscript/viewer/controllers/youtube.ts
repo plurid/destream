@@ -97,4 +97,23 @@ export const youtubeSeek = (
 
     videoPlayer.currentTime = seconds;
 }
+
+export const youtubeApplyCurrentState = (
+    state: any,
+) => {
+    const videoPlayer = getYoutubeVideoPlayer();
+    if (!videoPlayer) {
+        return;
+    }
+
+    if (state.video.paused) {
+        youtubePause();
+    } else {
+        youtubePlay();
+    }
+
+    youtubeSeek(state.video.currentTime);
+    youtubeVolumeChange(state.video.volume);
+    youtubeRateChange(state.video.playbackRate);
+}
 // #endregion module

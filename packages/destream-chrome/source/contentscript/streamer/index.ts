@@ -181,10 +181,38 @@ const runStreamer = async (
             runLogic,
         );
 
+
+        const publishCurrentState = async () => {
+            const currentState = await detector.getCurrentState();
+
+            client.publish(
+                endpoint,
+                session.publishTopic,
+                composeEventData(session, {
+                    type: GENERAL_EVENT.CURRENT_STATE,
+                    payload: currentState,
+                }),
+            );
+        }
+
+        client.subscribe(
+            endpoint,
+            session.joinTopic,
+            () => {
+                publishCurrentState();
+            },
+        );
+
+
         return () => {
             detector.target.removeEventListener(
                 DESTREAM_DETECT_EVENT,
                 runLogic,
+            );
+
+            client.unsubscribe(
+                endpoint,
+                session.joinTopic,
             );
         }
     }

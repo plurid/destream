@@ -59,6 +59,8 @@ export interface Session {
     tabID: number;
     startedAt: number;
     streamer: string;
+    publishTopic: string;
+    joinTopic: string;
     token: string;
     endpoint: string;
     streamerDetails?: StreamerDetails;
@@ -67,7 +69,8 @@ export interface Session {
 export interface Subscription {
     sessionID: string;
     subscriptionID: string;
-    topic: string;
+    publishTopic: string;
+    joinTopic: string;
     startedAt: number;
     streamer: string;
     tabID: number;
@@ -119,6 +122,7 @@ export interface GeneralPermissions {
 export type DestreamEvent =
     | DestreamScrollEvent
     | DestreamURLChangeEvent
+    | DestreamCurrentStateEvent
     | DestreamStopSessionEvent
     | DestreamPlayEvent
     | DestreamPauseEvent
@@ -141,6 +145,11 @@ export interface DestreamURLChangeEvent {
     payload: {
         url: string;
     };
+}
+
+export interface DestreamCurrentStateEvent {
+    type: typeof GENERAL_EVENT.CURRENT_STATE;
+    payload: any;
 }
 
 export interface DestreamStopSessionEvent {

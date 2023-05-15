@@ -22,7 +22,7 @@
 
     import {
         removeTabSettings,
-        getTopicID,
+        getPublishTopicID,
     } from '../utilities';
     // #endregion external
 // #endregion imports
@@ -41,6 +41,8 @@ export const startSession = async (
     tabID: number,
     sessionID: string,
     streamer: string,
+    publishTopic: string,
+    joinTopic: string,
     token: string,
     endpoint: string,
 ) => {
@@ -50,6 +52,8 @@ export const startSession = async (
         tabID,
         startedAt: Date.now(),
         streamer,
+        publishTopic,
+        joinTopic,
         token,
         endpoint,
     };
@@ -182,7 +186,7 @@ export const updateSession = async (
 
     await chrome.tabs.sendMessage(session.tabID, {
         type: GENERAL_EVENT.URL_CHANGE,
-        topic: getTopicID(session.id),
+        topic: getPublishTopicID(session.id),
         session,
         url: changeInfo.url,
     });

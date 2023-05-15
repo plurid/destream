@@ -116,5 +116,18 @@ export class YoutubeDetector extends GeneralDetector {
         });
         this.target.dispatchEvent(event);
     }
+
+
+    public getCurrentState() {
+        return {
+            url: window.location.href,
+            video: {
+                currentTime: this.video.currentTime,
+                volume: this.video.volume,
+                playbackRate: this.video.playbackRate,
+                paused: this.video.paused,
+            },
+        };
+    }
 }
 // #endregion module

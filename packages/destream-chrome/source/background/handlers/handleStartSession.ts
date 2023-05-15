@@ -20,6 +20,11 @@
         generateClient,
         START_SESSION,
     } from '../graphql';
+
+    import {
+        getPublishTopicID,
+        getJoinTopicID,
+    } from '../utilities'
     // #endregion external
 // #endregion imports
 
@@ -70,10 +75,15 @@ const handleStartSession: Handler<StartSessionMessage> = async (
 
         const pubsubEndpoint = customPubSubLink || DEFAULT_API_ENDPOINT;
 
+        const topic = getPublishTopicID(id);
+        const joinTopic = getJoinTopicID(id);
+
         await startSession(
             request.data.tabID,
             id,
             identonym,
+            topic,
+            joinTopic,
             token,
             pubsubEndpoint,
         );

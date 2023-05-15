@@ -2,6 +2,7 @@
     // #region external
     import {
         storagePrefix,
+        destreamTopicSuffix,
     } from '../../data/constants';
 
     import {
@@ -43,10 +44,16 @@ export const removeTabSettings = async (
 }
 
 
-export const getTopicID = (
+export const getPublishTopicID = (
     id: string,
 ) => {
     return storagePrefix.destreamTopic + id;
+}
+
+export const getJoinTopicID = (
+    id: string,
+) => {
+    return storagePrefix.destreamTopic + id + destreamTopicSuffix;
 }
 
 
