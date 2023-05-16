@@ -23,6 +23,7 @@
     import {
         MESSAGE_TYPE,
         uncontrollableURLsBase,
+        DEFAULT_API_ENDPOINT,
     } from '../../../data/constants';
 
     import {
@@ -32,10 +33,12 @@
         GetSessionMessage,
         GetSubscriptionMessage,
         Subscription,
+        ReplaySessionMessage,
     } from '../../../data/interfaces';
 
     import {
         storageSet,
+        storageGetTokens,
     } from '../../../common/storage';
 
     import {
@@ -45,6 +48,11 @@
     import {
         openOptionsPage,
     } from '../../../common/utilities';
+
+    import {
+        generateClient,
+        GET_SESSION,
+    } from '../../../background/graphql';
 
     import {
         getTabSettingsID,
@@ -63,6 +71,10 @@
     import {
         getActiveTab,
     } from '../../../common/logic';
+
+    import {
+        log,
+    } from '../../../common/utilities';
     // #endregion external
 
 
@@ -220,6 +232,52 @@ const Popup: React.FC<any> = (
             },
         );
     }
+
+    const loadDestream = async () => {
+        try {
+            setDestreamID('');
+
+            const {
+                accessToken,
+                refreshToken,
+            } = await storageGetTokens();
+            const graphqlClient = generateClient(
+                DEFAULT_API_ENDPOINT,
+                accessToken,
+                refreshToken,
+            );
+
+            const request = await graphqlClient.query({
+                query: GET_SESSION,
+                variables: {
+                    input: {
+                        value: destreamID.trim().replace('destream://', ''),
+                    },
+                },
+            });
+
+            const response = request.data.destreamGetSession;
+            if (!response.status) {
+                return;
+            }
+
+            const {
+                data,
+            } = response;
+
+            await sendMessage<ReplaySessionMessage>(
+                {
+                    type: MESSAGE_TYPE.REPLAY_SESSION,
+                    data,
+                },
+                () => {
+                    setShowReplayDestream(false);
+                },
+            );
+        } catch (error) {
+            log(error);
+        }
+    }
     // #endregion handlers
 
 
@@ -357,7 +415,7 @@ const Popup: React.FC<any> = (
                     }}
                     textline={{
                         enterAtClick: () => {
-                            // load destream and start replay
+                            loadDestream();
                         },
                     }}
                     theme={plurid}

@@ -23,6 +23,7 @@
     import handleSendNotification from './handleSendNotification';
     import handleStopEverything from './handleStopEverything';
     import handleURLChange from './handleURLChange';
+    import handleReplaySession from './handleReplaySession';
     // #endregion internal
 // #endregion imports
 
@@ -63,6 +64,8 @@ const messageHandler: Handler<Message> = async (
             return handleStopEverything(request, sender, sendResponse);
         case MESSAGE_TYPE.URL_CHANGE:
             return handleURLChange(request, sender, sendResponse);
+        case MESSAGE_TYPE.REPLAY_SESSION:
+            return handleReplaySession(request, sender, sendResponse);
         default:
             return;
     }

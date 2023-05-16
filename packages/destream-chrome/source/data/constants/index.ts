@@ -59,6 +59,7 @@ export const MESSAGE_TYPE = {
     STOP_EVERYTHING: 'stopEverything',
     URL_CHANGE: 'urlChange',
     DESTREAM_EVENT: 'destreamEvent',
+    REPLAY_SESSION: 'replaySession',
 } as const;
 
 

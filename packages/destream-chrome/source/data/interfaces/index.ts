@@ -29,7 +29,8 @@ export type Message =
     | SendNotificationMessage
     | StopEverythingMessage
     | URLChangeMessage
-    | DestreamEventMessage;
+    | DestreamEventMessage
+    | ReplaySessionMessage;
 
 export interface PublishEventMessage {
     type: typeof MESSAGE_TYPE.PUBLISH_EVENT;
@@ -286,6 +287,11 @@ export interface URLChangeMessage {
 export interface DestreamEventMessage {
     type: typeof MESSAGE_TYPE.DESTREAM_EVENT;
     data: DestreamEvent;
+}
+
+export interface ReplaySessionMessage {
+    type: typeof MESSAGE_TYPE.REPLAY_SESSION;
+    data: any;
 }
 
 

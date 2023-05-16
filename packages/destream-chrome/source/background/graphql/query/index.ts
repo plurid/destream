@@ -42,6 +42,15 @@ export const GET_SESSION = gql`
             status
             data {
                 id
+                generatedAt
+                title
+                url
+                status
+                events {
+                    relativeTime
+                    data
+                }
+                stoppedAt
             }
         }
     }
