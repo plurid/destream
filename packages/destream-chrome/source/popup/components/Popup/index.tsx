@@ -14,6 +14,7 @@
         LinkButton,
         Spinner,
         InputSwitch,
+        InputLine,
     } from '@plurid/plurid-ui-components-react';
     // #endregion libraries
 
@@ -135,6 +136,16 @@ const Popup: React.FC<any> = (
     const [
         showStreamChat,
         setShowStreamChat,
+    ] = useState(false);
+
+    const [
+        destreamID,
+        setDestreamID,
+    ] = useState('');
+
+    const [
+        showReplayDestream,
+        setShowReplayDestream,
     ] = useState(false);
     // #endregion state
 
@@ -331,6 +342,44 @@ const Popup: React.FC<any> = (
         );
     }
 
+    if (showReplayDestream) {
+        return (
+            <StyledPopup>
+                <h1>
+                    replay destream
+                </h1>
+
+                <InputLine
+                    name="destream id"
+                    text={destreamID}
+                    atChange={(event) => {
+                        setDestreamID(event.target.value);
+                    }}
+                    textline={{
+                        enterAtClick: () => {
+                            // load destream and start replay
+                        },
+                    }}
+                    theme={plurid}
+                    style={{
+                        width: '280px',
+                    }}
+                />
+
+                <LinkButton
+                    text="cancel"
+                    atClick={() => {
+                        setShowReplayDestream(false);
+                    }}
+                    theme={plurid}
+                    style={{
+                        margin: '1rem 0',
+                    }}
+                />
+            </StyledPopup>
+        );
+    }
+
     return (
         <StyledPopup>
             <h1>
@@ -469,6 +518,18 @@ const Popup: React.FC<any> = (
                     )}
                 </div>
             )}
+
+
+            <LinkButton
+                text="replay destream"
+                atClick={() => {
+                    setShowReplayDestream(true);
+                }}
+                theme={plurid}
+                style={{
+                    margin: '1rem 0',
+                }}
+            />
 
 
             {activeTab && (
