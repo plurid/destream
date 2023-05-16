@@ -287,12 +287,18 @@ export const styleFullStream = (
 }
 
 
+export const composeIframeID = (
+    name: string,
+) => {
+    return `destream___${name}-iframe`;
+}
+
 export const createIframe = (
     name: string,
     stream: HTMLElement,
 ) => {
     const iframe = document.createElement('iframe');
-    iframe.id = `destream-${name}-iframe`;
+    iframe.id = composeIframeID(name);
     stream.appendChild(iframe);
     styleIframe(iframe);
 

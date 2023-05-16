@@ -7,10 +7,6 @@
     } from '../../data/interfaces';
 
     import {
-        checkYoutubeOrigin,
-    } from '../utilities/youtube';
-
-    import {
         getTabID,
         getSession,
         getSubscription,
@@ -25,6 +21,7 @@
         styleView,
         styleSplitStream,
         styleFullStream,
+        composeIframeID,
         createIframe,
     } from './utilities';
     // #endregion internal
@@ -33,6 +30,11 @@
 
 
 // #region module
+export const DESTREAM_VIEW_ID = 'destream___view';
+export const DESTREAM_VIEW_STREAM_ID = 'destream___view-stream';
+
+
+
 export const resolveTwitchChannelName = (
     session?: Session,
     subscription?: Subscription,
@@ -50,6 +52,7 @@ export const resolveTwitchChannelName = (
 
 export const renderTwitchStream = (
     view: HTMLDivElement,
+    injected: boolean,
     session?: Session,
     subscription?: Subscription,
     tabSettings?: TabSettings,
@@ -59,8 +62,18 @@ export const renderTwitchStream = (
         return;
     }
 
-    const stream = document.createElement('div');
-    view.appendChild(stream);
+    let stream: HTMLDivElement | undefined;
+    if (injected) {
+        stream = document.getElementById(DESTREAM_VIEW_STREAM_ID) as HTMLDivElement;
+    } else {
+        stream = document.createElement('div');
+        stream.id = DESTREAM_VIEW_STREAM_ID;
+        view.appendChild(stream);
+    }
+    if (!stream) {
+        return;
+    }
+
 
     const showChat = tabSettings?.showStreamChat === true;
 
@@ -70,12 +83,27 @@ export const renderTwitchStream = (
         styleFullStream(stream);
     }
 
-    const streamIframe = createIframe('stream', stream);
-    streamIframe.src = `https://player.twitch.tv/?channel=${twitchChannelName}&parent=www.youtube.com`;
 
-    if (showChat) {
-        const chatIframe = createIframe('chat', stream);
-        chatIframe.src = `https://www.twitch.tv/embed/${twitchChannelName}/chat?parent=www.youtube.com`;
+    const STREAM = 'stream';
+    const CHAT = 'chat';
+
+
+    if (!injected) {
+        const streamIframe = createIframe(STREAM, stream);
+        streamIframe.src = `https://player.twitch.tv/?channel=${twitchChannelName}&parent=${location.hostname}`;
+    }
+
+    const chatInjected = !!document.querySelector(`#${composeIframeID(CHAT)}`);
+    if (chatInjected) {
+        if (!showChat) {
+            const chatIframe = document.getElementById(composeIframeID(CHAT)) as HTMLIFrameElement;
+            chatIframe.remove();
+        }
+    } else {
+        if (showChat) {
+            const chatIframe = createIframe(CHAT, stream);
+            chatIframe.src = `https://www.twitch.tv/embed/${twitchChannelName}/chat?parent=${location.hostname}`;
+        }
     }
 }
 
@@ -95,6 +123,7 @@ export const resolveYoutubeChannelName = (
 
 export const renderYoutubeStream = (
     view: HTMLDivElement,
+    injected: boolean,
     session?: Session,
     subscription?: Subscription,
 ) => {
@@ -132,70 +161,63 @@ export const resolveRenderType = (
 }
 
 
-export const DESTREAM_VIEW_ID = 'destream-view';
 
 export const injectView = (
-    session?: Session,
-    subscription?: Subscription,
-    tabSettings?: TabSettings,
+    session: Session | undefined,
+    subscription: Subscription | undefined,
+    tabSettings: TabSettings,
 ) => {
-    const existingView = document.getElementById(DESTREAM_VIEW_ID);
-    if (existingView) {
-        if (tabSettings?.showStream) {
-            return;
-        }
-
-        if (!tabSettings?.showStream) {
-            cleanupView();
-            return;
-        }
-    }
-
-
-    if (!tabSettings?.showStream) {
+    if (!tabSettings.showStream) {
+        cleanupView();
         return;
     }
 
 
-    if (!checkYoutubeOrigin()) return;
+    const existingView = document.getElementById(DESTREAM_VIEW_ID) as HTMLDivElement;
+    const injected = !!existingView;
+    let view: HTMLDivElement | undefined;
 
+    if (injected) {
+        view = existingView;
+    } else {
+        view = document.createElement('div');
+        view.id = DESTREAM_VIEW_ID;
+        document.body.appendChild(view);
+        styleView(view);
+        makeResizable(view);
 
-    const view = document.createElement('div');
-    view.id = DESTREAM_VIEW_ID;
-    document.body.appendChild(view);
-    styleView(view);
-    makeResizable(view);
+        window.addEventListener('keyup', (event) => {
+            const shortcutHideKeyCode = 'KeyD';
 
-    window.addEventListener('keyup', (event) => {
-        const shortcutHideKeyCode = 'KeyD';
-
-        if (event.altKey && event.code === shortcutHideKeyCode) {
-            if (view.style.display === 'none') {
-                view.style.display = 'block';
-            } else {
-                view.style.display = 'none';
+            if (event.altKey && event.code === shortcutHideKeyCode) {
+                if (view.style.display === 'none') {
+                    view.style.display = 'block';
+                } else {
+                    view.style.display = 'none';
+                }
             }
-        }
-    });
-
+        });
+    }
 
     const renderType = resolveRenderType(session, subscription);
 
     switch (renderType) {
         case 'twitch':
-            renderTwitchStream(view, session, subscription, tabSettings);
+            renderTwitchStream(view, injected, session, subscription, tabSettings);
             break;
         case 'youtube':
-            renderYoutubeStream(view, session, subscription);
+            renderYoutubeStream(view, injected, session, subscription);
             break;
     }
 }
 
 export const cleanupView = () => {
     const view = document.getElementById(DESTREAM_VIEW_ID);
-    if (view) {
-        view.remove();
+    if (!view) {
+        return;
     }
+
+    view.remove();
 }
 
 
