@@ -31,7 +31,8 @@ export type Message =
     | StopEverythingMessage
     | URLChangeMessage
     | DestreamEventMessage
-    | ReplaySessionMessage;
+    | ReplaySessionMessage
+    | ResyncSessionMessage;
 
 export interface PublishEventMessage {
     type: typeof MESSAGE_TYPE.PUBLISH_EVENT;
@@ -302,6 +303,12 @@ export interface DestreamEventMessage {
 export interface ReplaySessionMessage {
     type: typeof MESSAGE_TYPE.REPLAY_SESSION;
     data: any;
+}
+
+export interface ResyncSessionMessage {
+    type: typeof MESSAGE_TYPE.RESYNC_SESSION;
+    // tab id
+    data: number;
 }
 
 

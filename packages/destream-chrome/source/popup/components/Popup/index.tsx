@@ -280,6 +280,21 @@ const Popup: React.FC<any> = (
             log(error);
         }
     }
+
+    const resyncSession = async () => {
+        if (!activeTab) {
+            return;
+        }
+
+        await sendMessage<any>(
+            {
+                type: MESSAGE_TYPE.RESYNC_SESSION,
+                data: activeTab.id,
+            },
+            () => {
+            },
+        );
+    }
     // #endregion handlers
 
 
@@ -562,6 +577,17 @@ const Popup: React.FC<any> = (
             && activeTabControlledBy
             && (
                 <div>
+                    <LinkButton
+                        text="resync session"
+                        atClick={() => {
+                            resyncSession();
+                        }}
+                        theme={plurid}
+                        style={{
+                            margin: '1rem auto',
+                        }}
+                    />
+
                     <InputSwitch
                         name="show stream"
                         checked={showStream}

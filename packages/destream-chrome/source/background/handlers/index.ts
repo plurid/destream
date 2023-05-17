@@ -24,6 +24,7 @@
     import handleStopEverything from './handleStopEverything';
     import handleURLChange from './handleURLChange';
     import handleReplaySession from './handleReplaySession';
+    import handleResyncSession from './handleResyncSession';
     // #endregion internal
 // #endregion imports
 
@@ -66,6 +67,8 @@ const messageHandler: Handler<Message> = async (
             return handleURLChange(request, sender, sendResponse);
         case MESSAGE_TYPE.REPLAY_SESSION:
             return handleReplaySession(request, sender, sendResponse);
+        case MESSAGE_TYPE.RESYNC_SESSION:
+            return handleResyncSession(request, sender, sendResponse);
         default:
             return;
     }
