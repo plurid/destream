@@ -14,6 +14,11 @@ export const StyledPopup = styled.div`
         margin-bottom: 2rem;
     }
 
+    a {
+        color: white;
+        text-decoration: none;
+    }
+
     display: grid;
     place-content: center;
     padding: 2rem;

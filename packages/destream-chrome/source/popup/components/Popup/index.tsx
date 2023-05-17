@@ -24,6 +24,7 @@
         MESSAGE_TYPE,
         uncontrollableURLsBase,
         DEFAULT_API_ENDPOINT,
+        DESTREAM_WWW_URL,
     } from '../../../data/constants';
 
     import {
@@ -441,7 +442,12 @@ const Popup: React.FC<any> = (
     return (
         <StyledPopup>
             <h1>
-                destream
+                <a
+                    href={DESTREAM_WWW_URL}
+                    target="_blank"
+                >
+                    destream
+                </a>
             </h1>
 
 
