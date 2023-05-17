@@ -94,6 +94,7 @@ export const GENERAL_EVENT = {
     SCROLL: 'generalScroll',
     URL_CHANGE: 'generalURLChange',
     STOP_SESSION: 'generalStopSession',
+    START_ANOTHER_SESSION: 'generalStartAnotherSession',
     CURRENT_STATE: 'currentState',
 } as const;
 

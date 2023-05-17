@@ -20,6 +20,7 @@ export type Message =
     | GetSessionMessage
     | GetSessionAudienceMessage
     | StartSessionMessage
+    | StartAnotherSessionMessage
     | StopSessionMessage
     | StartSubscriptionMessage
     | StopSubscriptionMessage
@@ -229,6 +230,14 @@ export interface StartSessionMessage {
         tabID: number;
         url: string;
         title: string;
+    };
+}
+
+export interface StartAnotherSessionMessage {
+    type: typeof GENERAL_EVENT.START_ANOTHER_SESSION;
+    data: {
+        session: Session;
+        newSessionID: string;
     };
 }
 

@@ -14,6 +14,7 @@
 
     import {
         startSession,
+        notifyStartAnotherSession,
     } from '../sessions';
 
     import {
@@ -87,6 +88,8 @@ const handleStartSession: Handler<StartSessionMessage> = async (
             token,
             pubsubEndpoint,
         );
+
+        await notifyStartAnotherSession(id);
     }
 
     sendResponse({

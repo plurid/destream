@@ -8,6 +8,7 @@
         PublishEventMessage,
         PublishEventResponse,
         GetSessionMessage,
+        StartAnotherSessionMessage,
         Session,
     } from '../../data';
 
@@ -126,6 +127,28 @@ const runStreamer = async (
         );
     }
 
+    const startAnotherSession = (
+        request: StartAnotherSessionMessage,
+    ) => {
+        const {
+            session,
+            newSessionID,
+        } = request.data;
+
+        const event = composeEventData(session, {
+            type: GENERAL_EVENT.START_ANOTHER_SESSION,
+            payload: {
+                newSessionID,
+            },
+        });
+
+        client.publish(
+            endpoint,
+            session.publishTopic,
+            event,
+        );
+    }
+
     const messageListener = (
         request: any,
         _sender: chrome.runtime.MessageSender,
@@ -142,6 +165,9 @@ const runStreamer = async (
                 break;
             case GENERAL_EVENT.URL_CHANGE:
                 urlChange(request);
+                break;
+            case GENERAL_EVENT.START_ANOTHER_SESSION:
+                startAnotherSession(request);
                 break;
         }
 

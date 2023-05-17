@@ -2,6 +2,7 @@
     // #region external
     import {
         Session,
+        StartAnotherSessionMessage,
         storagePrefix,
         DEFAULT_API_ENDPOINT,
         GENERAL_EVENT,
@@ -9,6 +10,7 @@
 
     import {
         storageGet,
+        storageGetAll,
         storageSet,
         storageRemove,
         storageGetTokens,
@@ -75,6 +77,21 @@ export const getSession = async (
 ): Promise<Session | undefined> => {
     const id = getSessionStorageID(tabID);
     return await storageGet<Session>(id);
+}
+
+
+export const getSessions = async () => {
+    try {
+        const storage = await storageGetAll();
+        const sessions = Object
+            .keys(storage)
+            .filter(item => item.startsWith(storagePrefix.subscription))
+            .map(id => storage[id]);
+
+        return sessions as Session[];
+    } catch (error) {
+        return [];
+    }
 }
 
 
@@ -189,6 +206,26 @@ export const updateSession = async (
         topic: getPublishTopicID(session.id),
         session,
         url: changeInfo.url,
+    });
+}
+
+
+export const notifyStartAnotherSession = async (
+    newSessionID: string,
+) => {
+    const sessions = await getSessions();
+    if (sessions.length === 0) {
+        return;
+    }
+
+    const session = sessions[0];
+
+    await chrome.tabs.sendMessage<StartAnotherSessionMessage>(session.tabID, {
+        type: GENERAL_EVENT.START_ANOTHER_SESSION,
+        data: {
+            session,
+            newSessionID,
+        },
     });
 }
 // #endregion module
