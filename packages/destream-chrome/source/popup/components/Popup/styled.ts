@@ -36,6 +36,11 @@ export const StyledTabControl = styled.div`
 `;
 
 
+export const StyledURLText = styled.div`
+    margin: 0 2rem;
+`;
+
+
 export const buttonStyle = {
     marginTop: '1rem',
     width: '280px',

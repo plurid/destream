@@ -83,6 +83,7 @@
     import {
         StyledPopup,
         StyledTabControl,
+        StyledURLText,
         buttonStyle,
     } from './styled';
     // #endregion internal
@@ -465,13 +466,13 @@ const Popup: React.FC<any> = (
             && activeTabControlledBy
             && (
                 <StyledTabControl>
-                    <div>
+                    <StyledURLText>
                         {activeTab.url}
                         <br />
                         is controlled by
                         <br />
                         {activeTabControlledBy}
-                    </div>
+                    </StyledURLText>
 
                     <PureButton
                         text="Stop Control"
@@ -490,19 +491,19 @@ const Popup: React.FC<any> = (
             && (
                 <StyledTabControl>
                     {!sessionStarted && (
-                        <div>
+                        <StyledURLText>
                             {activeTab.url}
                             <br />
                             is not controlled
-                        </div>
+                        </StyledURLText>
                     )}
 
                     {sessionStarted && (
-                        <div>
+                        <StyledURLText>
                             you are controlling
                             <br />
                             {activeTab.url}
-                        </div>
+                        </StyledURLText>
                     )}
 
                     {sessionStarted && (
