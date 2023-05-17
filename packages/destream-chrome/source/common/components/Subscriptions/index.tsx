@@ -96,7 +96,7 @@ const Subscriptions: React.FC<SubscriptionsProperties> = (
     const [
         subscriptions,
         setSubscriptions,
-    ] = useState([]);
+    ] = useState<string[]>([]);
     // #endregion state
 
 
@@ -132,6 +132,12 @@ const Subscriptions: React.FC<SubscriptionsProperties> = (
     }
 
     const handleNewSubscription = () => {
+        const alreadySubscribed = !!subscriptions.find(subscription => subscription === newSubscription);
+        if (alreadySubscribed) {
+            setNewSubscription('');
+            return;
+        }
+
         startSubscription(newSubscription);
 
         setSubscriptions([
