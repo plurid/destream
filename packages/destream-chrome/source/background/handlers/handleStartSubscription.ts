@@ -29,6 +29,7 @@
 
     import {
         openTab,
+        assignTabToGroup,
     } from '../utilities';
     // #endregion external
 // #endregion imports
@@ -91,6 +92,7 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
         }
 
         const tab = await openTab(session.url);
+        await assignTabToGroup(tab, streamerIdentonym, generalPermissions);
 
         const pubsubEndpoint = session.customPubSubLink || DEFAULT_API_ENDPOINT;
 

@@ -105,6 +105,11 @@ const Options: React.FC<any> = (
     ] = useState(defaultPermissions.useNotifications);
 
     const [
+        useSessionGroups,
+        setUseSessionGroups,
+    ] = useState(defaultPermissions.useSessionGroups);
+
+    const [
         allowScroll,
         setAllowScroll,
     ] = useState(defaultPermissions.allowScroll);
@@ -196,15 +201,13 @@ const Options: React.FC<any> = (
     useEffect(() => {
         const getPermissions = async () => {
             const generalPermissions = await storageGet(storageFields.generalPermissions);
-            console.log({
-                generalPermissions,
-            });
             if (!generalPermissions) {
                 return;
             }
 
             const {
                 useNotifications,
+                useSessionGroups,
                 allowScroll,
                 allowPlayPause,
                 allowTimeSeek,
@@ -217,6 +220,7 @@ const Options: React.FC<any> = (
             } = generalPermissions;
 
             setUseNotifications(useNotifications);
+            setUseSessionGroups(useSessionGroups);
             setAllowScroll(allowScroll);
             setAllowPlayPause(allowPlayPause);
             setAllowTimeSeek(allowTimeSeek);
@@ -247,6 +251,7 @@ const Options: React.FC<any> = (
         const setPermissions = async () => {
             const generalPermissions: GeneralPermissions = {
                 useNotifications,
+                useSessionGroups,
                 allowScroll,
                 allowPlayPause,
                 allowTimeSeek,
@@ -264,6 +269,7 @@ const Options: React.FC<any> = (
         setPermissions();
     }, [
         useNotifications,
+        useSessionGroups,
         allowScroll,
         allowPlayPause,
         allowTimeSeek,
@@ -327,7 +333,7 @@ const Options: React.FC<any> = (
                     theme={plurid}
                     level={2}
                     style={{
-                        width: '250px',
+                        width: '320px',
                         margin: '0 auto',
                     }}
                 />
@@ -364,6 +370,15 @@ const Options: React.FC<any> = (
                     checked={useNotifications}
                     atChange={() => {
                         setUseNotifications(!useNotifications);
+                    }}
+                    theme={plurid}
+                />
+
+                <InputSwitch
+                    name="use session groups"
+                    checked={useSessionGroups}
+                    atChange={() => {
+                        setUseSessionGroups(!useSessionGroups);
                     }}
                     theme={plurid}
                 />
@@ -570,7 +585,7 @@ const Options: React.FC<any> = (
                     theme={plurid}
                     level={2}
                     style={{
-                        width: '250px',
+                        width: '320px',
                         margin: '0 auto',
                     }}
                 />

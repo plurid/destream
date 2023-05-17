@@ -7,6 +7,7 @@
 
     import {
         TabSettings,
+        GeneralPermissions,
     } from '../../data/interfaces';
 
     import {
@@ -64,6 +65,38 @@ export const openTab = async (
     return await chrome.tabs.create({
         url,
         active,
+    });
+}
+
+
+export const assignTabToGroup = async (
+    tab: chrome.tabs.Tab,
+    streamerIdentonym: string,
+    generalPermissions: GeneralPermissions,
+) => {
+    if (!generalPermissions.useSessionGroups) {
+        return;
+    }
+
+    const groups = await chrome.tabGroups.query({
+        title: streamerIdentonym,
+    });
+    const existingGroup = groups[0];
+
+    if (existingGroup) {
+        await chrome.tabs.group({
+            groupId: existingGroup.id,
+            tabIds: tab.id,
+        });
+        return;
+    }
+
+    const groupID = await chrome.tabs.group({
+        tabIds: tab.id,
+    });
+
+    await chrome.tabGroups.update(groupID, {
+        title: streamerIdentonym,
     });
 }
 // #endregion module
