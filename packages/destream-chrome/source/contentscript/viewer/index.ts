@@ -8,6 +8,7 @@
         SPOTIFY_EVENT,
         GetSubscriptionMessage,
         StopSubscriptionMessage,
+        StartSubscriptionByIDMessage,
         Subscription,
     } from '../../data';
 
@@ -169,8 +170,12 @@ const runViewer = async (
                             );
                             break;
                         case GENERAL_EVENT.START_ANOTHER_SESSION:
-                            // start subscription based on
-                            // data.payload.newSessionID
+                            sendMessage<StartSubscriptionByIDMessage>(
+                                {
+                                    type: MESSAGE_TYPE.START_SUBSCRIPTION_BY_ID,
+                                    data: data.payload.newSessionID,
+                                },
+                            );
                             break;
                         default:
                             handleEvent(data);

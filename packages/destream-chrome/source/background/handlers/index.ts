@@ -16,6 +16,7 @@
     import handleStartSession from './handleStartSession';
     import handleStopSession from './handleStopSession';
     import handleStartSubscription from './handleStartSubscription';
+    import handleStartSubscriptionByID from './handleStartSubscriptionByID';
     import handleStopSubscription from './handleStopSubscription';
     import handleStopSubscriptions from './handleStopSubscriptions';
     import handleGetSubscription from './handleGetSubscription';
@@ -51,6 +52,8 @@ const messageHandler: Handler<Message> = async (
             return handleStopSession(request, sender, sendResponse);
         case MESSAGE_TYPE.START_SUBSCRIPTION:
             return handleStartSubscription(request, sender, sendResponse);
+        case MESSAGE_TYPE.START_SUBSCRIPTION_BY_ID:
+            return handleStartSubscriptionByID(request, sender, sendResponse);
         case MESSAGE_TYPE.STOP_SUBSCRIPTION:
             return handleStopSubscription(request, sender, sendResponse);
         case MESSAGE_TYPE.STOP_SUBSCRIPTIONS:
