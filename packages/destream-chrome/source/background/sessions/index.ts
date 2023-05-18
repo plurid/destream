@@ -170,9 +170,9 @@ export const stopSessionWithTabID = async (
 }
 
 
-export const composeEventData = (
+export const composeEventData = <E = any>(
     session: Session,
-    eventData: any,
+    eventData: E,
 ) => {
     const relativeTime = Date.now() - session.startedAt;
     const data = JSON.stringify(eventData);

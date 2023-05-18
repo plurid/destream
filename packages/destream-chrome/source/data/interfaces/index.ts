@@ -128,6 +128,7 @@ export type DestreamEvent =
     | DestreamURLChangeEvent
     | DestreamCurrentStateEvent
     | DestreamStopSessionEvent
+    | DestreamStartAnotherSessionEvent
     | DestreamPlayEvent
     | DestreamPauseEvent
     | DestreamSeekEvent
@@ -158,6 +159,13 @@ export interface DestreamCurrentStateEvent {
 
 export interface DestreamStopSessionEvent {
     type: typeof GENERAL_EVENT.STOP_SESSION;
+}
+
+export interface DestreamStartAnotherSessionEvent {
+    type: typeof GENERAL_EVENT.START_ANOTHER_SESSION;
+    payload: {
+        newSessionID: string;
+    };
 }
 
 

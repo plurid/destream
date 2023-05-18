@@ -154,22 +154,27 @@ const runViewer = async (
                 try {
                     const data: DestreamEvent = JSON.parse(message.data);
 
-                    if (data.type === GENERAL_EVENT.STOP_SESSION) {
-                        sendMessage<StopSubscriptionMessage>(
-                            {
-                                type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
-                                data: subscription.sessionID,
-                            },
-                        );
+                    switch (data.type) {
+                        case GENERAL_EVENT.STOP_SESSION:
+                            sendMessage<StopSubscriptionMessage>(
+                                {
+                                    type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
+                                    data: subscription.sessionID,
+                                },
+                            );
 
-                        client.unsubscribe(
-                            endpoint,
-                            subscription.publishTopic,
-                        );
-                        return;
+                            client.unsubscribe(
+                                endpoint,
+                                subscription.publishTopic,
+                            );
+                            break;
+                        case GENERAL_EVENT.START_ANOTHER_SESSION:
+                            // start subscription based on
+                            // data.payload.newSessionID
+                            break;
+                        default:
+                            handleEvent(data);
                     }
-
-                    handleEvent(data);
                 } catch (error) {
                     log(error);
                 }
