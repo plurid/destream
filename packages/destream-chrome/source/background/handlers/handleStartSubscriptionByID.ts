@@ -63,11 +63,16 @@ const handleStartSubscriptionByID: Handler<StartSubscriptionByIDMessage> = async
     const generalPermissions: GeneralPermissions = await storageGet(storageFields.generalPermissions);
 
     const {
-        sessions,
+        session,
         streamerDetails,
     } = activeSessionsResponse.data;
 
-    const session = sessions.filter((session: any) => session.id === sessionID);
+    if (!session) {
+        sendResponse({
+            status: false,
+        });
+        return;
+    }
 
     const startedSubscription = await startSessionSubscriptionLogic(
         graphqlClient,
