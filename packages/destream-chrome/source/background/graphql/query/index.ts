@@ -15,7 +15,7 @@ export const GET_ACTIVE_SESSIONS = gql`
             status
             data {
                 streamerDetails {
-                    name
+                    streamerName
                     twitchName
                     useTwitch
                     useYoutube
@@ -43,7 +43,7 @@ export const GET_ACTIVE_SESSION = gql`
             status
             data {
                 streamerDetails {
-                    name
+                    streamerName
                     twitchName
                     useTwitch
                     useYoutube

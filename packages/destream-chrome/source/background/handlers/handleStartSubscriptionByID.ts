@@ -79,13 +79,13 @@ const handleStartSubscriptionByID: Handler<StartSubscriptionByIDMessage> = async
         sessionID,
         session.url,
         session.customPubSubLink,
-        streamerDetails.name,
+        streamerDetails.streamerName,
         generalPermissions,
         streamerDetails,
     );
 
     sendResponse({
-        status: true,
+        status: startedSubscription,
     });
 
     return;
