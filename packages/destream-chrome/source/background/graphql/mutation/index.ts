@@ -1,7 +1,7 @@
 // #region imports
     // #region libraries
     import {
-        gql
+        gql,
     } from '@apollo/client';
     // #endregion libraries
 // #endregion imports
