@@ -1,4 +1,12 @@
 // #region imports
+    // #region libraries
+    import type {
+        ApolloClient,
+        NormalizedCacheObject,
+    } from '@apollo/client';
+    // #endregion libraries
+
+
     // #region external
     import {
         Subscription,
@@ -6,6 +14,7 @@
         storagePrefix,
         storageFields,
         DEFAULT_API_ENDPOINT,
+        GeneralPermissions,
     } from '../../data';
 
     import {
@@ -19,12 +28,19 @@
     import {
         generateClient,
         STOP_SESSION_SUBSCRIPTION,
+        START_SESSION_SUBSCRIPTION,
     } from '../graphql';
+
+    import {
+        sendNotificationSessionStart,
+    } from '../notifications';
 
     import {
         getPublishTopicID,
         getJoinTopicID,
         removeTabSettings,
+        openTab,
+        assignTabToGroup,
     } from '../utilities';
     // #endregion external
 // #endregion imports
@@ -167,5 +183,57 @@ export const stopSubscriptionWithTabID = async (
     }
 
     await stopSubscription(subscription);
+}
+
+
+export const startSessionSubscriptionLogic = async (
+    graphqlClient: ApolloClient<NormalizedCacheObject>,
+    sessionID: string,
+    sessionURL: string,
+    sessionCustomPubSubLink: string | undefined,
+    streamerIdentonym: string,
+    generalPermissions: GeneralPermissions,
+    streamerDetails: any,
+) => {
+    try {
+        const sessionSubscription = await graphqlClient.mutate({
+            mutation: START_SESSION_SUBSCRIPTION,
+            variables: {
+                input: {
+                    value: sessionID,
+                },
+            },
+        });
+        const sessionSubscriptionResponse = sessionSubscription.data.destreamStartSessionSubscription;
+        if (!sessionSubscriptionResponse.status) {
+            return false;
+        }
+
+        const tab = await openTab(sessionURL);
+        await assignTabToGroup(tab, streamerIdentonym, generalPermissions);
+
+        const pubsubEndpoint = sessionCustomPubSubLink || DEFAULT_API_ENDPOINT;
+
+        if (generalPermissions?.useNotifications) {
+            sendNotificationSessionStart(
+                streamerIdentonym,
+                tab.id,
+                sessionURL,
+            );
+        }
+
+        await startSubscription(
+            streamerIdentonym,
+            streamerDetails,
+            sessionID,
+            sessionSubscriptionResponse.data,
+            pubsubEndpoint,
+            tab.id,
+        );
+
+        return true;
+    } catch (error) {
+        return false;
+    }
 }
 // #endregion module

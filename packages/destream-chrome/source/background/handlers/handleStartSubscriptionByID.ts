@@ -15,12 +15,12 @@
 
     import {
         generateClient,
-        GET_ACTIVE_SESSIONS,
         START_SESSION_SUBSCRIPTION,
     } from '../graphql';
 
     import {
         startSubscription,
+        startSessionSubscriptionLogic,
     } from '../subscriptions';
 
     import {
@@ -57,6 +57,16 @@ const handleStartSubscriptionByID: Handler<StartSubscriptionByIDMessage> = async
 
     const generalPermissions: GeneralPermissions = await storageGet(storageFields.generalPermissions);
 
+
+    // const startedSubscription = await startSessionSubscriptionLogic(
+    //     graphqlClient,
+    //     sessionID,
+    //     session.url,
+    //     session.customPubSubLink,
+    //     streamerIdentonym,
+    //     generalPermissions,
+    //     streamerDetails,
+    // );
 
     const sessionSubscription = await graphqlClient.mutate({
         mutation: START_SESSION_SUBSCRIPTION,
@@ -100,6 +110,7 @@ const handleStartSubscriptionByID: Handler<StartSubscriptionByIDMessage> = async
         pubsubEndpoint,
         tab.id,
     );
+
 
     sendResponse({
         status: true,

@@ -16,21 +16,11 @@
     import {
         generateClient,
         GET_ACTIVE_SESSIONS,
-        START_SESSION_SUBSCRIPTION,
     } from '../graphql';
 
     import {
-        startSubscription,
+        startSessionSubscriptionLogic,
     } from '../subscriptions';
-
-    import {
-        sendNotificationSessionStart,
-    } from '../notifications';
-
-    import {
-        openTab,
-        assignTabToGroup,
-    } from '../utilities';
     // #endregion external
 // #endregion imports
 
@@ -78,39 +68,14 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
     } = activeSessionsResponse.data;
 
     for (const session of sessions) {
-        const sessionSubscription = await graphqlClient.mutate({
-            mutation: START_SESSION_SUBSCRIPTION,
-            variables: {
-                input: {
-                    value: session.id,
-                },
-            },
-        });
-        const sessionSubscriptionResponse = sessionSubscription.data.destreamStartSessionSubscription;
-        if (!sessionSubscriptionResponse.status) {
-            continue;
-        }
-
-        const tab = await openTab(session.url);
-        await assignTabToGroup(tab, streamerIdentonym, generalPermissions);
-
-        const pubsubEndpoint = session.customPubSubLink || DEFAULT_API_ENDPOINT;
-
-        if (generalPermissions?.useNotifications) {
-            sendNotificationSessionStart(
-                streamerIdentonym,
-                tab.id,
-                session.url,
-            );
-        }
-
-        await startSubscription(
-            streamerIdentonym,
-            streamerDetails,
+        await startSessionSubscriptionLogic(
+            graphqlClient,
             session.id,
-            sessionSubscriptionResponse.data,
-            pubsubEndpoint,
-            tab.id,
+            session.url,
+            session.customPubSubLink,
+            streamerIdentonym,
+            generalPermissions,
+            streamerDetails,
         );
     }
 
