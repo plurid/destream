@@ -228,6 +228,10 @@ const runView = async () => {
         const subscription = await getSubscription(tabID);
         const tabSettings = await getTabSettings(tabID);
 
+        if (!tabSettings) {
+            return;
+        }
+
         if (session || subscription) {
             injectView(session, subscription, tabSettings);
         } else {

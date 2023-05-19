@@ -52,7 +52,7 @@ const handleStartSubscriptionByID: Handler<StartSubscriptionByIDMessage> = async
             },
         },
     });
-    const activeSessionsResponse = activeSessionsRequest.data.destreamGetActiveSessions;
+    const activeSessionsResponse = activeSessionsRequest.data.destreamGetActiveSession;
     if (!activeSessionsResponse.status) {
         sendResponse({
             status: false,

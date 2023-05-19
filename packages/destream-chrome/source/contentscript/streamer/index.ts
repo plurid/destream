@@ -68,6 +68,7 @@ const runStreamer = async (
 ) => {
     let setup = false;
     let detector: Detector | undefined;
+    let session: Session | undefined;
     let endpoint: string | undefined;
 
 
@@ -99,13 +100,17 @@ const runStreamer = async (
     const stopSession = (
         request: any,
     ) => {
-        const event = composeEventData(request.session, {
+        const {
+            session,
+        } = request;
+
+        const event = composeEventData(session, {
             type: GENERAL_EVENT.STOP_SESSION,
         });
 
         client.publish(
             endpoint,
-            request.topic,
+            session.publishTopic,
             event,
         );
     }
@@ -196,9 +201,11 @@ const runStreamer = async (
         }
 
 
-        const {
-            session,
-        }: { session: Session } = sessionRequest;
+        // const {
+        //     session,
+        // }: { session: Session } = sessionRequest;
+
+        session = sessionRequest.session;
 
         const {
             endpoint: sessionEndpoint,
@@ -247,6 +254,16 @@ const runStreamer = async (
 
     chrome.storage.onChanged.addListener(storageLogic);
     chrome.runtime.onMessage.addListener(messageListener);
+
+    window.addEventListener('beforeunload', (_event) => {
+        if (!session) {
+            return;
+        }
+
+        stopSession({
+            session,
+        });
+    });
 }
 // #endregion module
 

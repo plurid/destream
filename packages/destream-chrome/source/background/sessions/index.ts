@@ -85,7 +85,7 @@ export const getSessions = async () => {
         const storage = await storageGetAll();
         const sessions = Object
             .keys(storage)
-            .filter(item => item.startsWith(storagePrefix.subscription))
+            .filter(item => item.startsWith(storagePrefix.session))
             .map(id => storage[id]);
 
         return sessions as Session[];

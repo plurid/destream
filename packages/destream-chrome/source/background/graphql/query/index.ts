@@ -49,7 +49,7 @@ export const GET_ACTIVE_SESSION = gql`
                     useYoutube
                     youtubeName
                 }
-                sessions {
+                session {
                     id
                     url
                     generatedAt
