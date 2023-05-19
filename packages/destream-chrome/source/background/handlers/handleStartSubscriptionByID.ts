@@ -15,22 +15,12 @@
 
     import {
         generateClient,
-        START_SESSION_SUBSCRIPTION,
+        GET_ACTIVE_SESSION,
     } from '../graphql';
 
     import {
-        startSubscription,
         startSessionSubscriptionLogic,
     } from '../subscriptions';
-
-    import {
-        sendNotificationSessionStart,
-    } from '../notifications';
-
-    import {
-        openTab,
-        assignTabToGroup,
-    } from '../utilities';
     // #endregion external
 // #endregion imports
 
@@ -54,63 +44,40 @@ const handleStartSubscriptionByID: Handler<StartSubscriptionByIDMessage> = async
 
     const sessionID = request.data;
 
-
-    const generalPermissions: GeneralPermissions = await storageGet(storageFields.generalPermissions);
-
-
-    // const startedSubscription = await startSessionSubscriptionLogic(
-    //     graphqlClient,
-    //     sessionID,
-    //     session.url,
-    //     session.customPubSubLink,
-    //     streamerIdentonym,
-    //     generalPermissions,
-    //     streamerDetails,
-    // );
-
-    const sessionSubscription = await graphqlClient.mutate({
-        mutation: START_SESSION_SUBSCRIPTION,
+    const activeSessionsRequest = await graphqlClient.query({
+        query: GET_ACTIVE_SESSION,
         variables: {
             input: {
                 value: sessionID,
             },
         },
     });
-    const sessionSubscriptionResponse = sessionSubscription.data.destreamStartSessionSubscription;
-    if (!sessionSubscriptionResponse.status) {
+    const activeSessionsResponse = activeSessionsRequest.data.destreamGetActiveSessions;
+    if (!activeSessionsResponse.status) {
         sendResponse({
             status: false,
         });
         return;
     }
 
+    const generalPermissions: GeneralPermissions = await storageGet(storageFields.generalPermissions);
+
     const {
-        session,
+        sessions,
         streamerDetails,
-    } = sessionSubscriptionResponse.data;
+    } = activeSessionsResponse.data;
 
-    const tab = await openTab(session.url);
-    await assignTabToGroup(tab, session.streamer, generalPermissions);
+    const session = sessions.filter((session: any) => session.id === sessionID);
 
-    const pubsubEndpoint = session.customPubSubLink || DEFAULT_API_ENDPOINT;
-
-    if (generalPermissions?.useNotifications) {
-        sendNotificationSessionStart(
-            session.streamer,
-            tab.id,
-            session.url,
-        );
-    }
-
-    await startSubscription(
-        session.streamer,
-        streamerDetails,
+    const startedSubscription = await startSessionSubscriptionLogic(
+        graphqlClient,
         sessionID,
-        sessionSubscriptionResponse.data,
-        pubsubEndpoint,
-        tab.id,
+        session.url,
+        session.customPubSubLink,
+        streamerDetails.name,
+        generalPermissions,
+        streamerDetails,
     );
-
 
     sendResponse({
         status: true,

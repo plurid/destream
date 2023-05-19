@@ -15,6 +15,35 @@ export const GET_ACTIVE_SESSIONS = gql`
             status
             data {
                 streamerDetails {
+                    name
+                    twitchName
+                    useTwitch
+                    useYoutube
+                    youtubeName
+                }
+                sessions {
+                    id
+                    url
+                    generatedAt
+                    status
+                    events {
+                        relativeTime
+                        data
+                    }
+                    customPubSubLink
+                }
+            }
+        }
+    }
+`;
+
+export const GET_ACTIVE_SESSION = gql`
+    query DestreamGetActiveSession($input: InputValueString!) {
+        destreamGetActiveSession(input: $input) {
+            status
+            data {
+                streamerDetails {
+                    name
                     twitchName
                     useTwitch
                     useYoutube
