@@ -64,7 +64,7 @@ export interface Session {
     startedAt: number;
     streamer: string;
     publishTopic: string;
-    joinTopic: string;
+    currentStateTopic: string;
     token: string;
     endpoint: string;
     streamerDetails?: StreamerDetails;
@@ -74,7 +74,7 @@ export interface Subscription {
     sessionID: string;
     subscriptionID: string;
     publishTopic: string;
-    joinTopic: string;
+    currentStateTopic: string;
     startedAt: number;
     streamer: string;
     tabID: number;

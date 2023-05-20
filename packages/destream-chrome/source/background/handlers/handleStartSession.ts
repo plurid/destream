@@ -28,7 +28,7 @@
 
     import {
         getPublishTopicID,
-        getJoinTopicID,
+        getCurrentStateTopicID,
     } from '../utilities'
     // #endregion external
 // #endregion imports
@@ -81,15 +81,15 @@ const handleStartSession: Handler<StartSessionMessage> = async (
 
             const pubsubEndpoint = customPubSubLink || DEFAULT_API_ENDPOINT;
 
-            const topic = getPublishTopicID(id);
-            const joinTopic = getJoinTopicID(id);
+            const publishTopic = getPublishTopicID(id);
+            const currentStateTopic = getCurrentStateTopicID(id);
 
             await startSession(
                 request.data.tabID,
                 id,
                 identonym,
-                topic,
-                joinTopic,
+                publishTopic,
+                currentStateTopic,
                 token,
                 pubsubEndpoint,
             );

@@ -2,7 +2,7 @@
     // #region external
     import {
         storagePrefix,
-        destreamTopicSuffix,
+        destreamCurrentStateTopicSuffix,
         TAB_GROUP_SUFFIX,
     } from '../../data/constants';
 
@@ -52,10 +52,21 @@ export const getPublishTopicID = (
     return storagePrefix.destreamTopic + id;
 }
 
-export const getJoinTopicID = (
+export const getCurrentStateTopicID = (
     id: string,
 ) => {
-    return storagePrefix.destreamTopic + id + destreamTopicSuffix;
+    return storagePrefix.destreamTopic + id + destreamCurrentStateTopicSuffix;
+}
+
+export const getCurrentStateArbitraryTopicID = (
+    currentStateTopic: string,
+) => {
+    const randomID = Array(10)
+        .fill('')
+        .reduce<string[]>((value) => [...value, Math.random().toString(36).substring(2)], [])
+        .join('');
+
+    return currentStateTopic + '/' + randomID;
 }
 
 

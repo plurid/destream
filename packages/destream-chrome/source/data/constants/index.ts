@@ -26,7 +26,7 @@ export const storagePrefix = {
     destreamTopic: 'destream-',
 };
 
-export const destreamTopicSuffix = '/join';
+export const destreamCurrentStateTopicSuffix = '/currentState';
 
 export const storageFields = {
     generalPermissions: 'generalPermissions',

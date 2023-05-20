@@ -37,7 +37,7 @@
 
     import {
         getPublishTopicID,
-        getJoinTopicID,
+        getCurrentStateTopicID,
         removeTabSettings,
         openTab,
         assignTabToGroup,
@@ -68,7 +68,7 @@ export const startSubscription = async (
         sessionID,
         subscriptionID,
         publishTopic: getPublishTopicID(sessionID),
-        joinTopic: getJoinTopicID(sessionID),
+        currentStateTopic: getCurrentStateTopicID(sessionID),
         startedAt: Date.now(),
         streamer,
         tabID,

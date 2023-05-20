@@ -20,6 +20,10 @@
         sendMessage,
     } from '../../common/messaging';
 
+    import {
+        getCurrentStateArbitraryTopicID,
+    } from '../../background/utilities';
+
     import MessagerClient from '../client';
     // #endregion external
 
@@ -73,9 +77,6 @@ export const handleEvent = (
             case GENERAL_EVENT.URL_CHANGE:
                 generalURLChange(event.payload.url);
                 break;
-            case GENERAL_EVENT.CURRENT_STATE:
-                applyCurrentState(event.payload);
-                break;
 
             case YOUTUBE_EVENT.PLAY:
                 youtubePlay();
@@ -120,6 +121,44 @@ const runViewer = async (
     let lastResync: number | undefined;
     let subscription: Subscription | undefined;
 
+
+    const requestCurrentState = async () => {
+        if (!subscription) {
+            return;
+        }
+
+        const currentStateArbitraryTopic = getCurrentStateArbitraryTopicID(subscription.currentStateTopic);
+
+        await client.subscribe(
+            subscription.endpoint,
+            currentStateArbitraryTopic,
+            (message) => {
+                try {
+                    const data: DestreamEvent = JSON.parse(message.data);
+                    if (data.type === GENERAL_EVENT.CURRENT_STATE) {
+                        applyCurrentState(data.payload);
+                    }
+                } catch (error) {
+                    log(error);
+                } finally {
+                    client.unsubscribe(
+                        subscription.endpoint,
+                        currentStateArbitraryTopic,
+                    );
+                }
+            },
+        );
+
+        setTimeout(async () => {
+            await client.publish(
+                subscription.endpoint,
+                subscription.currentStateTopic,
+                {
+                    topic: currentStateArbitraryTopic,
+                },
+            );
+        }, 500);
+    }
 
     const messageHandler = (
         message: {
@@ -190,11 +229,7 @@ const runViewer = async (
                     lastResync = Date.now();
                 }
 
-                client.publish(
-                    subscription.endpoint,
-                    subscription.joinTopic,
-                    {},
-                );
+                requestCurrentState();
                 break;
         }
 
@@ -231,13 +266,8 @@ const runViewer = async (
         );
 
         setTimeout(async () => {
-            // Notify presence to request current state.
-            await client.publish(
-                subscription.endpoint,
-                subscription.joinTopic,
-                {},
-            );
-        }, 700);
+            await requestCurrentState();
+        }, 500);
     }
 
 

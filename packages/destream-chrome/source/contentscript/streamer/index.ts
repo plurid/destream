@@ -219,12 +219,14 @@ const runStreamer = async (
         );
 
 
-        const publishCurrentState = async () => {
+        const publishCurrentState = async (
+            message: any,
+        ) => {
             const currentState = await detector.getCurrentState();
 
             client.publish(
                 session.endpoint,
-                session.publishTopic,
+                message.topic,
                 composeEventData(session, {
                     type: GENERAL_EVENT.CURRENT_STATE,
                     payload: currentState,
@@ -234,9 +236,9 @@ const runStreamer = async (
 
         client.subscribe(
             session.endpoint,
-            session.joinTopic,
-            () => {
-                publishCurrentState();
+            session.currentStateTopic,
+            (message) => {
+                publishCurrentState(message);
             },
         );
     }

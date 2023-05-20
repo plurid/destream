@@ -25,7 +25,6 @@
 
     import {
         removeTabSettings,
-        getPublishTopicID,
     } from '../utilities';
     // #endregion external
 // #endregion imports
@@ -45,7 +44,7 @@ export const startSession = async (
     sessionID: string,
     streamer: string,
     publishTopic: string,
-    joinTopic: string,
+    currentStateTopic: string,
     token: string,
     endpoint: string,
 ) => {
@@ -56,7 +55,7 @@ export const startSession = async (
         startedAt: Date.now(),
         streamer,
         publishTopic,
-        joinTopic,
+        currentStateTopic,
         token,
         endpoint,
     };
