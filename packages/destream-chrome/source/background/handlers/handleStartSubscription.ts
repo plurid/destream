@@ -92,6 +92,10 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
     } catch (error) {
         log(error);
 
+        sendResponse({
+            status: false,
+        });
+
         return;
     }
 }

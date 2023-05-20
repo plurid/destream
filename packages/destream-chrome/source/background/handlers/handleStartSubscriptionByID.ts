@@ -97,6 +97,10 @@ const handleStartSubscriptionByID: Handler<StartSubscriptionByIDMessage> = async
     } catch (error) {
         log(error);
 
+        sendResponse({
+            status: false,
+        });
+
         return;
     }
 }

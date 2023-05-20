@@ -97,7 +97,7 @@ export const GENERAL_EVENT = {
     URL_CHANGE: 'generalURLChange',
     STOP_SESSION: 'generalStopSession',
     START_ANOTHER_SESSION: 'generalStartAnotherSession',
-    CURRENT_STATE: 'currentState',
+    CURRENT_STATE: 'generalCurrentState',
 } as const;
 
 export const YOUTUBE_EVENT = {

@@ -81,6 +81,10 @@ const handleStopSession: Handler<StopSessionMessage> = async (
     } catch (error) {
         log(error);
 
+        sendResponse({
+            status: false,
+        });
+
         return;
     }
 }

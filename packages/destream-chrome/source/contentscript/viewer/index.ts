@@ -119,6 +119,50 @@ const runViewer = async (
     let setup = false;
 
 
+    const messageHandler = (
+        message: {
+            sessionID: string;
+            data: string;
+        },
+        subscription: Subscription,
+    ) => {
+        if (message.sessionID !== subscription.sessionID) {
+            return;
+        }
+
+        try {
+            const data: DestreamEvent = JSON.parse(message.data);
+
+            switch (data.type) {
+                case GENERAL_EVENT.STOP_SESSION:
+                    sendMessage<StopSubscriptionMessage>(
+                        {
+                            type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
+                            data: subscription.sessionID,
+                        },
+                    );
+
+                    client.unsubscribe(
+                        subscription.endpoint,
+                        subscription.publishTopic,
+                    );
+                    break;
+                case GENERAL_EVENT.START_ANOTHER_SESSION:
+                    sendMessage<StartSubscriptionByIDMessage>(
+                        {
+                            type: MESSAGE_TYPE.START_SUBSCRIPTION_BY_ID,
+                            data: data.payload.newSessionID,
+                        },
+                    );
+                    break;
+                default:
+                    handleEvent(data);
+            }
+        } catch (error) {
+            log(error);
+        }
+    }
+
     const run = async () => {
         const subscriptionRequest = await chrome.runtime.sendMessage<GetSubscriptionMessage>({
             type: MESSAGE_TYPE.GET_SUBSCRIPTION,
@@ -138,66 +182,33 @@ const runViewer = async (
             subscription,
         }: { subscription: Subscription } = subscriptionRequest;
 
-        const {
-            endpoint,
-        } = subscription;
-
-        await client.addMessager(endpoint);
+        await client.addMessager(subscription.endpoint);
 
         await client.subscribe(
-            endpoint,
+            subscription.endpoint,
             subscription.publishTopic,
             (message) => {
-                if (message.sessionID !== subscription.sessionID) {
-                    return;
-                }
-
-                try {
-                    const data: DestreamEvent = JSON.parse(message.data);
-
-                    switch (data.type) {
-                        case GENERAL_EVENT.STOP_SESSION:
-                            sendMessage<StopSubscriptionMessage>(
-                                {
-                                    type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
-                                    data: subscription.sessionID,
-                                },
-                            );
-
-                            client.unsubscribe(
-                                endpoint,
-                                subscription.publishTopic,
-                            );
-                            break;
-                        case GENERAL_EVENT.START_ANOTHER_SESSION:
-                            sendMessage<StartSubscriptionByIDMessage>(
-                                {
-                                    type: MESSAGE_TYPE.START_SUBSCRIPTION_BY_ID,
-                                    data: data.payload.newSessionID,
-                                },
-                            );
-                            break;
-                        default:
-                            handleEvent(data);
-                    }
-                } catch (error) {
-                    log(error);
-                }
+                messageHandler(message, subscription);
             },
         );
 
-        await client.publish(
-            endpoint,
-            subscription.joinTopic,
-            {},
-        );
+        setTimeout(async () => {
+            // Notify presence to request current state.
+            await client.publish(
+                subscription.endpoint,
+                subscription.joinTopic,
+                {},
+            );
+        }, 700);
     }
+
 
     await run();
 
     const storageLogic = async () => {
         await run();
     }
+
 
     chrome.storage.onChanged.addListener(storageLogic);
 }

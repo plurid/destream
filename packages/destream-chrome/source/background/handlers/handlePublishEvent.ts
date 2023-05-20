@@ -42,6 +42,9 @@ const handlePublishEvent: Handler<PublishEventMessage> = async (
     try {
         const session = await getSession(sender.tab.id);
         if (!session) {
+            sendResponse({
+                status: false,
+            });
             return;
         }
 
@@ -85,6 +88,10 @@ const handlePublishEvent: Handler<PublishEventMessage> = async (
         return;
     } catch (error) {
         log(error);
+
+        sendResponse({
+            status: false,
+        });
 
         return;
     }
