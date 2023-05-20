@@ -98,6 +98,7 @@ export const GENERAL_EVENT = {
     STOP_SESSION: 'generalStopSession',
     START_ANOTHER_SESSION: 'generalStartAnotherSession',
     CURRENT_STATE: 'generalCurrentState',
+    RESYNC_SESSION: 'generalResyncSession',
 } as const;
 
 export const YOUTUBE_EVENT = {

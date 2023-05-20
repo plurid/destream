@@ -18,10 +18,9 @@ const handleResyncSession: Handler<ResyncSessionMessage> = async (
 ) => {
     const tabID = request.data;
 
-    // request current state from the tab
-    // await chrome.tabs.sendMessage(tabID, {
-    //     type: GENERAL_EVENT.CURRENT_STATE,
-    // });
+    await chrome.tabs.sendMessage(tabID, {
+        type: GENERAL_EVENT.RESYNC_SESSION,
+    });
 
     sendResponse({
         status: true,

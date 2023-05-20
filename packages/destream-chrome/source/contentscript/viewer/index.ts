@@ -117,6 +117,8 @@ const runViewer = async (
     client: MessagerClient,
 ) => {
     let setup = false;
+    let lastResync: number | undefined;
+    let subscription: Subscription | undefined;
 
 
     const messageHandler = (
@@ -157,11 +159,49 @@ const runViewer = async (
                     break;
                 default:
                     handleEvent(data);
+                    break;
             }
         } catch (error) {
             log(error);
         }
     }
+
+    const messageListener = (
+        request: any,
+        _sender: chrome.runtime.MessageSender,
+        sendResponse: (response?: any) => void,
+    ) => {
+        if (!subscription || !request?.type) {
+            sendResponse();
+            return true;
+        }
+
+        switch (request.type) {
+            case GENERAL_EVENT.RESYNC_SESSION:
+                // Check if lastResync is too recent.
+                if (lastResync) {
+                    const now = Date.now();
+                    const difference = now - lastResync;
+                    lastResync = now;
+                    if (difference < 30 * 1_000) {
+                        break;
+                    }
+                } else {
+                    lastResync = Date.now();
+                }
+
+                client.publish(
+                    subscription.endpoint,
+                    subscription.joinTopic,
+                    {},
+                );
+                break;
+        }
+
+        sendResponse();
+        return true;
+    }
+
 
     const run = async () => {
         const subscriptionRequest = await chrome.runtime.sendMessage<GetSubscriptionMessage>({
@@ -178,9 +218,7 @@ const runViewer = async (
         }
 
 
-        const {
-            subscription,
-        }: { subscription: Subscription } = subscriptionRequest;
+        subscription = subscriptionRequest.subscription;
 
         await client.addMessager(subscription.endpoint);
 
@@ -211,6 +249,8 @@ const runViewer = async (
 
 
     chrome.storage.onChanged.addListener(storageLogic);
+    chrome.runtime.onMessage.addListener(messageListener);
+
 }
 // #endregion module
 
