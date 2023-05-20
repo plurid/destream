@@ -12,6 +12,10 @@
     } from '../../common/storage';
 
     import {
+        log,
+    } from '../../common/utilities';
+
+    import {
         getSession,
         composeEventData,
     } from '../sessions';
@@ -35,49 +39,55 @@ const handlePublishEvent: Handler<PublishEventMessage> = async (
     sender,
     sendResponse,
 ) => {
-    const session = await getSession(sender.tab.id);
-    if (!session) {
-        return;
-    }
+    try {
+        const session = await getSession(sender.tab.id);
+        if (!session) {
+            return;
+        }
 
-    const {
-        accessToken,
-        refreshToken,
-    } = await storageGetTokens();
-    const graphqlClient = generateClient(
-        DEFAULT_API_ENDPOINT,
-        accessToken,
-        refreshToken,
-    );
+        const {
+            accessToken,
+            refreshToken,
+        } = await storageGetTokens();
+        const graphqlClient = generateClient(
+            DEFAULT_API_ENDPOINT,
+            accessToken,
+            refreshToken,
+        );
 
-    const event = composeEventData(session, request.data);
+        const event = composeEventData(session, request.data);
 
-    const graphqlRequest = await graphqlClient.mutate({
-        mutation: RECORD_SESSION_EVENT,
-        variables: {
-            input: event,
-        },
-    });
-    const response = graphqlRequest.data.destreamRecordSessionEvent;
-    if (!response.status) {
-        sendResponse({
-            status: false,
+        const graphqlRequest = await graphqlClient.mutate({
+            mutation: RECORD_SESSION_EVENT,
+            variables: {
+                input: event,
+            },
         });
+        const response = graphqlRequest.data.destreamRecordSessionEvent;
+        if (!response.status) {
+            sendResponse({
+                status: false,
+            });
+            return;
+        }
+
+        const topic = getPublishTopicID(session.id);
+        const publishEventResponse: PublishEventResponse = {
+            status: true,
+            data: {
+                token: session.token,
+                topic,
+                message: event,
+            },
+        };
+        sendResponse(publishEventResponse);
+
+        return;
+    } catch (error) {
+        log(error);
+
         return;
     }
-
-    const topic = getPublishTopicID(session.id);
-    const publishEventResponse: PublishEventResponse = {
-        status: true,
-        data: {
-            token: session.token,
-            topic,
-            message: event,
-        },
-    };
-    sendResponse(publishEventResponse);
-
-    return;
 }
 // #endregion module
 

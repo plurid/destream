@@ -12,6 +12,10 @@
     } from '../../common/storage';
 
     import {
+        log,
+    } from '../../common/utilities';
+
+    import {
         getSession,
         deleteSession,
         stopSessionLogic,
@@ -31,48 +35,54 @@ const handleStopSession: Handler<StopSessionMessage> = async (
     _sender,
     sendResponse,
 ) => {
-    const {
-        tabID,
-    } = request.data;
+    try {
+        const {
+            tabID,
+        } = request.data;
 
-    const emptyResponse = async () => {
-        // Try session delete anyway.
-        await deleteSession(tabID);
-        await removeTabSettings(tabID);
+        const emptyResponse = async () => {
+            // Try session delete anyway.
+            await deleteSession(tabID);
+            await removeTabSettings(tabID);
+
+            sendResponse({
+                status: false,
+            });
+
+            return;
+        }
+
+        const isStreamer = await storageGetIsStreamer();
+        const identonym = await storageGetIdentonym();
+        if (!isStreamer || !identonym) {
+            return await emptyResponse();
+        }
+
+        const session = await getSession(tabID);
+        if (!session) {
+            return await emptyResponse();
+        }
+
+        const response = await stopSessionLogic(
+            session.id,
+            tabID,
+        );
+
+        await chrome.tabs.sendMessage(session.tabID, {
+            type: GENERAL_EVENT.STOP_SESSION,
+            session,
+        });
 
         sendResponse({
-            status: false,
+            status: response.status,
         });
 
         return;
+    } catch (error) {
+        log(error);
+
+        return;
     }
-
-    const isStreamer = await storageGetIsStreamer();
-    const identonym = await storageGetIdentonym();
-    if (!isStreamer || !identonym) {
-        return await emptyResponse();
-    }
-
-    const session = await getSession(tabID);
-    if (!session) {
-        return await emptyResponse();
-    }
-
-    const response = await stopSessionLogic(
-        session.id,
-        tabID,
-    );
-
-    await chrome.tabs.sendMessage(session.tabID, {
-        type: GENERAL_EVENT.STOP_SESSION,
-        session,
-    });
-
-    sendResponse({
-        status: response.status,
-    });
-
-    return;
 }
 // #endregion module
 

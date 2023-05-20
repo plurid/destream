@@ -14,6 +14,10 @@
     } from '../../common/storage';
 
     import {
+        log,
+    } from '../../common/utilities';
+
+    import {
         generateClient,
         GET_ACTIVE_SESSION,
     } from '../graphql';
@@ -32,63 +36,69 @@ const handleStartSubscriptionByID: Handler<StartSubscriptionByIDMessage> = async
     _sender,
     sendResponse,
 ) => {
-    const {
-        accessToken,
-        refreshToken,
-    } = await storageGetTokens();
-    const graphqlClient = generateClient(
-        DEFAULT_API_ENDPOINT,
-        accessToken,
-        refreshToken,
-    );
+    try {
+        const {
+            accessToken,
+            refreshToken,
+        } = await storageGetTokens();
+        const graphqlClient = generateClient(
+            DEFAULT_API_ENDPOINT,
+            accessToken,
+            refreshToken,
+        );
 
-    const sessionID = request.data;
+        const sessionID = request.data;
 
-    const activeSessionsRequest = await graphqlClient.query({
-        query: GET_ACTIVE_SESSION,
-        variables: {
-            input: {
-                value: sessionID,
+        const activeSessionsRequest = await graphqlClient.query({
+            query: GET_ACTIVE_SESSION,
+            variables: {
+                input: {
+                    value: sessionID,
+                },
             },
-        },
-    });
-    const activeSessionsResponse = activeSessionsRequest.data.destreamGetActiveSession;
-    if (!activeSessionsResponse.status) {
-        sendResponse({
-            status: false,
         });
+        const activeSessionsResponse = activeSessionsRequest.data.destreamGetActiveSession;
+        if (!activeSessionsResponse.status) {
+            sendResponse({
+                status: false,
+            });
+            return;
+        }
+
+        const generalPermissions: GeneralPermissions = await storageGet(storageFields.generalPermissions);
+
+        const {
+            session,
+            streamerDetails,
+        } = activeSessionsResponse.data;
+
+        if (!session) {
+            sendResponse({
+                status: false,
+            });
+            return;
+        }
+
+        const startedSubscription = await startSessionSubscriptionLogic(
+            graphqlClient,
+            sessionID,
+            session.url,
+            session.customPubSubLink,
+            streamerDetails.streamerName,
+            generalPermissions,
+            streamerDetails,
+        );
+
+        sendResponse({
+            status: startedSubscription,
+        });
+
+        return;
+    } catch (error) {
+        log(error);
+
         return;
     }
-
-    const generalPermissions: GeneralPermissions = await storageGet(storageFields.generalPermissions);
-
-    const {
-        session,
-        streamerDetails,
-    } = activeSessionsResponse.data;
-
-    if (!session) {
-        sendResponse({
-            status: false,
-        });
-        return;
-    }
-
-    const startedSubscription = await startSessionSubscriptionLogic(
-        graphqlClient,
-        sessionID,
-        session.url,
-        session.customPubSubLink,
-        streamerDetails.streamerName,
-        generalPermissions,
-        streamerDetails,
-    );
-
-    sendResponse({
-        status: startedSubscription,
-    });
-
-    return;
 }
 // #endregion module
 
