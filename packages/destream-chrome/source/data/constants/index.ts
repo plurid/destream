@@ -131,4 +131,8 @@ export const SPOTIFY_EVENT = {
 export const uncontrollableURLsBase = [
     'chrome://',
 ];
+
+
+
+export const TAB_GROUP_SUFFIX = ' · destream';
 // #endregion module

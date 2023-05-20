@@ -3,6 +3,7 @@
     import {
         storagePrefix,
         destreamTopicSuffix,
+        TAB_GROUP_SUFFIX,
     } from '../../data/constants';
 
     import {
@@ -96,7 +97,7 @@ export const assignTabToGroup = async (
     });
 
     await chrome.tabGroups.update(groupID, {
-        title: streamerIdentonym,
+        title: streamerIdentonym + TAB_GROUP_SUFFIX,
     });
 }
 // #endregion module
