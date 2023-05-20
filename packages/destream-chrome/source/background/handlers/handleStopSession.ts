@@ -3,6 +3,7 @@
     import {
         Handler,
         StopSessionMessage,
+        StopSessionRequest,
         GENERAL_EVENT,
     } from '../../data';
 
@@ -68,7 +69,7 @@ const handleStopSession: Handler<StopSessionMessage> = async (
             tabID,
         );
 
-        await chrome.tabs.sendMessage(session.tabID, {
+        await chrome.tabs.sendMessage<StopSessionRequest>(session.tabID, {
             type: GENERAL_EVENT.STOP_SESSION,
             session,
         });

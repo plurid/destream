@@ -3,6 +3,7 @@
     import {
         Session,
         StartAnotherSessionMessage,
+        URLChangeRequest,
         storagePrefix,
         DEFAULT_API_ENDPOINT,
         GENERAL_EVENT,
@@ -201,9 +202,8 @@ export const updateSession = async (
         return;
     }
 
-    await chrome.tabs.sendMessage(session.tabID, {
+    await chrome.tabs.sendMessage<URLChangeRequest>(session.tabID, {
         type: GENERAL_EVENT.URL_CHANGE,
-        topic: getPublishTopicID(session.id),
         session,
         url: changeInfo.url,
     });

@@ -259,6 +259,12 @@ export interface StopSessionMessage {
     };
 }
 
+// Request sent from background to contentscript.
+export interface StopSessionRequest {
+    type: typeof GENERAL_EVENT.STOP_SESSION;
+    session: Session;
+}
+
 export interface StartSubscriptionMessage {
     type: typeof MESSAGE_TYPE.START_SUBSCRIPTION;
     // streamer identonym
@@ -305,9 +311,15 @@ export interface StopEverythingMessage {
 }
 
 export interface URLChangeMessage {
-    type: typeof MESSAGE_TYPE.URL_CHANGE
+    type: typeof MESSAGE_TYPE.URL_CHANGE;
     // url
     data: string;
+}
+
+export interface URLChangeRequest {
+    type: typeof GENERAL_EVENT.URL_CHANGE;
+    session: Session;
+    url: string;
 }
 
 export interface DestreamEventMessage {

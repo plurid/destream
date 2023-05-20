@@ -9,6 +9,8 @@
         PublishEventResponse,
         GetSessionMessage,
         StartAnotherSessionMessage,
+        StopSessionRequest,
+        URLChangeRequest,
         Session,
     } from '../../data';
 
@@ -69,7 +71,6 @@ const runStreamer = async (
     let setup = false;
     let detector: Detector | undefined;
     let session: Session | undefined;
-    let endpoint: string | undefined;
 
 
     const runLogic = (event: CustomEvent<DestreamEvent>) => {
@@ -83,12 +84,12 @@ const runStreamer = async (
                     return;
                 }
 
-                if (!endpoint) {
+                if (!session) {
                     return;
                 }
 
                 client.publish(
-                    endpoint,
+                    session.endpoint,
                     response.data.topic,
                     response.data.message,
                 );
@@ -98,7 +99,7 @@ const runStreamer = async (
 
 
     const stopSession = (
-        request: any,
+        request: StopSessionRequest,
     ) => {
         const {
             session,
@@ -109,25 +110,30 @@ const runStreamer = async (
         });
 
         client.publish(
-            endpoint,
+            session.endpoint,
             session.publishTopic,
             event,
         );
     }
 
     const urlChange = (
-        request: any,
+        request: URLChangeRequest,
     ) => {
+        const {
+            session,
+            url,
+        } = request;
+
         const event = composeEventData(request.session, {
             type: GENERAL_EVENT.URL_CHANGE,
             payload: {
-                url: request.url,
+                url,
             },
         });
 
         client.publish(
-            endpoint,
-            request.topic,
+            session.endpoint,
+            session.publishTopic,
             event,
         );
     }
@@ -148,7 +154,7 @@ const runStreamer = async (
         });
 
         client.publish(
-            endpoint,
+            session.endpoint,
             session.publishTopic,
             event,
         );
@@ -159,7 +165,7 @@ const runStreamer = async (
         _sender: chrome.runtime.MessageSender,
         sendResponse: (response?: any) => void,
     ) => {
-        if (!endpoint) {
+        if (!session || !request?.type) {
             sendResponse();
             return true;
         }
@@ -201,18 +207,9 @@ const runStreamer = async (
         }
 
 
-        // const {
-        //     session,
-        // }: { session: Session } = sessionRequest;
-
         session = sessionRequest.session;
 
-        const {
-            endpoint: sessionEndpoint,
-        } = session;
-
-        endpoint = sessionEndpoint;
-        await client.addMessager(endpoint);
+        await client.addMessager(session.endpoint);
 
 
         detector = getDetector();
@@ -226,7 +223,7 @@ const runStreamer = async (
             const currentState = await detector.getCurrentState();
 
             client.publish(
-                endpoint,
+                session.endpoint,
                 session.publishTopic,
                 composeEventData(session, {
                     type: GENERAL_EVENT.CURRENT_STATE,
@@ -236,7 +233,7 @@ const runStreamer = async (
         }
 
         client.subscribe(
-            endpoint,
+            session.endpoint,
             session.joinTopic,
             () => {
                 publishCurrentState();
@@ -261,6 +258,7 @@ const runStreamer = async (
         }
 
         stopSession({
+            type: GENERAL_EVENT.STOP_SESSION,
             session,
         });
     });
