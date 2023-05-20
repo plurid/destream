@@ -55,6 +55,13 @@ export const youtubeVolumeChange = (
     if (!videoPlayer) {
         return;
     }
+
+    if (videoPlayer.muted && volume === 1) {
+        // unmute
+        youtubeMute();
+        return;
+    }
+
     videoPlayer.volume = volume;
 }
 
