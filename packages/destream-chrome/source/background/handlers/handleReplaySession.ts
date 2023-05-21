@@ -3,7 +3,12 @@
     import {
         Handler,
         ReplaySessionMessage,
+        GENERAL_EVENT,
     } from '../../data';
+
+    import {
+        openTab,
+    } from '../utilities';
     // #endregion external
 // #endregion imports
 
@@ -119,20 +124,33 @@ export class SessionPlayer {
 
 const handleReplaySession: Handler<ReplaySessionMessage> = async (
     request,
-    sender,
+    _sender,
     sendResponse,
 ) => {
-    console.log({
-        request,
+    const {
+        data,
+    } = request;
+
+    const {
+        url,
+    } = data;
+
+    const tab = await openTab(url);
+
+    await chrome.tabs.sendMessage(tab.id, {
+        type: GENERAL_EVENT.REPLAY_SESSION,
+        data,
     });
 
-    const reject = () => {
-        sendResponse({
-            status: false,
-        });
-    }
+    // save replay session data
+    const replaySession = {
+        tabID: tab.id,
+        data,
+    };
 
-    reject();
+    sendResponse({
+        status: true,
+    });
 }
 // #endregion module
 
