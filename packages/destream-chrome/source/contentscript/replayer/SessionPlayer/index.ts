@@ -1,6 +1,17 @@
+// #region imports
+    // #region external
+    import {
+        handleEvent,
+    } from '../../viewer';
+    // #endregion external
+// #endregion imports
+
+
+
 // #region module
 export interface SessionEvent {
-    time: number;
+    data: string;
+    relativeTime: number;
 }
 
 export const directions = {
@@ -13,6 +24,7 @@ export type Direction = typeof directions[keyof typeof directions];
 
 export class SessionPlayer {
     private sessionStart;
+    private sessionReplay;
     private currentIndex = 0;
     private timeoutID: NodeJS.Timeout | null = null;
     private events: SessionEvent[];
@@ -25,20 +37,23 @@ export class SessionPlayer {
     ) {
         this.events = events;
         this.sessionStart = sessionStart;
+        this.sessionReplay = Date.now();
     }
 
 
     private runEvent(
         event: SessionEvent,
     ) {
-        // send event to tabid ?
+        handleEvent(
+            JSON.parse(event.data),
+        );
     }
 
     private scheduleEvent(
         index: number,
     ) {
         const currentEvent = this.events[index];
-        const currentTime = this.sessionStart + currentEvent.time;
+        const currentTime = this.sessionReplay + currentEvent.relativeTime;
 
         const timeDiff = currentTime - Date.now();
         if (timeDiff <= 0) {
@@ -59,8 +74,7 @@ export class SessionPlayer {
             if (this.currentIndex < this.events.length) {
                 this.scheduleEvent(this.currentIndex);
             } else {
-                this.currentIndex = this.events.length - 1;
-                this.direction = directions.backward;
+                this.pause();
             }
         } else {
             this.currentIndex--;
@@ -68,8 +82,7 @@ export class SessionPlayer {
             if (this.currentIndex >= 0) {
                 this.scheduleEvent(this.currentIndex);
             } else {
-                this.currentIndex = 0;
-                this.direction = directions.forward;
+                this.pause();
             }
         }
     }
@@ -93,9 +106,17 @@ export class SessionPlayer {
     public setIndex(
         index: number,
     ) {
-        if (index !== this.currentIndex) {
-            this.currentIndex = index;
+        if (index < 0) {
+            this.currentIndex = 0;
+            return;
         }
+
+        if (index > this.events.length) {
+            this.currentIndex = this.events.length - 1;
+            return;
+        }
+
+        this.currentIndex = index;
     }
 
     public play() {

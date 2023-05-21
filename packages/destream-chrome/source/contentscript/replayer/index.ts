@@ -28,6 +28,9 @@ const runReplayer = async (
         _sender: chrome.runtime.MessageSender,
         sendResponse: (response?: any) => void,
     ) => {
+        console.log({
+            request,
+        });
         if (!request?.type) {
             sendResponse();
             return true;
@@ -49,6 +52,7 @@ const runReplayer = async (
                     generatedAt,
                     events,
                 );
+                sessionPlayer.play();
                 break;
             case GENERAL_EVENT.REPLAY_SESSION_PLAY:
                 sessionPlayer.play();
@@ -67,7 +71,6 @@ const runReplayer = async (
         sendResponse();
         return true;
     }
-
 
     chrome.runtime.onMessage.addListener(messageListener);
 }

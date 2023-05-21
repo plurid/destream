@@ -30,10 +30,12 @@ const handleReplaySession: Handler<ReplaySessionMessage> = async (
 
     const tab = await openTab(url);
 
-    await chrome.tabs.sendMessage(tab.id, {
-        type: GENERAL_EVENT.REPLAY_SESSION,
-        data,
-    });
+    setTimeout(async () => {
+        await chrome.tabs.sendMessage(tab.id, {
+            type: GENERAL_EVENT.REPLAY_SESSION,
+            data,
+        });
+    }, 2_000);
 
     // save replay session data
     const replaySession = {

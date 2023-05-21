@@ -228,6 +228,7 @@ const Subscriptions: React.FC<SubscriptionsProperties> = (
                     }}
                     style={{
                         marginTop: '1rem',
+                        wordBreak: 'break-all',
                     }}
                 />
             )}
