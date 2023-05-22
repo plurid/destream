@@ -34,7 +34,7 @@ const handleReplaySession: Handler<ReplaySessionMessage> = async (
         url,
     } = data;
 
-    const tab = await openTab(url);
+    const tab = await openTab(url, true);
 
     setTimeout(async () => {
         await chrome.tabs.sendMessage(tab.id, {
