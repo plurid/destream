@@ -12,6 +12,7 @@
     import {
         PureButton,
         LinkButton,
+        Slider,
         Spinner,
         InputSwitch,
         InputLine,
@@ -25,6 +26,7 @@
         uncontrollableURLsBase,
         DEFAULT_API_ENDPOINT,
         DESTREAM_WWW_URL,
+        storagePrefix,
     } from '../../../data/constants';
 
     import {
@@ -34,11 +36,13 @@
         GetSessionMessage,
         GetSubscriptionMessage,
         Subscription,
+        Replayment,
         ReplaySessionMessage,
     } from '../../../data/interfaces';
 
     import {
         storageSet,
+        storageGet,
         storageGetTokens,
     } from '../../../common/storage';
 
@@ -136,6 +140,11 @@ const Popup: React.FC<any> = (
         subscription,
         setSubscription,
     ] = useState<Subscription | null>(null);
+
+    const [
+        replayment,
+        setReplayment,
+    ] = useState<Replayment | null>(null);
 
     const [
         sessionStarted,
@@ -307,6 +316,7 @@ const Popup: React.FC<any> = (
 
 
     // #region effects
+    /** setLoading */
     useEffect(() => {
         setTimeout(() => {
             // Give time for useLoggedIn to fire.
@@ -314,6 +324,7 @@ const Popup: React.FC<any> = (
         }, 150);
     }, []);
 
+    /** getActiveTab */
     useEffect(() => {
         const getTab = async () => {
             const tab = await getActiveTab();
@@ -328,6 +339,7 @@ const Popup: React.FC<any> = (
         getTab();
     }, []);
 
+    /** loadTabSettings */
     useEffect(() => {
         if (!activeTab) {
             return;
@@ -348,6 +360,7 @@ const Popup: React.FC<any> = (
         activeTab,
     ]);
 
+    /** setSettings */
     useEffect(() => {
         if (!activeTab) {
             return;
@@ -376,6 +389,7 @@ const Popup: React.FC<any> = (
         showStreamChat,
     ]);
 
+    /** getSession, getSubscription, getReplayment */
     useEffect(() => {
         const load = async () => {
             if (!activeTab) {
@@ -407,6 +421,11 @@ const Popup: React.FC<any> = (
                     }
                 },
             );
+
+            const replayment = await storageGet(storagePrefix.replayment + activeTab.id);
+            if (replayment) {
+                setReplayment(replayment);
+            }
         }
 
         load();
@@ -461,6 +480,56 @@ const Popup: React.FC<any> = (
                 />
             </StyledPopup>
         );
+    }
+
+    if (replayment) {
+        return (
+            <StyledPopup>
+                <h1>
+                    replaying destream
+                </h1>
+
+                <PureButton
+                    text={replayment.status === 'playing' ? 'Pause' : 'Play'}
+                    atClick={() => {
+
+                    }}
+                    theme={plurid}
+                    level={2}
+                    style={buttonStyle}
+                />
+
+                <div
+                    style={{
+                        margin: '2rem 0',
+                    }}
+                >
+                    <Slider
+                        value={replayment.currentIndex}
+                        atChange={() => {
+                            // handle change
+                        }}
+                        min={0}
+                        max={replayment.data.events.length - 1}
+                        step={1}
+                        theme={plurid}
+                        width={280}
+                        level={2}
+                    />
+                </div>
+
+                <LinkButton
+                    text="cancel"
+                    atClick={() => {
+                        // stop replayment
+                    }}
+                    theme={plurid}
+                    style={{
+                        margin: '1rem 0',
+                    }}
+                />
+            </StyledPopup>
+        )
     }
 
     return (

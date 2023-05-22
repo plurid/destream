@@ -54,6 +54,12 @@ const handleStopEverything: Handler<StopEverythingMessage> = async (
                 return;
             }
 
+            if (key.startsWith(storagePrefix.replayment)) {
+                const tabID = getTabIDFromKey(key, storagePrefix.subscription);
+                // stop replayment for tabID
+                // return;
+            }
+
             await chrome.storage.local.remove(key);
         }
     });

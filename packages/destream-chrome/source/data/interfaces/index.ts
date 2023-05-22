@@ -94,6 +94,13 @@ export interface TabSettings {
     showStreamChat: boolean;
 }
 
+export interface Replayment {
+    tabID: number;
+    data: any;
+    currentIndex: number;
+    status: 'playing' | 'paused';
+}
+
 
 
 export type Notification =

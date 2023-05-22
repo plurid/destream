@@ -22,6 +22,7 @@ export const DESTREAM_WWW_URL = 'https://destream.plurid.com';
 export const storagePrefix = {
     session: 'session-',
     subscription: 'subscription-',
+    replayment: 'replayment-',
     tabSettings: 'tab-settings-',
     destreamTopic: 'destream-',
 };

@@ -3,12 +3,18 @@
     import {
         Handler,
         ReplaySessionMessage,
+        Replayment,
         GENERAL_EVENT,
+        storagePrefix,
     } from '../../data';
 
     import {
         openTab,
     } from '../utilities';
+
+    import {
+        storageSet,
+    } from '../../common/storage';
     // #endregion external
 // #endregion imports
 
@@ -37,11 +43,13 @@ const handleReplaySession: Handler<ReplaySessionMessage> = async (
         });
     }, 2_000);
 
-    // save replay session data
-    const replaySession = {
+    const replayment: Replayment = {
         tabID: tab.id,
         data,
+        currentIndex: 0,
+        status: 'playing',
     };
+    await storageSet(storagePrefix.replayment + tab.id, replayment);
 
     sendResponse({
         status: true,
