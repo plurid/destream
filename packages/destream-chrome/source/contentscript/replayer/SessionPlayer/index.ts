@@ -1,6 +1,10 @@
 // #region imports
     // #region external
     import {
+        log,
+    } from '../../../common/utilities';
+
+    import {
         handleEvent,
     } from '../../viewer';
     // #endregion external
@@ -44,9 +48,13 @@ export class SessionPlayer {
     private runEvent(
         event: SessionEvent,
     ) {
-        handleEvent(
-            JSON.parse(event.data),
-        );
+        try {
+            const data = JSON.parse(event.data);
+
+            handleEvent(data);
+        } catch (error) {
+            log(error);
+        }
     }
 
     private scheduleEvent(
@@ -54,8 +62,8 @@ export class SessionPlayer {
     ) {
         const currentEvent = this.events[index];
         const currentTime = this.sessionReplay + currentEvent.relativeTime;
-
         const timeDiff = currentTime - Date.now();
+
         if (timeDiff <= 0) {
             this.runEvent(currentEvent);
             this.playNextEvent();
