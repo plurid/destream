@@ -5,6 +5,10 @@
     } from '../../../data';
 
     import {
+        log,
+    } from '../../../common/utilities';
+
+    import {
         getYoutubeVideoPlayer,
         getYoutubeLikeButton,
         checkYoutubeLikeButtonPressed,
@@ -16,117 +20,153 @@
 
 // #region module
 export const youtubePlay = () => {
-    const videoPlayer = getYoutubeVideoPlayer();
-    if (!videoPlayer) {
-        return;
-    }
+    try {
+        const videoPlayer = getYoutubeVideoPlayer();
+        if (!videoPlayer) {
+            return;
+        }
 
-    videoPlayer.play();
+        videoPlayer.play();
+    } catch (error) {
+        log(error);
+    }
 }
 
 export const youtubePause = () => {
-    const videoPlayer = getYoutubeVideoPlayer();
-    if (!videoPlayer) {
-        return;
-    }
+    try {
+        const videoPlayer = getYoutubeVideoPlayer();
+        if (!videoPlayer) {
+            return;
+        }
 
-    videoPlayer.pause();
+        videoPlayer.pause();
+    } catch (error) {
+        log(error);
+    }
 }
 
 export const youtubePlayPause = () => {
-    const evt = new KeyboardEvent('keydown', {
-        key: 'k',
-        code: 'KeyK',
-        keyCode: 75,
-    });
+    try {
+        const evt = new KeyboardEvent('keydown', {
+            key: 'k',
+            code: 'KeyK',
+            keyCode: 75,
+        });
 
-    window.document.dispatchEvent(evt);
+        window.document.dispatchEvent(evt);
+    } catch (error) {
+        log(error);
+    }
 }
 
 export const youtubeVolumeChange = (
     volume: number,
 ) => {
-    if (volume === 0) {
-        youtubeMute();
-        return;
-    }
+    try {
+        if (volume === 0) {
+            youtubeMute();
+            return;
+        }
 
-    const videoPlayer = getYoutubeVideoPlayer();
-    if (!videoPlayer) {
-        return;
-    }
+        const videoPlayer = getYoutubeVideoPlayer();
+        if (!videoPlayer) {
+            return;
+        }
 
-    if (videoPlayer.muted && volume === 1) {
-        // unmute
-        youtubeMute();
-        return;
-    }
+        if (videoPlayer.muted && volume === 1) {
+            // unmute
+            youtubeMute();
+            return;
+        }
 
-    videoPlayer.volume = volume;
+        videoPlayer.volume = volume;
+    } catch (error) {
+        log(error);
+    }
 }
 
 export const youtubeMute = () => {
-    const evt = new KeyboardEvent('keydown', {
-        key: 'm',
-        code: 'KeyM',
-        keyCode: 77,
-    });
+    try {
+        const evt = new KeyboardEvent('keydown', {
+            key: 'm',
+            code: 'KeyM',
+            keyCode: 77,
+        });
 
-    window.document.dispatchEvent(evt);
+        window.document.dispatchEvent(evt);
+    } catch (error) {
+        log(error);
+    }
 }
 
 export const youtubeLike = () => {
-    const button = getYoutubeLikeButton();
-    if (!button) {
-        return;
-    }
+    try {
+        const button = getYoutubeLikeButton();
+        if (!button) {
+            return;
+        }
 
-    if (checkYoutubeLikeButtonPressed(button)) {
-        return;
-    }
+        if (checkYoutubeLikeButtonPressed(button)) {
+            return;
+        }
 
-    button.click();
+        button.click();
+    } catch (error) {
+        log(error);
+    }
 }
 
 export const youtubeRateChange = (
     rate: number,
 ) => {
-    const videoPlayer = getYoutubeVideoPlayer();
-    if (!videoPlayer) {
-        return;
+    try {
+        const videoPlayer = getYoutubeVideoPlayer();
+        if (!videoPlayer) {
+            return;
+        }
+        videoPlayer.playbackRate = rate;
+    } catch (error) {
+        log(error);
     }
-    videoPlayer.playbackRate = rate;
 }
 
 export const youtubeSeek = (
     seconds: number,
 ) => {
-    const videoPlayer = getYoutubeVideoPlayer();
-    if (!videoPlayer) {
-        return;
-    }
+    try {
+        const videoPlayer = getYoutubeVideoPlayer();
+        if (!videoPlayer) {
+            return;
+        }
 
-    videoPlayer.currentTime = seconds;
+        videoPlayer.currentTime = seconds;
+    } catch (error) {
+        log(error);
+    }
 }
 
 export const youtubeApplyCurrentState = (
     state: YoutubeCurrentState,
 ) => {
-    const videoPlayer = getYoutubeVideoPlayer();
-    if (!videoPlayer) {
-        return;
-    }
-
-    youtubeSeek(state.video.currentTime);
-    youtubeVolumeChange(state.video.volume);
-    youtubeRateChange(state.video.playbackRate);
-
-    setTimeout(() => {
-        if (state.video.paused) {
-            youtubePause();
-        } else {
-            youtubePlay();
+    try {
+        const videoPlayer = getYoutubeVideoPlayer();
+        if (!videoPlayer) {
+            return;
         }
-    }, 500);
+
+        youtubeSeek(state.video.currentTime);
+        youtubeVolumeChange(state.video.volume);
+        youtubeRateChange(state.video.playbackRate);
+
+        setTimeout(() => {
+            if (state.video.paused) {
+                youtubePause();
+            } else {
+                youtubePlay();
+            }
+        }, 500);
+    } catch (error) {
+        log(error);
+    }
 }
 // #endregion module
