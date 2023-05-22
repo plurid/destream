@@ -34,6 +34,7 @@ export class SessionPlayer {
     private events: SessionEvent[];
     private atIndexUpdate: (index: number) => void;
     private direction: Direction = directions.forward;
+    private pauseTime: number | undefined;
 
 
     constructor(
@@ -68,16 +69,16 @@ export class SessionPlayer {
     ) {
         const currentEvent = this.events[index];
         const currentTime = this.sessionReplay + currentEvent.relativeTime;
-        const timeDiff = currentTime - Date.now();
+        const timeDifference = currentTime - Date.now();
 
-        if (timeDiff <= 0) {
+        if (timeDifference <= 0) {
             this.runEvent(currentEvent, index);
             this.playNextEvent();
         } else {
             this.timeoutID = setTimeout(() => {
                 this.runEvent(currentEvent, index);
                 this.playNextEvent();
-            }, timeDiff);
+            }, timeDifference);
         }
     }
 
@@ -134,12 +135,20 @@ export class SessionPlayer {
     }
 
     public play() {
+        if (typeof this.pauseTime === 'number') {
+            const pauseDifference = Date.now() - this.pauseTime;
+            this.sessionReplay += pauseDifference;
+            this.pauseTime = undefined;
+        }
+
         if (this.timeoutID === null) {
             this.scheduleEvent(this.currentIndex);
         }
     }
 
     public pause() {
+        this.pauseTime = Date.now();
+
         if (this.timeoutID !== null) {
             clearTimeout(this.timeoutID);
 
