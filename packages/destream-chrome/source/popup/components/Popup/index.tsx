@@ -25,7 +25,6 @@
         MESSAGE_TYPE,
         uncontrollableURLsBase,
         DEFAULT_API_ENDPOINT,
-        DESTREAM_WWW_URL,
         storagePrefix,
     } from '../../../data/constants';
 
@@ -53,10 +52,6 @@
     import {
         sendMessage,
     } from '../../../common/messaging';
-
-    import {
-        openOptionsPage,
-    } from '../../../common/utilities';
 
     import {
         generateClient,
@@ -94,6 +89,9 @@
         StyledURLText,
         buttonStyle,
     } from './styled';
+
+    import DestreamTitle from './components/DestreamTitle';
+    import DestreamOptions from './components/DestreamOptions';
     // #endregion internal
 // #endregion imports
 
@@ -183,10 +181,6 @@ const Popup: React.FC<any> = (
 
 
     // #region handlers
-    const openOptions = () => {
-        openOptionsPage();
-    }
-
     const stopSubscription = async () => {
         if (!activeTab || !subscription) {
             return;
@@ -591,19 +585,12 @@ const Popup: React.FC<any> = (
                     }}
                 />
             </StyledPopup>
-        )
+        );
     }
 
     return (
         <StyledPopup>
-            <h1>
-                <a
-                    href={DESTREAM_WWW_URL}
-                    target="_blank"
-                >
-                    destream
-                </a>
-            </h1>
+            <DestreamTitle />
 
 
             {!loggedIn && (
@@ -777,16 +764,7 @@ const Popup: React.FC<any> = (
             )}
 
 
-            <LinkButton
-                text="options"
-                atClick={() => {
-                    openOptions();
-                }}
-                theme={plurid}
-                style={{
-                    marginTop: '2rem',
-                }}
-            />
+            <DestreamOptions />
         </StyledPopup>
     );
     // #endregion render
