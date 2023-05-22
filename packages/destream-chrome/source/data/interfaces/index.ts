@@ -33,6 +33,10 @@ export type Message =
     | URLChangeMessage
     | DestreamEventMessage
     | ReplaySessionMessage
+    | ReplaymentPauseMessage
+    | ReplaymentPlayMessage
+    | ReplaymentStopMessage
+    | ReplaymentIndexMessage
     | ResyncSessionMessage;
 
 export interface PublishEventMessage {
@@ -337,6 +341,23 @@ export interface DestreamEventMessage {
 export interface ReplaySessionMessage {
     type: typeof MESSAGE_TYPE.REPLAY_SESSION;
     data: any;
+}
+
+export interface ReplaymentPauseMessage {
+    type: typeof MESSAGE_TYPE.REPLAYMENT_PAUSE;
+}
+
+export interface ReplaymentPlayMessage {
+    type: typeof MESSAGE_TYPE.REPLAYMENT_PLAY;
+}
+
+export interface ReplaymentStopMessage {
+    type: typeof MESSAGE_TYPE.REPLAYMENT_STOP;
+}
+
+export interface ReplaymentIndexMessage {
+    type: typeof MESSAGE_TYPE.REPLAYMENT_INDEX;
+    data: number;
 }
 
 export interface ResyncSessionMessage {

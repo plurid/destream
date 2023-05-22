@@ -25,6 +25,10 @@
     import handleStopEverything from './handleStopEverything';
     import handleURLChange from './handleURLChange';
     import handleReplaySession from './handleReplaySession';
+    import handleReplaymentPause from './handleReplaymentPause';
+    import handleReplaymentPlay from './handleReplaymentPlay';
+    import handleReplaymentStop from './handleReplaymentStop';
+    import handleReplaymentIndex from './handleReplaymentIndex';
     import handleResyncSession from './handleResyncSession';
     // #endregion internal
 // #endregion imports
@@ -70,6 +74,14 @@ const messageHandler: Handler<Message> = async (
             return handleURLChange(request, sender, sendResponse);
         case MESSAGE_TYPE.REPLAY_SESSION:
             return handleReplaySession(request, sender, sendResponse);
+        case MESSAGE_TYPE.REPLAYMENT_PAUSE:
+            return handleReplaymentPause(request, sender, sendResponse);
+        case MESSAGE_TYPE.REPLAYMENT_PLAY:
+            return handleReplaymentPlay(request, sender, sendResponse);
+        case MESSAGE_TYPE.REPLAYMENT_STOP:
+            return handleReplaymentStop(request, sender, sendResponse);
+        case MESSAGE_TYPE.REPLAYMENT_INDEX:
+            return handleReplaymentIndex(request, sender, sendResponse);
         case MESSAGE_TYPE.RESYNC_SESSION:
             return handleResyncSession(request, sender, sendResponse);
         default:

@@ -64,6 +64,10 @@ export const MESSAGE_TYPE = {
     URL_CHANGE: 'urlChange',
     DESTREAM_EVENT: 'destreamEvent',
     REPLAY_SESSION: 'replaySession',
+    REPLAYMENT_PAUSE: 'replaymentPause',
+    REPLAYMENT_PLAY: 'replaymentPlay',
+    REPLAYMENT_STOP: 'replaymentStop',
+    REPLAYMENT_INDEX: 'replaymentIndex',
     RESYNC_SESSION: 'resyncSession',
 } as const;
 
