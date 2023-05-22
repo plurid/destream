@@ -2,7 +2,18 @@
     // #region external
     import {
         GENERAL_EVENT,
+        MESSAGE_TYPE,
+        ReplaymentIndexMessage,
     } from '../../data';
+
+    import {
+        sendMessage,
+    } from '../../common/messaging';
+
+
+    import {
+        getTabID,
+    } from '../messaging';
 
     import MessagerClient from '../client';
     // #endregion external
@@ -21,6 +32,8 @@
 const runReplayer = async (
     client: MessagerClient,
 ) => {
+    const tabID = await getTabID();
+
     let sessionPlayer: SessionPlayer | undefined;
 
     const messageListener = (
@@ -28,9 +41,6 @@ const runReplayer = async (
         _sender: chrome.runtime.MessageSender,
         sendResponse: (response?: any) => void,
     ) => {
-        console.log({
-            request,
-        });
         if (!request?.type) {
             sendResponse();
             return true;
@@ -51,6 +61,19 @@ const runReplayer = async (
                 sessionPlayer = new SessionPlayer(
                     generatedAt,
                     events,
+                    (
+                        index,
+                    ) => {
+                        sendMessage<ReplaymentIndexMessage>(
+                            {
+                                type: MESSAGE_TYPE.REPLAYMENT_INDEX,
+                                data: {
+                                    tabID,
+                                    index,
+                                },
+                            },
+                        );
+                    },
                 );
                 sessionPlayer.play();
                 break;

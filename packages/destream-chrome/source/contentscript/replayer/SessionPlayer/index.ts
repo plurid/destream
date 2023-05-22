@@ -32,23 +32,29 @@ export class SessionPlayer {
     private currentIndex = 0;
     private timeoutID: NodeJS.Timeout | null = null;
     private events: SessionEvent[];
+    private atIndexUpdate: (index: number) => void;
     private direction: Direction = directions.forward;
 
 
     constructor(
         sessionStart: number,
         events: SessionEvent[],
+        atIndexUpdate: (index: number) => void,
     ) {
         this.events = events;
         this.sessionStart = sessionStart;
         this.sessionReplay = Date.now();
+        this.atIndexUpdate = atIndexUpdate;
     }
 
 
     private runEvent(
         event: SessionEvent,
+        index: number,
     ) {
         try {
+            this.atIndexUpdate(index);
+
             const data = JSON.parse(event.data);
 
             handleEvent(data);
@@ -65,11 +71,11 @@ export class SessionPlayer {
         const timeDiff = currentTime - Date.now();
 
         if (timeDiff <= 0) {
-            this.runEvent(currentEvent);
+            this.runEvent(currentEvent, index);
             this.playNextEvent();
         } else {
             this.timeoutID = setTimeout(() => {
-                this.runEvent(currentEvent);
+                this.runEvent(currentEvent, index);
                 this.playNextEvent();
             }, timeDiff);
         }

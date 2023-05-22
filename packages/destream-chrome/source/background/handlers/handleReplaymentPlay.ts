@@ -2,15 +2,13 @@
     // #region external
     import {
         Handler,
-        Replayment,
         ReplaymentPlayMessage,
-        storagePrefix,
         GENERAL_EVENT,
     } from '../../data';
 
     import {
-        storageGet,
-    } from '../../common/storage';
+        updateReplayment,
+    } from '../replayments';
     // #endregion external
 // #endregion imports
 
@@ -22,8 +20,13 @@ const handleReplaymentPlay: Handler<ReplaymentPlayMessage> = async (
     _sender,
     sendResponse,
 ) => {
-    const replayment = await storageGet<Replayment>(storagePrefix.replayment + request.data);
-    if (!replayment) {
+    const updated = await updateReplayment(
+        request.data,
+        {
+            status: 'playing',
+        },
+    );
+    if (!updated) {
         sendResponse({
             status: false,
         });
