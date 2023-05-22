@@ -3,13 +3,12 @@
     import {
         Handler,
         ReplaymentStopMessage,
-        storagePrefix,
         GENERAL_EVENT,
     } from '../../data';
 
     import {
-        storageRemove,
-    } from '../../common/storage';
+        stopReplaymentWithTabID,
+    } from '../replayments';
     // #endregion external
 // #endregion imports
 
@@ -25,7 +24,7 @@ const handleReplaymentStop: Handler<ReplaymentStopMessage> = async (
         type: GENERAL_EVENT.REPLAY_SESSION_STOP,
     });
 
-    await storageRemove(storagePrefix.replayment + request.data);
+    await stopReplaymentWithTabID(request.data);
 
     sendResponse({
         status: true,

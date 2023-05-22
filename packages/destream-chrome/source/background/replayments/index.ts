@@ -8,6 +8,7 @@
     import {
         storageGet,
         storageSet,
+        storageRemove,
     } from '../../common/storage';
     // #endregion external
 // #endregion imports
@@ -34,5 +35,12 @@ export const updateReplayment = async (
     );
 
     return true;
+}
+
+
+export const stopReplaymentWithTabID = async (
+    tabID: number,
+) => {
+    await storageRemove(storagePrefix.replayment + tabID);
 }
 // #endregion module

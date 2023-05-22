@@ -21,6 +21,10 @@
     import {
         stopSubscriptionWithTabID,
     } from './subscriptions';
+
+    import {
+        stopReplaymentWithTabID,
+    } from './replayments';
     // #endregion internal
 // #endregion imports
 
@@ -44,6 +48,7 @@ const main = () => {
         chrome.tabs.onRemoved.addListener((tabID) => {
             stopSessionWithTabID(tabID);
             stopSubscriptionWithTabID(tabID);
+            stopReplaymentWithTabID(tabID);
         });
 
         chrome.tabs.onUpdated.addListener(updateSession);
