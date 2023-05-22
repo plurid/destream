@@ -12,7 +12,6 @@
     import {
         PureButton,
         LinkButton,
-        Slider,
         Spinner,
         InputSwitch,
         InputLine,
@@ -37,10 +36,6 @@
         Subscription,
         Replayment,
         ReplaySessionMessage,
-        ReplaymentIndexMessage,
-        ReplaymentPlayMessage,
-        ReplaymentPauseMessage,
-        ReplaymentStopMessage,
     } from '../../../data/interfaces';
 
     import {
@@ -92,6 +87,7 @@
 
     import DestreamTitle from './components/DestreamTitle';
     import DestreamOptions from './components/DestreamOptions';
+    import ReplaymentComponent from './components/Replayment';
     // #endregion internal
 // #endregion imports
 
@@ -99,7 +95,7 @@
 
 // #region module
 const Popup: React.FC<any> = (
-    properties,
+    _properties,
 ) => {
     // #region state
     const [
@@ -310,62 +306,6 @@ const Popup: React.FC<any> = (
             },
         );
     }
-
-    const stopReplayment = async () => {
-        if (!replayment || !activeTab) {
-            return;
-        }
-
-        setReplayment(null);
-
-        await sendMessage<ReplaymentStopMessage>(
-            {
-                type: MESSAGE_TYPE.REPLAYMENT_STOP,
-                data: activeTab.id,
-            },
-            () => {
-            },
-        );
-    }
-
-    const handleReplaymentIndex = async (
-        index: number,
-    ) => {
-        if (!replayment || !activeTab) {
-            return;
-        }
-
-        await sendMessage<ReplaymentIndexMessage>(
-            {
-                type: MESSAGE_TYPE.REPLAYMENT_INDEX,
-                data: {
-                    tabID: activeTab.id,
-                    index,
-                },
-            },
-            () => {
-            },
-        );
-    }
-
-    const handleReplaymentPlayPause = async () => {
-        if (!replayment || !activeTab) {
-            return;
-        }
-
-        const messageType = replayment.status === 'playing'
-            ? MESSAGE_TYPE.REPLAYMENT_PAUSE
-            : MESSAGE_TYPE.REPLAYMENT_PLAY;
-
-        await sendMessage<ReplaymentPlayMessage | ReplaymentPauseMessage>(
-            {
-                type: messageType,
-                data: activeTab.id,
-            },
-            () => {
-            },
-        );
-    }
     // #endregion handlers
 
 
@@ -539,50 +479,10 @@ const Popup: React.FC<any> = (
     if (replayment) {
         return (
             <StyledPopup>
-                <h1>
-                    replaying destream
-                </h1>
-
-                <PureButton
-                    text={replayment.status === 'playing' ? 'Pause' : 'Play'}
-                    atClick={() => {
-                        handleReplaymentPlayPause();
-                    }}
-                    theme={plurid}
-                    level={2}
-                    style={buttonStyle}
-                />
-
-                <div
-                    style={{
-                        margin: '2rem 0',
-                    }}
-                >
-                    <Slider
-                        value={replayment.currentIndex}
-                        atChange={(
-                            index,
-                        ) => {
-                            handleReplaymentIndex(index);
-                        }}
-                        min={0}
-                        max={replayment.data.events.length - 1}
-                        step={1}
-                        theme={plurid}
-                        width={280}
-                        level={2}
-                    />
-                </div>
-
-                <LinkButton
-                    text="cancel"
-                    atClick={() => {
-                        stopReplayment();
-                    }}
-                    theme={plurid}
-                    style={{
-                        margin: '1rem 0',
-                    }}
+                <ReplaymentComponent
+                    replayment={replayment}
+                    activeTab={activeTab}
+                    setReplayment={setReplayment}
                 />
             </StyledPopup>
         );

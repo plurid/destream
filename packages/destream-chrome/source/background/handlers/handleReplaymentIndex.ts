@@ -8,6 +8,7 @@
 
     import {
         updateReplayment,
+        replaymentAtEnd,
     } from '../replayments';
     // #endregion external
 // #endregion imports
@@ -20,13 +21,13 @@ const handleReplaymentStop: Handler<ReplaymentIndexMessage> = async (
     _sender,
     sendResponse,
 ) => {
-    const updated = await updateReplayment(
+    const replayment = await updateReplayment(
         request.data.tabID,
         {
             currentIndex: request.data.index,
         },
     );
-    if (!updated) {
+    if (!replayment) {
         sendResponse({
             status: false,
         });
@@ -37,6 +38,19 @@ const handleReplaymentStop: Handler<ReplaymentIndexMessage> = async (
         type: GENERAL_EVENT.REPLAY_SESSION_INDEX,
         data: request.data.index,
     });
+
+    if (replaymentAtEnd(replayment, request.data.index)) {
+        await updateReplayment(
+            request.data.tabID,
+            {
+                status: 'paused',
+            },
+        );
+
+        await chrome.tabs.sendMessage(request.data.tabID, {
+            type: GENERAL_EVENT.REPLAY_SESSION_PAUSE,
+        });
+    }
 
     sendResponse({
         status: true,

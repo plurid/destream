@@ -280,7 +280,6 @@ const runViewer = async (
 
     chrome.storage.onChanged.addListener(storageLogic);
     chrome.runtime.onMessage.addListener(messageListener);
-
 }
 // #endregion module
 

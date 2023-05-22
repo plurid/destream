@@ -8,6 +8,7 @@
 
     import {
         updateReplayment,
+        replaymentAtEnd,
     } from '../replayments';
     // #endregion external
 // #endregion imports
@@ -20,17 +21,31 @@ const handleReplaymentPlay: Handler<ReplaymentPlayMessage> = async (
     _sender,
     sendResponse,
 ) => {
-    const updated = await updateReplayment(
+    const replayment = await updateReplayment(
         request.data,
         {
             status: 'playing',
         },
     );
-    if (!updated) {
+    if (!replayment) {
         sendResponse({
             status: false,
         });
         return;
+    }
+
+    if (replaymentAtEnd(replayment)) {
+        await updateReplayment(
+            request.data,
+            {
+                currentIndex: 0,
+            },
+        );
+
+        await chrome.tabs.sendMessage(request.data, {
+            type: GENERAL_EVENT.REPLAY_SESSION_INDEX,
+            data: 0,
+        });
     }
 
     await chrome.tabs.sendMessage(request.data, {
