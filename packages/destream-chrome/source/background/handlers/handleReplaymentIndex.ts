@@ -2,6 +2,8 @@
     // #region external
     import {
         Handler,
+        ReplaymentIndexMessage,
+        GENERAL_EVENT,
     } from '../../data';
     // #endregion external
 // #endregion imports
@@ -9,11 +11,16 @@
 
 
 // #region module
-const handleReplaymentStop: Handler<any> = async (
+const handleReplaymentStop: Handler<ReplaymentIndexMessage> = async (
     request,
     _sender,
     sendResponse,
 ) => {
+    await chrome.tabs.sendMessage(request.data.tabID, {
+        type: GENERAL_EVENT.REPLAY_SESSION_INDEX,
+        data: request.data.index,
+    });
+
     sendResponse({
         status: true,
     });

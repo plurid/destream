@@ -107,6 +107,7 @@ export const GENERAL_EVENT = {
     REPLAY_SESSION: 'generalReplaySession',
     REPLAY_SESSION_PLAY: 'generalReplaySessionPlay',
     REPLAY_SESSION_PAUSE: 'generalReplaySessionPause',
+    REPLAY_SESSION_STOP: 'generalReplaySessionStop',
     REPLAY_SESSION_DIRECTION: 'generalReplaySessionDirection',
     REPLAY_SESSION_INDEX: 'generalReplaySessionIndex',
     REPLAY_SESSION_SPEED: 'generalReplaySessionSpeed',

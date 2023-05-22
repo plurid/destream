@@ -140,5 +140,8 @@ export class SessionPlayer {
             this.timeoutID = null;
         }
     }
+
+    public stop() {
+    }
 }
 // #endregion module

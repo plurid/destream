@@ -345,19 +345,28 @@ export interface ReplaySessionMessage {
 
 export interface ReplaymentPauseMessage {
     type: typeof MESSAGE_TYPE.REPLAYMENT_PAUSE;
+    // tab id
+    data: number;
 }
 
 export interface ReplaymentPlayMessage {
     type: typeof MESSAGE_TYPE.REPLAYMENT_PLAY;
+    // tab id
+    data: number;
 }
 
 export interface ReplaymentStopMessage {
     type: typeof MESSAGE_TYPE.REPLAYMENT_STOP;
+    // tab id
+    data: number;
 }
 
 export interface ReplaymentIndexMessage {
     type: typeof MESSAGE_TYPE.REPLAYMENT_INDEX;
-    data: number;
+    data: {
+        tabID: number;
+        index: number;
+    };
 }
 
 export interface ResyncSessionMessage {

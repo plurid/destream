@@ -38,6 +38,10 @@
         Subscription,
         Replayment,
         ReplaySessionMessage,
+        ReplaymentIndexMessage,
+        ReplaymentPlayMessage,
+        ReplaymentPauseMessage,
+        ReplaymentStopMessage,
     } from '../../../data/interfaces';
 
     import {
@@ -313,8 +317,60 @@ const Popup: React.FC<any> = (
         );
     }
 
-    const stopReplayment = () => {
+    const stopReplayment = async () => {
+        if (!replayment || !activeTab) {
+            return;
+        }
+
         setReplayment(null);
+
+        await sendMessage<ReplaymentStopMessage>(
+            {
+                type: MESSAGE_TYPE.REPLAYMENT_STOP,
+                data: activeTab.id,
+            },
+            () => {
+            },
+        );
+    }
+
+    const handleReplaymentIndex = async (
+        index: number,
+    ) => {
+        if (!replayment || !activeTab) {
+            return;
+        }
+
+        await sendMessage<ReplaymentIndexMessage>(
+            {
+                type: MESSAGE_TYPE.REPLAYMENT_INDEX,
+                data: {
+                    tabID: activeTab.id,
+                    index,
+                },
+            },
+            () => {
+            },
+        );
+    }
+
+    const handleReplaymentPlayPause = async () => {
+        if (!replayment || !activeTab) {
+            return;
+        }
+
+        const messageType = replayment.status === 'playing'
+            ? MESSAGE_TYPE.REPLAYMENT_PAUSE
+            : MESSAGE_TYPE.REPLAYMENT_PLAY;
+
+        await sendMessage<ReplaymentPlayMessage | ReplaymentPauseMessage>(
+            {
+                type: messageType,
+                data: activeTab.id,
+            },
+            () => {
+            },
+        );
     }
     // #endregion handlers
 
@@ -496,7 +552,7 @@ const Popup: React.FC<any> = (
                 <PureButton
                     text={replayment.status === 'playing' ? 'Pause' : 'Play'}
                     atClick={() => {
-
+                        handleReplaymentPlayPause();
                     }}
                     theme={plurid}
                     level={2}
@@ -510,8 +566,10 @@ const Popup: React.FC<any> = (
                 >
                     <Slider
                         value={replayment.currentIndex}
-                        atChange={() => {
-                            // handle change
+                        atChange={(
+                            index,
+                        ) => {
+                            handleReplaymentIndex(index);
                         }}
                         min={0}
                         max={replayment.data.events.length - 1}
