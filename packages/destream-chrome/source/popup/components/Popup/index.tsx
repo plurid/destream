@@ -312,6 +312,10 @@ const Popup: React.FC<any> = (
             },
         );
     }
+
+    const stopReplayment = () => {
+        setReplayment(null);
+    }
     // #endregion handlers
 
 
@@ -521,7 +525,7 @@ const Popup: React.FC<any> = (
                 <LinkButton
                     text="cancel"
                     atClick={() => {
-                        // stop replayment
+                        stopReplayment();
                     }}
                     theme={plurid}
                     style={{
