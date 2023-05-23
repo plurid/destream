@@ -169,11 +169,6 @@ const Popup: React.FC<any> = (
         showReplayDestream,
         setShowReplayDestream,
     ] = useState(false);
-
-    const [
-        resyncingSession,
-        setResyncingSession,
-    ] = useState(false);
     // #endregion state
 
 
@@ -288,24 +283,6 @@ const Popup: React.FC<any> = (
         } catch (error) {
             log(error);
         }
-    }
-
-    const resyncSession = async () => {
-        if (!activeTab) {
-            return;
-        }
-
-        setResyncingSession(true);
-
-        await sendMessage<any>(
-            {
-                type: MESSAGE_TYPE.RESYNC_SESSION,
-                data: activeTab.id,
-            },
-            () => {
-                setResyncingSession(false);
-            },
-        );
     }
     // #endregion handlers
 
@@ -606,8 +583,6 @@ const Popup: React.FC<any> = (
             <SessionOptions
                 activeTab={activeTab}
                 activeTabControlledBy={activeTabControlledBy}
-                resyncSession={resyncSession}
-                resyncingSession={resyncingSession}
                 showStream={showStream}
                 setShowStream={setShowStream}
                 showStreamChat={showStreamChat}

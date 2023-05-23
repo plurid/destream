@@ -1,6 +1,8 @@
 // #region imports
     // #region libraries
-    import React from 'react';
+    import React, {
+        useState,
+    } from 'react';
 
     import {
         plurid,
@@ -11,6 +13,17 @@
         InputSwitch,
     } from '@plurid/plurid-ui-components-react';
     // #endregion libraries
+
+
+    // #region external
+    import {
+        MESSAGE_TYPE,
+    } from '../../../../../data';
+
+    import {
+        sendMessage,
+    } from '../../../../../common/messaging';
+    // #endregion external
 // #region imports
 
 
@@ -19,8 +32,6 @@
 export interface SessionOptionsProperties {
     activeTab: chrome.tabs.Tab | undefined;
     activeTabControlledBy: string | undefined;
-    resyncSession: () => Promise<void>;
-    resyncingSession: boolean;
     showStream: boolean;
     setShowStream: React.Dispatch<React.SetStateAction<boolean>>;
     showStreamChat: boolean;
@@ -34,14 +45,41 @@ const SessionOptions: React.FC<SessionOptionsProperties> = (
     const {
         activeTab,
         activeTabControlledBy,
-        resyncSession,
-        resyncingSession,
         showStream,
         setShowStream,
         showStreamChat,
         setShowStreamChat,
     } = properties;
     // #endregion properties
+
+
+    // #region state
+    const [
+        resyncingSession,
+        setResyncingSession,
+    ] = useState(false);
+    // #endregion state
+
+
+    // #region handlers
+    const resyncSession = async () => {
+        if (!activeTab) {
+            return;
+        }
+
+        setResyncingSession(true);
+
+        await sendMessage<any>(
+            {
+                type: MESSAGE_TYPE.RESYNC_SESSION,
+                data: activeTab.id,
+            },
+            () => {
+                setResyncingSession(false);
+            },
+        );
+    }
+    // #endregion handlers
 
 
     // #region render
