@@ -93,9 +93,12 @@ const SessionOptions: React.FC<SessionOptionsProperties> = (
                 data: activeTab.id,
             },
             () => {
-                setResyncingSession(false);
             },
         );
+
+        setTimeout(() => {
+            setResyncingSession(false);
+        }, 1_000);
     }
     // #endregion handlers
 
