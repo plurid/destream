@@ -2,6 +2,7 @@
     // #region libraries
     import React, {
         useState,
+        useEffect,
     } from 'react';
 
     import {
@@ -18,7 +19,18 @@
     // #region external
     import {
         MESSAGE_TYPE,
+        Session,
+        Subscription,
     } from '../../../../../data';
+
+    import {
+        getTabSettingsID,
+        getTabSettings,
+    } from '../../../../../background/utilities';
+
+    import {
+        storageSet,
+    } from '../../../../../common/storage';
 
     import {
         sendMessage,
@@ -32,10 +44,8 @@
 export interface SessionOptionsProperties {
     activeTab: chrome.tabs.Tab | undefined;
     activeTabControlledBy: string | undefined;
-    showStream: boolean;
-    setShowStream: React.Dispatch<React.SetStateAction<boolean>>;
-    showStreamChat: boolean;
-    setShowStreamChat: React.Dispatch<React.SetStateAction<boolean>>;
+    session: Session;
+    subscription: Subscription;
 }
 
 const SessionOptions: React.FC<SessionOptionsProperties> = (
@@ -45,15 +55,23 @@ const SessionOptions: React.FC<SessionOptionsProperties> = (
     const {
         activeTab,
         activeTabControlledBy,
-        showStream,
-        setShowStream,
-        showStreamChat,
-        setShowStreamChat,
+        session,
+        subscription,
     } = properties;
     // #endregion properties
 
 
     // #region state
+    const [
+        showStream,
+        setShowStream,
+    ] = useState(false);
+
+    const [
+        showStreamChat,
+        setShowStreamChat,
+    ] = useState(false);
+
     const [
         resyncingSession,
         setResyncingSession,
@@ -80,6 +98,59 @@ const SessionOptions: React.FC<SessionOptionsProperties> = (
         );
     }
     // #endregion handlers
+
+
+    // #region effects
+    /** loadTabSettings */
+    useEffect(() => {
+        if (!activeTab) {
+            return;
+        }
+
+        const loadTabSettings = async () => {
+            const tabSettings = await getTabSettings(activeTab.id);
+            if (!tabSettings) {
+                return;
+            }
+
+            setShowStream(tabSettings.showStream);
+            setShowStreamChat(tabSettings.showStreamChat);
+        }
+
+        loadTabSettings();
+    }, [
+        activeTab,
+    ]);
+
+    /** setTabSettings */
+    useEffect(() => {
+        if (!activeTab) {
+            return;
+        }
+        if (!session && !subscription) {
+            return;
+        }
+
+        const setTabSettings = async () => {
+            const id = getTabSettingsID(activeTab.id);
+            await storageSet(
+                id,
+                {
+                    showStream,
+                    showStreamChat,
+                },
+            );
+        }
+
+        setTabSettings();
+    }, [
+        activeTab,
+        session,
+        subscription,
+        showStream,
+        showStreamChat,
+    ]);
+    // #endregion effects
 
 
     // #region render

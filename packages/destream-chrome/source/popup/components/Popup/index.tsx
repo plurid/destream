@@ -38,7 +38,6 @@
     } from '../../../data/interfaces';
 
     import {
-        storageSet,
         storageGet,
         storageGetTokens,
     } from '../../../common/storage';
@@ -51,11 +50,6 @@
         generateClient,
         GET_SESSION,
     } from '../../../background/graphql';
-
-    import {
-        getTabSettingsID,
-        getTabSettings,
-    } from '../../../background/utilities';
 
     import Login from '../../../common/components/Login';
     import Subscriptions from '../../../common/components/Subscriptions';
@@ -148,16 +142,6 @@ const Popup: React.FC<any> = (
     const [
         sessionStarted,
         setSessionStarted,
-    ] = useState(false);
-
-    const [
-        showStream,
-        setShowStream,
-    ] = useState(false);
-
-    const [
-        showStreamChat,
-        setShowStreamChat,
     ] = useState(false);
 
     const [
@@ -310,56 +294,6 @@ const Popup: React.FC<any> = (
 
         getTab();
     }, []);
-
-    /** loadTabSettings */
-    useEffect(() => {
-        if (!activeTab) {
-            return;
-        }
-
-        const loadTabSettings = async () => {
-            const tabSettings = await getTabSettings(activeTab.id);
-            if (!tabSettings) {
-                return;
-            }
-
-            setShowStream(tabSettings.showStream);
-            setShowStreamChat(tabSettings.showStreamChat);
-        }
-
-        loadTabSettings();
-    }, [
-        activeTab,
-    ]);
-
-    /** setSettings */
-    useEffect(() => {
-        if (!activeTab) {
-            return;
-        }
-        if (!session && !subscription) {
-            return;
-        }
-
-        const setSettings = async () => {
-            const id = getTabSettingsID(activeTab.id);
-            await storageSet(
-                id,
-                {
-                    showStream,
-                    showStreamChat,
-                },
-            );
-        }
-
-        setSettings();
-    }, [
-        activeTab,
-        session,
-        subscription,
-        showStream,
-        showStreamChat,
-    ]);
 
     /** getSession, getSubscription, getReplayment */
     useEffect(() => {
@@ -583,10 +517,8 @@ const Popup: React.FC<any> = (
             <SessionOptions
                 activeTab={activeTab}
                 activeTabControlledBy={activeTabControlledBy}
-                showStream={showStream}
-                setShowStream={setShowStream}
-                showStreamChat={showStreamChat}
-                setShowStreamChat={setShowStreamChat}
+                session={session}
+                subscription={subscription}
             />
 
 
