@@ -39,6 +39,7 @@ const DestreamOptions: React.FC<DestreamOptionsProperties> = (
             style={{
                 marginTop: '2rem',
             }}
+            inline={true}
         />
     );
     // #endregion render

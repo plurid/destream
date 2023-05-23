@@ -647,6 +647,7 @@ const Popup: React.FC<any> = (
                 style={{
                     margin: '1rem 0',
                 }}
+                inline={true}
             />
 
 

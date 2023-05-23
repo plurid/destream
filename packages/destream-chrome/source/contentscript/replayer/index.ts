@@ -78,7 +78,9 @@ const runReplayer = async (
                 sessionPlayer.play();
                 break;
             case GENERAL_EVENT.REPLAY_SESSION_PLAY:
-                sessionPlayer.play();
+                sessionPlayer.play(
+                    request.reset,
+                );
                 break;
             case GENERAL_EVENT.REPLAY_SESSION_PAUSE:
                 sessionPlayer.pause();

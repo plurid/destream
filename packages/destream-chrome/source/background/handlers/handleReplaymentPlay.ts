@@ -34,6 +34,7 @@ const handleReplaymentPlay: Handler<ReplaymentPlayMessage> = async (
         return;
     }
 
+    let reset = false;
     if (replaymentAtEnd(replayment)) {
         await updateReplayment(
             request.data,
@@ -46,10 +47,13 @@ const handleReplaymentPlay: Handler<ReplaymentPlayMessage> = async (
             type: GENERAL_EVENT.REPLAY_SESSION_INDEX,
             data: 0,
         });
+
+        reset = true;
     }
 
     await chrome.tabs.sendMessage(request.data, {
         type: GENERAL_EVENT.REPLAY_SESSION_PLAY,
+        reset,
     });
 
     sendResponse({

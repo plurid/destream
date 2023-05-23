@@ -53,6 +53,10 @@ export class SessionPlayer {
         event: SessionEvent,
         index: number,
     ) {
+        console.log(
+            event,
+            index,
+        );
         try {
             this.atIndexUpdate(index);
 
@@ -70,12 +74,18 @@ export class SessionPlayer {
         const currentEvent = this.events[index];
         const currentTime = this.sessionReplay + currentEvent.relativeTime;
         const timeDifference = currentTime - Date.now();
+        console.log({
+            currentTime,
+            timeDifference,
+            sessionReplay: this.sessionReplay,
+        });
 
         if (timeDifference <= 0) {
             this.runEvent(currentEvent, index);
             this.playNextEvent();
         } else {
             this.timeoutID = setTimeout(() => {
+                console.log('timeout', index);
                 this.runEvent(currentEvent, index);
                 this.playNextEvent();
             }, timeDifference);
@@ -128,17 +138,28 @@ export class SessionPlayer {
 
         if (index > this.events.length) {
             this.currentIndex = this.events.length - 1;
+            this.pause();
             return;
         }
 
         this.currentIndex = index;
     }
 
-    public play() {
+    public play(
+        reset?: true,
+    ) {
         if (typeof this.pauseTime === 'number') {
             const pauseDifference = Date.now() - this.pauseTime;
+            console.log({
+                pauseTime: this.pauseTime,
+                pauseDifference,
+            });
             this.sessionReplay += pauseDifference;
             this.pauseTime = undefined;
+        }
+
+        if (reset) {
+            this.currentIndex = 0;
         }
 
         if (this.timeoutID === null) {
