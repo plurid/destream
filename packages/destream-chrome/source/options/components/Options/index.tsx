@@ -333,8 +333,9 @@ const Options: React.FC<any> = (
                     theme={plurid}
                     level={2}
                     style={{
-                        width: '320px',
+                        width: '250px',
                         margin: '0 auto',
+                        wordBreak: 'break-all',
                     }}
                 />
             )}
