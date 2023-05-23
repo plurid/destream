@@ -123,7 +123,7 @@ export class YoutubeDetector extends GeneralDetector {
             url: window.location.href,
             video: {
                 currentTime: this.video.currentTime,
-                volume: this.video.volume,
+                volume: this.video.muted ? 0 : this.video.volume,
                 playbackRate: this.video.playbackRate,
                 paused: this.video.paused,
             },
