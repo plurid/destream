@@ -21,6 +21,7 @@
         MESSAGE_TYPE,
         Session,
         Subscription,
+        resyncTimeout,
     } from '../../../../../data';
 
     import {
@@ -98,7 +99,7 @@ const SessionOptions: React.FC<SessionOptionsProperties> = (
 
         setTimeout(() => {
             setResyncingSession(false);
-        }, 1_000);
+        }, resyncTimeout);
     }
     // #endregion handlers
 

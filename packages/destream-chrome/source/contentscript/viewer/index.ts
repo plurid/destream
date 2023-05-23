@@ -10,7 +10,7 @@
         StopSubscriptionMessage,
         StartSubscriptionByIDMessage,
         Subscription,
-        resyncLimit,
+        resyncTimeout,
     } from '../../data';
 
     import {
@@ -223,7 +223,7 @@ const runViewer = async (
                     const now = Date.now();
                     const difference = now - lastResync;
                     lastResync = now;
-                    if (difference < resyncLimit) {
+                    if (difference < resyncTimeout) {
                         break;
                     }
                 } else {
