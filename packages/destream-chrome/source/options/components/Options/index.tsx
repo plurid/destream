@@ -341,13 +341,16 @@ const Options: React.FC<any> = (
 
 
             {!isStreamer && (
-                <LinkButton
-                    text="register as streamer"
-                    atClick={() => {
-                        registerAsStreamer();
-                    }}
-                    theme={plurid}
-                />
+                <div>
+                    <LinkButton
+                        text="register as streamer"
+                        atClick={() => {
+                            registerAsStreamer();
+                        }}
+                        theme={plurid}
+                        inline={true}
+                    />
+                </div>
             )}
 
 

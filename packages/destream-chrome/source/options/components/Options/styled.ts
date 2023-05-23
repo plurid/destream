@@ -12,6 +12,7 @@ export const StyledOptions = styled.div`
     display: grid;
     gap: 2rem;
     align-self: center;
+    justify-items: center;
 `;
 
 

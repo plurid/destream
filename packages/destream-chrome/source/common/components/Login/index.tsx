@@ -214,16 +214,16 @@ const Login: React.FC<LoginProperties> = (
                 }}
             />
 
-            <LinkButton
-                text="generate account"
-                atClick={() => {
-                    generateAccount();
-                }}
-                theme={theme}
-                style={{
-                    width: '250px',
-                }}
-            />
+            <div>
+                <LinkButton
+                    text="generate account"
+                    atClick={() => {
+                        generateAccount();
+                    }}
+                    theme={theme}
+                    inline={true}
+                />
+            </div>
         </StyledLogin>
     );
     // #endregion render
