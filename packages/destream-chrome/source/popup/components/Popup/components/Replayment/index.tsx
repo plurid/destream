@@ -191,16 +191,19 @@ const Replayment: React.FC<ReplaymentProperties> = (
                 />
             </div>
 
-            <LinkButton
-                text="cancel"
-                atClick={() => {
-                    stopReplayment();
-                }}
-                theme={plurid}
-                style={{
-                    margin: '1rem 0',
-                }}
-            />
+            <div>
+                <LinkButton
+                    text="cancel"
+                    atClick={() => {
+                        stopReplayment();
+                    }}
+                    theme={plurid}
+                    style={{
+                        margin: '1rem 0',
+                    }}
+                    inline={true}
+                />
+            </div>
         </>
     );
     // #endregion render

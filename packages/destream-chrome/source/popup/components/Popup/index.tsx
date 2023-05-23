@@ -88,6 +88,7 @@
     import DestreamTitle from './components/DestreamTitle';
     import DestreamOptions from './components/DestreamOptions';
     import ReplaymentComponent from './components/Replayment';
+    import ReplayDestream from './components/ReplayDestream';
     // #endregion internal
 // #endregion imports
 
@@ -462,16 +463,19 @@ const Popup: React.FC<any> = (
                     }}
                 />
 
-                <LinkButton
-                    text="cancel"
-                    atClick={() => {
-                        setShowReplayDestream(false);
-                    }}
-                    theme={plurid}
-                    style={{
-                        margin: '1rem 0',
-                    }}
-                />
+                <div>
+                    <LinkButton
+                        text="cancel"
+                        atClick={() => {
+                            setShowReplayDestream(false);
+                        }}
+                        theme={plurid}
+                        style={{
+                            margin: '1rem 0',
+                        }}
+                        inline={true}
+                    />
+                </div>
             </StyledPopup>
         );
     }
@@ -638,16 +642,8 @@ const Popup: React.FC<any> = (
             )}
 
 
-            <LinkButton
-                text="replay destream"
-                atClick={() => {
-                    setShowReplayDestream(true);
-                }}
-                theme={plurid}
-                style={{
-                    margin: '1rem 0',
-                }}
-                inline={true}
+            <ReplayDestream
+                setShowReplayDestream={setShowReplayDestream}
             />
 
 

@@ -10,35 +10,36 @@
         LinkButton,
     } from '@plurid/plurid-ui-components-react';
     // #endregion libraries
-
-
-    // #region external
-    import {
-        openOptionsPage,
-    } from '../../../../../common/utilities';
-    // #endregion external
 // #region imports
 
 
 
 // #region module
-export interface DestreamOptionsProperties {
+export interface ReplayDestreamProperties {
+    setShowReplayDestream: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const DestreamOptions: React.FC<DestreamOptionsProperties> = (
-    _properties,
+const ReplayDestream: React.FC<ReplayDestreamProperties> = (
+    properties,
 ) => {
+    // #region properties
+    const {
+        setShowReplayDestream,
+    } = properties;
+    // #endregion properties
+
+
     // #region render
     return (
         <div>
             <LinkButton
-                text="options"
+                text="replay destream"
                 atClick={() => {
-                    openOptionsPage();
+                    setShowReplayDestream(true);
                 }}
                 theme={plurid}
                 style={{
-                    marginTop: '2rem',
+                    margin: '1rem 0',
                 }}
                 inline={true}
             />
@@ -51,5 +52,5 @@ const DestreamOptions: React.FC<DestreamOptionsProperties> = (
 
 
 // #region exports
-export default DestreamOptions;
+export default ReplayDestream;
 // #endregion exports
