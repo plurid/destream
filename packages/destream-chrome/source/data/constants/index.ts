@@ -148,4 +148,7 @@ export const uncontrollableURLsBase = [
 
 
 export const TAB_GROUP_SUFFIX = ' · destream';
+
+
+export const resyncLimit = 10 * 1_000; // seconds
 // #endregion module
