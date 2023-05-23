@@ -221,6 +221,9 @@ const Login: React.FC<LoginProperties> = (
                         generateAccount();
                     }}
                     theme={theme}
+                    style={{
+                        marginTop: '0.5rem',
+                    }}
                     inline={true}
                 />
             </div>
