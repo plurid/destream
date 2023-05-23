@@ -76,7 +76,7 @@
 
 // #region module
 const Options: React.FC<any> = (
-    properties,
+    _properties,
 ) => {
     // #region state
     const [
@@ -525,7 +525,7 @@ const Options: React.FC<any> = (
                 />
             </Drawer>
 
-            <Drawer
+            {/* <Drawer
                 title="endpoints"
                 theme={plurid}
                 extended={extendedDrawers.endpoints}
@@ -573,7 +573,7 @@ const Options: React.FC<any> = (
                         }}
                     />
                 )}
-            </Drawer>
+            </Drawer> */}
 
 
             {showStopEverything && (
