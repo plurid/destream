@@ -13,7 +13,6 @@
         PureButton,
         LinkButton,
         Spinner,
-        InputSwitch,
         InputLine,
     } from '@plurid/plurid-ui-components-react';
     // #endregion libraries
@@ -89,6 +88,7 @@
     import DestreamOptions from './components/DestreamOptions';
     import ReplaymentComponent from './components/Replayment';
     import ReplayDestream from './components/ReplayDestream';
+    import SessionOptions from './components/SessionOptions';
     // #endregion internal
 // #endregion imports
 
@@ -603,43 +603,16 @@ const Popup: React.FC<any> = (
             )}
 
 
-            {activeTab
-            && activeTabControlledBy
-            && (
-                <div>
-                    <LinkButton
-                        text="resync session"
-                        atClick={() => {
-                            resyncSession();
-                        }}
-                        theme={plurid}
-                        style={{
-                            margin: '1rem auto',
-                        }}
-                        disabled={resyncingSession}
-                    />
-
-                    <InputSwitch
-                        name="show stream"
-                        checked={showStream}
-                        atChange={() => {
-                            setShowStream(!showStream);
-                        }}
-                        theme={plurid}
-                    />
-
-                    {showStream && (
-                        <InputSwitch
-                            name="show chat"
-                            checked={showStreamChat}
-                            atChange={() => {
-                                setShowStreamChat(!showStreamChat);
-                            }}
-                            theme={plurid}
-                        />
-                    )}
-                </div>
-            )}
+            <SessionOptions
+                activeTab={activeTab}
+                activeTabControlledBy={activeTabControlledBy}
+                resyncSession={resyncSession}
+                resyncingSession={resyncingSession}
+                showStream={showStream}
+                setShowStream={setShowStream}
+                showStreamChat={showStreamChat}
+                setShowStreamChat={setShowStreamChat}
+            />
 
 
             <ReplayDestream
