@@ -8,8 +8,10 @@
 
 // #region module
 export const StyledOptions = styled.div`
+    width: 320px;
     display: grid;
     gap: 2rem;
+    align-self: center;
 `;
 
 
