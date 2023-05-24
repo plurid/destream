@@ -17,6 +17,7 @@
 
     import {
         sendNotificationURLChange,
+        sendNotificationURLFailedToChange,
     } from '../notifications';
     // #endregion external
 // #endregion imports
@@ -68,6 +69,14 @@ const handleURLChange: Handler<URLChangeMessage> = async (
     }
 
     if (!generalPermissions.allowChangeURL) {
+        if (generalPermissions.useNotifications) {
+            sendNotificationURLFailedToChange(
+                subscription.streamer,
+                sender.tab.id,
+                request.data,
+            );
+        }
+
         return reject();
     }
 

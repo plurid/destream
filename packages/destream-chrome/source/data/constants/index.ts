@@ -42,6 +42,7 @@ export const DESTREAM_DETECT_EVENT = 'destreamDetect';
 
 export const NOTIFICATION_KIND = {
     URL_CHANGE: 'urlChange',
+    URL_FAILED_TO_CHANGE: 'urlFailedToChange',
     SESSION_START: 'sessionStart',
 } as const;
 

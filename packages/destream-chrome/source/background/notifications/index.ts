@@ -54,6 +54,17 @@ chrome.notifications.onButtonClicked.addListener(
 
             delete notifications[notificationID];
         }
+
+        if (notificationID.startsWith(NOTIFICATION_KIND.URL_FAILED_TO_CHANGE)) {
+            switch (buttonIndex) {
+                case 0:
+                    // Open Options
+                    chrome.runtime.openOptionsPage();
+                    break;
+            }
+
+            delete notifications[notificationID];
+        }
     },
 );
 
@@ -85,6 +96,41 @@ export const sendNotificationURLChange = (
                 },
                 {
                     title: 'Access Website',
+                },
+            ],
+            isClickable: true,
+            requireInteraction: true,
+            priority: 2,
+        },
+    );
+
+    return notificationID;
+}
+
+
+export const sendNotificationURLFailedToChange = (
+    streamerName: string,
+    tabID: number,
+    url: string,
+) => {
+    const notificationID = `${NOTIFICATION_KIND.URL_FAILED_TO_CHANGE}-${Date.now()}`;
+    notifications[notificationID] = {
+        kind: NOTIFICATION_KIND.URL_CHANGE,
+        tabID,
+        url,
+    };
+
+    const host = new URL(url).host;
+
+    chrome.notifications.create(
+        notificationID,
+        {
+            ...defaultNewNotification,
+            title: 'URL Failed to Change',
+            message: `${streamerName} wanted to access ${host} · change permissions in the extension options to allow URL changes`,
+            buttons: [
+                {
+                    title: 'Open Options',
                 },
             ],
             isClickable: true,
