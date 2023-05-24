@@ -11,6 +11,7 @@
         StartSubscriptionByIDMessage,
         Subscription,
         resyncTimeout,
+        hosts,
     } from '../../data';
 
     import {
@@ -36,6 +37,17 @@
     } from './controllers/general';
 
     import {
+        netflixApplyCurrentState,
+    } from './controllers/netflix';
+
+    import {
+        spotifyPlayPause,
+        spotifySeek,
+        spotifyVolumeChange,
+        spotifyApplyCurrentState,
+    } from './controllers/spotify';
+
+    import {
         youtubePlay,
         youtubePause,
         youtubeSeek,
@@ -44,12 +56,6 @@
         youtubeLike,
         youtubeApplyCurrentState,
     } from './controllers/youtube';
-
-    import {
-        spotifyPlayPause,
-        spotifySeek,
-        spotifyVolumeChange,
-    } from './controllers/spotify';
     // #endregion internal
 // #endregion imports
 
@@ -60,7 +66,13 @@ export const applyCurrentState = (
     state: any,
 ) => {
     switch (window.location.host) {
-        case 'www.youtube.com':
+        case hosts.netflix:
+            netflixApplyCurrentState(state);
+            break;
+        case hosts.spotify:
+            spotifyApplyCurrentState(state);
+            break;
+        case hosts.youtube:
             youtubeApplyCurrentState(state);
             break;
     }

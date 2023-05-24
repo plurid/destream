@@ -1,34 +1,34 @@
 // #region imports
     // #region external
     import {
-        getSpotifyPlayButton,
-    } from '../../utilities/spotify';
+        getNetflixPlayButton,
+    } from '../../utilities/netflix';
     // #endregion external
 // #endregion imports
 
 
 
 // #region module
-export const spotifyPlayPause = () => {
-    const button = getSpotifyPlayButton();
+export const netflixPlayPause = () => {
+    const button = getNetflixPlayButton();
 
     button.click();
 }
 
 
-export const spotifyVolumeChange = (
+export const netflixVolumeChange = (
     volume: number,
 ) => {
 }
 
 
-export const spotifySeek = (
+export const netflixSeek = (
     seconds: number,
 ) => {
 }
 
 
-export const spotifyApplyCurrentState = (
+export const netflixApplyCurrentState = (
     state: any,
 ) => {
 }

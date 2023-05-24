@@ -1,3 +1,13 @@
+// #region imports
+    // #region external
+    import {
+        origins,
+    } from '../../data';
+    // #endregion external
+// #endregion imports
+
+
+
 // #region module
 export const getYoutubeVideoPlayer = (): HTMLVideoElement | undefined => {
     return document.getElementsByClassName('video-stream html5-main-video')[0] as HTMLVideoElement | undefined;
@@ -15,6 +25,6 @@ export const checkYoutubeLikeButtonPressed = (
 
 
 export const checkYoutubeOrigin = () => {
-    return window.location.origin === 'https://www.youtube.com';
+    return window.location.origin === origins.youtube;
 }
 // #endregion module

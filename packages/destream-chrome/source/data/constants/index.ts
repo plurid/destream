@@ -73,10 +73,24 @@ export const MESSAGE_TYPE = {
 
 
 
+export const hosts = {
+    netflix: 'www.netflix.com',
+    spotify: 'open.spotify.com',
+    youtube: 'www.youtube.com',
+};
+
+const HTTPS = 'https://';
+
+export const origins = {
+    netflix: HTTPS + hosts.netflix,
+    spotify: HTTPS + hosts.spotify,
+    youtube: HTTPS + hosts.youtube,
+};
+
 export const defaultAllowedURLOrigins = [
-    'https://www.netflix.com',
-    'https://open.spotify.com',
-    'https://www.youtube.com',
+    origins.netflix,
+    origins.spotify,
+    origins.youtube,
 ];
 
 export const defaultPermissions: GeneralPermissions = {

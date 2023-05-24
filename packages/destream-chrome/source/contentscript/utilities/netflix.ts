@@ -9,14 +9,14 @@
 
 
 // #region module
-export const getSpotifyPlayButton = () => {
-    const button = document.querySelector('button[data-testid="control-button-playpause"]');
+export const getNetflixPlayButton = () => {
+    const button = document.querySelector('button');
 
     return button as HTMLButtonElement;
 }
 
 
-export const checkSpotifyOrigin = () => {
-    return window.location.origin === origins.spotify;
+export const checkNetflixOrigin = () => {
+    return window.location.origin === origins.netflix;
 }
 // #endregion module
