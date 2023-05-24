@@ -132,17 +132,22 @@ const Subscriptions: React.FC<SubscriptionsProperties> = (
     }
 
     const handleNewSubscription = () => {
-        const alreadySubscribed = !!subscriptions.find(subscription => subscription === newSubscription);
+        let newSubscriptionValue = newSubscription.trim();
+        if (!newSubscriptionValue) {
+            return;
+        }
+
+        const alreadySubscribed = !!subscriptions.find(subscription => subscription === newSubscriptionValue);
         if (alreadySubscribed) {
             setNewSubscription('');
             return;
         }
 
-        startSubscription(newSubscription);
+        startSubscription(newSubscriptionValue);
 
         setSubscriptions([
             ...subscriptions,
-            newSubscription,
+            newSubscriptionValue,
         ]);
         setNewSubscription('');
     }

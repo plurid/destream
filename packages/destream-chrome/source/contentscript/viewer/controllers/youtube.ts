@@ -154,17 +154,29 @@ export const youtubeApplyCurrentState = (
             return;
         }
 
-        youtubeSeek(state.video.currentTime);
-        youtubeVolumeChange(state.video.volume);
-        youtubeRateChange(state.video.playbackRate);
+        const loadState = () => {
+            youtubeSeek(state.video.currentTime);
+            youtubeVolumeChange(state.video.volume);
+            youtubeRateChange(state.video.playbackRate);
 
-        setTimeout(() => {
             if (state.video.paused) {
                 youtubePause();
             } else {
                 youtubePlay();
             }
-        }, 500);
+
+            if (document.hidden) {
+                videoPlayer.removeEventListener('play', loadState);
+            }
+        }
+
+        if (document.hidden) {
+            videoPlayer.addEventListener('play', loadState);
+        } else {
+            setTimeout(() => {
+                loadState();
+            }, 500);
+        }
     } catch (error) {
         log(error);
     }
