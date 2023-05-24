@@ -149,6 +149,11 @@ export const youtubeApplyCurrentState = (
     state: YoutubeCurrentState,
 ) => {
     try {
+        if (location.href !== state.url) {
+            location.href = state.url;
+            return;
+        }
+
         const videoPlayer = getYoutubeVideoPlayer();
         if (!videoPlayer) {
             return;
