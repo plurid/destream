@@ -18,9 +18,14 @@
     } from '../../common/storage';
 
     import {
+        log,
+    } from '../../common/utilities';
+
+    import {
         generateClient,
         STOP_SESSION,
         GET_SESSION_AUDIENCE,
+        RECORD_SESSION_EVENT,
     } from '../graphql';
 
     import {
@@ -192,20 +197,54 @@ export const updateSession = async (
     changeInfo: chrome.tabs.TabChangeInfo,
     _tab: chrome.tabs.Tab,
 ) => {
-    if (!changeInfo.url) {
-        return;
-    }
+    try {
+        if (!changeInfo.url) {
+            return;
+        }
 
-    const session = await getSession(tabID);
-    if (!session) {
-        return;
-    }
+        const session = await getSession(tabID);
+        if (!session) {
+            return;
+        }
 
-    await chrome.tabs.sendMessage<URLChangeRequest>(session.tabID, {
-        type: GENERAL_EVENT.URL_CHANGE,
-        session,
-        url: changeInfo.url,
-    });
+        await chrome.tabs.sendMessage<URLChangeRequest>(session.tabID, {
+            type: GENERAL_EVENT.URL_CHANGE,
+            session,
+            url: changeInfo.url,
+        });
+
+
+        const {
+            accessToken,
+            refreshToken,
+        } = await storageGetTokens();
+        const graphqlClient = generateClient(
+            DEFAULT_API_ENDPOINT,
+            accessToken,
+            refreshToken,
+        );
+
+        const event = composeEventData(session, {
+            type: GENERAL_EVENT.URL_CHANGE,
+            payload: {
+                url: changeInfo.url,
+            },
+        });
+
+        const graphqlRequest = await graphqlClient.mutate({
+            mutation: RECORD_SESSION_EVENT,
+            variables: {
+                input: event,
+            },
+        });
+        const response = graphqlRequest.data.destreamRecordSessionEvent;
+        if (!response.status) {
+            log(response.error);
+            return;
+        }
+    } catch (error) {
+        log(error);
+    }
 }
 
 
