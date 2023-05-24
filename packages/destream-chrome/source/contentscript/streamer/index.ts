@@ -255,19 +255,14 @@ const runStreamer = async (
     chrome.runtime.onMessage.addListener(messageListener);
 
     window.addEventListener('beforeunload', (_event) => {
-        if (document.visibilityState === 'hidden') {
-            // Page unload (navigating away, closing tab, etc.)
-            if (!session) {
-                return;
-            }
-
-            stopSession({
-                type: GENERAL_EVENT.STOP_SESSION,
-                session,
-            });
-        } else {
-            // Simple refresh
+        if (!session) {
+            return;
         }
+
+        stopSession({
+            type: GENERAL_EVENT.STOP_SESSION,
+            session,
+        });
     });
 }
 // #endregion module
