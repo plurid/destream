@@ -200,6 +200,12 @@ const Replayment: React.FC<ReplaymentProperties> = (
                 />
             </div>
 
+            {replayment.duration && (
+                <div>
+                    {(replayment.duration / (60 * 1000)).toFixed(2)} minutes
+                </div>
+            )}
+
             <div>
                 <LinkButton
                     text="cancel"

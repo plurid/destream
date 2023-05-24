@@ -103,6 +103,7 @@ export interface Replayment {
     data: any;
     currentIndex: number;
     status: 'playing' | 'paused';
+    duration: number;
 }
 
 

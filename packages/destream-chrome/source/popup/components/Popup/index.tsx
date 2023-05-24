@@ -237,11 +237,13 @@ const Popup: React.FC<any> = (
                 refreshToken,
             );
 
+            const destreamIDValue = destreamID.trim().replace('destream://', '');
+
             const request = await graphqlClient.query({
                 query: GET_SESSION,
                 variables: {
                     input: {
-                        value: destreamID.trim().replace('destream://', ''),
+                        value: destreamIDValue,
                     },
                 },
             });

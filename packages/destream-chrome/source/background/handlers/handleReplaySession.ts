@@ -32,6 +32,8 @@ const handleReplaySession: Handler<ReplaySessionMessage> = async (
 
     const {
         url,
+        generatedAt,
+        stoppedAt
     } = data;
 
     const tab = await openTab(url, true);
@@ -48,6 +50,9 @@ const handleReplaySession: Handler<ReplaySessionMessage> = async (
         data,
         currentIndex: 0,
         status: 'playing',
+        duration: typeof stoppedAt === 'number'
+            ? stoppedAt - generatedAt
+            : 0,
     };
     await storageSet(storagePrefix.replayment + tab.id, replayment);
 
