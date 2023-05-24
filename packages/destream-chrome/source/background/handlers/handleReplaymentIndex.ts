@@ -16,7 +16,7 @@
 
 
 // #region module
-const handleReplaymentStop: Handler<ReplaymentIndexMessage> = async (
+const handleReplaymentIndex: Handler<ReplaymentIndexMessage> = async (
     request,
     _sender,
     sendResponse,
@@ -34,10 +34,12 @@ const handleReplaymentStop: Handler<ReplaymentIndexMessage> = async (
         return;
     }
 
-    await chrome.tabs.sendMessage(request.data.tabID, {
-        type: GENERAL_EVENT.REPLAY_SESSION_INDEX,
-        data: request.data.index,
-    });
+    if (request.data.updateTab) {
+        await chrome.tabs.sendMessage(request.data.tabID, {
+            type: GENERAL_EVENT.REPLAY_SESSION_INDEX,
+            data: request.data.index,
+        });
+    }
 
     if (replaymentAtEnd(replayment, request.data.index)) {
         await updateReplayment(
@@ -61,5 +63,5 @@ const handleReplaymentStop: Handler<ReplaymentIndexMessage> = async (
 
 
 // #region exports
-export default handleReplaymentStop;
+export default handleReplaymentIndex;
 // #endregion exports

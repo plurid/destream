@@ -88,9 +88,6 @@ const runReplayer = async (
             case GENERAL_EVENT.REPLAY_SESSION_STOP:
                 sessionPlayer.stop();
                 break;
-            case GENERAL_EVENT.REPLAY_SESSION_DIRECTION:
-                sessionPlayer.setDirection(request.data);
-                break;
             case GENERAL_EVENT.REPLAY_SESSION_INDEX:
                 sessionPlayer.setIndex(request.data);
                 break;

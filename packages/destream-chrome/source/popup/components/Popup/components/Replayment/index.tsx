@@ -94,9 +94,18 @@ const Replayment: React.FC<ReplaymentProperties> = (
                 data: {
                     tabID: activeTab.id,
                     index,
+                    updateTab: true,
                 },
             },
             () => {
+                sendMessage<ReplaymentPauseMessage>(
+                    {
+                        type: MESSAGE_TYPE.REPLAYMENT_PAUSE,
+                        data: activeTab.id,
+                    },
+                    () => {
+                    },
+                );
             },
         );
     }

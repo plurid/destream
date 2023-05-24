@@ -366,6 +366,7 @@ export interface ReplaymentIndexMessage {
     data: {
         tabID: number;
         index: number;
+        updateTab?: boolean;
     };
 }
 

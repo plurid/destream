@@ -18,24 +18,12 @@ export interface SessionEvent {
     relativeTime: number;
 }
 
-export const directions = {
-    forward: 'forward',
-    backward: 'backward',
-} as const;
-
-export type Direction = typeof directions[keyof typeof directions];
-
 
 export class SessionPlayer {
-    private sessionStart;
-    private sessionReplay;
     private currentIndex = 0;
-    private timeoutID: NodeJS.Timeout | null = null;
     private events: SessionEvent[];
     private atIndexUpdate: (index: number) => void;
-    private direction: Direction = directions.forward;
-    private pauseTime: number | undefined;
-
+    private timeouts: NodeJS.Timeout[] = [];
 
     constructor(
         sessionStart: number,
@@ -43,8 +31,6 @@ export class SessionPlayer {
         atIndexUpdate: (index: number) => void,
     ) {
         this.events = events;
-        this.sessionStart = sessionStart;
-        this.sessionReplay = Date.now();
         this.atIndexUpdate = atIndexUpdate;
     }
 
@@ -53,10 +39,6 @@ export class SessionPlayer {
         event: SessionEvent,
         index: number,
     ) {
-        console.log(
-            event,
-            index,
-        );
         try {
             this.atIndexUpdate(index);
 
@@ -68,116 +50,65 @@ export class SessionPlayer {
         }
     }
 
-    private scheduleEvent(
+    private getPreviousTime(
         index: number,
     ) {
-        const currentEvent = this.events[index];
-        const currentTime = this.sessionReplay + currentEvent.relativeTime;
-        const timeDifference = currentTime - Date.now();
-        console.log({
-            currentTime,
-            timeDifference,
-            sessionReplay: this.sessionReplay,
-        });
-
-        if (timeDifference <= 0) {
-            this.runEvent(currentEvent, index);
-            this.playNextEvent();
-        } else {
-            this.timeoutID = setTimeout(() => {
-                console.log('timeout', index);
-                this.runEvent(currentEvent, index);
-                this.playNextEvent();
-            }, timeDifference);
+        if (index === 0) {
+            return 0;
         }
+
+        const previousEvent = this.events[index - 1];
+        if (!previousEvent) {
+            return 0;
+        }
+
+        return previousEvent.relativeTime;
     }
 
-    private playNextEvent() {
-        if (this.direction === directions.forward) {
-            this.currentIndex++;
-
-            if (this.currentIndex < this.events.length) {
-                this.scheduleEvent(this.currentIndex);
-            } else {
-                this.pause();
-            }
-        } else {
-            this.currentIndex--;
-
-            if (this.currentIndex >= 0) {
-                this.scheduleEvent(this.currentIndex);
-            } else {
-                this.pause();
-            }
-        }
-    }
-
-
-    public setDirection(
-        direction: Direction,
-    ) {
-        if (direction !== this.direction) {
-            this.direction = direction;
-            this.pause();
-
-            if (direction === directions.forward) {
-                this.currentIndex = 0;
-            } else {
-                this.currentIndex = this.events.length - 1;
-            }
-        }
-    }
 
     public setIndex(
         index: number,
     ) {
+        this.pause();
+
         if (index < 0) {
             this.currentIndex = 0;
-            return;
-        }
-
-        if (index > this.events.length) {
+        } else if (index > this.events.length) {
             this.currentIndex = this.events.length - 1;
-            this.pause();
-            return;
+        } else {
+            this.currentIndex = index;
         }
-
-        this.currentIndex = index;
     }
 
     public play(
         reset?: true,
     ) {
-        if (typeof this.pauseTime === 'number') {
-            const pauseDifference = Date.now() - this.pauseTime;
-            console.log({
-                pauseTime: this.pauseTime,
-                pauseDifference,
-            });
-            this.sessionReplay += pauseDifference;
-            this.pauseTime = undefined;
-        }
-
         if (reset) {
             this.currentIndex = 0;
         }
 
-        if (this.timeoutID === null) {
-            this.scheduleEvent(this.currentIndex);
+        const previousTime = this.getPreviousTime(this.currentIndex);
+
+        for (const event of this.events.slice(this.currentIndex)) {
+            const timeoutTime = event.relativeTime - previousTime;
+
+            const timeout = setTimeout(() => {
+                this.runEvent(event, this.currentIndex);
+                this.currentIndex++;
+            }, timeoutTime);
+
+            this.timeouts.push(timeout);
         }
     }
 
     public pause() {
-        this.pauseTime = Date.now();
-
-        if (this.timeoutID !== null) {
-            clearTimeout(this.timeoutID);
-
-            this.timeoutID = null;
+        for (const timeout of this.timeouts) {
+            clearTimeout(timeout);
         }
     }
 
     public stop() {
+        this.pause();
     }
 }
 // #endregion module
