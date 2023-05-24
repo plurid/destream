@@ -135,9 +135,32 @@ const runViewer = async (
     let subscription: Subscription | undefined;
 
 
+    const verifyLastResync = () => {
+        if (!lastResync) {
+            lastResync = Date.now();
+            return true;
+        }
+
+        const now = Date.now();
+        const difference = now - lastResync;
+        lastResync = now;
+
+        if (difference < resyncTimeout) {
+            return false;
+        }
+
+        return true;
+    }
+
+
     const requestCurrentState = async () => {
         if (!subscription) {
             return;
+        }
+
+        const allowResync = verifyLastResync();
+        if (!allowResync) {
+            return
         }
 
         const currentStateArbitraryTopic = getCurrentStateArbitraryTopicID(subscription.currentStateTopic);
@@ -230,18 +253,6 @@ const runViewer = async (
 
         switch (request.type) {
             case GENERAL_EVENT.RESYNC_SESSION:
-                // Check if lastResync is too recent.
-                if (lastResync) {
-                    const now = Date.now();
-                    const difference = now - lastResync;
-                    lastResync = now;
-                    if (difference < resyncTimeout) {
-                        break;
-                    }
-                } else {
-                    lastResync = Date.now();
-                }
-
                 requestCurrentState();
                 break;
         }
@@ -281,6 +292,10 @@ const runViewer = async (
         setTimeout(async () => {
             await requestCurrentState();
         }, 500);
+
+        window.addEventListener('focus', () => {
+            requestCurrentState();
+        });
     }
 
 
