@@ -368,6 +368,9 @@ const Options: React.FC<any> = (
                         generalPermissions: extended,
                     });
                 }}
+                style={{
+                    width: '320px',
+                }}
             >
                 <InputSwitch
                     name="use notifications"

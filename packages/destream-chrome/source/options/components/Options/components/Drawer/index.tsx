@@ -34,6 +34,15 @@ export interface DrawerProperties {
         onExtend: (extended: boolean) => void;
         // #endregion methods
     // #endregion required
+
+    // #region optional
+        // #region values
+        style?: React.CSSProperties;
+        // #endregion values
+
+        // #region methods
+        // #endregion methods
+    // #endregion optional
 }
 
 const Drawer: React.FC<DrawerProperties> = (
@@ -53,6 +62,15 @@ const Drawer: React.FC<DrawerProperties> = (
             onExtend,
             // #endregion methods
         // #endregion required
+
+        // #region optional
+            // #region values
+            style,
+            // #endregion values
+
+            // #region methods
+            // #endregion methods
+        // #endregion optional
     } = properties;
     // #endregion properties
 
@@ -78,6 +96,9 @@ const Drawer: React.FC<DrawerProperties> = (
     return (
         <StyledDrawer
             theme={theme}
+            style={{
+                ...style,
+            }}
         >
             <h1
                 onClick={() => {
