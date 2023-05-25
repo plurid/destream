@@ -171,7 +171,7 @@ export const youtubeApplyCurrentState = (
                 } else {
                     youtubePlay();
                 }
-            }, 100);
+            }, 200);
 
             if (document.hidden) {
                 videoPlayer.removeEventListener('play', loadState);
