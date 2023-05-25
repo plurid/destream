@@ -165,11 +165,13 @@ export const youtubeApplyCurrentState = (
             youtubeVolumeChange(state.video.volume);
             youtubeRateChange(state.video.playbackRate);
 
-            if (state.video.paused) {
-                youtubePause();
-            } else {
-                youtubePlay();
-            }
+            setTimeout(() => {
+                if (state.video.paused) {
+                    youtubePause();
+                } else {
+                    youtubePlay();
+                }
+            }, 100);
 
             if (document.hidden) {
                 videoPlayer.removeEventListener('play', loadState);
