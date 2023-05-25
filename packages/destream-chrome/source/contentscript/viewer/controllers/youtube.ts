@@ -26,7 +26,8 @@ export const youtubePlay = () => {
             return;
         }
 
-        videoPlayer.play();
+        videoPlayer.play()
+            .catch(error => log(error));
     } catch (error) {
         log(error);
     }
