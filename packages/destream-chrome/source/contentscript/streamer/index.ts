@@ -29,6 +29,10 @@
     } from '../../common/storage';
 
     import {
+        log,
+    } from '../../common/utilities';
+
+    import {
         checkYoutubeOrigin,
     } from '../utilities/youtube';
 
@@ -94,7 +98,7 @@ const runStreamer = async (
                     response.data.message,
                 );
             },
-        );
+        ).catch(log);
     };
 
 

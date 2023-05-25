@@ -10,6 +10,9 @@
         sendMessage,
     } from '../../common/messaging';
 
+    import {
+        log,
+    } from '../../common/utilities';
 
     import {
         getTabID,
@@ -72,7 +75,7 @@ const runReplayer = async (
                                     index,
                                 },
                             },
-                        );
+                        ).catch(log);
                     },
                 );
                 sessionPlayer.play();

@@ -15,12 +15,12 @@
     } from '../../data';
 
     import {
-        log,
-    } from '../../common/utilities';
-
-    import {
         sendMessage,
     } from '../../common/messaging';
+
+    import {
+        log,
+    } from '../../common/utilities';
 
     import {
         getCurrentStateArbitraryTopicID,
@@ -149,6 +149,7 @@ const runViewer = async (
             return false;
         }
 
+        lastResync = undefined;
         return true;
     }
 
@@ -212,12 +213,10 @@ const runViewer = async (
 
             switch (data.type) {
                 case GENERAL_EVENT.STOP_SESSION:
-                    sendMessage<StopSubscriptionMessage>(
-                        {
-                            type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
-                            data: subscription.sessionID,
-                        },
-                    );
+                    sendMessage<StopSubscriptionMessage>({
+                        type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
+                        data: subscription.sessionID,
+                    }).catch(log);
 
                     client.unsubscribe(
                         subscription.endpoint,
@@ -225,12 +224,10 @@ const runViewer = async (
                     );
                     break;
                 case GENERAL_EVENT.START_ANOTHER_SESSION:
-                    sendMessage<StartSubscriptionByIDMessage>(
-                        {
-                            type: MESSAGE_TYPE.START_SUBSCRIPTION_BY_ID,
-                            data: data.payload.newSessionID,
-                        },
-                    );
+                    sendMessage<StartSubscriptionByIDMessage>({
+                        type: MESSAGE_TYPE.START_SUBSCRIPTION_BY_ID,
+                        data: data.payload.newSessionID,
+                    }).catch(log);
                     break;
                 default:
                     handleEvent(data);
@@ -263,9 +260,12 @@ const runViewer = async (
 
 
     const run = async () => {
-        const subscriptionRequest = await chrome.runtime.sendMessage<GetSubscriptionMessage>({
+        const subscriptionRequest = await sendMessage<GetSubscriptionMessage>({
             type: MESSAGE_TYPE.GET_SUBSCRIPTION,
         });
+        // const subscriptionRequest = await chrome.runtime.sendMessage<GetSubscriptionMessage>({
+        //     type: MESSAGE_TYPE.GET_SUBSCRIPTION,
+        // });
         if (!subscriptionRequest.status) {
             return;
         }
