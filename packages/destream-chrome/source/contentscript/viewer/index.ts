@@ -62,6 +62,16 @@
 
 
 // #region module
+export const setAutofocus = (
+    requestCurrentState: () => void,
+) => {
+    // MAYBE check focus and activate less often
+    // window.addEventListener('focus', () => {
+    //     requestCurrentState();
+    // });
+}
+
+
 export const applyCurrentState = (
     state: any,
 ) => {
@@ -293,9 +303,7 @@ const runViewer = async (
             await requestCurrentState();
         }, 500);
 
-        window.addEventListener('focus', () => {
-            requestCurrentState();
-        });
+        setAutofocus(requestCurrentState);
     }
 
 
