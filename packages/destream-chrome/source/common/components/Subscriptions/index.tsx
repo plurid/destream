@@ -3,6 +3,7 @@
     import React, {
         useState,
         useEffect,
+        useCallback,
     } from 'react';
 
     import {
@@ -101,6 +102,15 @@ const Subscriptions: React.FC<SubscriptionsProperties> = (
 
 
     // #region handlers
+    const getSubscriptions = useCallback(async () => {
+        const result = await chrome.storage.local.get([storageFields.subscriptions]);
+        if (!result.subscriptions) {
+            return;
+        }
+
+        setSubscriptions(result.subscriptions);
+    }, []);
+
     const startSubscription = async (
         name: string,
     ) => {
@@ -164,26 +174,23 @@ const Subscriptions: React.FC<SubscriptionsProperties> = (
 
     // #region effects
     useEffect(() => {
-        const getSubscriptions = async () => {
-            const result = await chrome.storage.local.get([storageFields.subscriptions]);
-            if (!result.subscriptions) {
-                return;
-            }
-
-            setSubscriptions(result.subscriptions);
-        }
-
         getSubscriptions();
     }, []);
 
     useEffect(() => {
         const setSubscriptions = async () => {
             await chrome.storage.local.set({ subscriptions });
+
+            chrome.storage.onChanged.addListener(getSubscriptions);
         }
 
         setSubscriptions();
+
+        return () => {
+            chrome.storage.onChanged.removeListener(getSubscriptions);
+        }
     }, [
-        subscriptions,
+        JSON.stringify(subscriptions),
     ]);
     // #endregion effects
 

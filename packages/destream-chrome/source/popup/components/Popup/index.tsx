@@ -286,6 +286,9 @@ const Popup: React.FC<any> = (
     useEffect(() => {
         const getTab = async () => {
             const tab = await getActiveTab();
+            if (!tab) {
+                return;
+            }
             setActiveTab(tab);
 
             const isControllable = !uncontrollableURLsBase.some(
