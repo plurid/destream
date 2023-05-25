@@ -8,6 +8,8 @@
     import {
         getSubscription,
         stopSubscription,
+        getSubscriptionsByStreamerName,
+        removeStreamerSubscription,
     } from '../subscriptions';
     // #endregion external
 // #endregion imports
@@ -29,7 +31,14 @@ const handleStopSubscription: Handler<StopSubscriptionMessage> = async (
         return;
     }
 
-    await stopSubscription(subscription);;
+    await stopSubscription(subscription);
+
+    const streamerSubscriptions = await getSubscriptionsByStreamerName(
+        subscription.streamer,
+    );
+    if (streamerSubscriptions.length === 0) {
+        await removeStreamerSubscription(subscription.streamer);
+    }
 
     sendResponse({
         status: true,
