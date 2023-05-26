@@ -90,8 +90,10 @@ export const assignTabToGroup = async (
         return;
     }
 
+    const groupTitle = streamerIdentonym + TAB_GROUP_SUFFIX;
+
     const groups = await chrome.tabGroups.query({
-        title: streamerIdentonym,
+        title: groupTitle,
     });
     const existingGroup = groups[0];
 
@@ -108,7 +110,7 @@ export const assignTabToGroup = async (
     });
 
     await chrome.tabGroups.update(groupID, {
-        title: streamerIdentonym + TAB_GROUP_SUFFIX,
+        title: groupTitle,
     });
 }
 // #endregion module
