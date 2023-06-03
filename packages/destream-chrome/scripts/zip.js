@@ -6,8 +6,47 @@ const fs = require('fs');
 const path = require('path');
 const zipFolder = require('zip-folder');
 
+
 const DEST_DIR = path.join(__dirname, '../distribution');
 const DEST_ZIP_DIR = path.join(__dirname, '../distribution-zip');
+
+
+const cleanup = async () => {
+    const rmPaths = [
+        './assets/.gitkeep',
+        'contentscript.js.LICENSE.txt',
+        'options.js.LICENSE.txt',
+        'popup.js.LICENSE.txt',
+    ];
+
+    for (const rmPath of rmPaths) {
+        await fs.promises.rm(
+            path.join(
+                DEST_DIR,
+                rmPath,
+            ),
+        );
+    }
+
+    const cleanupFiles = [
+        'contentscript.js',
+        'options.js',
+        'popup.js',
+    ];
+
+    for (const cleanupFile of cleanupFiles) {
+        const filePath = path.join(
+            DEST_DIR,
+            cleanupFile,
+        );
+
+        const data = await fs.promises.readFile(filePath, 'utf-8');
+        const lines = data.split('\n')
+        lines.shift();
+        const content = lines.join('\n');
+        await fs.promises.writeFile(filePath, content);
+    }
+}
 
 const extractExtensionData = () => {
     const extPackageJson = require('../package.json');
@@ -38,7 +77,9 @@ const buildZip = (src, dist, zipFilename) => {
     })
 }
 
-const main = () => {
+const main = async () => {
+    await cleanup();
+
     const {name, version} = extractExtensionData();
     const zipFilename = `${name}-v${version}.zip`;
 
