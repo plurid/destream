@@ -1,0 +1,26 @@
+// #region module
+export const MESSAGE_TYPE = {
+    PUBLISH_EVENT: 'publishEvent',
+    GET_TAB_ID: 'getTabID',
+    GET_SESSION: 'getSession',
+    GET_SESSION_AUDIENCE: 'getSessionAudience',
+    SEND_NOTIFICATION: 'sendNotification',
+    START_SESSION: 'startSession',
+    STOP_SESSION: 'stopSession',
+    START_SUBSCRIPTION: 'startSubscription',
+    START_SUBSCRIPTION_BY_ID: 'startSubscriptionByID',
+    STOP_SUBSCRIPTION: 'stopSubscription',
+    STOP_SUBSCRIPTIONS: 'stopSubscriptions',
+    GET_SUBSCRIPTION: 'getSubscription',
+    GET_TAB_SETTINGS: 'getTabSettings',
+    STOP_EVERYTHING: 'stopEverything',
+    URL_CHANGE: 'urlChange',
+    DESTREAM_EVENT: 'destreamEvent',
+    REPLAY_SESSION: 'replaySession',
+    REPLAYMENT_PAUSE: 'replaymentPause',
+    REPLAYMENT_PLAY: 'replaymentPlay',
+    REPLAYMENT_STOP: 'replaymentStop',
+    REPLAYMENT_INDEX: 'replaymentIndex',
+    RESYNC_SESSION: 'resyncSession',
+} as const;
+// #endregion module

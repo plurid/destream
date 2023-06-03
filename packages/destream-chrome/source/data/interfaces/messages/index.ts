@@ -7,7 +7,7 @@
 
     import {
         DestreamEvent,
-    } from '../event';
+    } from '../events';
 
     import {
         Session,
