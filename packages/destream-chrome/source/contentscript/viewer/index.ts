@@ -268,8 +268,13 @@ const runViewer = async (
         }
 
         switch (request.type) {
-            case GENERAL_EVENT.STOP_SESSION:
+            case GENERAL_EVENT.STOP_SUBSCRIPTION:
                 destroyCursor();
+
+                client.unsubscribe(
+                    subscription.endpoint,
+                    subscription.publishTopic,
+                );
                 break;
             case GENERAL_EVENT.RESYNC_SESSION:
                 requestCurrentState();

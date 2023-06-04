@@ -14,7 +14,9 @@
         storagePrefix,
         storageFields,
         DEFAULT_API_ENDPOINT,
+        GENERAL_EVENT,
         GeneralPermissions,
+        StopSubscriptionRequest,
     } from '../../data';
 
     import {
@@ -171,6 +173,11 @@ export const stopSubscription = async (
     await deleteSubscription(subscription.sessionID);
     await removeTabSettings(subscription.tabID);
     await removeStreamerSubscription(subscription.streamer);
+
+
+    await chrome.tabs.sendMessage<StopSubscriptionRequest>(subscription.tabID, {
+        type: GENERAL_EVENT.STOP_SUBSCRIPTION,
+    });
 }
 
 

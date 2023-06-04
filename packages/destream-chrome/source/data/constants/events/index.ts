@@ -5,6 +5,7 @@ export const GENERAL_EVENT = {
     URL_CHANGE: 'generalURLChange',
     STOP_SESSION: 'generalStopSession',
     START_ANOTHER_SESSION: 'generalStartAnotherSession',
+    STOP_SUBSCRIPTION: 'generalStopSubscription',
     CURRENT_STATE: 'generalCurrentState',
     RESYNC_SESSION: 'generalResyncSession',
     REPLAY_SESSION: 'generalReplaySession',

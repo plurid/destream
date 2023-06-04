@@ -30,6 +30,7 @@ export type Message =
     | StartSubscriptionMessage
     | StartSubscriptionByIDMessage
     | StopSubscriptionMessage
+    | StopSubscriptionRequest
     | StopSubscriptionsMessage
     | GetSubscriptionMessage
     | GetTabSettingsMessage
@@ -114,6 +115,10 @@ export interface StopSubscriptionMessage {
     type: typeof MESSAGE_TYPE.STOP_SUBSCRIPTION;
     // session id
     data: string;
+}
+
+export interface StopSubscriptionRequest {
+    type: typeof GENERAL_EVENT.STOP_SUBSCRIPTION;
 }
 
 export interface StopSubscriptionsMessage {
