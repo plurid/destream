@@ -268,6 +268,9 @@ const runViewer = async (
         }
 
         switch (request.type) {
+            case GENERAL_EVENT.STOP_SESSION:
+                destroyCursor();
+                break;
             case GENERAL_EVENT.RESYNC_SESSION:
                 requestCurrentState();
                 break;
