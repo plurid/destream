@@ -5,7 +5,7 @@ export const storagePrefix = {
     replayment: 'replayment-',
     tabSettings: 'tab-settings-',
     destreamTopic: 'destream-',
-};
+} as const;
 
 
 export const storageFields = {
