@@ -4,6 +4,10 @@
         generateClient,
         LOGIN_BY_IDENTONYM,
     } from '../../../background/graphql';
+
+    import {
+        login,
+    } from '../../logic';
     // #endregion external
 // #endregion imports
 
@@ -59,13 +63,11 @@ export const loginLogic = async (
             destream,
         } = owner.zones.com.tools;
 
-        await chrome.storage.local.set({
+        await login(
             identonym,
-            accessToken: tokens.access,
-            refreshToken: tokens.refresh,
-            isStreamer: destream.isStreamer,
-            loggedIn: true,
-        });
+            tokens,
+            destream,
+        );
 
         return true;
     } catch (error) {

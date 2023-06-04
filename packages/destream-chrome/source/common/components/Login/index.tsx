@@ -30,7 +30,7 @@
     } from './styled';
 
     import {
-        loginLogic
+        loginLogic,
     } from './logic';
     // #endregion internal
 // #endregion imports
@@ -115,7 +115,7 @@ const Login: React.FC<LoginProperties> = (
 
 
     // #region handlers
-    const login = async () => {
+    const handleLogin = async () => {
         if (!identonym || !key) {
             return;
         }
@@ -132,7 +132,7 @@ const Login: React.FC<LoginProperties> = (
         setLoading(false);
     }
 
-    const generateAccount = () => {
+    const handleGenerateAccount = () => {
         window.open(NEW_ACCOUNT_URL, '_blank');
     }
     // #endregion handlers
@@ -191,7 +191,7 @@ const Login: React.FC<LoginProperties> = (
                 }}
                 textline={{
                     enterAtClick: () => {
-                        login();
+                        handleLogin();
                     }
                 }}
                 theme={theme}
@@ -209,7 +209,7 @@ const Login: React.FC<LoginProperties> = (
             <PureButton
                 text="Login"
                 atClick={() => {
-                    login();
+                    handleLogin();
                 }}
                 disabled={!identonym || !key}
                 theme={theme}
@@ -223,7 +223,7 @@ const Login: React.FC<LoginProperties> = (
                 <LinkButton
                     text="generate account"
                     atClick={() => {
-                        generateAccount();
+                        handleGenerateAccount();
                     }}
                     theme={theme}
                     style={{

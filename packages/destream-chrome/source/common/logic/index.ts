@@ -19,6 +19,21 @@ export const getActiveTab = async () => {
 }
 
 
+export const login = async (
+    identonym: string,
+    tokens: any,
+    destream: any,
+) => {
+    await chrome.storage.local.set({
+        identonym,
+        accessToken: tokens.access,
+        refreshToken: tokens.refresh,
+        isStreamer: destream.isStreamer,
+        loggedIn: true,
+    });
+}
+
+
 export const logout = async () => {
     await chrome.storage.local.set({
         identonym: '',
