@@ -30,12 +30,13 @@ export const retryGet = async <T>(
 }
 
 
-export function debounce(
-    func: any,
+export const debounce = <F extends Function>(
+    func: F,
     timeout = 600,
-) {
+) => {
     let timer: any;
-    return (...args: any) => {
+
+    return (...args: any[]) => {
         clearTimeout(timer);
         timer = setTimeout(
             () => {
@@ -44,6 +45,35 @@ export function debounce(
             timeout,
         );
     };
+}
+
+export const throttle = <F extends Function>(
+    func: F,
+    delay = 300,
+) => {
+    let shouldWait = false;
+    let waitingArgs: any[] | null = null;
+
+    const timeoutFunc = () => {
+        if (waitingArgs == null) {
+            shouldWait = false;
+        } else {
+            func.apply(this, waitingArgs);
+            waitingArgs = null;
+            setTimeout(timeoutFunc, delay);
+        }
+    }
+
+    return (...args: any[]) => {
+        if (shouldWait) {
+            waitingArgs = args;
+            return;
+        }
+
+        func.apply(this, args);
+        shouldWait = true;
+        setTimeout(timeoutFunc, delay);
+    }
 }
 
 

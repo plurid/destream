@@ -32,7 +32,11 @@
 
     // #region internal
     import {
+        generateCursor,
+        destroyCursor,
+
         generalScrollTo,
+        generalCursorTo,
         generalURLChange,
     } from './controllers/general';
 
@@ -96,6 +100,9 @@ export const handleEvent = (
         switch (event.type) {
             case GENERAL_EVENT.SCROLL:
                 generalScrollTo(event.payload.top, event.payload.left);
+                break;
+            case GENERAL_EVENT.CURSOR:
+                generalCursorTo(event.payload.x, event.payload.y);
                 break;
             case GENERAL_EVENT.URL_CHANGE:
                 generalURLChange(event.payload.url);
@@ -223,6 +230,8 @@ const runViewer = async (
 
             switch (data.type) {
                 case GENERAL_EVENT.STOP_SESSION:
+                    destroyCursor();
+
                     sendMessage<StopSubscriptionMessage>({
                         type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
                         data: subscription.sessionID,
@@ -273,9 +282,6 @@ const runViewer = async (
         const subscriptionRequest = await sendMessage<GetSubscriptionMessage>({
             type: MESSAGE_TYPE.GET_SUBSCRIPTION,
         });
-        // const subscriptionRequest = await chrome.runtime.sendMessage<GetSubscriptionMessage>({
-        //     type: MESSAGE_TYPE.GET_SUBSCRIPTION,
-        // });
         if (!subscriptionRequest.status) {
             return;
         }
@@ -288,6 +294,10 @@ const runViewer = async (
 
 
         subscription = subscriptionRequest.subscription;
+
+        generateCursor(
+            subscription.streamer,
+        );
 
         await client.addMessager(subscription.endpoint);
 

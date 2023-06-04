@@ -1,6 +1,7 @@
 // #region module
 export const GENERAL_EVENT = {
     SCROLL: 'generalScroll',
+    CURSOR: 'generalCursor',
     URL_CHANGE: 'generalURLChange',
     STOP_SESSION: 'generalStopSession',
     START_ANOTHER_SESSION: 'generalStartAnotherSession',

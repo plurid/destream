@@ -14,6 +14,7 @@
 // #region module
 export type DestreamEvent =
     | DestreamScrollEvent
+    | DestreamCursorEvent
     | DestreamURLChangeEvent
     | DestreamCurrentStateEvent
     | DestreamStopSessionEvent
@@ -31,6 +32,14 @@ export interface DestreamScrollEvent {
     payload: {
         top: number;
         left: number;
+    };
+}
+
+export interface DestreamCursorEvent {
+    type: typeof GENERAL_EVENT.CURSOR;
+    payload: {
+        x: number;
+        y: number;
     };
 }
 
