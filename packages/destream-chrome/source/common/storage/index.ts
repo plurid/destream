@@ -1,6 +1,7 @@
 // #region module
 export const storageGetAll = async () => {
     try {
+        // Forced await.
         const storage: any = await chrome.storage.local.get(null);
 
         return storage;

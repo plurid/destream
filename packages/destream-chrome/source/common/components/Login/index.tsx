@@ -17,6 +17,13 @@
     // #endregion libraries
 
 
+    // #region external
+    import {
+        NEW_ACCOUNT_URL,
+    } from '../../../data/constants';
+    // #endregion external
+
+
     // #region internal
     import {
         StyledLogin,
@@ -26,7 +33,7 @@
         loginLogic
     } from './logic';
     // #endregion internal
-// #region imports
+// #endregion imports
 
 
 
@@ -126,9 +133,7 @@ const Login: React.FC<LoginProperties> = (
     }
 
     const generateAccount = () => {
-        const newAccountLink = 'https://account.plurid.com';
-
-        window.open(newAccountLink, '_blank');
+        window.open(NEW_ACCOUNT_URL, '_blank');
     }
     // #endregion handlers
 
