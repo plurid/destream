@@ -18,7 +18,7 @@
 
 // #region module
 const SCROLL_DEBOUNCE = 600; // milliseconds
-const CURSOR_THROTTLE = 6_000; // milliseconds
+const CURSOR_THROTTLE = 3_000; // milliseconds
 
 export interface Detector {
     target: EventTarget;
