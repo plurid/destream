@@ -94,11 +94,14 @@ export class GeneralDetector implements Detector {
             pageY,
         } = event;
 
+        const x = pageX / window.innerWidth * 100;
+        const y = pageY / window.innerHeight * 100;
+
         const cursorEvent: DestreamCursorEvent = {
             type: GENERAL_EVENT.CURSOR,
             payload: {
-                x: pageX,
-                y: pageY,
+                x,
+                y,
             },
         };
 

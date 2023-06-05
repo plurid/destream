@@ -88,9 +88,12 @@ export const generalCursorTo = (
         return;
     }
 
+    const left = x / 100 * window.innerWidth;
+    const top = y / 100 * window.innerHeight;
+
     cursor.style.display = 'grid';
-    cursor.style.left = `${x}px`;
-    cursor.style.top = `${y}px`;
+    cursor.style.left = left + 'px';
+    cursor.style.top = top + 'px';
 
     if (cursorTimeout) {
         clearTimeout(cursorTimeout);
