@@ -37,7 +37,11 @@ export const StyledTabControl = styled.div`
 
 
 export const StyledURLText = styled.div`
-    margin: 0 2rem;
+    margin: 0 1rem;
+`;
+
+export const StyledURL = styled.div`
+    user-select: all;
 `;
 
 

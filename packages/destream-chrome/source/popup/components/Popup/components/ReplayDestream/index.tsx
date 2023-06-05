@@ -31,19 +31,14 @@ const ReplayDestream: React.FC<ReplayDestreamProperties> = (
 
     // #region render
     return (
-        <div>
-            <LinkButton
-                text="replay destream"
-                atClick={() => {
-                    setShowReplayDestream(true);
-                }}
-                theme={plurid}
-                style={{
-                    margin: '1rem 0',
-                }}
-                inline={true}
-            />
-        </div>
+        <LinkButton
+            text="replay destream"
+            atClick={() => {
+                setShowReplayDestream(true);
+            }}
+            theme={plurid}
+            inline={true}
+        />
     );
     // #endregion render
 }

@@ -75,6 +75,7 @@
         StyledPopup,
         StyledTabControl,
         StyledURLText,
+        StyledURL,
         buttonStyle,
     } from './styled';
 
@@ -425,95 +426,101 @@ const Popup: React.FC<any> = (
             )}
 
 
-            {activeTab
-            && activeTabControlledBy
-            && (
+            {activeTab ? (
                 <StyledTabControl>
-                    <StyledURLText>
-                        {activeTab.url}
-                        <br />
-                        is controlled by
-                        <br />
-                        {activeTabControlledBy}
-                    </StyledURLText>
+                    {activeTabControlledBy ? (
+                        <>
+                            <StyledURLText>
+                                <StyledURL>
+                                    {activeTab.url}
+                                </StyledURL>
 
-                    <PureButton
-                        text="Stop Control"
-                        atClick={() => {
-                            stopSubscription();
-                        }}
-                        theme={plurid}
-                        level={2}
-                        style={buttonStyle}
-                    />
+                                <div>
+                                    is controlled by
+                                    <br />
+                                    {activeTabControlledBy}
+                                </div>
+                            </StyledURLText>
+
+                            <PureButton
+                                text="Stop Control"
+                                atClick={() => {
+                                    stopSubscription();
+                                }}
+                                theme={plurid}
+                                level={2}
+                                style={buttonStyle}
+                            />
+                        </>
+                    ) : (
+                        <>
+                            {sessionStarted ? (
+                                <>
+                                    <StyledURLText>
+                                        <div>
+                                            you are controlling
+                                        </div>
+                                        <StyledURL>
+                                            {activeTab.url}
+                                        </StyledURL>
+                                    </StyledURLText>
+
+                                    {isStreamer
+                                    && controllableTab
+                                    && (
+                                        <PureButton
+                                            text="Stop Session"
+                                            atClick={() => {
+                                                stopSession();
+                                            }}
+                                            theme={plurid}
+                                            level={2}
+                                            style={buttonStyle}
+                                        />
+                                    )}
+
+                                    <div
+                                        style={{
+                                            marginTop: '1.5rem',
+                                        }}
+                                    >
+                                        {sessionAudience} viewers
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <StyledURLText>
+                                        <StyledURL>
+                                            {activeTab.url}
+                                        </StyledURL>
+
+                                        <div>
+                                            is not controlled
+                                        </div>
+                                    </StyledURLText>
+
+                                    {isStreamer
+                                    && controllableTab
+                                    && (
+                                        <PureButton
+                                            text="Start Session"
+                                            atClick={() => {
+                                                startSession();
+                                            }}
+                                            theme={plurid}
+                                            level={2}
+                                            style={{
+                                                ...buttonStyle,
+                                                marginBottom: '3rem',
+                                            }}
+                                        />
+                                    )}
+                                </>
+                            )}
+                        </>
+                    )}
                 </StyledTabControl>
-            )}
-
-            {activeTab
-            && !activeTabControlledBy
-            && (
-                <StyledTabControl>
-                    {!sessionStarted && (
-                        <StyledURLText>
-                            {activeTab.url}
-                            <br />
-                            is not controlled
-                        </StyledURLText>
-                    )}
-
-                    {sessionStarted && (
-                        <StyledURLText>
-                            you are controlling
-                            <br />
-                            {activeTab.url}
-                        </StyledURLText>
-                    )}
-
-                    {isStreamer
-                    && controllableTab
-                    && !sessionStarted
-                    && (
-                        <PureButton
-                            text="Start Session"
-                            atClick={() => {
-                                startSession();
-                            }}
-                            theme={plurid}
-                            level={2}
-                            style={buttonStyle}
-                        />
-                    )}
-
-                    {isStreamer
-                    && controllableTab
-                    && sessionStarted
-                    && (
-                        <PureButton
-                            text="Stop Session"
-                            atClick={() => {
-                                stopSession();
-                            }}
-                            theme={plurid}
-                            level={2}
-                            style={buttonStyle}
-                        />
-                    )}
-
-                    {sessionStarted && (
-                        <div
-                            style={{
-                                marginTop: '1.5rem',
-                            }}
-                        >
-                            {sessionAudience} viewers
-                        </div>
-                    )}
-                </StyledTabControl>
-            )}
-
-
-            {!activeTab
-            && (
+            ) : (
                 <StyledTabControl>
                     <div>
                         select a web page
