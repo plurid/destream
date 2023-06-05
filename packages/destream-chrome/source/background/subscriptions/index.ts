@@ -174,12 +174,13 @@ export const stopSubscription = async (
     await removeTabSettings(subscription.tabID);
     await removeStreamerSubscription(subscription.streamer);
 
-
     await chrome.tabs.sendMessage<StopSubscriptionRequest>(subscription.tabID, {
         type: GENERAL_EVENT.STOP_SUBSCRIPTION,
     }).catch(() => {
-        // Ignore error in case tab does not exist.
+        // Ignore error if tab does not exist.
     });
+
+    await chrome.tabs.ungroup(subscription.tabID);
 }
 
 
