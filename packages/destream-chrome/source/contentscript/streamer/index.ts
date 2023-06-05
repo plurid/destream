@@ -197,6 +197,10 @@ const runStreamer = async (
     const checkTabSettings = (
         changes: { [key: string]: chrome.storage.StorageChange },
     ) => {
+        if (!session) {
+            return;
+        }
+
         for (const key of Object.keys(changes)) {
             if (
                 key.startsWith(storagePrefix.tabSettings)
