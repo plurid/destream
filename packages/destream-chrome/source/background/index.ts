@@ -46,9 +46,15 @@ const main = () => {
         });
 
         chrome.tabs.onRemoved.addListener((tabID) => {
-            stopSessionWithTabID(tabID);
-            stopSubscriptionWithTabID(tabID);
-            stopReplaymentWithTabID(tabID);
+            stopSessionWithTabID(tabID).catch(error => {
+                log(error);
+            });
+            stopSubscriptionWithTabID(tabID).catch(error => {
+                log(error);
+            });
+            stopReplaymentWithTabID(tabID).catch(error => {
+                log(error);
+            });
         });
 
         chrome.tabs.onUpdated.addListener(updateSession);
