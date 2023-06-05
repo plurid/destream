@@ -34,16 +34,23 @@ export const generateCursor = (
     const cursor = document.createElement('div');
     cursor.id = DESTREAM_CURSOR_ID;
 
-    cursor.style.position = 'absolute';
-    cursor.style.color = 'white';
-    cursor.style.fontFamily = 'Ubuntu, -apple-system, Roboto, sans-serif';
-    cursor.style.fontSize = '10px';
-    cursor.style.left = '-1000px';
-    cursor.style.top = '-1000px';
-    cursor.style.zIndex = '999999';
-    cursor.style.display = 'grid';
-    cursor.style.placeContent = 'center';
-    cursor.style.justifyItems = 'center';
+    cursor.style.cssText = `
+        display: none;
+        pointer-events: none;
+        user-select: none;
+        z-index: 99999999;
+        position: absolute;
+        left: -1000px;
+        top: -1000px;
+        color: white;
+        font-family: Ubuntu, -apple-system, Roboto, sans-serif;
+        font-size: 10px;
+        text-align: center;
+        display: grid;
+        gap: 0.5rem;
+        place-content: center;
+        justify-items: center;
+    `;
 
     cursor.insertAdjacentHTML(
         'beforeend',
@@ -67,6 +74,8 @@ export const destroyCursor = () => {
     cursor.remove();
 }
 
+let cursorTimeout: NodeJS.Timeout | undefined;
+
 export const generalCursorTo = (
     x: number,
     y: number,
@@ -76,8 +85,16 @@ export const generalCursorTo = (
         return;
     }
 
+    cursor.style.display = 'grid';
     cursor.style.left = `${x}px`;
     cursor.style.top = `${y}px`;
+
+    if (cursorTimeout) {
+        clearTimeout(cursorTimeout);
+    }
+    cursorTimeout = setTimeout(() => {
+        cursor.style.display = 'none';
+    }, 5_000);
 }
 
 

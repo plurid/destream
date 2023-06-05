@@ -303,9 +303,7 @@ const runViewer = async (
 
         subscription = subscriptionRequest.subscription;
 
-        generateCursor(
-            subscription.streamer,
-        );
+        generateCursor(subscription.streamer);
 
         await client.addMessager(subscription.endpoint);
 
