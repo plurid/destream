@@ -177,6 +177,8 @@ export const stopSubscription = async (
 
     await chrome.tabs.sendMessage<StopSubscriptionRequest>(subscription.tabID, {
         type: GENERAL_EVENT.STOP_SUBSCRIPTION,
+    }).catch(() => {
+        // Ignore error in case tab does not exist.
     });
 }
 
