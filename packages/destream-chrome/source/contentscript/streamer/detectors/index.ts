@@ -11,6 +11,8 @@
         debounce,
         throttle,
     } from '../../../common/utilities';
+
+    import metadata from '../metadata';
     // #endregion external
 // #endregion imports
 
@@ -19,6 +21,7 @@
 // #region module
 const SCROLL_DEBOUNCE = 600; // milliseconds
 const CURSOR_THROTTLE = 3_000; // milliseconds
+
 
 export interface Detector {
     target: EventTarget;
@@ -81,6 +84,10 @@ export class GeneralDetector implements Detector {
 
 
     private cursorFunction = throttle((event: MouseEvent) => {
+        if (metadata.getStreamCursor() === false) {
+            return;
+        }
+
         const {
             pageX,
             pageY,

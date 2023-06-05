@@ -12,6 +12,7 @@
         StopSessionRequest,
         URLChangeRequest,
         Session,
+        storagePrefix,
     } from '../../data';
 
     import MessagerClient from '../client';
@@ -43,6 +44,8 @@
 
 
     // #region internal
+    import metadata from './metadata';
+
     import {
         Detector,
         GeneralDetector,
@@ -191,6 +194,21 @@ const runStreamer = async (
     }
 
 
+    const checkTabSettings = (
+        changes: { [key: string]: chrome.storage.StorageChange },
+    ) => {
+        for (const key of Object.keys(changes)) {
+            if (
+                key.startsWith(storagePrefix.tabSettings)
+                && key.endsWith(session.tabID + '')
+            ) {
+                const change = changes[key];
+                metadata.setStreamCursor(!!change.newValue?.streamCursor);
+            }
+        }
+    }
+
+
     const run = async () => {
         const isStreamer = await storageGetIsStreamer();
         if (!isStreamer) {
@@ -250,7 +268,11 @@ const runStreamer = async (
 
     await run();
 
-    const storageLogic = async () => {
+    const storageLogic = async (
+        changes: { [key: string]: chrome.storage.StorageChange },
+    ) => {
+        checkTabSettings(changes);
+
         await run();
     }
 

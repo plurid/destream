@@ -47,6 +47,27 @@ export const storageSet = async <T = any>(
     }
 }
 
+export const storageUpdate = async <T = any>(
+    id: string,
+    value: T,
+) => {
+    try {
+        const item = await storageGet(id);
+        if (!item) {
+            return await storageSet(id, {
+                ...value,
+            });
+        }
+
+        return await storageSet(id, {
+            ...item,
+            ...value,
+        });
+    } catch (error) {
+        return false;
+    }
+}
+
 
 
 export const storageGetIsStreamer = async () => {

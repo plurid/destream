@@ -41,6 +41,7 @@ export interface StreamerDetails {
 }
 
 export interface TabSettings {
+    streamCursor: boolean;
     showStream: boolean;
     showStreamChat: boolean;
 }

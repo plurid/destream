@@ -10,6 +10,7 @@
     } from '@plurid/plurid-themes';
 
     import {
+        LinkButton,
         InputSwitch,
     } from '@plurid/plurid-ui-components-react';
     // #endregion libraries
@@ -17,7 +18,9 @@
 
     // #region external
     import {
-        Session,
+        MESSAGE_TYPE,
+        Subscription,
+        resyncTimeout,
     } from '../../../../../data';
 
     import {
@@ -28,6 +31,10 @@
     import {
         storageUpdate,
     } from '../../../../../common/storage';
+
+    import {
+        sendMessage,
+    } from '../../../../../common/messaging';
     // #endregion external
 // #region imports
 
@@ -36,7 +43,8 @@
 // #region module
 export interface SubscriptionOptionsProperties {
     activeTab: chrome.tabs.Tab | undefined;
-    session: Session;
+    activeTabControlledBy: string | undefined;
+    subscription: Subscription;
 }
 
 const SubscriptionOptions: React.FC<SubscriptionOptionsProperties> = (
@@ -45,17 +53,52 @@ const SubscriptionOptions: React.FC<SubscriptionOptionsProperties> = (
     // #region properties
     const {
         activeTab,
-        session,
+        activeTabControlledBy,
+        subscription,
     } = properties;
     // #endregion properties
 
 
     // #region state
     const [
-        streamCursor,
-        setStreamCursor,
+        showStream,
+        setShowStream,
+    ] = useState(false);
+
+    const [
+        showStreamChat,
+        setShowStreamChat,
+    ] = useState(false);
+
+    const [
+        resyncingSession,
+        setResyncingSession,
     ] = useState(false);
     // #endregion state
+
+
+    // #region handlers
+    const resyncSession = async () => {
+        if (!activeTab) {
+            return;
+        }
+
+        setResyncingSession(true);
+
+        await sendMessage<any>(
+            {
+                type: MESSAGE_TYPE.RESYNC_SESSION,
+                data: activeTab.id,
+            },
+            () => {
+            },
+        );
+
+        setTimeout(() => {
+            setResyncingSession(false);
+        }, resyncTimeout);
+    }
+    // #endregion handlers
 
 
     // #region effects
@@ -71,7 +114,8 @@ const SubscriptionOptions: React.FC<SubscriptionOptionsProperties> = (
                 return;
             }
 
-            setStreamCursor(tabSettings.streamCursor);
+            setShowStream(tabSettings.showStream);
+            setShowStreamChat(tabSettings.showStreamChat);
         }
 
         loadTabSettings();
@@ -81,7 +125,7 @@ const SubscriptionOptions: React.FC<SubscriptionOptionsProperties> = (
 
     /** setTabSettings */
     useEffect(() => {
-        if (!activeTab || !session) {
+        if (!activeTab || !subscription) {
             return;
         }
 
@@ -90,7 +134,8 @@ const SubscriptionOptions: React.FC<SubscriptionOptionsProperties> = (
             await storageUpdate(
                 id,
                 {
-                    streamCursor,
+                    showStream,
+                    showStreamChat,
                 },
             );
         }
@@ -98,26 +143,51 @@ const SubscriptionOptions: React.FC<SubscriptionOptionsProperties> = (
         setTabSettings();
     }, [
         activeTab,
-        streamCursor,
+        subscription,
+        showStream,
+        showStreamChat,
     ]);
     // #endregion effects
 
 
     // #region render
-    if (!session) {
+    if (!activeTab || !activeTabControlledBy) {
         return (<></>);
     }
 
     return (
         <div>
+            <LinkButton
+                text="resync session"
+                atClick={() => {
+                    resyncSession();
+                }}
+                theme={plurid}
+                style={{
+                    margin: '1rem auto',
+                }}
+                disabled={resyncingSession}
+            />
+
             <InputSwitch
-                name="stream cursor"
-                checked={streamCursor}
+                name="show stream"
+                checked={showStream}
                 atChange={() => {
-                    setStreamCursor(value => !value);
+                    setShowStream(value => !value);
                 }}
                 theme={plurid}
             />
+
+            {showStream && (
+                <InputSwitch
+                    name="show chat"
+                    checked={showStreamChat}
+                    atChange={() => {
+                        setShowStreamChat(value => !value);
+                    }}
+                    theme={plurid}
+                />
+            )}
         </div>
     );
     // #endregion render

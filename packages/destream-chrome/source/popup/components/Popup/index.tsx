@@ -83,6 +83,7 @@
     import ReplaymentComponent from './components/Replayment';
     import ReplayDestream from './components/ReplayDestream';
     import SessionOptions from './components/SessionOptions';
+    import SubscriptionOptions from './components/SubscriptionOptions';
     // #endregion internal
 // #endregion imports
 
@@ -467,16 +468,6 @@ const Popup: React.FC<any> = (
                         </StyledURLText>
                     )}
 
-                    {sessionStarted && (
-                        <div
-                            style={{
-                                marginTop: '1rem',
-                            }}
-                        >
-                            {sessionAudience} viewers
-                        </div>
-                    )}
-
                     {isStreamer
                     && controllableTab
                     && !sessionStarted
@@ -506,8 +497,19 @@ const Popup: React.FC<any> = (
                             style={buttonStyle}
                         />
                     )}
+
+                    {sessionStarted && (
+                        <div
+                            style={{
+                                marginTop: '1.5rem',
+                            }}
+                        >
+                            {sessionAudience} viewers
+                        </div>
+                    )}
                 </StyledTabControl>
             )}
+
 
             {!activeTab
             && (
@@ -521,28 +523,33 @@ const Popup: React.FC<any> = (
 
             <SessionOptions
                 activeTab={activeTab}
-                activeTabControlledBy={activeTabControlledBy}
                 session={session}
+            />
+
+            <SubscriptionOptions
+                activeTab={activeTab}
+                activeTabControlledBy={activeTabControlledBy}
                 subscription={subscription}
             />
 
 
-            <ReplayDestream
-                setShowReplayDestream={setShowReplayDestream}
-            />
+            {!session && (
+                <>
+                    <ReplayDestream
+                        setShowReplayDestream={setShowReplayDestream}
+                    />
 
-
-            {activeTab && (
-                <Subscriptions
-                    theme={plurid}
-                    width={280}
-                    removeSubscription={(name) => {
-                        if (name === activeTabControlledBy) {
-                            setActiveTabControlledBy('');
-                            setSubscription(null);
-                        }
-                    }}
-                />
+                    <Subscriptions
+                        theme={plurid}
+                        width={280}
+                        removeSubscription={(name) => {
+                            if (name === activeTabControlledBy) {
+                                setActiveTabControlledBy('');
+                                setSubscription(null);
+                            }
+                        }}
+                    />
+                </>
             )}
 
 
