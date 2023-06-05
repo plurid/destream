@@ -12,6 +12,11 @@
         getSubscription,
         getTabSettings,
     } from '../messaging';
+
+    import {
+        DESTREAM_VIEW_ID,
+        DESTREAM_VIEW_STREAM_ID,
+    } from '../data';
     // #endregion external
 
 
@@ -30,11 +35,6 @@
 
 
 // #region module
-export const DESTREAM_VIEW_ID = 'destream___view';
-export const DESTREAM_VIEW_STREAM_ID = 'destream___view-stream';
-
-
-
 export const resolveTwitchChannelName = (
     session?: Session,
     subscription?: Subscription,

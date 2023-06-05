@@ -12,6 +12,11 @@
         throttle,
     } from '../../../common/utilities';
 
+    import {
+        SCROLL_DEBOUNCE,
+        CURSOR_THROTTLE,
+    } from '../../data';
+
     import metadata from '../metadata';
     // #endregion external
 // #endregion imports
@@ -19,10 +24,6 @@
 
 
 // #region module
-const SCROLL_DEBOUNCE = 600; // milliseconds
-const CURSOR_THROTTLE = 3_000; // milliseconds
-
-
 export interface Detector {
     target: EventTarget;
 

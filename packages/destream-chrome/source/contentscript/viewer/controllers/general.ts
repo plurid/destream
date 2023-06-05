@@ -8,6 +8,11 @@
     import {
         sendMessage,
     } from '../../../common/messaging';
+
+    import {
+        DESTREAM_CURSOR_ID,
+        CURSOR_HIDE,
+    } from '../../data';
     // #endregion external
 // #endregion imports
 
@@ -25,8 +30,6 @@ export const generalScrollTo = (
     });
 }
 
-
-export const DESTREAM_CURSOR_ID = 'destream__cursor';
 
 export const generateCursor = (
     streamerName: string,
@@ -94,7 +97,7 @@ export const generalCursorTo = (
     }
     cursorTimeout = setTimeout(() => {
         cursor.style.display = 'none';
-    }, 5_000);
+    }, CURSOR_HIDE);
 }
 
 
