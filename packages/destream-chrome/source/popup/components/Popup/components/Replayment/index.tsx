@@ -164,7 +164,9 @@ const Replayment: React.FC<ReplaymentProperties> = (
         : replaymentAtEnd(replayment)
             ? 'Replay'
             : 'Play';
-    const durationText = (replayment.duration / (60 * 1000)).toFixed(2);
+    const durationText = replayment.duration < (60 * 1_000)
+        ? (replayment.duration / 1_000).toFixed(2) + ' seconds'
+        : (replayment.duration / (60 * 1_000)).toFixed(2) + ' minutes';
 
     return (
         <>
@@ -205,7 +207,7 @@ const Replayment: React.FC<ReplaymentProperties> = (
 
             {replayment.duration && (
                 <div>
-                    {durationText} minutes
+                    {durationText}
                 </div>
             )}
 
