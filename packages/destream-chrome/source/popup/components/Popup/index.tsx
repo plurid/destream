@@ -159,19 +159,6 @@ const Popup: React.FC<any> = (
 
 
     // #region handlers
-    const stopSubscription = async () => {
-        if (!activeTab || !subscription) {
-            return;
-        }
-
-        setActiveTabControlledBy('');
-
-        await sendMessage<StopSubscriptionMessage>({
-            type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
-            data: subscription.sessionID,
-        });
-    }
-
     const startSession = async () => {
         if (!activeTab) {
             return;
@@ -220,6 +207,29 @@ const Popup: React.FC<any> = (
                 if (response.status) {
                     setSessionStarted(false);
                     setSession(undefined);
+                }
+            },
+        );
+    }
+
+    const stopSubscription = async () => {
+        if (!activeTab || !subscription) {
+            return;
+        }
+
+        setActiveTabControlledBy('');
+        setLoading(true);
+
+        sendMessage<StopSubscriptionMessage>(
+            {
+                type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
+                data: subscription.sessionID,
+            },
+            (response: any) => {
+                setLoading(false);
+
+                if (response.status) {
+                    setSubscription(null);
                 }
             },
         );
