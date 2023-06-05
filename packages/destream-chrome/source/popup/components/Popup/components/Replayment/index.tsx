@@ -159,6 +159,13 @@ const Replayment: React.FC<ReplaymentProperties> = (
 
 
     // #region render
+    const playPauseText = replayment.status === 'playing'
+        ? 'Pause'
+        : replaymentAtEnd(replayment)
+            ? 'Replay'
+            : 'Play';
+    const durationText = (replayment.duration / (60 * 1000)).toFixed(2);
+
     return (
         <>
             <h1>
@@ -166,11 +173,7 @@ const Replayment: React.FC<ReplaymentProperties> = (
             </h1>
 
             <PureButton
-                text={
-                    replayment.status === 'playing'
-                        ? 'Pause'
-                        : replaymentAtEnd(replayment) ? 'Replay' : 'Play'
-                }
+                text={playPauseText}
                 atClick={() => {
                     handleReplaymentPlayPause();
                 }}
@@ -202,7 +205,7 @@ const Replayment: React.FC<ReplaymentProperties> = (
 
             {replayment.duration && (
                 <div>
-                    {(replayment.duration / (60 * 1000)).toFixed(2)} minutes
+                    {durationText} minutes
                 </div>
             )}
 
