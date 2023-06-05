@@ -94,8 +94,8 @@ export class GeneralDetector implements Detector {
             pageY,
         } = event;
 
-        const x = parseFloat((pageX / window.innerWidth * 100).toFixed(2));
-        const y = parseFloat((pageY / window.innerHeight * 100).toFixed(2));
+        const x = parseFloat((pageX / window.innerWidth * 100).toFixed(4));
+        const y = parseFloat((pageY / window.innerHeight * 100).toFixed(4));
 
         const cursorEvent: DestreamCursorEvent = {
             type: GENERAL_EVENT.CURSOR,

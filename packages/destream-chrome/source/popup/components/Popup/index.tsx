@@ -414,7 +414,8 @@ const Popup: React.FC<any> = (
             <DestreamTitle />
 
 
-            {!loggedIn && (
+            {!loggedIn
+            && (
                 <Login
                     theme={plurid}
                     atLogin={() => {
@@ -533,23 +534,27 @@ const Popup: React.FC<any> = (
             />
 
 
-            {!session && (
-                <>
-                    <ReplayDestream
-                        setShowReplayDestream={setShowReplayDestream}
-                    />
+            {!session
+            && !subscription
+            && (
+                <ReplayDestream
+                    setShowReplayDestream={setShowReplayDestream}
+                />
+            )}
 
-                    <Subscriptions
-                        theme={plurid}
-                        width={280}
-                        removeSubscription={(name) => {
-                            if (name === activeTabControlledBy) {
-                                setActiveTabControlledBy('');
-                                setSubscription(null);
-                            }
-                        }}
-                    />
-                </>
+
+            {!session
+            && (
+                <Subscriptions
+                    theme={plurid}
+                    width={280}
+                    removeSubscription={(name) => {
+                        if (name === activeTabControlledBy) {
+                            setActiveTabControlledBy('');
+                            setSubscription(null);
+                        }
+                    }}
+                />
             )}
 
 
