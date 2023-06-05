@@ -7,6 +7,11 @@
     import {
         handleEvent,
     } from '../../viewer';
+
+    import {
+        generateCursor,
+        destroyCursor,
+    } from '../../viewer/controllers/general';
     // #endregion external
 // #endregion imports
 
@@ -32,6 +37,8 @@ export class SessionPlayer {
     ) {
         this.events = events;
         this.atIndexUpdate = atIndexUpdate;
+
+        generateCursor('');
     }
 
 
@@ -109,6 +116,8 @@ export class SessionPlayer {
 
     public stop() {
         this.pause();
+
+        destroyCursor();
     }
 }
 // #endregion module
