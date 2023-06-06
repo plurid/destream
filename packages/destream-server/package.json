@@ -1,0 +1,60 @@
+{
+    "name": "@plurid/destream-server",
+    "version": "0.0.0-0",
+    "description": "Custom Destream Server",
+    "keywords": [
+        "destream",
+        "server"
+    ],
+    "author": "ly3xqhl8g9 <ly3xqhl8g9@plurid.com> (https://plurid.com)",
+    "license": "SEE LICENSE IN LICENSE",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/plurid/destream"
+    },
+    "bugs": {
+        "email": "source@plurid.com",
+        "url": "https://github.com/plurid/destream/issues"
+    },
+    "homepage": "https://github.com/plurid/destream/blob/master/packages/destream-server/README.md",
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/",
+        "access": "public"
+    },
+    "engines": {
+        "node": ">=18"
+    },
+    "type": "module",
+    "main": "build/index.js",
+    "module": "build/index.es.js",
+    "typings": "build/index.d.ts",
+    "files": [
+        "build"
+    ],
+    "scripts": {
+        "start": "node build/index.js",
+        "build": "rollup -c ./scripts/rollup.config.js --bundleConfigAsCjs",
+        "prebuild": "rm -rf build",
+        "containerize": "docker build -f ./configurations/Dockerfile -t plurid/destream-server .",
+        "docker": "docker run -d -p 45321:8080 -e DESTREAM_MESSAGER_DATA=\"test data\" plurid/destream-server"
+    },
+    "dependencies": {
+        "@apollo/server": "^4.7.2",
+        "graphql": "^16.6.0",
+        "graphql-tag": "^2.12.6"
+    },
+    "devDependencies": {
+        "@rollup/plugin-commonjs": "^25.0.0",
+        "@rollup/plugin-node-resolve": "^15.1.0",
+        "@rollup/plugin-terser": "^0.4.3",
+        "@types/node": "^20.2.5",
+        "@typescript-eslint/eslint-plugin": "^5.59.9",
+        "@typescript-eslint/parser": "^5.59.9",
+        "eslint": "^8.42.0",
+        "rollup": "^3.23.1",
+        "rollup-plugin-typescript2": "^0.34.1",
+        "ts-node": "^10.9.1",
+        "tslib": "^2.5.3",
+        "typescript": "^5.1.3"
+    }
+}
