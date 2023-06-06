@@ -4,6 +4,10 @@
         messagerData,
         ResponseDestreamMessagerData,
     } from '../data';
+
+    import {
+        checkMessagerData,
+    } from '../utilities';
     // #endregion external
 // #endregion imports
 
@@ -11,7 +15,8 @@
 
 // #region module
 export const destreamGetMessagerData = async (): Promise<ResponseDestreamMessagerData> => {
-    if (!messagerData) {
+    const validMessagerData = checkMessagerData(messagerData);
+    if (!validMessagerData) {
         return {
             status: false,
             errors: [
