@@ -28,9 +28,6 @@ export default {
         'graphql',
         'graphql-tag',
     ],
-    watch: {
-        include: 'source/**',
-    },
     plugins: [
         typescript({
             tsconfig: './tsconfig.json',
