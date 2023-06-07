@@ -45,7 +45,7 @@ The streamer's events (pauses/plays/like etc.) are reproduced in the audience's 
 
 ## Custom Destream Server
 
-As a streamer you can [register](https://account.plurid.com/destream) a custom destream server which will allow your audience to connect to different publish/subscribe mechanisms ([self-hosted messager](https://github.com/plurid/messager), [AWS AppSync](https://aws.amazon.com/appsync)).
+As a streamer you can [register](https://account.plurid.com/destream) a custom destream server which will allow your audience to connect to different publish/subscribe mechanisms ([self-hosted messager](https://github.com/plurid/messager), [AWS AppSync](https://aws.amazon.com/appsync)) without requiring a [destream subscription](https://plurid.com/destream).
 
 The simplest way to run a custom destream server is to use the [docker image](https://hub.docker.com/r/plurid/destream-server).
 
