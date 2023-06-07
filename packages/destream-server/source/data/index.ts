@@ -1,4 +1,6 @@
 // #region module
+export const inProduction = process.env.NODE_ENV === 'production';
+
 export const port = parseInt(process.env.PORT || '') || 45321;
 
 export const messagerData = process.env.DESTREAM_MESSAGER_DATA || '';
