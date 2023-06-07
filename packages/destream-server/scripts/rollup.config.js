@@ -21,9 +21,16 @@ export default {
         },
     ],
     external: [
+        'node:http',
+
         '@apollo/server',
-        '@apollo/server/standalone',
+        '@apollo/server/express4',
+        '@apollo/server/plugin/drainHttpServer',
         'graphql',
+
+        'express',
+        'body-parser',
+        'cors',
     ],
     plugins: [
         typescript({
