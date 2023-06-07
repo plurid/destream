@@ -38,5 +38,5 @@ export default {
             },
         }),
     ],
-}
+};
 // #endregion module
