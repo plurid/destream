@@ -75,6 +75,8 @@ interface AWSAppSync {
 }
 ```
 
+expose then the port `45321` to the internet and register the server URL in the [destream account](https://account.plurid.com/destream).
+
 After server registration, starting a destream session will send the server URL to the audience, which will query the server for the `MessagerData` and connect to it.
 
 ``` graphql
