@@ -31,8 +31,8 @@
     ],
     "scripts": {
         "start": "node build/index.js",
-        "build": "rollup -c ./scripts/rollup.config.js --bundleConfigAsCjs",
-        "prebuild": "rm -rf build",
+        "prebuild": "rimraf ./build",
+        "build": "npm run prebuild && rollup -c ./scripts/rollup.config.js --bundleConfigAsCjs",
         "containerize": "docker build -f ./configurations/Dockerfile -t plurid/destream-server .",
         "docker": "docker run -d -p 45321:8080 -e DESTREAM_MESSAGER_DATA=$DESTREAM_MESSAGER_DATA plurid/destream-server"
     },
@@ -49,6 +49,7 @@
         "@typescript-eslint/eslint-plugin": "^5.59.9",
         "@typescript-eslint/parser": "^5.59.9",
         "eslint": "^8.42.0",
+        "rimraf": "^5.0.1",
         "rollup": "^3.23.1",
         "rollup-plugin-typescript2": "^0.34.1",
         "ts-node": "^10.9.1",
