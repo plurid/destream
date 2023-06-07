@@ -34,7 +34,7 @@
         "build": "rollup -c ./scripts/rollup.config.js --bundleConfigAsCjs",
         "prebuild": "rm -rf build",
         "containerize": "docker build -f ./configurations/Dockerfile -t plurid/destream-server .",
-        "docker": "docker run -d -p 45321:8080 -e DESTREAM_MESSAGER_DATA=\"test data\" plurid/destream-server"
+        "docker": "docker run -d -p 45321:8080 -e DESTREAM_MESSAGER_DATA=$DESTREAM_MESSAGER_DATA plurid/destream-server"
     },
     "dependencies": {
         "@apollo/server": "^4.7.2",
