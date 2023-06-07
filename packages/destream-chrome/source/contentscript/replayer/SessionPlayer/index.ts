@@ -6,7 +6,7 @@
 
     import {
         handleEvent,
-    } from '../../viewer';
+    } from '../../viewer/event';
 
     import {
         generateCursor,
