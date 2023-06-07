@@ -26,6 +26,14 @@ export const YOUTUBE_EVENT = {
     LIKE: 'youtubeLike',
 } as const;
 
+export const TWITCH_EVENT = {
+    PLAY: 'twitchPlay',
+    PAUSE: 'twitchPause',
+    SEEK: 'twitchSeek',
+    VOLUME_CHANGE: 'twitchVolumeChange',
+    RATE_CHANGE: 'twitchRateChange',
+} as const;
+
 export const NETFLIX_EVENT = {
     PLAY: 'netflixPlay',
     PAUSE: 'netflixPause',

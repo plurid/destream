@@ -5,6 +5,7 @@
         MESSAGE_TYPE,
         GENERAL_EVENT,
         YOUTUBE_EVENT,
+        TWITCH_EVENT,
         SPOTIFY_EVENT,
         GetSubscriptionMessage,
         StopSubscriptionMessage,
@@ -60,6 +61,13 @@
         youtubeLike,
         youtubeApplyCurrentState,
     } from './controllers/youtube';
+
+    import {
+        twitchPlay,
+        twitchPause,
+        twitchSeek,
+        twitchRateChange,
+    } from './controllers/twitch';
     // #endregion internal
 // #endregion imports
 
@@ -125,6 +133,19 @@ export const handleEvent = (
                 break;
             case YOUTUBE_EVENT.LIKE:
                 youtubeLike();
+                break;
+
+            case TWITCH_EVENT.PLAY:
+                twitchPlay();
+                break;
+            case TWITCH_EVENT.PAUSE:
+                twitchPause();
+                break;
+            case TWITCH_EVENT.SEEK:
+                twitchSeek(event.payload);
+                break;
+            case TWITCH_EVENT.RATE_CHANGE:
+                twitchSeek(event.payload);
                 break;
 
             case SPOTIFY_EVENT.PLAY:

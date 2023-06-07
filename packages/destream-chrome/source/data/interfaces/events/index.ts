@@ -3,6 +3,7 @@
     import {
         GENERAL_EVENT,
         YOUTUBE_EVENT,
+        TWITCH_EVENT,
         SPOTIFY_EVENT,
         NETFLIX_EVENT,
     } from '../../constants';
@@ -70,6 +71,7 @@ export interface DestreamStartAnotherSessionEvent {
 export interface DestreamPlayEvent {
     type:
         | typeof YOUTUBE_EVENT.PLAY
+        | typeof TWITCH_EVENT.PLAY
         | typeof SPOTIFY_EVENT.PLAY
         | typeof NETFLIX_EVENT.PLAY;
 }
@@ -77,6 +79,7 @@ export interface DestreamPlayEvent {
 export interface DestreamPauseEvent {
     type:
         | typeof YOUTUBE_EVENT.PAUSE
+        | typeof TWITCH_EVENT.PAUSE
         | typeof SPOTIFY_EVENT.PAUSE
         | typeof NETFLIX_EVENT.PAUSE;
 }
@@ -84,6 +87,7 @@ export interface DestreamPauseEvent {
 export interface DestreamSeekEvent {
     type:
         | typeof YOUTUBE_EVENT.SEEK
+        | typeof TWITCH_EVENT.SEEK
         | typeof SPOTIFY_EVENT.SEEK
         | typeof NETFLIX_EVENT.SEEK;
     // seconds
@@ -93,6 +97,7 @@ export interface DestreamSeekEvent {
 export interface DestreamVolumeChangeEvent {
     type:
         | typeof YOUTUBE_EVENT.VOLUME_CHANGE
+        | typeof TWITCH_EVENT.VOLUME_CHANGE
         | typeof SPOTIFY_EVENT.VOLUME_CHANGE
         | typeof NETFLIX_EVENT.VOLUME_CHANGE;
     // 0 - 100
@@ -102,6 +107,7 @@ export interface DestreamVolumeChangeEvent {
 export interface DestreamRateChangeEvent {
     type:
         | typeof YOUTUBE_EVENT.RATE_CHANGE
+        | typeof TWITCH_EVENT.RATE_CHANGE
         | typeof SPOTIFY_EVENT.RATE_CHANGE
         | typeof NETFLIX_EVENT.RATE_CHANGE;
     // 0 - 100

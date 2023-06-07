@@ -38,6 +38,10 @@
     } from '../utilities/youtube';
 
     import {
+        checkTwitchOrigin,
+    } from '../utilities/twitch';
+
+    import {
         checkSpotifyOrigin,
     } from '../utilities/spotify';
     // #endregion external
@@ -56,6 +60,10 @@
     } from './detectors/youtube';
 
     import {
+        TwitchDetector,
+    } from './detectors/twitch';
+
+    import {
         SpotifyDetector,
     } from './detectors/spotify';
     // #endregion internal
@@ -66,6 +74,7 @@
 // #region module
 const getDetector = (): Detector => {
     if (checkYoutubeOrigin()) return new YoutubeDetector();
+    if (checkTwitchOrigin()) return new TwitchDetector();
     if (checkSpotifyOrigin()) return new SpotifyDetector();
 
     return new GeneralDetector();
