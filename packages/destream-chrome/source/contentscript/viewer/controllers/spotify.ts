@@ -15,18 +15,15 @@ export const spotifyPlayPause = () => {
     button.click();
 }
 
-
 export const spotifyVolumeChange = (
     volume: number,
 ) => {
 }
 
-
 export const spotifySeek = (
     seconds: number,
 ) => {
 }
-
 
 export const spotifyApplyCurrentState = (
     state: any,

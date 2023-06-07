@@ -15,18 +15,15 @@ export const netflixPlayPause = () => {
     button.click();
 }
 
-
 export const netflixVolumeChange = (
     volume: number,
 ) => {
 }
 
-
 export const netflixSeek = (
     seconds: number,
 ) => {
 }
-
 
 export const netflixApplyCurrentState = (
     state: any,

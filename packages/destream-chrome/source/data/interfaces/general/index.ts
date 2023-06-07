@@ -26,6 +26,16 @@ export interface YoutubeCurrentState {
     };
 }
 
+export interface TwitchCurrentState {
+    url: string;
+    video: {
+        currentTime: number;
+        volume: number;
+        playbackRate: number;
+        paused: boolean;
+    };
+}
+
 
 
 export type Handler<R> = (

@@ -1,6 +1,10 @@
 // #region imports
     // #region external
     import {
+        TwitchCurrentState,
+    } from '../../../data';
+
+    import {
         log,
     } from '../../../common/utilities';
 
@@ -54,6 +58,21 @@ export const twitchRateChange = (
     }
 }
 
+export const twitchVolumeChange = (
+    volume: number,
+) => {
+    try {
+        const videoPlayer = getTwitchVideoPlayer();
+        if (!videoPlayer) {
+            return;
+        }
+
+        videoPlayer.volume = volume;
+    } catch (error) {
+        log(error);
+    }
+}
+
 export const twitchSeek = (
     seconds: number,
 ) => {
@@ -64,6 +83,50 @@ export const twitchSeek = (
         }
 
         videoPlayer.currentTime = seconds;
+    } catch (error) {
+        log(error);
+    }
+}
+
+export const twitchApplyCurrentState = (
+    state: TwitchCurrentState,
+) => {
+    try {
+        if (location.href !== state.url) {
+            location.href = state.url;
+            return;
+        }
+
+        const videoPlayer = getTwitchVideoPlayer();
+        if (!videoPlayer) {
+            return;
+        }
+
+        const loadState = () => {
+            twitchSeek(state.video.currentTime);
+            twitchVolumeChange(state.video.volume);
+            twitchRateChange(state.video.playbackRate);
+
+            setTimeout(() => {
+                if (state.video.paused) {
+                    twitchPause();
+                } else {
+                    twitchPlay();
+                }
+            }, 200);
+
+            if (document.hidden) {
+                videoPlayer.removeEventListener('play', loadState);
+            }
+        }
+
+        if (document.hidden) {
+            videoPlayer.addEventListener('play', loadState);
+        } else {
+            setTimeout(() => {
+                loadState();
+            }, 500);
+        }
     } catch (error) {
         log(error);
     }

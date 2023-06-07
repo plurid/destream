@@ -4,15 +4,11 @@
         DestreamEvent,
         MESSAGE_TYPE,
         GENERAL_EVENT,
-        YOUTUBE_EVENT,
-        TWITCH_EVENT,
-        SPOTIFY_EVENT,
         GetSubscriptionMessage,
         StopSubscriptionMessage,
         StartSubscriptionByIDMessage,
         Subscription,
         resyncTimeout,
-        hosts,
     } from '../../data';
 
     import {
@@ -35,39 +31,15 @@
     import {
         generateCursor,
         destroyCursor,
-
-        generalScrollTo,
-        generalCursorTo,
-        generalURLChange,
     } from './controllers/general';
 
     import {
-        netflixApplyCurrentState,
-    } from './controllers/netflix';
+        handleEvent,
+    } from './event';
 
     import {
-        spotifyPlayPause,
-        spotifySeek,
-        spotifyVolumeChange,
-        spotifyApplyCurrentState,
-    } from './controllers/spotify';
-
-    import {
-        youtubePlay,
-        youtubePause,
-        youtubeSeek,
-        youtubeVolumeChange,
-        youtubeRateChange,
-        youtubeLike,
-        youtubeApplyCurrentState,
-    } from './controllers/youtube';
-
-    import {
-        twitchPlay,
-        twitchPause,
-        twitchSeek,
-        twitchRateChange,
-    } from './controllers/twitch';
+        applyCurrentState,
+    } from './state';
     // #endregion internal
 // #endregion imports
 
@@ -81,87 +53,6 @@ export const setAutofocus = (
     // window.addEventListener('focus', () => {
     //     requestCurrentState();
     // });
-}
-
-
-export const applyCurrentState = (
-    state: any,
-) => {
-    switch (window.location.host) {
-        case hosts.netflix:
-            netflixApplyCurrentState(state);
-            break;
-        case hosts.spotify:
-            spotifyApplyCurrentState(state);
-            break;
-        case hosts.youtube:
-            youtubeApplyCurrentState(state);
-            break;
-    }
-}
-
-
-export const handleEvent = (
-    event: DestreamEvent,
-) => {
-    try {
-        switch (event.type) {
-            case GENERAL_EVENT.SCROLL:
-                generalScrollTo(event.payload.top, event.payload.left);
-                break;
-            case GENERAL_EVENT.CURSOR:
-                generalCursorTo(event.payload.x, event.payload.y);
-                break;
-            case GENERAL_EVENT.URL_CHANGE:
-                generalURLChange(event.payload.url);
-                break;
-
-            case YOUTUBE_EVENT.PLAY:
-                youtubePlay();
-                break;
-            case YOUTUBE_EVENT.PAUSE:
-                youtubePause();
-                break;
-            case YOUTUBE_EVENT.SEEK:
-                youtubeSeek(event.payload);
-                break;
-            case YOUTUBE_EVENT.VOLUME_CHANGE:
-                youtubeVolumeChange(event.payload);
-                break;
-            case YOUTUBE_EVENT.RATE_CHANGE:
-                youtubeRateChange(event.payload);
-                break;
-            case YOUTUBE_EVENT.LIKE:
-                youtubeLike();
-                break;
-
-            case TWITCH_EVENT.PLAY:
-                twitchPlay();
-                break;
-            case TWITCH_EVENT.PAUSE:
-                twitchPause();
-                break;
-            case TWITCH_EVENT.SEEK:
-                twitchSeek(event.payload);
-                break;
-            case TWITCH_EVENT.RATE_CHANGE:
-                twitchSeek(event.payload);
-                break;
-
-            case SPOTIFY_EVENT.PLAY:
-            case SPOTIFY_EVENT.PAUSE:
-                spotifyPlayPause();
-                break;
-            case SPOTIFY_EVENT.SEEK:
-                spotifySeek(event.payload);
-                break;
-            case SPOTIFY_EVENT.VOLUME_CHANGE:
-                spotifyVolumeChange(event.payload);
-                break;
-        }
-    } catch (error) {
-        return;
-    }
 }
 
 
