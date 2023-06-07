@@ -1,7 +1,5 @@
 // #region imports
     // #region libraries
-    import resolve from '@rollup/plugin-node-resolve';
-    import commonjs from '@rollup/plugin-commonjs';
     import typescript from 'rollup-plugin-typescript2';
     import terser from '@rollup/plugin-terser';
     // #endregion libraries
@@ -26,16 +24,11 @@ export default {
         '@apollo/server',
         '@apollo/server/standalone',
         'graphql',
-        'graphql-tag',
     ],
     plugins: [
         typescript({
             tsconfig: './tsconfig.json',
         }),
-        resolve({
-            preferBuiltins: true,
-        }),
-        commonjs(),
         terser({
             mangle: false,
             compress: false,
