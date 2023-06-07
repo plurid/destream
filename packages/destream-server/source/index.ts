@@ -1,19 +1,8 @@
 // #region imports
-    // #region libraries
-    import { ApolloServer } from '@apollo/server';
-    import { startStandaloneServer } from '@apollo/server/standalone';
-    // #endregion libraries
-
-
     // #region internal
     import {
-        port,
-    } from './data';
-
-    import {
-        typeDefs,
-        resolvers,
-    } from './graphql';
+        startServer,
+    } from './server';
     // #endregion internal
 // #endregion imports
 
@@ -21,20 +10,9 @@
 
 // #region module
 const main = async () => {
-    const server = new ApolloServer({
-        typeDefs,
-        resolvers,
-    });
+    const port = await startServer();
 
-    const {
-        url,
-    } = await startStandaloneServer(server, {
-        listen: {
-            port,
-        },
-    });
-
-    console.log(`\n\tDestream Server Started at ${url}\n`);
+    console.log(`\n\tDestream Server Started on localhost:${port}\n`);
 }
 
 main();
