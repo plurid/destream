@@ -40,3 +40,66 @@ The streamer installs the extension and creates an account and lists it as a str
 The audience receives a notification when the streamer wants to control a webpage and accepts the streamer's control providing the adequate control granularity, allowing full or partial control.
 
 The streamer's events (pauses/plays/like etc.) are reproduced in the audience's browsers. The streamer/audience can deactivate the web page control at any time and can replay previous sessions. The streamer can edit/delete sessions.
+
+
+## Custom Destream Server
+
+As a streamer you can [register](https://account.plurid.com/destream) a custom destream server which will allow your audience to connect to different publish/subscribe mechanisms ([self-hosted messager](https://github.com/plurid/messager), [AWS AppSync](https://aws.amazon.com/appsync)).
+
+The simplest way to run a custom destream server is to use the [docker image](https://hub.docker.com/r/plurid/destream-server).
+
+``` bash
+docker pull plurid/destream-server
+
+docker run -d -p 45321:8080 -e DESTREAM_MESSAGER_DATA=$DESTREAM_MESSAGER_DATA plurid/destream-server
+```
+
+where `$DESTREAM_MESSAGER_DATA` is a stringified JSON object respecting the interface
+
+``` typescript
+interface SelfHostedMessager {
+    type: ‘messager’;
+    endpoint: string;
+    token: string;
+    messagerKind?: MessagerKind;
+    messagerOptions?: MessagerOptions;
+}
+
+// or
+
+interface AWSAppSync {
+    type: ‘aws’;
+    endpoint: string;
+    region: string;
+    apiKey: string;
+}
+```
+
+After server registration, starting a destream session will send the server URL to the audience, which will query the server for the `MessagerData` and connect to it.
+
+``` graphql
+query DestreamGetMessagerData {
+    destreamGetMessagerData {
+        status
+        data
+    }
+}
+```
+
+In order to customize the destream server, the repository can be cloned
+
+``` bash
+git clone https://github.com/plurid/destream.git
+
+cd destream/packages/destream-server
+
+npm install
+```
+
+and the function `destreamGetMessagerData` in `source/resolver/index.ts` can be edited acordingly.
+
+The server can then be recontainerized running
+
+``` bash
+npm run containerize
+```
