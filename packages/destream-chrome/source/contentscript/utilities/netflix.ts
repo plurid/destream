@@ -9,10 +9,8 @@
 
 
 // #region module
-export const getNetflixPlayButton = () => {
-    const button = document.querySelector('button');
-
-    return button as HTMLButtonElement;
+export const getNetflixVideoPlayer = (): HTMLVideoElement | undefined => {
+    return document.querySelector('video') as HTMLVideoElement | undefined;
 }
 
 

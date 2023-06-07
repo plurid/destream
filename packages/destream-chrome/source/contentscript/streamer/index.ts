@@ -33,17 +33,22 @@
         log,
     } from '../../common/utilities';
 
+
     import {
-        checkYoutubeOrigin,
-    } from '../utilities/youtube';
+        checkNetflixOrigin,
+    } from '../utilities/netflix';
+
+    import {
+        checkSpotifyOrigin,
+    } from '../utilities/spotify';
 
     import {
         checkTwitchOrigin,
     } from '../utilities/twitch';
 
     import {
-        checkSpotifyOrigin,
-    } from '../utilities/spotify';
+        checkYoutubeOrigin,
+    } from '../utilities/youtube';
     // #endregion external
 
 
@@ -56,16 +61,20 @@
     } from './detectors';
 
     import {
-        YoutubeDetector,
-    } from './detectors/youtube';
+        NetflixDetector,
+    } from './detectors/netflix';
+
+    import {
+        SpotifyDetector,
+    } from './detectors/spotify';
 
     import {
         TwitchDetector,
     } from './detectors/twitch';
 
     import {
-        SpotifyDetector,
-    } from './detectors/spotify';
+        YoutubeDetector,
+    } from './detectors/youtube';
     // #endregion internal
 // #endregion imports
 
@@ -73,9 +82,10 @@
 
 // #region module
 const getDetector = (): Detector => {
-    if (checkYoutubeOrigin()) return new YoutubeDetector();
-    if (checkTwitchOrigin()) return new TwitchDetector();
+    if (checkNetflixOrigin()) return new NetflixDetector();
     if (checkSpotifyOrigin()) return new SpotifyDetector();
+    if (checkTwitchOrigin()) return new TwitchDetector();
+    if (checkYoutubeOrigin()) return new YoutubeDetector();
 
     return new GeneralDetector();
 }

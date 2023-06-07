@@ -13,12 +13,12 @@
     } from '../controllers/spotify';
 
     import {
-        youtubeApplyCurrentState,
-    } from '../controllers/youtube';
-
-    import {
         twitchApplyCurrentState,
     } from '../controllers/twitch';
+
+    import {
+        youtubeApplyCurrentState,
+    } from '../controllers/youtube';
     // #endregion external
 // #endregion imports
 
@@ -35,11 +35,11 @@ export const applyCurrentState = (
         case hosts.spotify:
             spotifyApplyCurrentState(state);
             break;
-        case hosts.youtube:
-            youtubeApplyCurrentState(state);
-            break;
         case hosts.twitch:
             twitchApplyCurrentState(state);
+            break;
+        case hosts.youtube:
+            youtubeApplyCurrentState(state);
             break;
     }
 }

@@ -3,6 +3,7 @@
     import {
         DestreamEvent,
         GENERAL_EVENT,
+        NETFLIX_EVENT,
         YOUTUBE_EVENT,
         TWITCH_EVENT,
         SPOTIFY_EVENT,
@@ -16,6 +17,10 @@
 
 
     import {
+        netflixPlay,
+        netflixPause,
+        netflixSeek,
+        netflixRateChange,
     } from '../controllers/netflix';
 
     import {
@@ -25,6 +30,13 @@
     } from '../controllers/spotify';
 
     import {
+        twitchPlay,
+        twitchPause,
+        twitchSeek,
+        twitchRateChange,
+    } from '../controllers/twitch';
+
+    import {
         youtubePlay,
         youtubePause,
         youtubeSeek,
@@ -32,13 +44,6 @@
         youtubeRateChange,
         youtubeLike,
     } from '../controllers/youtube';
-
-    import {
-        twitchPlay,
-        twitchPause,
-        twitchSeek,
-        twitchRateChange,
-    } from '../controllers/twitch';
     // #endregion external
 // #endregion imports
 
@@ -60,6 +65,47 @@ export const handleEvent = (
                 generalURLChange(event.payload.url);
                 break;
 
+
+            case NETFLIX_EVENT.PLAY:
+                netflixPlay();
+                break;
+            case NETFLIX_EVENT.PAUSE:
+                netflixPause();
+                break;
+            case NETFLIX_EVENT.SEEK:
+                netflixSeek(event.payload);
+                break;
+            case NETFLIX_EVENT.RATE_CHANGE:
+                netflixRateChange(event.payload);
+                break;
+
+
+            case SPOTIFY_EVENT.PLAY:
+            case SPOTIFY_EVENT.PAUSE:
+                spotifyPlayPause();
+                break;
+            case SPOTIFY_EVENT.SEEK:
+                spotifySeek(event.payload);
+                break;
+            case SPOTIFY_EVENT.VOLUME_CHANGE:
+                spotifyVolumeChange(event.payload);
+                break;
+
+
+            case TWITCH_EVENT.PLAY:
+                twitchPlay();
+                break;
+            case TWITCH_EVENT.PAUSE:
+                twitchPause();
+                break;
+            case TWITCH_EVENT.SEEK:
+                twitchSeek(event.payload);
+                break;
+            case TWITCH_EVENT.RATE_CHANGE:
+                twitchRateChange(event.payload);
+                break;
+
+
             case YOUTUBE_EVENT.PLAY:
                 youtubePlay();
                 break;
@@ -77,30 +123,6 @@ export const handleEvent = (
                 break;
             case YOUTUBE_EVENT.LIKE:
                 youtubeLike();
-                break;
-
-            case TWITCH_EVENT.PLAY:
-                twitchPlay();
-                break;
-            case TWITCH_EVENT.PAUSE:
-                twitchPause();
-                break;
-            case TWITCH_EVENT.SEEK:
-                twitchSeek(event.payload);
-                break;
-            case TWITCH_EVENT.RATE_CHANGE:
-                twitchRateChange(event.payload);
-                break;
-
-            case SPOTIFY_EVENT.PLAY:
-            case SPOTIFY_EVENT.PAUSE:
-                spotifyPlayPause();
-                break;
-            case SPOTIFY_EVENT.SEEK:
-                spotifySeek(event.payload);
-                break;
-            case SPOTIFY_EVENT.VOLUME_CHANGE:
-                spotifyVolumeChange(event.payload);
                 break;
         }
     } catch (error) {
