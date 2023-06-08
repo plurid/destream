@@ -83,7 +83,7 @@ JSON.stringify({
     token: '<token-value>',
     messagerKind: 'socket',
     messagerOptions: {
-        secure: false
+        secure: true // recommended with an endpoint using WSS
     }
 });
 ```
