@@ -74,6 +74,18 @@ interface AWSAppSync {
     region: string;
     apiKey: string;
 }
+
+// e.g.
+
+JSON.stringify({
+    type: 'messager',
+    endpoint: '<messager-url>',
+    token: '<token-value>',
+    messagerKind: 'socket',
+    messagerOptions: {
+        secure: false
+    }
+});
 ```
 
 expose then the port `45321` to the internet and register the server URL in the [destream account](https://account.plurid.com/destream).
