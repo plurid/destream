@@ -27,6 +27,7 @@
     } from '../graphql';
 
     import {
+        getTab,
         getPublishTopicID,
         getCurrentStateTopicID,
     } from '../utilities'
@@ -44,7 +45,8 @@ const handleStartSession: Handler<StartSessionMessage> = async (
     try {
         const isStreamer = await storageGetIsStreamer();
         const identonym = await storageGetIdentonym();
-        if (!isStreamer || !identonym) {
+        const tab = await getTab(request.data.tabID);
+        if (!isStreamer || !identonym || !tab) {
             sendResponse({
                 status: false,
             });
@@ -67,6 +69,7 @@ const handleStartSession: Handler<StartSessionMessage> = async (
                 input: {
                     url: request.data.url,
                     title: request.data.title,
+                    incognito: tab.incognito,
                 },
             },
         });

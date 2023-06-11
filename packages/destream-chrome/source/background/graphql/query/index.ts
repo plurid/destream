@@ -24,6 +24,7 @@ export const GET_ACTIVE_SESSIONS = gql`
                 sessions {
                     id
                     url
+                    incognito
                     generatedAt
                     status
                     events {
@@ -52,6 +53,7 @@ export const GET_ACTIVE_SESSION = gql`
                 session {
                     id
                     url
+                    incognito
                     generatedAt
                     status
                     events {
@@ -74,6 +76,7 @@ export const GET_SESSION = gql`
                 generatedAt
                 title
                 url
+                incognito
                 status
                 events {
                     relativeTime

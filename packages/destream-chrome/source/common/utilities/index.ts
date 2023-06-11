@@ -78,13 +78,13 @@ export const throttle = <F extends Function>(
 
 
 export const log = (
-    message: any,
+    ...message: any[]
 ) => {
     if (IN_PRODUCTION) {
         return;
     }
 
-    console.log('log', message);
+    console.log('log', ...message);
 }
 
 

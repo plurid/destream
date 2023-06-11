@@ -201,6 +201,7 @@ export const startSessionSubscriptionLogic = async (
     sessionID: string,
     sessionURL: string,
     sessionCustomPubSubLink: string | undefined,
+    sessionIncognito: boolean | undefined,
     streamerIdentonym: string,
     generalPermissions: GeneralPermissions,
     streamerDetails: any,
@@ -219,8 +220,12 @@ export const startSessionSubscriptionLogic = async (
             return false;
         }
 
-        const tab = await openTab(sessionURL);
-        await assignTabToGroup(tab, streamerIdentonym, generalPermissions);
+        const tab = await openTab(
+            sessionURL, false, sessionIncognito,
+        );
+        await assignTabToGroup(
+            tab, streamerIdentonym, generalPermissions,
+        );
 
         const pubsubEndpoint = sessionCustomPubSubLink || DEFAULT_API_ENDPOINT;
 

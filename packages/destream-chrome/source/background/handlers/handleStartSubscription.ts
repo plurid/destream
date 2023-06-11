@@ -78,6 +78,7 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
                 session.id,
                 session.url,
                 session.customPubSubLink,
+                session.incognito,
                 streamerIdentonym,
                 generalPermissions,
                 streamerDetails,

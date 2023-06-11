@@ -31,7 +31,7 @@
 
 
 // #region module
-const main = () => {
+const main = async () => {
     try {
         initialize();
 

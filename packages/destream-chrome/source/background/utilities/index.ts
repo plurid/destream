@@ -73,11 +73,35 @@ export const getCurrentStateArbitraryTopicID = (
 export const openTab = async (
     url: string,
     active = false,
+    incognito?: boolean,
 ) => {
+    let incognitoWindow: chrome.windows.Window | undefined;
+    if (incognito) {
+        const windows = await chrome.windows.getAll();
+        const incognitoWindows = windows.filter(window => window.incognito);
+        // check if/which incognito windows have a group or session tabs already
+        const existingIncognitoWindow = incognitoWindows[0];
+
+        if (existingIncognitoWindow) {
+            incognitoWindow = existingIncognitoWindow;
+        } else {
+            incognitoWindow = await chrome.windows.create({
+                incognito: true,
+            });
+        }
+    }
+
     return await chrome.tabs.create({
         url,
         active,
+        windowId: incognitoWindow?.id,
     });
+}
+
+export const getTab = async (
+    id: number,
+): Promise<chrome.tabs.Tab | undefined> => {
+    return await chrome.tabs.get(id);
 }
 
 
