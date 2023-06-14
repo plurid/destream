@@ -2,6 +2,11 @@
 export const GENERAL_EVENT = {
     SCROLL: 'generalScroll',
     CURSOR: 'generalCursor',
+    PLAY: 'generalPlay',
+    PAUSE: 'generalPause',
+    SEEK: 'generalSeek',
+    VOLUME_CHANGE: 'generalVolumeChange',
+    RATE_CHANGE: 'generalRateChange',
     URL_CHANGE: 'generalURLChange',
     STOP_SESSION: 'generalStopSession',
     START_ANOTHER_SESSION: 'generalStartAnotherSession',

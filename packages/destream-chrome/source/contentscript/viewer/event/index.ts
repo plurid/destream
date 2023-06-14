@@ -12,6 +12,11 @@
     import {
         generalScrollTo,
         generalCursorTo,
+        generalVideoPlay,
+        generalVideoPause,
+        generalVideoSeek,
+        generalVideoVolumeChange,
+        generalVideoRateChange,
         generalURLChange,
     } from '../controllers/general';
 
@@ -60,6 +65,21 @@ export const handleEvent = (
                 break;
             case GENERAL_EVENT.CURSOR:
                 generalCursorTo(event.payload.x, event.payload.y);
+                break;
+            case GENERAL_EVENT.PLAY:
+                generalVideoPlay();
+                break;
+            case GENERAL_EVENT.PAUSE:
+                generalVideoPause();
+                break;
+            case GENERAL_EVENT.SEEK:
+                generalVideoSeek(event.payload);
+                break;
+            case GENERAL_EVENT.VOLUME_CHANGE:
+                generalVideoVolumeChange(event.payload);
+                break;
+            case GENERAL_EVENT.RATE_CHANGE:
+                generalVideoRateChange(event.payload);
                 break;
             case GENERAL_EVENT.URL_CHANGE:
                 generalURLChange(event.payload.url);

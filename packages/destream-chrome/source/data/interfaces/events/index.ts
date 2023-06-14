@@ -70,6 +70,7 @@ export interface DestreamStartAnotherSessionEvent {
 
 export interface DestreamPlayEvent {
     type:
+        | typeof GENERAL_EVENT.PLAY
         | typeof YOUTUBE_EVENT.PLAY
         | typeof TWITCH_EVENT.PLAY
         | typeof SPOTIFY_EVENT.PLAY
@@ -78,6 +79,7 @@ export interface DestreamPlayEvent {
 
 export interface DestreamPauseEvent {
     type:
+        | typeof GENERAL_EVENT.PAUSE
         | typeof YOUTUBE_EVENT.PAUSE
         | typeof TWITCH_EVENT.PAUSE
         | typeof SPOTIFY_EVENT.PAUSE
@@ -86,6 +88,7 @@ export interface DestreamPauseEvent {
 
 export interface DestreamSeekEvent {
     type:
+        | typeof GENERAL_EVENT.SEEK
         | typeof YOUTUBE_EVENT.SEEK
         | typeof TWITCH_EVENT.SEEK
         | typeof SPOTIFY_EVENT.SEEK
@@ -96,6 +99,7 @@ export interface DestreamSeekEvent {
 
 export interface DestreamVolumeChangeEvent {
     type:
+        | typeof GENERAL_EVENT.VOLUME_CHANGE
         | typeof YOUTUBE_EVENT.VOLUME_CHANGE
         | typeof TWITCH_EVENT.VOLUME_CHANGE
         | typeof SPOTIFY_EVENT.VOLUME_CHANGE
@@ -106,6 +110,7 @@ export interface DestreamVolumeChangeEvent {
 
 export interface DestreamRateChangeEvent {
     type:
+        | typeof GENERAL_EVENT.RATE_CHANGE
         | typeof YOUTUBE_EVENT.RATE_CHANGE
         | typeof TWITCH_EVENT.RATE_CHANGE
         | typeof SPOTIFY_EVENT.RATE_CHANGE

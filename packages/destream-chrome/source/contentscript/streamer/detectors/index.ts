@@ -49,6 +49,8 @@ export class GeneralDetector implements Detector {
     private generalInitialize() {
         this.onGeneralScroll();
         this.onGeneralCursor();
+
+        this.onGeneralVideo();
     }
 
 
@@ -120,6 +122,57 @@ export class GeneralDetector implements Detector {
 
     protected onGeneralCursor() {
         window.addEventListener('mousemove', this.cursorFunction.bind(this));
+    }
+
+
+    protected onGeneralVideo() {
+        const video = document.querySelector('video');
+        if (!video) {
+            return;
+        }
+
+        const videoOnPlay = () => {
+            const event = new CustomEvent(DESTREAM_DETECT_EVENT, {
+                detail: { type: GENERAL_EVENT.PLAY },
+            });
+            this.target.dispatchEvent(event);
+        }
+
+        const videoOnPause = () => {
+            const event = new CustomEvent(DESTREAM_DETECT_EVENT, {
+                detail: { type: GENERAL_EVENT.PAUSE },
+            });
+            this.target.dispatchEvent(event);
+        }
+
+        const videoOnSeek = () => {
+            const event = new CustomEvent(DESTREAM_DETECT_EVENT, {
+                detail: { type: GENERAL_EVENT.SEEK, payload: video.currentTime },
+            });
+            this.target.dispatchEvent(event);
+        }
+
+        const onVolumeChange = () => {
+            const volume = video.muted ? 0 : video.volume;
+
+            const event = new CustomEvent(DESTREAM_DETECT_EVENT, {
+                detail: { type: GENERAL_EVENT.VOLUME_CHANGE, payload: volume },
+            });
+            this.target.dispatchEvent(event);
+        }
+
+        const onRateChange = () => {
+            const event = new CustomEvent(DESTREAM_DETECT_EVENT, {
+                detail: { type: GENERAL_EVENT.RATE_CHANGE, payload: video.playbackRate },
+            });
+            this.target.dispatchEvent(event);
+        }
+
+        video.addEventListener('play', videoOnPlay.bind(this));
+        video.addEventListener('pause', videoOnPause.bind(this));
+        video.addEventListener('seeked', videoOnSeek.bind(this));
+        video.addEventListener('volumechange', debounce(onVolumeChange.bind(this)));
+        video.addEventListener('ratechange', onRateChange.bind(this));
     }
 
 

@@ -10,6 +10,10 @@
     } from '../../../common/messaging';
 
     import {
+        log,
+    } from '../../../common/utilities';
+
+    import {
         DESTREAM_CURSOR_ID,
         CURSOR_HIDE,
     } from '../../data';
@@ -122,5 +126,83 @@ export const generalURLChange = (
             }
         },
     );
+}
+
+
+
+export const getGeneralVideoPlayer = () => {
+    return document.querySelector('video') as HTMLVideoElement | undefined;
+}
+
+export const generalVideoPlay = () => {
+    try {
+        const videoPlayer = getGeneralVideoPlayer();
+        if (!videoPlayer) {
+            return;
+        }
+
+        videoPlayer.play()
+            .catch(error => log(error));
+    } catch (error) {
+        log(error);
+    }
+}
+
+export const generalVideoPause = () => {
+    try {
+        const videoPlayer = getGeneralVideoPlayer();
+        if (!videoPlayer) {
+            return;
+        }
+
+        videoPlayer.pause();
+    } catch (error) {
+        log(error);
+    }
+}
+
+export const generalVideoSeek = (
+    seconds: number,
+) => {
+    try {
+        const videoPlayer = getGeneralVideoPlayer();
+        if (!videoPlayer) {
+            return;
+        }
+
+        videoPlayer.currentTime = seconds;
+    } catch (error) {
+        log(error);
+    }
+}
+
+export const generalVideoVolumeChange = (
+    volume: number,
+) => {
+    try {
+        const videoPlayer = getGeneralVideoPlayer();
+        if (!videoPlayer) {
+            return;
+        }
+
+        videoPlayer.volume = volume;
+    } catch (error) {
+        log(error);
+    }
+}
+
+export const generalVideoRateChange = (
+    rate: number,
+) => {
+    try {
+        const videoPlayer = getGeneralVideoPlayer();
+        if (!videoPlayer) {
+            return;
+        }
+
+        videoPlayer.playbackRate = rate;
+    } catch (error) {
+        log(error);
+    }
 }
 // #endregion module
