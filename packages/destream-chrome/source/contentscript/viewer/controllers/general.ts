@@ -17,6 +17,11 @@
         DESTREAM_CURSOR_ID,
         CURSOR_HIDE,
     } from '../../data';
+
+    import {
+        getGeneralVideoPlayer,
+    } from '../../utilities/general';
+    // #endregion external
     // #endregion external
 // #endregion imports
 
@@ -129,10 +134,6 @@ export const generalURLChange = (
 }
 
 
-
-export const getGeneralVideoPlayer = () => {
-    return document.querySelector('video') as HTMLVideoElement | undefined;
-}
 
 export const generalVideoPlay = () => {
     try {

@@ -17,6 +17,10 @@
         CURSOR_THROTTLE,
     } from '../../data';
 
+    import {
+        getGeneralVideoPlayer,
+    } from '../../utilities/general';
+
     import metadata from '../metadata';
     // #endregion external
 // #endregion imports
@@ -125,8 +129,9 @@ export class GeneralDetector implements Detector {
     }
 
 
-    protected onGeneralVideo() {
-        const video = document.querySelector('video');
+    private handleGeneralVideo() {
+        const video = getGeneralVideoPlayer();
+        console.log('video', video);
         if (!video) {
             return;
         }
@@ -173,6 +178,12 @@ export class GeneralDetector implements Detector {
         video.addEventListener('seeked', videoOnSeek.bind(this));
         video.addEventListener('volumechange', debounce(onVolumeChange.bind(this)));
         video.addEventListener('ratechange', onRateChange.bind(this));
+    }
+
+    protected onGeneralVideo() {
+        setTimeout(() => {
+            this.handleGeneralVideo();
+        }, 1_000);
     }
 
 
