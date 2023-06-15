@@ -34,8 +34,8 @@ export const getNotificationBox = () => {
             flex-flow: column-reverse nowrap;
             background-image: linear-gradient(
                 to top,
-                rgba(0, 0, 0, 1) 0%,
-                rgba(0, 0, 0, 0) 50%,
+                rgba(0, 0, 0, 1) 10%,
+                rgba(0, 0, 0, 0) 60%,
                 rgba(0, 0, 0, 0) 100%
             );
             color: white;
