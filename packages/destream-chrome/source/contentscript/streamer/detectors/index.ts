@@ -18,6 +18,7 @@
     } from '../../data';
 
     import {
+        checkVideoHandledByCustomDetector,
         getGeneralVideoPlayer,
     } from '../../utilities/general';
 
@@ -130,8 +131,11 @@ export class GeneralDetector implements Detector {
 
 
     private handleGeneralVideo() {
+        if (checkVideoHandledByCustomDetector()) {
+            return;
+        }
+
         const video = getGeneralVideoPlayer();
-        console.log('video', video);
         if (!video) {
             return;
         }
