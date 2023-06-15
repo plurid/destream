@@ -1,3 +1,17 @@
+// #region imports
+    // #region external
+    import {
+        DestreamEvent,
+    } from '../../../data';
+
+    import {
+        handleEvent,
+    } from '../../viewer/event';
+    // #endregion external
+// #endregion imports
+
+
+
 // #region module
 const NOTIFICATION_BOX_ID = 'destream__notification-box';
 
@@ -27,6 +41,7 @@ export const getNotificationBox = () => {
             color: white;
             font-size: 10px;
             font-family: Ubuntu, -apple-system, BlinkMacSystemFont, sans-serif;
+            user-select: none;
         `;
 
         document.body.appendChild(newNotificationBox);
@@ -52,13 +67,14 @@ export const resolveNotificationText = (
 
 
 class NotificationManager {
-    private notifications: string[] = [];
+    private notifications: DestreamEvent[] = [];
 
 
     private render() {
         let mounted = true;
         let secondsPassed = 0;
         const notificationIndex = this.notifications.length - 1;
+        const notificationEvent = this.notifications[notificationIndex];
 
 
         const notificationBox = getNotificationBox();
@@ -79,7 +95,7 @@ class NotificationManager {
 
 
         const notificationTextBox = document.createElement('div');
-        notificationTextBox.innerText = resolveNotificationText(this.notifications[notificationIndex]);
+        notificationTextBox.innerText = resolveNotificationText(notificationEvent.type);
         notification.style.cssText = `
             padding: 6px 12px;
             display: flex;
@@ -112,9 +128,13 @@ class NotificationManager {
                 </g>
             </svg>
         `;
+        notificationReplayButton.style.cssText = `
+            cursor: pointer;
+        `;
 
         const handleClick = () => {
             console.log('clicked');
+            handleEvent(notificationEvent);
         }
         notificationReplayButton.addEventListener('click', handleClick);
 
@@ -147,7 +167,7 @@ class NotificationManager {
 
 
     public add(
-        notification: string,
+        notification: DestreamEvent,
     ) {
         this.notifications.push(notification);
         this.render();

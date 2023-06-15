@@ -67,7 +67,7 @@ export const handleEvent = (
     event: DestreamEvent,
 ) => {
     try {
-        notificationManager.add(event.type);
+        notificationManager.add(event);
 
         switch (event.type) {
             case GENERAL_EVENT.SCROLL:
