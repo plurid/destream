@@ -172,7 +172,6 @@ export const injectView = (
         return;
     }
 
-
     const existingView = document.getElementById(DESTREAM_VIEW_ID) as HTMLDivElement;
     const injected = !!existingView;
     let view: HTMLDivElement | undefined;

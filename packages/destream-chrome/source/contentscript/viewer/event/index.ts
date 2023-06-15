@@ -10,6 +10,14 @@
     } from '../../../data';
 
     import {
+        log,
+    } from '../../../common/utilities';
+
+    import {
+        notificationManager,
+    } from '../../view/notifications';
+
+    import {
         generalScrollTo,
         generalCursorTo,
         generalVideoPlay,
@@ -59,6 +67,8 @@ export const handleEvent = (
     event: DestreamEvent,
 ) => {
     try {
+        notificationManager.add(event.type);
+
         switch (event.type) {
             case GENERAL_EVENT.SCROLL:
                 generalScrollTo(event.payload.top, event.payload.left);
@@ -146,7 +156,7 @@ export const handleEvent = (
                 break;
         }
     } catch (error) {
-        return;
+        log(error);
     }
 }
 // #endregion module
