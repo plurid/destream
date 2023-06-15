@@ -14,6 +14,8 @@
 
 // #region module
 const NOTIFICATION_BOX_ID = 'destream__notification-box';
+const NOTIFICATION_ANCHOR_ID = 'destream__notification-anchor';
+
 
 export const getNotificationBox = () => {
     const existingNotificationBox = document.getElementById(NOTIFICATION_BOX_ID);
@@ -30,8 +32,6 @@ export const getNotificationBox = () => {
             width: 180px;
             height: 100px;
             overflow: auto;
-            display: flex;
-            flex-flow: column-reverse nowrap;
             background-image: linear-gradient(
                 to top,
                 rgba(0, 0, 0, 1) 10%,
@@ -43,6 +43,14 @@ export const getNotificationBox = () => {
             font-family: Ubuntu, -apple-system, BlinkMacSystemFont, sans-serif;
             user-select: none;
         `;
+
+        const anchor = document.createElement('div');
+        anchor.id = NOTIFICATION_ANCHOR_ID;
+        anchor.style.cssText = `
+            overflow-anchor: auto;
+            height: 1px;
+        `;
+        newNotificationBox.appendChild(anchor);
 
         document.body.appendChild(newNotificationBox);
 
@@ -76,10 +84,10 @@ class NotificationManager {
         const notificationIndex = this.notifications.length - 1;
         const notificationEvent = this.notifications[notificationIndex];
 
-
         const notificationBox = getNotificationBox();
         const notification = document.createElement('div');
 
+        const anchor = document.getElementById(NOTIFICATION_ANCHOR_ID);
 
         const notificationTimeBox = document.createElement('div');
         notificationTimeBox.innerText = '0s ago';
@@ -102,6 +110,7 @@ class NotificationManager {
             gap: 12px;
             align-items: center;
             justify-content: space-between;
+            overflow-anchor: none;
         `;
 
 
@@ -133,7 +142,6 @@ class NotificationManager {
         `;
 
         const handleClick = () => {
-            console.log('clicked');
             handleEvent(notificationEvent);
         }
         notificationReplayButton.addEventListener('click', handleClick);
@@ -143,7 +151,10 @@ class NotificationManager {
         notification.appendChild(notificationTextBox);
         notification.appendChild(notificationReplayButton);
 
-        notificationBox.appendChild(notification);
+        notificationBox.insertBefore(
+            notification,
+            anchor,
+        );
 
 
         setTimeout(() => {
