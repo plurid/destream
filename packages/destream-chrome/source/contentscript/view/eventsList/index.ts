@@ -203,7 +203,7 @@ class EventsList {
     ) {
         // Only scroll to bottom if the container is at the top and there are enough events.
         if (container.scrollTop === 0 && this.events.length > 1) {
-            container.scrollBy(0, 36 * (this.events.length + 2));
+            container.scrollBy(0, 36 * (this.events.length + 1));
         }
     }
 
