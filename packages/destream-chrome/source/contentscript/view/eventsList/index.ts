@@ -35,9 +35,6 @@ export const getNotificationBox = () => {
             width: 200px;
             height: 100px;
             overflow: auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: end;
             background-image: linear-gradient(
                 to top,
                 rgba(0, 0, 0, 1) 10%,
@@ -70,11 +67,22 @@ export const getNotificationBox = () => {
 export const resolveNotificationText = (
     type: string,
 ) => {
-    if (type.includes('Play')) return 'play';
-    if (type.includes('Pause')) return 'pause';
-    if (type.includes('Seek')) return 'seek';
-    if (type.includes('VolumeChange')) return 'volume change';
-    if (type.includes('Scroll')) return 'scroll';
+    const map = {
+        Scroll: 'scroll',
+        Cursor: 'cursor',
+        Play: 'play',
+        Pause: 'pause',
+        Seek: 'seek',
+        VolumeChange: 'volume change',
+        RateChange: 'rate change',
+        Like: 'like',
+    };
+
+    for (const [key, value] of Object.entries(map)) {
+        if (type.includes(key)) {
+            return value;
+        }
+    }
 
     return type;
 }
@@ -165,6 +173,11 @@ class EventsList {
             anchor,
         );
 
+        if (notificationBox.scrollTop === 0 && this.notifications.length > 3) {
+            notificationBox.scrollBy(0, 36 * this.notifications.length);
+        }
+
+
         setTimeout(() => {
             mounted = false;
 
@@ -186,13 +199,13 @@ class EventsList {
 
 
     public add(
-        notification: DestreamEvent,
+        event: DestreamEvent,
     ) {
         if (!this.viewable) {
             return;
         }
 
-        this.notifications.push(notification);
+        this.notifications.push(event);
         this.render();
     }
 

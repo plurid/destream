@@ -178,7 +178,7 @@ const SubscriptionOptions: React.FC<SubscriptionOptionsProperties> = (
             />
 
             <InputSwitch
-                name="show events list"
+                name="show events"
                 checked={showEventsList}
                 atChange={() => {
                     setShowEventsList(value => !value);
