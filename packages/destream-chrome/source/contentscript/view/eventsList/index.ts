@@ -45,6 +45,7 @@ export const getNotificationBox = () => {
             font-size: 10px;
             font-family: Ubuntu, -apple-system, BlinkMacSystemFont, sans-serif;
             user-select: none;
+            scroll-behavior: smooth;
         `;
 
         const anchor = document.createElement('div');
