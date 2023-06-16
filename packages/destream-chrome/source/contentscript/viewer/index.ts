@@ -23,7 +23,15 @@
         getCurrentStateArbitraryTopicID,
     } from '../../background/utilities';
 
+    import {
+        getTabSettings,
+    } from '../messaging';
+
     import MessagerClient from '../client';
+
+    import {
+        eventsList,
+    } from '../view/eventsList';
     // #endregion external
 
 
@@ -205,6 +213,13 @@ const runViewer = async (
         if (!subscriptionRequest.status) {
             return;
         }
+
+
+        if (subscription) {
+            const tabSettings = await getTabSettings(subscription.tabID);
+            eventsList.setViewable(tabSettings?.showEventsList ?? false);
+        }
+
 
         if (setup) {
             return;

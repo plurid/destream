@@ -14,8 +14,8 @@
     } from '../../../common/utilities';
 
     import {
-        notificationManager,
-    } from '../../view/notifications';
+        eventsList,
+    } from '../../view/eventsList';
 
     import {
         generalScrollTo,
@@ -67,7 +67,7 @@ export const handleEvent = (
     event: DestreamEvent,
 ) => {
     try {
-        notificationManager.add(event);
+        eventsList.add(event);
 
         switch (event.type) {
             case GENERAL_EVENT.SCROLL:

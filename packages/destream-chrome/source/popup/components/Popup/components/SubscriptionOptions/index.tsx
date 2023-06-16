@@ -61,6 +61,11 @@ const SubscriptionOptions: React.FC<SubscriptionOptionsProperties> = (
 
     // #region state
     const [
+        showEventsList,
+        setShowEventsList,
+    ] = useState(false);
+
+    const [
         showStream,
         setShowStream,
     ] = useState(false);
@@ -114,6 +119,7 @@ const SubscriptionOptions: React.FC<SubscriptionOptionsProperties> = (
                 return;
             }
 
+            setShowEventsList(tabSettings.showEventsList);
             setShowStream(tabSettings.showStream);
             setShowStreamChat(tabSettings.showStreamChat);
         }
@@ -134,6 +140,7 @@ const SubscriptionOptions: React.FC<SubscriptionOptionsProperties> = (
             await storageUpdate(
                 id,
                 {
+                    showEventsList,
                     showStream,
                     showStreamChat,
                 },
@@ -144,6 +151,7 @@ const SubscriptionOptions: React.FC<SubscriptionOptionsProperties> = (
     }, [
         activeTab,
         subscription,
+        showEventsList,
         showStream,
         showStreamChat,
     ]);
@@ -167,6 +175,15 @@ const SubscriptionOptions: React.FC<SubscriptionOptionsProperties> = (
                     margin: '1rem auto',
                 }}
                 disabled={resyncingSession}
+            />
+
+            <InputSwitch
+                name="show events list"
+                checked={showEventsList}
+                atChange={() => {
+                    setShowEventsList(value => !value);
+                }}
+                theme={plurid}
             />
 
             <InputSwitch

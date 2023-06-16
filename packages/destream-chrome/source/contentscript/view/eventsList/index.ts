@@ -16,6 +16,9 @@
 const NOTIFICATION_BOX_ID = 'destream__notification-box';
 const NOTIFICATION_ANCHOR_ID = 'destream__notification-anchor';
 
+const eventNotificationTimeout = 15_000;
+
+
 
 export const getNotificationBox = () => {
     const existingNotificationBox = document.getElementById(NOTIFICATION_BOX_ID);
@@ -29,7 +32,7 @@ export const getNotificationBox = () => {
             bottom: 10px;
             left: 10px;
             z-index: 999999;
-            width: 180px;
+            width: 200px;
             height: 100px;
             overflow: auto;
             display: flex;
@@ -77,7 +80,8 @@ export const resolveNotificationText = (
 }
 
 
-class NotificationManager {
+class EventsList {
+    private viewable = false;
     private notifications: DestreamEvent[] = [];
 
 
@@ -94,6 +98,9 @@ class NotificationManager {
 
         const notificationTimeBox = document.createElement('div');
         notificationTimeBox.innerText = '0s ago';
+        notificationTimeBox.style.cssText = `
+            width: 36px;
+        `;
         const timeInterval = setInterval(() => {
             if (!mounted) {
                 clearInterval(timeInterval);
@@ -158,7 +165,6 @@ class NotificationManager {
             anchor,
         );
 
-
         setTimeout(() => {
             mounted = false;
 
@@ -166,7 +172,7 @@ class NotificationManager {
             notification.remove();
             this.notifications[notificationIndex] = undefined;
             this.checkNotificationsToBeRendered();
-        }, 10_000);
+        }, eventNotificationTimeout);
     }
 
     private checkNotificationsToBeRendered() {
@@ -182,11 +188,28 @@ class NotificationManager {
     public add(
         notification: DestreamEvent,
     ) {
+        if (!this.viewable) {
+            return;
+        }
+
         this.notifications.push(notification);
         this.render();
+    }
+
+    public setViewable(
+        show: boolean,
+    ) {
+        if (show) {
+            this.viewable = true;
+        } else {
+            this.viewable = false;
+
+            const notificationBox = getNotificationBox();
+            notificationBox.remove();
+        }
     }
 }
 
 
-export const notificationManager = new NotificationManager();
+export const eventsList = new EventsList();
 // #endregion module
