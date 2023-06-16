@@ -91,14 +91,14 @@ export const resolveNotificationText = (
 
 class EventsList {
     private viewable = false;
-    private notifications: DestreamEvent[] = [];
+    private events: DestreamEvent[] = [];
 
 
     private render() {
         let mounted = true;
         let secondsPassed = 0;
-        const notificationIndex = this.notifications.length - 1;
-        const notificationEvent = this.notifications[notificationIndex];
+        const notificationIndex = this.events.length - 1;
+        const notificationEvent = this.events[notificationIndex];
 
         const notificationBox = getNotificationBox();
         const notification = document.createElement('div');
@@ -124,13 +124,14 @@ class EventsList {
         const notificationTextBox = document.createElement('div');
         notificationTextBox.innerText = resolveNotificationText(notificationEvent.type);
         notification.style.cssText = `
-            padding: 6px 12px;
             display: flex;
-            gap: 12px;
-            width: calc(100% - 24px);
             align-items: center;
             justify-content: space-between;
             overflow-anchor: none;
+            width: calc(100% - 24px);
+            gap: 12px;
+            margin-top: ${notificationIndex === 0 ? '72px' : '0'};
+            padding: 6px 12px;
         `;
 
 
@@ -174,9 +175,8 @@ class EventsList {
             anchor,
         );
 
-        if (notificationBox.scrollTop === 0 && this.notifications.length > 3) {
-            notificationBox.scrollBy(0, 36 * this.notifications.length);
-        }
+
+        this.scrollToBottom(notificationBox);
 
 
         setTimeout(() => {
@@ -184,17 +184,26 @@ class EventsList {
 
             notificationReplayButton.removeEventListener('click', handleClick);
             notification.remove();
-            this.notifications[notificationIndex] = undefined;
+            this.events[notificationIndex] = undefined;
             this.checkNotificationsToBeRendered();
         }, eventNotificationTimeout);
     }
 
     private checkNotificationsToBeRendered() {
-        const noNotificationsToBeRendered = this.notifications.every(notification => notification === undefined);
+        const noNotificationsToBeRendered = this.events.every(notification => notification === undefined);
         if (noNotificationsToBeRendered) {
             const notificationBox = getNotificationBox();
             notificationBox.remove();
-            this.notifications = [];
+            this.events = [];
+        }
+    }
+
+    private scrollToBottom(
+        container: HTMLElement,
+    ) {
+        // Only scroll to bottom if the container is at the top and there are enough events.
+        if (container.scrollTop === 0 && this.events.length > 1) {
+            container.scrollBy(0, 36 * (this.events.length + 2));
         }
     }
 
@@ -206,13 +215,15 @@ class EventsList {
             return;
         }
 
-        this.notifications.push(event);
+        this.events.push(event);
         this.render();
     }
 
     public setViewable(
         show: boolean,
     ) {
+        this.events = [];
+
         if (show) {
             this.viewable = true;
         } else {
