@@ -21,9 +21,17 @@
     } from '../../common/messaging';
 
     import {
+        log,
+        destreamIDGetValue,
+    } from '../../common/utilities';
+
+    import {
         generateClient,
         GET_SESSION,
     } from '../../background/graphql';
+
+
+    import handleReplaySession from '../handlers/handleReplaySession';
     // #endregion external
 // #endregion imports
 
@@ -101,6 +109,7 @@ export const replaymentAtEnd = (
 export const initializeReplayment = async (
     destreamID: string,
     callback?: () => void,
+    backgroundOnly = false,
 ) => {
     const {
         accessToken,
@@ -112,7 +121,7 @@ export const initializeReplayment = async (
         refreshToken,
     );
 
-    const destreamIDValue = destreamID.trim().replace('destream://', '');
+    const destreamIDValue = destreamIDGetValue(destreamID);
 
     const request = await graphqlClient.query({
         query: GET_SESSION,
@@ -132,16 +141,29 @@ export const initializeReplayment = async (
         data,
     } = response;
 
-    await sendMessage<ReplaySessionMessage>(
-        {
-            type: MESSAGE_TYPE.REPLAY_SESSION,
-            data,
-        },
-        () => {
-            if (callback) {
-                callback();
-            }
-        },
-    );
+
+    if (backgroundOnly) {
+        await handleReplaySession(
+            {
+                type: MESSAGE_TYPE.REPLAY_SESSION,
+                data,
+            },
+            {},
+            () => {
+            },
+        ).catch(log);
+    } else {
+        await sendMessage<ReplaySessionMessage>(
+            {
+                type: MESSAGE_TYPE.REPLAY_SESSION,
+                data,
+            },
+            () => {
+                if (callback) {
+                    callback();
+                }
+            },
+        ).catch(log);
+    }
 }
 // #endregion module

@@ -22,6 +22,7 @@ export const MESSAGE_TYPE = {
     REPLAYMENT_PLAY: 'replaymentPlay',
     REPLAYMENT_STOP: 'replaymentStop',
     REPLAYMENT_INDEX: 'replaymentIndex',
+    REPLAYMENT_INITIALIZE: 'replaymentInitialize',
     RESYNC_SESSION: 'resyncSession',
 } as const;
 // #endregion module

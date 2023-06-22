@@ -44,6 +44,7 @@ export type Message =
     | ReplaymentPlayMessage
     | ReplaymentStopMessage
     | ReplaymentIndexMessage
+    | ReplaymentInitializeMessage
     | ResyncSessionMessage;
 
 
@@ -202,6 +203,12 @@ export interface ReplaymentIndexMessage {
         index: number;
         updateTab?: boolean;
     };
+}
+
+export interface ReplaymentInitializeMessage {
+    type: typeof MESSAGE_TYPE.REPLAYMENT_INITIALIZE;
+    // session id
+    data: string;
 }
 
 export interface ResyncSessionMessage {

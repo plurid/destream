@@ -105,4 +105,18 @@ export const getTabIDFromKey = (
 export const openOptionsPage = () => {
     chrome.runtime.openOptionsPage();
 }
+
+
+
+export const destreamIDGetValue = (
+    id: string,
+) => (
+    id.trim().replace('destream://', '')
+);
+
+export const destreamIDGetDisplay = (
+    id: string,
+) => (
+    'destream://' + destreamIDGetValue(id)
+);
 // #endregion module

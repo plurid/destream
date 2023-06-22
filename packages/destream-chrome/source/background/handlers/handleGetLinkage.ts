@@ -20,9 +20,7 @@ const handleGetLinkage: Handler<GetLinkageMessage> = async (
     sendResponse,
 ) => {
     const tabID = request.data || sender.tab.id;
-    console.log('handleGetLinkage', { tabID });
     const linkage = await getLinkageByTabID(tabID);
-    console.log('handleGetLinkage', { linkage });
 
     sendResponse({
         status: !!linkage,

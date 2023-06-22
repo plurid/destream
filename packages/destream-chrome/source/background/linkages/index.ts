@@ -113,7 +113,6 @@ export const getLinkageByTabID = async (
     tabID: number,
 ): Promise<Linkage | undefined> => {
     const linkages = await getLinkages();
-    console.log({linkages});
     const linkage = linkages.find(linkage => linkage.tabID === tabID);
 
     return linkage;

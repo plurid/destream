@@ -84,7 +84,6 @@ const runLinkage = async (
         const linkageRequest = await sendMessage<GetLinkageMessage>({
             type: MESSAGE_TYPE.GET_LINKAGE,
         });
-        console.log('run', {linkageRequest});
         if (!linkageRequest.status) {
             return;
         }
@@ -105,7 +104,6 @@ const runLinkage = async (
     const storageLogic = async (
         changes: { [key: string]: chrome.storage.StorageChange },
     ) => {
-        console.log('storageLogic', {changes});
         checkTabSettings(changes);
 
         await run();

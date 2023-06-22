@@ -1,9 +1,16 @@
 // #region imports
     // #region external
     import {
+        MESSAGE_TYPE,
+        ReplaymentInitializeMessage,
+
         DestreamLinkage,
         DestreamLinkageSession,
-    } from '../../../data/interfaces';
+    } from '../../../data';
+
+    import {
+        sendMessage,
+    } from '../../../common/messaging';
 
     import {
         log,
@@ -70,43 +77,51 @@ export class YoutubeLinkage {
         }
     }
 
-    private playLinkage(
+    private async playLinkage(
         session: DestreamLinkageSession,
     ) {
-        const {
-            id,
-            beforeStart,
-            afterStart,
-            afterEnd,
-        } = session;
+        try {
+            const {
+                id,
+                beforeStart,
+                afterStart,
+                afterEnd,
+            } = session;
 
-        // start a replayment based on the session id
 
-        // manage various events
+            await sendMessage<ReplaymentInitializeMessage>({
+                type: MESSAGE_TYPE.REPLAYMENT_INITIALIZE,
+                data: id,
+            }).catch(log);
 
-        for (const event of beforeStart) {
-            switch (event.type) {
-                case 'pauseMediaInitialPage':
-                    break;
+
+            // manage various events
+            for (const event of beforeStart) {
+                switch (event.type) {
+                    case 'pauseMediaInitialPage':
+                        break;
+                }
             }
-        }
 
-        for (const event of afterStart) {
-            switch (event.type) {
-                case 'focusSessionPage':
-                    break;
+            for (const event of afterStart) {
+                switch (event.type) {
+                    case 'focusSessionPage':
+                        break;
+                }
             }
-        }
 
-        for (const event of afterEnd) {
-            switch (event.type) {
-                case 'closeSessionPage':
-                    break;
-                case 'focusInitialPage':
-                    break;
-                case 'playMediaInitialPage':
-                    break;
+            for (const event of afterEnd) {
+                switch (event.type) {
+                    case 'closeSessionPage':
+                        break;
+                    case 'focusInitialPage':
+                        break;
+                    case 'playMediaInitialPage':
+                        break;
+                }
             }
+        } catch (error) {
+            log(error);
         }
     }
 
