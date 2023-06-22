@@ -106,4 +106,44 @@ export const GET_MESSAGER_DATA = gql`
         }
     }
 `;
+
+
+export const GET_LINKAGES_OF_URL = gql`
+    query DestreamGetLinkagesOfURL($input: InputValueString!) {
+        destreamGetLinkagesOfURL(input: $input) {
+            status
+            errors {
+                path
+                message
+                type
+            }
+            data {
+                streamerName
+                linkageID
+            }
+        }
+    }
+`;
+
+
+export const GET_LINKAGE = gql`
+    query DestreamGetLinkage($input: InputValueString!) {
+        destreamGetLinkage(input: $input) {
+            status
+            errors {
+                path
+                message
+                type
+            }
+            data {
+                id
+                name
+                ownedBy
+                generatedAt
+                urls
+                sessions
+            }
+        }
+    }
+`;
 // #endregion module
