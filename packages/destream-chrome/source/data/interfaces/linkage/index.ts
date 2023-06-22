@@ -30,7 +30,8 @@ export type DestreamLinkageSessionBeforeStartEvent =
     | DestreamLinkageEventPauseMediaInitialPage;
 
 export type DestreamLinkageSessionAfterStartEvent =
-    | DestreamLinkageEventFocusSessionPage;
+    | DestreamLinkageEventFocusSessionPage
+    | DestreamLinkageEventSetMediaTime;
 
 export type DestreamLinkageSessionAfterEndEvent =
     | DestreamLinkageEventCloseSessionPage
@@ -57,6 +58,11 @@ export interface DestreamLinkageEventPauseMediaInitialPage {
 
 export interface DestreamLinkageEventFocusSessionPage {
     type: 'focusSessionPage';
+}
+
+export interface DestreamLinkageEventSetMediaTime {
+    type: 'setMediaTime';
+    data: number;
 }
 
 
