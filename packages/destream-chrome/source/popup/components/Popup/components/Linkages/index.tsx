@@ -10,16 +10,27 @@
 
     import {
         PluridIconPlay,
+        PluridIconPause,
     } from '@plurid/plurid-icons-react';
 
     import {
         LinkButton,
+        RefreshButton,
     } from '@plurid/plurid-ui-components-react';
     // #endregion libraries
 
 
     // #region external
     import {
+        Linkage,
+    } from '../../../../../data';
+
+    import {
+        storageSet,
+    } from '../../../../../common/storage';
+
+    import {
+        getLinkageStorageID,
         getLinkagesOfURL,
         getLinkage,
     } from '../../../../../background/linkages';
@@ -32,6 +43,7 @@
 export interface LinkageOfURL {
     streamerName: string;
     linkageID: string;
+    linkageName: string;
 }
 
 
@@ -54,6 +66,11 @@ const Linkages: React.FC<LinkagesProperties> = (
         linkages,
         setLinkages,
     ] = useState<LinkageOfURL[]>([]);
+
+    const [
+        playingLinkage,
+        setPlayingLinkage,
+    ] = useState('');
     // #endregion state
 
 
@@ -75,15 +92,32 @@ const Linkages: React.FC<LinkagesProperties> = (
         }
     }
 
+    const pauseLinkage = async () => {
+        setPlayingLinkage('');
+    }
+
     const playLinkage = async (
         id: string,
     ) => {
+        if (!activeTab || !activeTab.id) {
+            return;
+        }
+
         try {
             const linkage = await getLinkage(
                 id,
             );
+            if (!linkage) {
+                return;
+            }
 
-            // set linkage as playing
+            const storageID = getLinkageStorageID(activeTab.id);
+            await storageSet<Linkage>(storageID, {
+                ...linkage,
+                tabID: activeTab.id,
+            });
+
+            setPlayingLinkage(id);
         } catch (error) {
             return;
         }
@@ -94,18 +128,37 @@ const Linkages: React.FC<LinkagesProperties> = (
     // #region render
     return (
         <div>
-            <LinkButton
-                text="get linkages"
-                atClick={() => {
-                    getLinkages();
+            <div
+                style={{
+                    display: 'grid',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gridTemplateColumns: '90px 16px',
+                    gap: '0.5rem',
+                    height: '25px',
                 }}
-                theme={plurid}
-                inline={true}
-            />
+            >
+                <LinkButton
+                    text="check linkages"
+                    atClick={() => {
+                        getLinkages();
+                    }}
+                    theme={plurid}
+                    inline={true}
+                />
+
+                <RefreshButton
+                    atClick={() => {
+                        getLinkages();
+                    }}
+                    theme={plurid}
+                />
+            </div>
 
             {linkages.map(linkage => {
                 const {
                     linkageID,
+                    linkageName,
                     streamerName,
                 } = linkage;
 
@@ -115,6 +168,7 @@ const Linkages: React.FC<LinkagesProperties> = (
                         style={{
                             display: 'flex',
                             gap: '1rem',
+                            alignItems: 'center',
                             justifyContent: 'space-between',
                             padding: '1rem',
                         }}
@@ -123,12 +177,29 @@ const Linkages: React.FC<LinkagesProperties> = (
                             {streamerName}
                         </div>
 
-                        <PluridIconPlay
-                            theme={plurid}
-                            atClick={() => {
-                                playLinkage(linkageID);
-                            }}
-                        />
+                        {linkageName ? (
+                            <div>
+                                {linkageName}
+                            </div>
+                        ) : (
+                            <div />
+                        )}
+
+                        {playingLinkage === linkageID ? (
+                            <PluridIconPause
+                                atClick={() => {
+                                    pauseLinkage();
+                                }}
+                                theme={plurid}
+                            />
+                        ) : (
+                            <PluridIconPlay
+                                atClick={() => {
+                                    playLinkage(linkageID);
+                                }}
+                                theme={plurid}
+                            />
+                        )}
                     </div>
                 );
             })}

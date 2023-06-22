@@ -29,6 +29,8 @@ export class YoutubeLinkage {
     constructor(
         data: DestreamLinkage,
     ) {
+        console.log('YoutubeLinkage');
+
         for (const session of data.sessions) {
             this.registerStarter(session);
         }
@@ -56,6 +58,8 @@ export class YoutubeLinkage {
                     break;
                 case 'atMediaTime':
                     const handler = () => {
+                        console.log('handler', videoPlayer.currentTime);
+
                         if (videoPlayer.currentTime >= starter.data) {
                             videoPlayer.removeEventListener('timeupdate', handler);
                             this.playLinkage(session);
@@ -73,6 +77,7 @@ export class YoutubeLinkage {
     private playLinkage(
         session: DestreamLinkageSession,
     ) {
+        console.log('playLinkage', session);
         const {
             beforeStart,
             afterStart,

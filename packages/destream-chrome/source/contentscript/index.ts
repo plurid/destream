@@ -12,6 +12,7 @@
     import runViewer from './viewer';
     import runView from './view';
     import runReplayer from './replayer';
+    import runLinkage from './linkage';
     // #endregion internal
 // #endregion imports
 
@@ -26,6 +27,7 @@ const main = async () => {
         await runViewer(client);
         await runView();
         await runReplayer(client);
+        await runLinkage(client);
     } catch (error) {
         log(error);
     }

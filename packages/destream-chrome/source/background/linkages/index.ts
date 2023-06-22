@@ -23,6 +23,14 @@
 
 
 // #region module
+export const getLinkageStorageID = (
+    tabID: number,
+) => {
+    return storagePrefix.linkage + tabID;
+}
+
+
+
 export const getLinkagesOfURL = async (
     url: string,
 ) => {
@@ -105,6 +113,7 @@ export const getLinkageByTabID = async (
     tabID: number,
 ): Promise<Linkage | undefined> => {
     const linkages = await getLinkages();
+    console.log({linkages});
     const linkage = linkages.find(linkage => linkage.tabID === tabID);
 
     return linkage;

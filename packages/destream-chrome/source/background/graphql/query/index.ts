@@ -120,6 +120,7 @@ export const GET_LINKAGES_OF_URL = gql`
             data {
                 streamerName
                 linkageID
+                linkageName
             }
         }
     }
