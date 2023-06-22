@@ -1,16 +1,29 @@
 // #region imports
     // #region external
     import {
-        Replayment,
+        MESSAGE_TYPE,
+        DEFAULT_API_ENDPOINT,
         storagePrefix,
+        Replayment,
+        ReplaySessionMessage,
     } from '../../data';
 
     import {
         storageGet,
+        storageGetTokens,
         storageSet,
         storageRemove,
         storageGetAll,
     } from '../../common/storage';
+
+    import {
+        sendMessage,
+    } from '../../common/messaging';
+
+    import {
+        generateClient,
+        GET_SESSION,
+    } from '../../background/graphql';
     // #endregion external
 // #endregion imports
 
@@ -82,5 +95,53 @@ export const replaymentAtEnd = (
     }
 
     return eventsLength === replayment.currentIndex;
+}
+
+
+export const initializeReplayment = async (
+    destreamID: string,
+    callback?: () => void,
+) => {
+    const {
+        accessToken,
+        refreshToken,
+    } = await storageGetTokens();
+    const graphqlClient = generateClient(
+        DEFAULT_API_ENDPOINT,
+        accessToken,
+        refreshToken,
+    );
+
+    const destreamIDValue = destreamID.trim().replace('destream://', '');
+
+    const request = await graphqlClient.query({
+        query: GET_SESSION,
+        variables: {
+            input: {
+                value: destreamIDValue,
+            },
+        },
+    });
+
+    const response = request.data.destreamGetSession;
+    if (!response.status) {
+        return;
+    }
+
+    const {
+        data,
+    } = response;
+
+    await sendMessage<ReplaySessionMessage>(
+        {
+            type: MESSAGE_TYPE.REPLAY_SESSION,
+            data,
+        },
+        () => {
+            if (callback) {
+                callback();
+            }
+        },
+    );
 }
 // #endregion module

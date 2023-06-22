@@ -29,8 +29,6 @@ export class YoutubeLinkage {
     constructor(
         data: DestreamLinkage,
     ) {
-        console.log('YoutubeLinkage');
-
         for (const session of data.sessions) {
             this.registerStarter(session);
         }
@@ -58,8 +56,6 @@ export class YoutubeLinkage {
                     break;
                 case 'atMediaTime':
                     const handler = () => {
-                        console.log('handler', videoPlayer.currentTime);
-
                         if (videoPlayer.currentTime >= starter.data) {
                             videoPlayer.removeEventListener('timeupdate', handler);
                             this.playLinkage(session);
@@ -77,14 +73,41 @@ export class YoutubeLinkage {
     private playLinkage(
         session: DestreamLinkageSession,
     ) {
-        console.log('playLinkage', session);
         const {
+            id,
             beforeStart,
             afterStart,
             afterEnd,
         } = session;
 
-        // enqueue beforeStart, afterStart, afterEnd
+        // start a replayment based on the session id
+
+        // manage various events
+
+        for (const event of beforeStart) {
+            switch (event.type) {
+                case 'pauseMediaInitialPage':
+                    break;
+            }
+        }
+
+        for (const event of afterStart) {
+            switch (event.type) {
+                case 'focusSessionPage':
+                    break;
+            }
+        }
+
+        for (const event of afterEnd) {
+            switch (event.type) {
+                case 'closeSessionPage':
+                    break;
+                case 'focusInitialPage':
+                    break;
+                case 'playMediaInitialPage':
+                    break;
+            }
+        }
     }
 
 

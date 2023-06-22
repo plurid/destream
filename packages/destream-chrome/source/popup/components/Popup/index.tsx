@@ -22,7 +22,7 @@
     import {
         MESSAGE_TYPE,
         uncontrollableURLsBase,
-        DEFAULT_API_ENDPOINT,
+        // DEFAULT_API_ENDPOINT,
         storagePrefix,
     } from '../../../data/constants';
 
@@ -34,12 +34,10 @@
         GetSubscriptionMessage,
         Subscription,
         Replayment,
-        ReplaySessionMessage,
     } from '../../../data/interfaces';
 
     import {
         storageGet,
-        storageGetTokens,
     } from '../../../common/storage';
 
     import {
@@ -47,9 +45,8 @@
     } from '../../../common/messaging';
 
     import {
-        generateClient,
-        GET_SESSION,
-    } from '../../../background/graphql';
+        initializeReplayment,
+    } from '../../../background/replayments';
 
     import Login from '../../../common/components/Login';
     import Subscriptions from '../../../common/components/Subscriptions';
@@ -236,45 +233,14 @@ const Popup: React.FC<any> = (
         );
     }
 
-    const loadDestream = async () => {
+    const startReplayment = async () => {
         try {
+            const replaymentID = destreamID.trim();
+
             setDestreamID('');
 
-            const {
-                accessToken,
-                refreshToken,
-            } = await storageGetTokens();
-            const graphqlClient = generateClient(
-                DEFAULT_API_ENDPOINT,
-                accessToken,
-                refreshToken,
-            );
-
-            const destreamIDValue = destreamID.trim().replace('destream://', '');
-
-            const request = await graphqlClient.query({
-                query: GET_SESSION,
-                variables: {
-                    input: {
-                        value: destreamIDValue,
-                    },
-                },
-            });
-
-            const response = request.data.destreamGetSession;
-            if (!response.status) {
-                return;
-            }
-
-            const {
-                data,
-            } = response;
-
-            await sendMessage<ReplaySessionMessage>(
-                {
-                    type: MESSAGE_TYPE.REPLAY_SESSION,
-                    data,
-                },
+            await initializeReplayment(
+                replaymentID,
                 () => {
                     setShowReplayDestream(false);
                 },
@@ -383,7 +349,7 @@ const Popup: React.FC<any> = (
                     }}
                     textline={{
                         enterAtClick: () => {
-                            loadDestream();
+                            startReplayment();
                         },
                     }}
                     theme={plurid}
