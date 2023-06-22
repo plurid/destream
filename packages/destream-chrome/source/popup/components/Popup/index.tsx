@@ -85,6 +85,7 @@
     import ReplayDestream from './components/ReplayDestream';
     import SessionOptions from './components/SessionOptions';
     import SubscriptionOptions from './components/SubscriptionOptions';
+    import Linkages from './components/Linkages';
     // #endregion internal
 // #endregion imports
 
@@ -573,6 +574,11 @@ const Popup: React.FC<any> = (
                     }}
                 />
             )}
+
+
+            <Linkages
+                activeTab={activeTab}
+            />
 
 
             <DestreamOptions />
