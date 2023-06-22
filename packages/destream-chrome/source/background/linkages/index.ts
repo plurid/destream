@@ -2,10 +2,13 @@
     // #region external
     import {
         DEFAULT_API_ENDPOINT,
+        storagePrefix,
+        Linkage,
     } from '../../data';
 
     import {
         storageGetTokens,
+        storageGetAll,
     } from '../../common/storage';
 
     import {
@@ -80,5 +83,30 @@ export const getLinkage = async (
         ...response.data,
         sessions: JSON.parse(response.data.sessions),
     };
+}
+
+
+export const getLinkages = async () => {
+    try {
+        const storage = await storageGetAll();
+        const linkages = Object
+            .keys(storage)
+            .filter(item => item.startsWith(storagePrefix.linkage))
+            .map(id => storage[id]);
+
+        return linkages as Linkage[];
+    } catch (error) {
+        return [];
+    }
+}
+
+
+export const getLinkageByTabID = async (
+    tabID: number,
+): Promise<Linkage | undefined> => {
+    const linkages = await getLinkages();
+    const linkage = linkages.find(linkage => linkage.tabID === tabID);
+
+    return linkage;
 }
 // #endregion module

@@ -3,6 +3,10 @@
     import {
         NOTIFICATION_KIND,
     } from '../../constants';
+
+    import {
+        DestreamLinkage,
+    } from '../linkage';
     // #endregion external
 // #endregion imports
 
@@ -53,6 +57,11 @@ export interface Replayment {
     currentIndex: number;
     status: 'playing' | 'paused';
     duration: number;
+}
+
+
+export interface Linkage extends DestreamLinkage {
+    tabID: number;
 }
 
 

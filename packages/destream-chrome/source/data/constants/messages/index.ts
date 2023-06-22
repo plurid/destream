@@ -13,6 +13,7 @@ export const MESSAGE_TYPE = {
     STOP_SUBSCRIPTIONS: 'stopSubscriptions',
     GET_SUBSCRIPTION: 'getSubscription',
     GET_TAB_SETTINGS: 'getTabSettings',
+    GET_LINKAGE: 'getLinkage',
     STOP_EVERYTHING: 'stopEverything',
     URL_CHANGE: 'urlChange',
     DESTREAM_EVENT: 'destreamEvent',

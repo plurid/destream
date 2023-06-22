@@ -21,6 +21,7 @@
     import handleStopSubscriptions from './handleStopSubscriptions';
     import handleGetSubscription from './handleGetSubscription';
     import handleGetTabSettings from './handleGetTabSettings';
+    import handleGetLinkage from './handleGetLinkage';
     import handleSendNotification from './handleSendNotification';
     import handleStopEverything from './handleStopEverything';
     import handleURLChange from './handleURLChange';
@@ -66,6 +67,8 @@ const messageHandler: Handler<Message> = async (
             return handleGetSubscription(request, sender, sendResponse);
         case MESSAGE_TYPE.GET_TAB_SETTINGS:
             return handleGetTabSettings(request, sender, sendResponse);
+        case MESSAGE_TYPE.GET_LINKAGE:
+            return handleGetLinkage(request, sender, sendResponse);
         case MESSAGE_TYPE.SEND_NOTIFICATION:
             return handleSendNotification(request, sender, sendResponse);
         case MESSAGE_TYPE.STOP_EVERYTHING:

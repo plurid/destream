@@ -34,6 +34,7 @@ export type Message =
     | StopSubscriptionsMessage
     | GetSubscriptionMessage
     | GetTabSettingsMessage
+    | GetLinkageMessage
     | SendNotificationMessage
     | StopEverythingMessage
     | URLChangeMessage
@@ -135,6 +136,12 @@ export interface GetSubscriptionMessage {
 
 export interface GetTabSettingsMessage {
     type: typeof MESSAGE_TYPE.GET_TAB_SETTINGS;
+    // tabID
+    data?: number;
+}
+
+export interface GetLinkageMessage {
+    type: typeof MESSAGE_TYPE.GET_LINKAGE;
     // tabID
     data?: number;
 }
