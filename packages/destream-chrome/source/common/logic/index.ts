@@ -51,6 +51,7 @@ export const checkEverythingKey = (
     return key.startsWith(storagePrefix.session)
         || key.startsWith(storagePrefix.subscription)
         || key.startsWith(storagePrefix.replayment)
+        || key.startsWith(storagePrefix.linkage)
         || key.startsWith(storagePrefix.tabSettings);
 }
 // #endregion module
