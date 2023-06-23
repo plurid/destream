@@ -37,13 +37,15 @@
 
 // #region module
 export class YoutubeLinkage {
-    private counter: Counter | undefined;
+    public data: DestreamLinkage;
     public eventer: EventListener;
+    private counter: Counter | undefined;
 
 
     constructor(
         data: DestreamLinkage,
     ) {
+        this.data = data;
         this.eventer = new EventListener();
 
         for (const session of data.sessions) {
@@ -99,12 +101,6 @@ export class YoutubeLinkage {
             } = session;
 
 
-            await sendMessage<ReplaymentInitializeMessage>({
-                type: MESSAGE_TYPE.REPLAYMENT_INITIALIZE,
-                data: id,
-            }).catch(log);
-
-
             this.eventer.addEventListener('beforeStart', () => {
                 for (const event of beforeStart) {
                     switch (event.type) {
@@ -143,6 +139,13 @@ export class YoutubeLinkage {
                     }
                 }
             });
+
+
+            await sendMessage<ReplaymentInitializeMessage>({
+                type: MESSAGE_TYPE.REPLAYMENT_INITIALIZE,
+                data: id,
+                linkageID: this.data.id,
+            }).catch(log);
         } catch (error) {
             log(error);
         }

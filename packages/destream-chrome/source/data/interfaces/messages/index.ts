@@ -45,6 +45,9 @@ export type Message =
     | ReplaymentStopMessage
     | ReplaymentIndexMessage
     | ReplaymentInitializeMessage
+    | LinkageStartingMessage
+    | LinkageStartedMessage
+    | LinkageEndedMessage
     | ResyncSessionMessage;
 
 
@@ -208,6 +211,25 @@ export interface ReplaymentIndexMessage {
 export interface ReplaymentInitializeMessage {
     type: typeof MESSAGE_TYPE.REPLAYMENT_INITIALIZE;
     // session id
+    data: string;
+    linkageID?: string;
+}
+
+export interface LinkageStartingMessage {
+    type: typeof MESSAGE_TYPE.LINKAGE_STARTING;
+    // linkage id
+    data: string;
+}
+
+export interface LinkageStartedMessage {
+    type: typeof MESSAGE_TYPE.LINKAGE_STARTED;
+    // linkage id
+    data: string;
+}
+
+export interface LinkageEndedMessage {
+    type: typeof MESSAGE_TYPE.LINKAGE_ENDED;
+    // linkage id
     data: string;
 }
 

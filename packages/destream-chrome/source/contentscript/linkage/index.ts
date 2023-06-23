@@ -2,6 +2,7 @@
     // #region external
     import {
         MESSAGE_TYPE,
+        Message,
         GetLinkageMessage,
         DestreamLinkage,
     } from '../../data';
@@ -72,19 +73,31 @@ const runLinkage = async (
     }
 
     const messageListener = (
-        request: any,
+        request: Message,
         _sender: chrome.runtime.MessageSender,
         sendResponse: (response?: any) => void,
     ) => {
-        // when session is starting
-        // linkageController.eventer.dispatchEvent('beforeStart');
+        if (!linkage || !linkageController) {
+            sendResponse();
+            return true;
+        }
 
-        // when session started
-        // linkageController.eventer.dispatchEvent('afterStart');
+        switch (request.type) {
+            case MESSAGE_TYPE.LINKAGE_STARTING:
+                if (request.data !== linkage.id) break;
+                linkageController.eventer.dispatchEvent('beforeStart');
+                break;
+            case MESSAGE_TYPE.LINKAGE_STARTED:
+                if (request.data !== linkage.id) break;
+                linkageController.eventer.dispatchEvent('afterStart');
+                break;
+            case MESSAGE_TYPE.LINKAGE_ENDED:
+                if (request.data !== linkage.id) break;
+                linkageController.eventer.dispatchEvent('afterEnd');
+                break;
+        }
 
-        // when session ended
-        // linkageController.eventer.dispatchEvent('afterEnd');
-
+        sendResponse();
         return true;
     }
 

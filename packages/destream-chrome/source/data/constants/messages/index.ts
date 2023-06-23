@@ -23,6 +23,9 @@ export const MESSAGE_TYPE = {
     REPLAYMENT_STOP: 'replaymentStop',
     REPLAYMENT_INDEX: 'replaymentIndex',
     REPLAYMENT_INITIALIZE: 'replaymentInitialize',
+    LINKAGE_STARTING: 'linkageStarting',
+    LINKAGE_STARTED: 'linkageStarted',
+    LINKAGE_ENDED: 'linkageEnded',
     RESYNC_SESSION: 'resyncSession',
 } as const;
 // #endregion module

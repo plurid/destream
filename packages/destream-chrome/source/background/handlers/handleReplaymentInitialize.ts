@@ -3,6 +3,8 @@
     import {
         Handler,
         ReplaymentInitializeMessage,
+
+        MESSAGE_TYPE,
     } from '../../data';
 
     import {
@@ -16,7 +18,7 @@
 // #region module
 const handleReplaymentInitialize: Handler<ReplaymentInitializeMessage> = async (
     request,
-    _sender,
+    sender,
     sendResponse,
 ) => {
     const sessionID = request.data;
@@ -26,6 +28,18 @@ const handleReplaymentInitialize: Handler<ReplaymentInitializeMessage> = async (
         () => {},
         true,
     );
+
+    if (request.linkageID) {
+        await chrome.tabs.sendMessage(sender.tab.id, {
+            type: MESSAGE_TYPE.LINKAGE_STARTING,
+            data: request.linkageID,
+        });
+
+        await chrome.tabs.sendMessage(sender.tab.id, {
+            type: MESSAGE_TYPE.LINKAGE_STARTED,
+            data: request.linkageID,
+        });
+    }
 
     sendResponse({
         status: true,

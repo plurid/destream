@@ -149,8 +149,7 @@ export const initializeReplayment = async (
                 data,
             },
             {},
-            () => {
-            },
+            () => {},
         ).catch(log);
     } else {
         await sendMessage<ReplaySessionMessage>(
