@@ -35,4 +35,57 @@ export class Counter {
         }
     }
 }
+
+
+export interface EventHandle {
+    type: string;
+    data?: any;
+}
+
+export type EventListenerCallback = (event: EventHandle) => void;
+
+export class EventListener {
+    private listeners: Record<string, EventListenerCallback[]>;
+
+    constructor() {
+        this.listeners = {};
+    }
+
+    public addEventListener(
+        eventType: string,
+        handler: EventListenerCallback,
+    ) {
+        if (!this.listeners[eventType]) {
+            this.listeners[eventType] = [];
+        }
+
+        this.listeners[eventType].push(handler);
+    }
+
+    public removeEventListener(
+        eventType: string,
+        handler: EventListenerCallback,
+    ) {
+        if (this.listeners[eventType]) {
+            const index = this.listeners[eventType].indexOf(handler);
+            if (index !== -1) {
+                this.listeners[eventType].splice(index, 1);
+            }
+        }
+    }
+
+    public dispatchEvent<D = any>(
+        eventType: string,
+        data?: D,
+    ) {
+        if (this.listeners[eventType]) {
+            const event: EventHandle = {
+                type: eventType,
+                data,
+            };
+
+            this.listeners[eventType].forEach(handler => handler(event));
+        }
+    }
+}
 // #endregion module

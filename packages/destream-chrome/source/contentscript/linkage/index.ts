@@ -76,6 +76,15 @@ const runLinkage = async (
         _sender: chrome.runtime.MessageSender,
         sendResponse: (response?: any) => void,
     ) => {
+        // when session is starting
+        // linkageController.eventer.dispatchEvent('beforeStart');
+
+        // when session started
+        // linkageController.eventer.dispatchEvent('afterStart');
+
+        // when session ended
+        // linkageController.eventer.dispatchEvent('afterEnd');
+
         return true;
     }
 

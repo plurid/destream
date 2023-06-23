@@ -15,6 +15,7 @@
 
     import {
         Counter,
+        EventListener,
     } from '../utilities';
     // #endregion external
 // #endregion imports
@@ -24,16 +25,21 @@
 // #region module
 export interface Controller {
     stop: () => void;
+
+    eventer: EventListener;
 }
 
 
 export class GeneralLinkage {
     private counter: Counter | undefined;
+    public eventer: EventListener;
 
 
     constructor(
         data: DestreamLinkage,
     ) {
+        this.eventer = new EventListener();
+
         for (const session of data.sessions) {
             this.registerStarter(session);
         }
