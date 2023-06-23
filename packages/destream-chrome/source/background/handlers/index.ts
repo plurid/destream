@@ -5,6 +5,10 @@
         MESSAGE_TYPE,
         Message,
     } from '../../data';
+
+    import {
+        log,
+    } from '../../common/utilities';
     // #endregion external
 
 
@@ -38,61 +42,45 @@
 
 
 // #region module
+const handlerMapping: Record<string, Handler<Message>> = {
+    [MESSAGE_TYPE.PUBLISH_EVENT]: handlePublishEvent,
+    [MESSAGE_TYPE.GET_TAB_ID]: handleGetTabID,
+    [MESSAGE_TYPE.GET_SESSION]: handleGetSession,
+    [MESSAGE_TYPE.GET_SESSION_AUDIENCE]: handleGetSessionAudience,
+    [MESSAGE_TYPE.START_SESSION]: handleStartSession,
+    [MESSAGE_TYPE.STOP_SESSION]: handleStopSession,
+    [MESSAGE_TYPE.START_SUBSCRIPTION]: handleStartSubscription,
+    [MESSAGE_TYPE.START_SUBSCRIPTION_BY_ID]: handleStartSubscriptionByID,
+    [MESSAGE_TYPE.STOP_SUBSCRIPTION]: handleStopSubscription,
+    [MESSAGE_TYPE.STOP_SUBSCRIPTIONS]: handleStopSubscriptions,
+    [MESSAGE_TYPE.GET_SUBSCRIPTION]: handleGetSubscription,
+    [MESSAGE_TYPE.GET_TAB_SETTINGS]: handleGetTabSettings,
+    [MESSAGE_TYPE.GET_LINKAGE]: handleGetLinkage,
+    [MESSAGE_TYPE.SEND_NOTIFICATION]: handleSendNotification,
+    [MESSAGE_TYPE.STOP_EVERYTHING]: handleStopEverything,
+    [MESSAGE_TYPE.URL_CHANGE]: handleURLChange,
+    [MESSAGE_TYPE.REPLAY_SESSION]: handleReplaySession,
+    [MESSAGE_TYPE.REPLAYMENT_PAUSE]: handleReplaymentPause,
+    [MESSAGE_TYPE.REPLAYMENT_PLAY]: handleReplaymentPlay,
+    [MESSAGE_TYPE.REPLAYMENT_STOP]: handleReplaymentStop,
+    [MESSAGE_TYPE.REPLAYMENT_INDEX]: handleReplaymentIndex,
+    [MESSAGE_TYPE.REPLAYMENT_INITIALIZE]: handleReplaymentInitialize,
+    [MESSAGE_TYPE.RESYNC_SESSION]: handleResyncSession,
+};
+
+
 const messageHandler: Handler<Message> = async (
     request,
     sender,
     sendResponse,
 ) => {
-    switch (request.type) {
-        case MESSAGE_TYPE.PUBLISH_EVENT:
-            return handlePublishEvent(request, sender, sendResponse);
-        case MESSAGE_TYPE.GET_TAB_ID:
-            return handleGetTabID(request, sender, sendResponse);
-        case MESSAGE_TYPE.GET_SESSION:
-            return handleGetSession(request, sender, sendResponse);
-        case MESSAGE_TYPE.GET_SESSION_AUDIENCE:
-            return handleGetSessionAudience(request, sender, sendResponse);
-        case MESSAGE_TYPE.START_SESSION:
-            return handleStartSession(request, sender, sendResponse);
-        case MESSAGE_TYPE.STOP_SESSION:
-            return handleStopSession(request, sender, sendResponse);
-        case MESSAGE_TYPE.START_SUBSCRIPTION:
-            return handleStartSubscription(request, sender, sendResponse);
-        case MESSAGE_TYPE.START_SUBSCRIPTION_BY_ID:
-            return handleStartSubscriptionByID(request, sender, sendResponse);
-        case MESSAGE_TYPE.STOP_SUBSCRIPTION:
-            return handleStopSubscription(request, sender, sendResponse);
-        case MESSAGE_TYPE.STOP_SUBSCRIPTIONS:
-            return handleStopSubscriptions(request, sender, sendResponse);
-        case MESSAGE_TYPE.GET_SUBSCRIPTION:
-            return handleGetSubscription(request, sender, sendResponse);
-        case MESSAGE_TYPE.GET_TAB_SETTINGS:
-            return handleGetTabSettings(request, sender, sendResponse);
-        case MESSAGE_TYPE.GET_LINKAGE:
-            return handleGetLinkage(request, sender, sendResponse);
-        case MESSAGE_TYPE.SEND_NOTIFICATION:
-            return handleSendNotification(request, sender, sendResponse);
-        case MESSAGE_TYPE.STOP_EVERYTHING:
-            return handleStopEverything(request, sender, sendResponse);
-        case MESSAGE_TYPE.URL_CHANGE:
-            return handleURLChange(request, sender, sendResponse);
-        case MESSAGE_TYPE.REPLAY_SESSION:
-            return handleReplaySession(request, sender, sendResponse);
-        case MESSAGE_TYPE.REPLAYMENT_PAUSE:
-            return handleReplaymentPause(request, sender, sendResponse);
-        case MESSAGE_TYPE.REPLAYMENT_PLAY:
-            return handleReplaymentPlay(request, sender, sendResponse);
-        case MESSAGE_TYPE.REPLAYMENT_STOP:
-            return handleReplaymentStop(request, sender, sendResponse);
-        case MESSAGE_TYPE.REPLAYMENT_INDEX:
-            return handleReplaymentIndex(request, sender, sendResponse);
-        case MESSAGE_TYPE.REPLAYMENT_INITIALIZE:
-            return handleReplaymentInitialize(request, sender, sendResponse);
-        case MESSAGE_TYPE.RESYNC_SESSION:
-            return handleResyncSession(request, sender, sendResponse);
-        default:
-            return;
+    const handler = handlerMapping[request.type];
+    if (!handler) {
+        log(`handler not found for ${request.type}`);
+        return;
     }
+
+    return handler(request, sender, sendResponse);
 }
 // #endregion module
 
