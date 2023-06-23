@@ -38,6 +38,13 @@
 
 
 // #region module
+export const getReplaymentStorageID = (
+    tabID: number,
+) => {
+    return storagePrefix.replayment + tabID;
+}
+
+
 export const getReplayments = async () => {
     try {
         const storage = await storageGetAll();
