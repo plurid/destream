@@ -2,7 +2,8 @@
     // #region external
     import {
         Handler,
-        GetTabIDMessage,
+        MessageGetTabID,
+        ResponseGetTabID,
     } from '../../data';
     // #endregion external
 // #endregion imports
@@ -10,15 +11,17 @@
 
 
 // #region module
-const handleGetTabID: Handler<GetTabIDMessage> = async (
+const handleGetTabID: Handler<MessageGetTabID> = async (
     _request,
     sender,
     sendResponse,
 ) => {
-    sendResponse({
+    const response: ResponseGetTabID = {
         status: true,
         tabID: sender.tab.id,
-    });
+    };
+
+    sendResponse(response);
 
     return;
 }

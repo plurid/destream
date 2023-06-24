@@ -22,10 +22,19 @@
     import {
         storageGet,
         storageSet,
+        storageSetMultiple,
         storageGetAll,
         storageRemove,
         storageGetTokens,
     } from '../../common/storage';
+
+    import {
+        sendMessageToTab,
+    } from '../../common/messaging';
+
+    import {
+        tabsUngroup,
+    } from '../../common/tab';
 
     import {
         generateClient,
@@ -136,12 +145,12 @@ export const deleteSubscription = async (
 export const removeStreamerSubscription = async (
     streamer: string,
 ) => {
-    const result = await chrome.storage.local.get([storageFields.subscriptions]);
+    const result = await storageGet([storageFields.subscriptions]);
     if (!result.subscriptions) {
         return;
     }
 
-    await chrome.storage.local.set({
+    await storageSetMultiple({
         subscriptions: result.subscriptions.filter((name: string) => name !== streamer),
     });
 }
@@ -174,13 +183,13 @@ export const stopSubscription = async (
     await removeTabSettings(subscription.tabID);
     await removeStreamerSubscription(subscription.streamer);
 
-    await chrome.tabs.sendMessage<StopSubscriptionRequest>(subscription.tabID, {
+    await sendMessageToTab<StopSubscriptionRequest>(subscription.tabID, {
         type: GENERAL_EVENT.STOP_SUBSCRIPTION,
     }).catch(() => {
         // Ignore error if tab does not exist.
     });
 
-    await chrome.tabs.ungroup(subscription.tabID);
+    await tabsUngroup(subscription.tabID);
 }
 
 

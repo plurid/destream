@@ -18,4 +18,8 @@ export const NOTIFICATION_KIND = {
     URL_FAILED_TO_CHANGE: 'urlFailedToChange',
     SESSION_START: 'sessionStart',
 } as const;
+
+
+
+export const DESTREAM_PROTOCOL = 'destream://';
 // #endregion module

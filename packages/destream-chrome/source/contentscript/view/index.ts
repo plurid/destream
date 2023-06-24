@@ -7,6 +7,10 @@
     } from '../../data/interfaces';
 
     import {
+        storageAddListener,
+    } from '../../common/storage';
+
+    import {
         getTabID,
         getSession,
         getSubscription,
@@ -245,7 +249,7 @@ const runView = async () => {
         await run();
     }
 
-    chrome.storage.onChanged.addListener(storageLogic);
+    storageAddListener(storageLogic);
 }
 // #endregion module
 

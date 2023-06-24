@@ -4,6 +4,20 @@
         NOTIFICATION_KIND,
         Notification,
     } from '../../data';
+
+    import {
+        notificationCreate,
+        notificationClear,
+        notificationOnButtonClickedAddListener,
+    } from '../../common/notification';
+
+    import {
+        tabsUpdate,
+    } from '../../common/tab';
+
+    import {
+        openOptionsPage,
+    } from '../../common/utilities';
     // #endregion external
 // #endregion imports
 
@@ -22,9 +36,9 @@ const notifications: Record<string, Notification | undefined> = {};
 
 
 
-chrome.notifications.onButtonClicked.addListener(
+notificationOnButtonClickedAddListener(
     (notificationID, buttonIndex) => {
-        chrome.notifications.clear(notificationID);
+        notificationClear(notificationID);
 
         if (notificationID.startsWith(NOTIFICATION_KIND.URL_CHANGE)) {
             switch (buttonIndex) {
@@ -43,7 +57,7 @@ chrome.notifications.onButtonClicked.addListener(
                         url,
                     } = data;
 
-                    chrome.tabs.update(
+                    tabsUpdate(
                         tabID,
                         {
                             url,
@@ -59,7 +73,7 @@ chrome.notifications.onButtonClicked.addListener(
             switch (buttonIndex) {
                 case 0:
                     // Open Options
-                    chrome.runtime.openOptionsPage();
+                    openOptionsPage();
                     break;
             }
 
@@ -84,7 +98,7 @@ export const sendNotificationURLChange = (
 
     const host = new URL(url).host;
 
-    chrome.notifications.create(
+    notificationCreate(
         notificationID,
         {
             ...defaultNewNotification,
@@ -122,7 +136,7 @@ export const sendNotificationURLFailedToChange = (
 
     const host = new URL(url).host;
 
-    chrome.notifications.create(
+    notificationCreate(
         notificationID,
         {
             ...defaultNewNotification,
@@ -158,7 +172,7 @@ export const sendNotificationSessionStart = (
 
     const host = new URL(url).host;
 
-    chrome.notifications.create(
+    notificationCreate(
         notificationID,
         {
             ...defaultNewNotification,
@@ -168,7 +182,7 @@ export const sendNotificationSessionStart = (
     );
 
     setTimeout(() => {
-        chrome.notifications.clear(notificationID);
+        notificationClear(notificationID);
     }, 5_000);
 
     return notificationID;

@@ -2,6 +2,7 @@
     // #region external
     import {
         MESSAGE_TYPE,
+        MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
         Message,
         GetLinkageMessage,
         DestreamLinkage,
@@ -9,7 +10,17 @@
 
     import {
         sendMessage,
+        messageAddListener,
     } from '../../common/messaging';
+
+    import {
+        storageAddListener,
+    } from '../../common/storage';
+
+    import {
+        StorageChange,
+        MessageListener,
+    } from '../../common/types';
 
     import MessagerClient from '../client';
 
@@ -67,15 +78,14 @@ const runLinkage = async (
 
 
     const checkTabSettings = (
-        changes: { [key: string]: chrome.storage.StorageChange },
+        changes: { [key: string]: StorageChange },
     ) => {
-
     }
 
-    const messageListener = (
-        request: Message,
-        _sender: chrome.runtime.MessageSender,
-        sendResponse: (response?: any) => void,
+    const messageListener: MessageListener<Message, any> = (
+        request,
+        _sender,
+        sendResponse,
     ) => {
         if (!linkage || !linkageController) {
             sendResponse();
@@ -104,7 +114,7 @@ const runLinkage = async (
 
     const run = async () => {
         const linkageRequest = await sendMessage<GetLinkageMessage>({
-            type: MESSAGE_TYPE.GET_LINKAGE,
+            type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_LINKAGE,
         });
         if (!linkageRequest.status) {
             return;
@@ -124,7 +134,7 @@ const runLinkage = async (
     await run();
 
     const storageLogic = async (
-        changes: { [key: string]: chrome.storage.StorageChange },
+        changes: { [key: string]: StorageChange },
     ) => {
         checkTabSettings(changes);
 
@@ -132,8 +142,8 @@ const runLinkage = async (
     }
 
 
-    chrome.storage.onChanged.addListener(storageLogic);
-    chrome.runtime.onMessage.addListener(messageListener);
+    storageAddListener(storageLogic);
+    messageAddListener(messageListener);
 }
 // #endregion module
 

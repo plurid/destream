@@ -8,6 +8,10 @@
     } from '../../data';
 
     import {
+        sendMessageToTab,
+    } from '../../common/messaging';
+
+    import {
         storageGetIsStreamer,
         storageGetIdentonym,
     } from '../../common/storage';
@@ -69,7 +73,7 @@ const handleStopSession: Handler<StopSessionMessage> = async (
             tabID,
         );
 
-        await chrome.tabs.sendMessage<StopSessionRequest>(session.tabID, {
+        await sendMessageToTab<StopSessionRequest>(session.tabID, {
             type: GENERAL_EVENT.STOP_SESSION,
             session,
         });

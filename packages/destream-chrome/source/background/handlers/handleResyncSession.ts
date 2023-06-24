@@ -5,6 +5,10 @@
         ResyncSessionMessage,
         GENERAL_EVENT,
     } from '../../data';
+
+    import {
+        sendMessageToTab,
+    } from '../../common/messaging';
     // #endregion external
 // #endregion imports
 
@@ -18,7 +22,7 @@ const handleResyncSession: Handler<ResyncSessionMessage> = async (
 ) => {
     const tabID = request.data;
 
-    await chrome.tabs.sendMessage(tabID, {
+    await sendMessageToTab(tabID, {
         type: GENERAL_EVENT.RESYNC_SESSION,
     });
 

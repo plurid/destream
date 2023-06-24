@@ -2,6 +2,7 @@
     // #region external
     import {
         MESSAGE_TYPE,
+        MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
         GENERAL_EVENT,
     } from '../../constants';
 
@@ -21,7 +22,7 @@
 // #region module
 export type Message =
     | PublishEventMessage
-    | GetTabIDMessage
+    | MessageGetTabID
     | GetSessionMessage
     | GetSessionAudienceMessage
     | StartSessionMessage
@@ -51,15 +52,25 @@ export type Message =
     | ResyncSessionMessage;
 
 
+export type Response<T> = {
+        status: false;
+    } | {
+        status: true;
+    } & T;
+
+
 
 export interface PublishEventMessage {
     type: typeof MESSAGE_TYPE.PUBLISH_EVENT;
     data: DestreamEvent;
 }
 
-export interface GetTabIDMessage {
-    type: typeof MESSAGE_TYPE.GET_TAB_ID;
+export interface MessageGetTabID {
+    type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_TAB_ID;
 }
+export type ResponseGetTabID = Response<{
+    tabID: number;
+}>;
 
 export interface GetSessionMessage {
     type: typeof MESSAGE_TYPE.GET_SESSION;

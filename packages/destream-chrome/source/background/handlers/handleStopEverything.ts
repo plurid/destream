@@ -15,6 +15,10 @@
     } from '../../common/logic';
 
     import {
+        storageRemove,
+    } from '../../common/storage';
+
+    import {
         getTabIDFromKey,
     } from '../../common/utilities';
 
@@ -60,7 +64,7 @@ const handleStopEverything: Handler<StopEverythingMessage> = async (
                 // return;
             }
 
-            await chrome.storage.local.remove(key);
+            await storageRemove(key);
         }
     });
 

@@ -1,88 +1,26 @@
 // #region imports
     // #region libraries
-    import Messager, {
-        MessagerKind,
-        MessagerOptions,
-    } from '@plurid/messager';
+    import Messager from '@plurid/messager';
     // #endregion libraries
-
-
-    // #region external
-    import generateClient from '../../background/graphql/client';
-
-    import {
-        GET_MESSAGER_DATA,
-    } from '../../background/graphql/query';
-
-    import {
-        log,
-    } from '../../common/utilities';
-    // #endregion external
 
 
     // #region internal
     import aws from './AWS';
+
+    import {
+        IMessagerClient,
+        messagerType,
+    } from './data';
+
+    import {
+        requestClientEndpointData,
+    } from './logic';
     // #endregion internal
 // #endregion imports
 
 
 
 // #region module
-export type MessagerType = 'messager' | 'aws';
-
-export const messagerType = {
-    messager: 'messager',
-    aws: 'aws',
-} as const;
-
-export type IMessagerClient =
-    {
-        type: typeof messagerType.messager;
-        messager: Messager;
-    } | {
-        type: typeof messagerType.aws;
-        aws: ReturnType<typeof aws>;
-    };
-
-export type MessagerData =
-    {
-        type: typeof messagerType.messager;
-        endpoint: string;
-        token: string;
-        messagerKind?: MessagerKind;
-        messagerOptions?: MessagerOptions;
-    } | {
-        type: typeof messagerType.aws;
-        endpoint: string;
-        region: string;
-        apiKey: string;
-    };
-
-
-const requestClientEndpointData = async (
-    endpoint: string,
-): Promise<MessagerData | undefined> => {
-    try {
-        const client = generateClient(endpoint);
-        const request = await client.query({
-            query: GET_MESSAGER_DATA,
-        });
-
-        const response = request.data?.destreamGetMessagerData;
-        if (!response.status) {
-            return;
-        }
-
-        const endpointData = JSON.parse(response.data);
-        return endpointData as MessagerData;
-    } catch (error) {
-        log(error);
-        return;
-    }
-}
-
-
-
 class MessagerClient {
     private clients: Record<string, IMessagerClient> = {};
 

@@ -30,6 +30,10 @@
     } from '../../../../../common/storage';
 
     import {
+        Tab,
+    } from '../../../../../common/types';
+
+    import {
         getLinkageStorageID,
         getLinkagesOfURL,
         getLinkage,
@@ -48,7 +52,7 @@ export interface LinkageOfURL {
 
 
 export interface LinkagesProperties {
-    activeTab: chrome.tabs.Tab | undefined;
+    activeTab: Tab | undefined;
 }
 
 const Linkages: React.FC<LinkagesProperties> = (

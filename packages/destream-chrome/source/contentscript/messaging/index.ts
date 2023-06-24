@@ -1,11 +1,12 @@
 // #region imports
     // #region external
     import {
-        MESSAGE_TYPE,
+        MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
     } from '../../data/constants';
 
     import {
-        GetTabIDMessage,
+        MessageGetTabID,
+        ResponseGetTabID,
         GetSessionMessage,
         GetSubscriptionMessage,
         GetTabSettingsMessage,
@@ -13,6 +14,10 @@
         Subscription,
         TabSettings,
     } from '../../data/interfaces';
+
+    import {
+        sendMessage,
+    } from '../../common/messaging';
     // #endregion external
 // #endregion imports
 
@@ -20,8 +25,8 @@
 
 // #region module
 export const getTabID = async (): Promise<number | undefined> => {
-    const response = await chrome.runtime.sendMessage<GetTabIDMessage>({
-        type: MESSAGE_TYPE.GET_TAB_ID,
+    const response = await sendMessage<MessageGetTabID, ResponseGetTabID>({
+        type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_TAB_ID,
     });
     if (!response || !response.status) {
         return;
@@ -38,8 +43,8 @@ export const getSession = async (
         return;
     }
 
-    const response = await chrome.runtime.sendMessage<GetSessionMessage>({
-        type: MESSAGE_TYPE.GET_SESSION,
+    const response = await sendMessage<GetSessionMessage>({
+        type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_SESSION,
         data: tabID,
     });
     if (!response || !response.status) {
@@ -57,8 +62,8 @@ export const getSubscription = async (
         return;
     }
 
-    const response = await chrome.runtime.sendMessage<GetSubscriptionMessage>({
-        type: MESSAGE_TYPE.GET_SUBSCRIPTION,
+    const response = await sendMessage<GetSubscriptionMessage>({
+        type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_SUBSCRIPTION,
         data: tabID,
     });
     if (!response || !response.status) {
@@ -76,8 +81,8 @@ export const getTabSettings = async (
         return;
     }
 
-    const response = await chrome.runtime.sendMessage<GetTabSettingsMessage>({
-        type: MESSAGE_TYPE.GET_TAB_SETTINGS,
+    const response = await sendMessage<GetTabSettingsMessage>({
+        type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_TAB_SETTINGS,
         data: tabID,
     });
     if (!response || !response.status) {

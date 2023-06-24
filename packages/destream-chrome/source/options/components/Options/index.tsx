@@ -182,9 +182,7 @@ const Options: React.FC<any> = (
 
     // #region handlers
     const registerAsStreamer = () => {
-        chrome.tabs.create({
-            url: STREAMER_REGISTRATION_URL,
-        });
+        window.open(STREAMER_REGISTRATION_URL, '_blank');
     }
 
     const stopEverything = async () => {

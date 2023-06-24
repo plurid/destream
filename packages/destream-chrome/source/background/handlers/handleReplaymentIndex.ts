@@ -7,6 +7,10 @@
     } from '../../data';
 
     import {
+        sendMessageToTab,
+    } from '../../common/messaging';
+
+    import {
         updateReplayment,
         replaymentAtEnd,
     } from '../replayments';
@@ -35,7 +39,7 @@ const handleReplaymentIndex: Handler<ReplaymentIndexMessage> = async (
     }
 
     if (request.data.updateTab) {
-        await chrome.tabs.sendMessage(request.data.tabID, {
+        await sendMessageToTab(request.data.tabID, {
             type: GENERAL_EVENT.REPLAY_SESSION_INDEX,
             data: request.data.index,
         });
@@ -49,7 +53,7 @@ const handleReplaymentIndex: Handler<ReplaymentIndexMessage> = async (
             },
         );
 
-        await chrome.tabs.sendMessage(request.data.tabID, {
+        await sendMessageToTab(request.data.tabID, {
             type: GENERAL_EVENT.REPLAY_SESSION_PAUSE,
         });
     }

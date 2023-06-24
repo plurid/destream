@@ -23,11 +23,24 @@
 
     import {
         sendMessage,
+        messageAddListener,
     } from '../../common/messaging';
+
+    import {
+        storageAddListener,
+    } from '../../common/storage';
+
+    import {
+        MessageListener,
+    } from '../../common/types';
 
     import {
         storageGetIsStreamer,
     } from '../../common/storage';
+
+    import {
+        StorageChange,
+    } from '../../common/types';
 
     import {
         log,
@@ -186,10 +199,10 @@ const runStreamer = async (
         );
     }
 
-    const messageListener = (
-        request: any,
-        _sender: chrome.runtime.MessageSender,
-        sendResponse: (response?: any) => void,
+    const messageListener: MessageListener<any, any> = (
+        request,
+        _sender,
+        sendResponse,
     ) => {
         if (!session || !request?.type) {
             sendResponse();
@@ -214,7 +227,7 @@ const runStreamer = async (
 
 
     const checkTabSettings = (
-        changes: { [key: string]: chrome.storage.StorageChange },
+        changes: { [key: string]: StorageChange },
     ) => {
         if (!session) {
             return;
@@ -292,7 +305,7 @@ const runStreamer = async (
     await run();
 
     const storageLogic = async (
-        changes: { [key: string]: chrome.storage.StorageChange },
+        changes: { [key: string]: StorageChange },
     ) => {
         checkTabSettings(changes);
 
@@ -300,8 +313,8 @@ const runStreamer = async (
     }
 
 
-    chrome.storage.onChanged.addListener(storageLogic);
-    chrome.runtime.onMessage.addListener(messageListener);
+    storageAddListener(storageLogic);
+    messageAddListener(messageListener);
 
     window.addEventListener('beforeunload', (_event) => {
         if (!session) {

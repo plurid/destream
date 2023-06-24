@@ -8,6 +8,10 @@
     } from '../../data';
 
     import {
+        sendMessageToTab,
+    } from '../../common/messaging';
+
+    import {
         storageSet,
     } from '../../common/storage';
 
@@ -42,7 +46,7 @@ const handleReplaySession: Handler<ReplaySessionMessage> = async (
     const tab = await openTab(url, true);
 
     setTimeout(async () => {
-        await chrome.tabs.sendMessage(tab.id, {
+        await sendMessageToTab(tab.id, {
             type: GENERAL_EVENT.REPLAY_SESSION,
             data,
         });

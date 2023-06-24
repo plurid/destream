@@ -27,6 +27,17 @@
         MESSAGE_TYPE,
         storageFields,
     } from '../../../data/constants';
+
+    import {
+        sendMessage,
+    } from '../../../common/messaging';
+
+    import {
+        storageGet,
+        storageSetMultiple,
+        storageAddListener,
+        storageRemoveListener,
+    } from '../../../common/storage';
     // #endregion external
 
 
@@ -103,7 +114,7 @@ const Subscriptions: React.FC<SubscriptionsProperties> = (
 
     // #region handlers
     const getSubscriptions = useCallback(async () => {
-        const result = await chrome.storage.local.get([storageFields.subscriptions]);
+        const result = await storageGet([storageFields.subscriptions]);
         if (!result.subscriptions) {
             return;
         }
@@ -114,7 +125,7 @@ const Subscriptions: React.FC<SubscriptionsProperties> = (
     const startSubscription = async (
         name: string,
     ) => {
-        chrome.runtime.sendMessage<StartSubscriptionMessage>(
+        sendMessage<StartSubscriptionMessage>(
             {
                 type: MESSAGE_TYPE.START_SUBSCRIPTION,
                 data: name,
@@ -131,7 +142,7 @@ const Subscriptions: React.FC<SubscriptionsProperties> = (
             removeSubscription(name);
         }
 
-        chrome.runtime.sendMessage<StopSubscriptionsMessage>(
+        sendMessage<StopSubscriptionsMessage>(
             {
                 type: MESSAGE_TYPE.STOP_SUBSCRIPTIONS,
                 data: name,
@@ -179,15 +190,15 @@ const Subscriptions: React.FC<SubscriptionsProperties> = (
 
     useEffect(() => {
         const setSubscriptions = async () => {
-            await chrome.storage.local.set({ subscriptions });
+            await storageSetMultiple({ subscriptions });
 
-            chrome.storage.onChanged.addListener(getSubscriptions);
+            storageAddListener(getSubscriptions);
         }
 
         setSubscriptions();
 
         return () => {
-            chrome.storage.onChanged.removeListener(getSubscriptions);
+            storageRemoveListener(getSubscriptions);
         }
     }, [
         JSON.stringify(subscriptions),

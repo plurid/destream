@@ -3,6 +3,15 @@
     import {
         log,
     } from '../common/utilities';
+
+    import {
+        messageAddListener,
+    } from '../common/messaging';
+
+    import {
+        tabsOnRemovedAddListener,
+        tabsOnUpdatedAddListener,
+    } from '../common/tab';
     // #endregion external
 
 
@@ -35,7 +44,7 @@ const main = async () => {
     try {
         initialize();
 
-        chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+        messageAddListener((request, sender, sendResponse) => {
             messageHandler(request, sender, sendResponse)
                 .catch(error => {
                     log(error);
@@ -45,7 +54,7 @@ const main = async () => {
             return true;
         });
 
-        chrome.tabs.onRemoved.addListener((tabID) => {
+        tabsOnRemovedAddListener((tabID) => {
             stopSessionWithTabID(tabID).catch(error => {
                 log(error);
             });
@@ -57,7 +66,7 @@ const main = async () => {
             });
         });
 
-        chrome.tabs.onUpdated.addListener(updateSession);
+        tabsOnUpdatedAddListener(updateSession);
     } catch (error) {
         log(error);
     }

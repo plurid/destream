@@ -15,6 +15,21 @@
         storageGet,
         storageRemove,
     } from '../../common/storage';
+
+    import {
+        Tab,
+        Window,
+    } from '../../common/types';
+
+    import {
+        getTab as commonGetTab,
+        tabsCreate,
+        tabsGroup,
+        tabGroupsQuery,
+        tabGroupsUpdate,
+        windowsGetAll,
+        windowsCreate,
+    } from '../../common/tab';
     // #endregion external
 // #endregion imports
 
@@ -75,9 +90,9 @@ export const openTab = async (
     active = false,
     incognito?: boolean,
 ) => {
-    let incognitoWindow: chrome.windows.Window | undefined;
+    let incognitoWindow: Window | undefined;
     if (incognito) {
-        const windows = await chrome.windows.getAll();
+        const windows = await windowsGetAll();
         const incognitoWindows = windows.filter(window => window.incognito);
         // check if/which incognito windows have a group or session tabs already
         const existingIncognitoWindow = incognitoWindows[0];
@@ -85,13 +100,13 @@ export const openTab = async (
         if (existingIncognitoWindow) {
             incognitoWindow = existingIncognitoWindow;
         } else {
-            incognitoWindow = await chrome.windows.create({
+            incognitoWindow = await windowsCreate({
                 incognito: true,
             });
         }
     }
 
-    return await chrome.tabs.create({
+    return await tabsCreate({
         url,
         active,
         windowId: incognitoWindow?.id,
@@ -100,13 +115,13 @@ export const openTab = async (
 
 export const getTab = async (
     id: number,
-): Promise<chrome.tabs.Tab | undefined> => {
-    return await chrome.tabs.get(id);
+): Promise<Tab | undefined> => {
+    return await commonGetTab(id);
 }
 
 
 export const assignTabToGroup = async (
-    tab: chrome.tabs.Tab,
+    tab: Tab,
     streamerIdentonym: string,
     generalPermissions: GeneralPermissions,
 ) => {
@@ -116,24 +131,24 @@ export const assignTabToGroup = async (
 
     const groupTitle = streamerIdentonym + TAB_GROUP_SUFFIX;
 
-    const groups = await chrome.tabGroups.query({
+    const groups = await tabGroupsQuery({
         title: groupTitle,
     });
     const existingGroup = groups[0];
 
     if (existingGroup) {
-        await chrome.tabs.group({
+        await tabsGroup({
             groupId: existingGroup.id,
             tabIds: tab.id,
         });
         return;
     }
 
-    const groupID = await chrome.tabs.group({
+    const groupID = await tabsGroup({
         tabIds: tab.id,
     });
 
-    await chrome.tabGroups.update(groupID, {
+    await tabGroupsUpdate(groupID, {
         title: groupTitle,
     });
 }

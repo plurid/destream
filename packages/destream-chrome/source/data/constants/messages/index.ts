@@ -1,4 +1,27 @@
 // #region module
+export const MESSAGE_BACKGROUND_TO_CONTENTSCRIPT = {
+    LINKAGE_STARTING: 'linkageStarting',
+    LINKAGE_STARTED: 'linkageStarted',
+    LINKAGE_ENDED: 'linkageEnded',
+} as const;
+
+export const MESSAGE_CONTENTSCRIPT_TO_BACKGROUND = {
+    GET_TAB_ID: 'getTabID',
+    GET_TAB_SETTINGS: 'getTabSettings',
+    GET_SESSION: 'getSession',
+    GET_SUBSCRIPTION: 'getSubscription',
+    GET_LINKAGE: 'getLinkage',
+} as const;
+
+export const MESSAGE_BACKGROUND_POPUP = {
+
+} as const;
+
+export const MESSAGE_BACKGROUND_OPTIONS = {
+
+} as const;
+
+
 export const MESSAGE_TYPE = {
     PUBLISH_EVENT: 'publishEvent',
     GET_TAB_ID: 'getTabID',

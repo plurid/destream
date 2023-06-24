@@ -10,6 +10,10 @@
     } from '../../data';
 
     import {
+        sendMessageToTab,
+    } from '../../common/messaging';
+
+    import {
         storageGet,
         storageGetAll,
         storageSet,
@@ -20,6 +24,11 @@
     import {
         log,
     } from '../../common/utilities';
+
+    import {
+        Tab,
+        TabChangeInfo,
+    } from '../../common/types';
 
     import {
         generateClient,
@@ -194,8 +203,8 @@ export const composeEventData = <E = any>(
 
 export const updateSession = async (
     tabID: number,
-    changeInfo: chrome.tabs.TabChangeInfo,
-    _tab: chrome.tabs.Tab,
+    changeInfo: TabChangeInfo,
+    _tab: Tab,
 ) => {
     try {
         if (!changeInfo.url) {
@@ -207,7 +216,7 @@ export const updateSession = async (
             return;
         }
 
-        await chrome.tabs.sendMessage<URLChangeRequest>(session.tabID, {
+        await sendMessageToTab<URLChangeRequest>(session.tabID, {
             type: GENERAL_EVENT.URL_CHANGE,
             session,
             url: changeInfo.url,
@@ -258,7 +267,7 @@ export const notifyStartAnotherSession = async (
 
     const session = sessions[0];
 
-    await chrome.tabs.sendMessage<StartAnotherSessionMessage>(session.tabID, {
+    await sendMessageToTab<StartAnotherSessionMessage>(session.tabID, {
         type: GENERAL_EVENT.START_ANOTHER_SESSION,
         data: {
             session,

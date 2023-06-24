@@ -8,7 +8,12 @@
 
     import {
         sendMessage,
+        messageAddListener,
     } from '../../common/messaging';
+
+    import {
+        MessageListener,
+    } from '../../common/types';
 
     import {
         log,
@@ -33,16 +38,16 @@
 
 // #region module
 const runReplayer = async (
-    client: MessagerClient,
+    _client: MessagerClient,
 ) => {
     const tabID = await getTabID();
 
     let sessionPlayer: SessionPlayer | undefined;
 
-    const messageListener = (
-        request: any,
-        _sender: chrome.runtime.MessageSender,
-        sendResponse: (response?: any) => void,
+    const messageListener: MessageListener<any, any> = (
+        request,
+        _sender,
+        sendResponse,
     ) => {
         if (!request?.type) {
             sendResponse();
@@ -100,7 +105,7 @@ const runReplayer = async (
         return true;
     }
 
-    chrome.runtime.onMessage.addListener(messageListener);
+    messageAddListener(messageListener);
 }
 // #endregion module
 

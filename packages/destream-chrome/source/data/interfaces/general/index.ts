@@ -1,3 +1,13 @@
+// #region imports
+    // #region external
+    import {
+        MessageSender,
+    } from '../../../common/types';
+    // #endregion external
+// #endregion imports
+
+
+
 // #region module
 export type PublishEventResponse =
     {
@@ -19,7 +29,7 @@ export type PublishEventResponse =
 
 export type Handler<R> = (
     request: R,
-    sender: chrome.runtime.MessageSender,
+    sender: MessageSender,
     sendResponse: (response?: any) => void,
 ) => Promise<void>;
 // #endregion module

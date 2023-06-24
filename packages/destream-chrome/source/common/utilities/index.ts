@@ -2,6 +2,8 @@
     // #region external
     import {
         IN_PRODUCTION,
+
+        DESTREAM_PROTOCOL,
     } from '../../data/constants';
     // #endregion external
 // #endregion imports
@@ -102,21 +104,21 @@ export const getTabIDFromKey = (
 
 
 
-export const openOptionsPage = () => {
-    chrome.runtime.openOptionsPage();
-}
-
-
-
 export const destreamIDGetValue = (
     id: string,
 ) => (
-    id.trim().replace('destream://', '')
+    id.trim().replace(DESTREAM_PROTOCOL, '')
 );
 
 export const destreamIDGetDisplay = (
     id: string,
 ) => (
-    'destream://' + destreamIDGetValue(id)
+    DESTREAM_PROTOCOL + destreamIDGetValue(id)
 );
 // #endregion module
+
+
+
+// #region exports
+export * from '../specifics/utilities';
+// #endregion exports

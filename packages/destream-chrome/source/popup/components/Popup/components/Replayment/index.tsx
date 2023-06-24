@@ -32,6 +32,15 @@
     } from '../../../../../common/messaging';
 
     import {
+        storageAddListener,
+        storageRemoveListener,
+    } from '../../../../../common/storage';
+
+    import {
+        Tab,
+    } from '../../../../../common/types';
+
+    import {
         getReplaymentByTabID,
         replaymentAtEnd,
     } from '../../../../../background/replayments';
@@ -46,7 +55,7 @@
 
 // #region module
 export interface ReplaymentProperties {
-    activeTab: chrome.tabs.Tab | null;
+    activeTab: Tab | null;
     replayment: IReplayment | null;
     setReplayment: React.Dispatch<React.SetStateAction<IReplayment>>;
 }
@@ -146,10 +155,10 @@ const Replayment: React.FC<ReplaymentProperties> = (
             setReplayment(replayment);
         }
 
-        chrome.storage.onChanged.addListener(storageLogic);
+        storageAddListener(storageLogic);
 
         return () => {
-            chrome.storage.onChanged.removeListener(storageLogic);
+            storageRemoveListener(storageLogic);
         }
     }, [
         replayment,

@@ -62,6 +62,10 @@
     } from '../../../common/logic';
 
     import {
+        Tab,
+    } from '../../../common/types';
+
+    import {
         log,
     } from '../../../common/utilities';
     // #endregion external
@@ -117,7 +121,7 @@ const Popup: React.FC<any> = (
     const [
         activeTab,
         setActiveTab,
-    ] = useState<chrome.tabs.Tab | null>(null);
+    ] = useState<Tab | null>(null);
 
     const [
         activeTabControlledBy,

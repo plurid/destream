@@ -7,6 +7,10 @@
     } from '../../data';
 
     import {
+        sendMessageToTab,
+    } from '../../common/messaging';
+
+    import {
         updateReplayment,
         replaymentAtEnd,
     } from '../replayments';
@@ -43,7 +47,7 @@ const handleReplaymentPlay: Handler<ReplaymentPlayMessage> = async (
             },
         );
 
-        await chrome.tabs.sendMessage(request.data, {
+        await sendMessageToTab(request.data, {
             type: GENERAL_EVENT.REPLAY_SESSION_INDEX,
             data: 0,
         });
@@ -51,7 +55,7 @@ const handleReplaymentPlay: Handler<ReplaymentPlayMessage> = async (
         reset = true;
     }
 
-    await chrome.tabs.sendMessage(request.data, {
+    await sendMessageToTab(request.data, {
         type: GENERAL_EVENT.REPLAY_SESSION_PLAY,
         reset,
     });

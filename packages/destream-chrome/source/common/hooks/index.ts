@@ -14,7 +14,7 @@
 
     import {
         getSession,
-        getSessionAudience
+        getSessionAudience,
     } from '../../background/sessions';
 
     import {
@@ -22,8 +22,15 @@
     } from '../logic';
 
     import {
+        storageGet,
         storageGetIsStreamer,
+        storageAddListener,
+        storageRemoveListener,
     } from '../storage';
+
+    import {
+        StorageChange,
+    } from '../types';
     // #endregion external
 // #endregion imports
 
@@ -45,7 +52,7 @@ export const useLoggedIn = () => {
     useEffect(() => {
         const loggedInListener = (
             changes: {
-                [key: string]: chrome.storage.StorageChange;
+                [key: string]: StorageChange;
             },
         ) => {
             for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
@@ -56,7 +63,7 @@ export const useLoggedIn = () => {
         }
 
         const getLoggedIn = async () => {
-            const result = await chrome.storage.local.get(['loggedIn', 'identonym']);
+            const result = await storageGet(['loggedIn', 'identonym']);
             if (result.loggedIn) {
                 setLoggedIn(true);
             }
@@ -67,10 +74,10 @@ export const useLoggedIn = () => {
         }
 
         getLoggedIn();
-        chrome.storage.onChanged.addListener(loggedInListener);
+        storageAddListener(loggedInListener);
 
         return () => {
-            chrome.storage.onChanged.removeListener(loggedInListener);
+            storageRemoveListener(loggedInListener);
         };
     }, []);
 
@@ -92,7 +99,7 @@ export const useIsStreamer = () => {
     useEffect(() => {
         const isStreamerListener = (
             changes: {
-                [key: string]: chrome.storage.StorageChange;
+                [key: string]: StorageChange;
             },
         ) => {
             for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
@@ -110,10 +117,10 @@ export const useIsStreamer = () => {
         }
 
         getIsStreamer();
-        chrome.storage.onChanged.addListener(isStreamerListener);
+        storageAddListener(isStreamerListener);
 
         return () => {
-            chrome.storage.onChanged.removeListener(isStreamerListener);
+            storageRemoveListener(isStreamerListener);
         };
     }, []);
 

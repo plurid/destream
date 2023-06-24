@@ -21,6 +21,10 @@
     } from '../../../../../data';
 
     import {
+        Tab,
+    } from '../../../../../common/types';
+
+    import {
         getTabSettingsID,
         getTabSettings,
     } from '../../../../../background/utilities';
@@ -35,7 +39,7 @@
 
 // #region module
 export interface SubscriptionOptionsProperties {
-    activeTab: chrome.tabs.Tab | undefined;
+    activeTab: Tab | undefined;
     session: Session;
 }
 

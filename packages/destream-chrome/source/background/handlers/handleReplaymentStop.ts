@@ -7,6 +7,10 @@
     } from '../../data';
 
     import {
+        sendMessageToTab,
+    } from '../../common/messaging';
+
+    import {
         stopReplaymentWithTabID,
     } from '../replayments';
     // #endregion external
@@ -20,7 +24,7 @@ const handleReplaymentStop: Handler<ReplaymentStopMessage> = async (
     _sender,
     sendResponse,
 ) => {
-    await chrome.tabs.sendMessage(request.data, {
+    await sendMessageToTab(request.data, {
         type: GENERAL_EVENT.REPLAY_SESSION_STOP,
     });
 

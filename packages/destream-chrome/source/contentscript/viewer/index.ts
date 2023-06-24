@@ -13,7 +13,16 @@
 
     import {
         sendMessage,
+        messageAddListener,
     } from '../../common/messaging';
+
+    import {
+        storageAddListener,
+    } from '../../common/storage';
+
+    import {
+        MessageListener,
+    } from '../../common/types';
 
     import {
         log,
@@ -177,10 +186,10 @@ const runViewer = async (
         }
     }
 
-    const messageListener = (
-        request: any,
-        _sender: chrome.runtime.MessageSender,
-        sendResponse: (response?: any) => void,
+    const messageListener: MessageListener<any, any> = (
+        request,
+        _sender,
+        sendResponse,
     ) => {
         if (!subscription || !request?.type) {
             sendResponse();
@@ -257,8 +266,8 @@ const runViewer = async (
     }
 
 
-    chrome.storage.onChanged.addListener(storageLogic);
-    chrome.runtime.onMessage.addListener(messageListener);
+    storageAddListener(storageLogic);
+    messageAddListener(messageListener);
 }
 // #endregion module
 

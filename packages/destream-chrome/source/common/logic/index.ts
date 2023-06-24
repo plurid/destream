@@ -3,6 +3,14 @@
     import {
         storagePrefix,
     } from '../../data/constants';
+
+    import {
+        storageSetMultiple,
+    } from '../storage';
+
+    import {
+        getTab,
+    } from '../tab';
     // #endregion external
 // #endregion imports
 
@@ -10,12 +18,7 @@
 
 // #region module
 export const getActiveTab = async () => {
-    const [tab] = await chrome.tabs.query({
-        active: true,
-        lastFocusedWindow: true,
-    });
-
-    return tab;
+    return await getTab();
 }
 
 
@@ -24,7 +27,7 @@ export const login = async (
     tokens: any,
     destream: any,
 ) => {
-    await chrome.storage.local.set({
+    await storageSetMultiple({
         identonym,
         accessToken: tokens.access,
         refreshToken: tokens.refresh,
@@ -35,7 +38,7 @@ export const login = async (
 
 
 export const logout = async () => {
-    await chrome.storage.local.set({
+    await storageSetMultiple({
         identonym: '',
         accessToken: '',
         refreshToken: '',

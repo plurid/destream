@@ -8,6 +8,10 @@
     } from '../../data';
 
     import {
+        sendMessageToTab,
+    } from '../../common/messaging';
+
+    import {
         initializeReplayment,
     } from '../replayments';
     // #endregion external
@@ -30,12 +34,12 @@ const handleReplaymentInitialize: Handler<ReplaymentInitializeMessage> = async (
     );
 
     if (request.linkageID) {
-        await chrome.tabs.sendMessage(sender.tab.id, {
+        await sendMessageToTab(sender.tab.id, {
             type: MESSAGE_TYPE.LINKAGE_STARTING,
             data: request.linkageID,
         });
 
-        await chrome.tabs.sendMessage(sender.tab.id, {
+        await sendMessageToTab(sender.tab.id, {
             type: MESSAGE_TYPE.LINKAGE_STARTED,
             data: request.linkageID,
         });

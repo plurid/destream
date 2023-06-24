@@ -29,12 +29,16 @@
     } from '../../../../../background/utilities';
 
     import {
+        sendMessage,
+    } from '../../../../../common/messaging';
+
+    import {
         storageUpdate,
     } from '../../../../../common/storage';
 
     import {
-        sendMessage,
-    } from '../../../../../common/messaging';
+        Tab,
+    } from '../../../../../common/types';
     // #endregion external
 // #region imports
 
@@ -42,7 +46,7 @@
 
 // #region module
 export interface SubscriptionOptionsProperties {
-    activeTab: chrome.tabs.Tab | undefined;
+    activeTab: Tab | undefined;
     activeTabControlledBy: string | undefined;
     subscription: Subscription;
 }
