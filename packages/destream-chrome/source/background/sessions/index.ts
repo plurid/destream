@@ -39,6 +39,7 @@
 
     import {
         removeTabSettings,
+        getDefaultGraphqlClient,
     } from '../utilities';
     // #endregion external
 // #endregion imports
@@ -112,15 +113,7 @@ export const getSessions = async () => {
 export const getSessionAudience = async (
     sessionID: string,
 ) => {
-    const {
-        accessToken,
-        refreshToken,
-    } = await storageGetTokens();
-    const graphqlClient = generateClient(
-        DEFAULT_API_ENDPOINT,
-        accessToken,
-        refreshToken,
-    );
+    const graphqlClient = await getDefaultGraphqlClient();
 
     const graphqlRequest = await graphqlClient.mutate({
         mutation: GET_SESSION_AUDIENCE,
@@ -222,16 +215,7 @@ export const updateSession = async (
             url: changeInfo.url,
         });
 
-
-        const {
-            accessToken,
-            refreshToken,
-        } = await storageGetTokens();
-        const graphqlClient = generateClient(
-            DEFAULT_API_ENDPOINT,
-            accessToken,
-            refreshToken,
-        );
+        const graphqlClient = await getDefaultGraphqlClient();
 
         const event = composeEventData(session, {
             type: GENERAL_EVENT.URL_CHANGE,

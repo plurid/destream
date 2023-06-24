@@ -25,6 +25,10 @@
     import {
         startSessionSubscriptionLogic,
     } from '../subscriptions';
+
+    import {
+        getDefaultGraphqlClient,
+    } from '../utilities';
     // #endregion external
 // #endregion imports
 
@@ -37,15 +41,7 @@ const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
     sendResponse,
 ) => {
     try {
-        const {
-            accessToken,
-            refreshToken,
-        } = await storageGetTokens();
-        const graphqlClient = generateClient(
-            DEFAULT_API_ENDPOINT,
-            accessToken,
-            refreshToken,
-        );
+        const graphqlClient = await getDefaultGraphqlClient();
 
         const streamerIdentonym = request.data;
 

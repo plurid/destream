@@ -1,9 +1,10 @@
 // #region imports
     // #region external
     import {
+        DEFAULT_API_ENDPOINT,
+        TAB_GROUP_SUFFIX,
         storagePrefix,
         destreamCurrentStateTopicSuffix,
-        TAB_GROUP_SUFFIX,
     } from '../../data/constants';
 
     import {
@@ -14,6 +15,7 @@
     import {
         storageGet,
         storageRemove,
+        storageGetTokens,
     } from '../../common/storage';
 
     import {
@@ -30,12 +32,32 @@
         windowsGetAll,
         windowsCreate,
     } from '../../common/tab';
+
+    import {
+        generateClient,
+    } from '../graphql';
     // #endregion external
 // #endregion imports
 
 
 
 // #region module
+export const getDefaultGraphqlClient = async () => {
+    const {
+        accessToken,
+        refreshToken,
+    } = await storageGetTokens();
+    const graphqlClient = generateClient(
+        DEFAULT_API_ENDPOINT,
+        accessToken,
+        refreshToken,
+    );
+
+    return graphqlClient;
+}
+
+
+
 export const getTabSettingsID = (
     id: number,
 ) => {

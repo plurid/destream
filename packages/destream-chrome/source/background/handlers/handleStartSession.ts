@@ -9,7 +9,6 @@
     import {
         storageGetIsStreamer,
         storageGetIdentonym,
-        storageGetTokens,
     } from '../../common/storage';
 
     import {
@@ -22,7 +21,6 @@
     } from '../sessions';
 
     import {
-        generateClient,
         START_SESSION,
     } from '../graphql';
 
@@ -30,6 +28,7 @@
         getTab,
         getPublishTopicID,
         getCurrentStateTopicID,
+        getDefaultGraphqlClient,
     } from '../utilities'
     // #endregion external
 // #endregion imports
@@ -53,15 +52,7 @@ const handleStartSession: Handler<StartSessionMessage> = async (
             return;
         }
 
-        const {
-            accessToken,
-            refreshToken,
-        } = await storageGetTokens();
-        const graphqlClient = generateClient(
-            DEFAULT_API_ENDPOINT,
-            accessToken,
-            refreshToken,
-        );
+        const graphqlClient = await getDefaultGraphqlClient();
 
         const graphqlRequest = await graphqlClient.mutate({
             mutation: START_SESSION,

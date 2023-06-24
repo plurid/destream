@@ -25,7 +25,6 @@
         storageSetMultiple,
         storageGetAll,
         storageRemove,
-        storageGetTokens,
     } from '../../common/storage';
 
     import {
@@ -37,7 +36,10 @@
     } from '../../common/tab';
 
     import {
-        generateClient,
+        log,
+    } from '../../common/utilities';
+
+    import {
         STOP_SESSION_SUBSCRIPTION,
         START_SESSION_SUBSCRIPTION,
     } from '../graphql';
@@ -52,6 +54,7 @@
         removeTabSettings,
         openTab,
         assignTabToGroup,
+        getDefaultGraphqlClient,
     } from '../utilities';
     // #endregion external
 // #endregion imports
@@ -159,15 +162,8 @@ export const removeStreamerSubscription = async (
 export const stopSubscription = async (
     subscription: Subscription,
 ) => {
-    const {
-        accessToken,
-        refreshToken,
-    } = await storageGetTokens();
-    const graphqlClient = generateClient(
-        DEFAULT_API_ENDPOINT,
-        accessToken,
-        refreshToken,
-    );
+    const graphqlClient = await getDefaultGraphqlClient();
+
     await graphqlClient.mutate({
         mutation: STOP_SESSION_SUBSCRIPTION,
         variables: {
@@ -177,7 +173,6 @@ export const stopSubscription = async (
             },
         },
     });
-
 
     await deleteSubscription(subscription.sessionID);
     await removeTabSettings(subscription.tabID);
@@ -213,7 +208,7 @@ export const startSessionSubscriptionLogic = async (
     sessionIncognito: boolean | undefined,
     streamerIdentonym: string,
     generalPermissions: GeneralPermissions,
-    streamerDetails: any,
+    streamerDetails: StreamerDetails,
 ) => {
     try {
         const sessionSubscription = await graphqlClient.mutate({
@@ -257,6 +252,7 @@ export const startSessionSubscriptionLogic = async (
 
         return true;
     } catch (error) {
+        log(error);
         return false;
     }
 }

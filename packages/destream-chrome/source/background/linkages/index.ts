@@ -17,6 +17,10 @@
         GET_LINKAGES_OF_URL,
         GET_LINKAGE,
     } from '../graphql';
+
+    import {
+        getDefaultGraphqlClient,
+    } from '../utilities';
     // #endregion external
 // #endregion imports
 
@@ -30,19 +34,10 @@ export const getLinkageStorageID = (
 }
 
 
-
 export const getLinkagesOfURL = async (
     url: string,
 ) => {
-    const {
-        accessToken,
-        refreshToken,
-    } = await storageGetTokens();
-    const graphqlClient = generateClient(
-        DEFAULT_API_ENDPOINT,
-        accessToken,
-        refreshToken,
-    );
+    const graphqlClient = await getDefaultGraphqlClient();
 
     const graphqlRequest = await graphqlClient.mutate({
         mutation: GET_LINKAGES_OF_URL,
@@ -64,15 +59,7 @@ export const getLinkagesOfURL = async (
 export const getLinkage = async (
     id: string,
 ) => {
-    const {
-        accessToken,
-        refreshToken,
-    } = await storageGetTokens();
-    const graphqlClient = generateClient(
-        DEFAULT_API_ENDPOINT,
-        accessToken,
-        refreshToken,
-    );
+    const graphqlClient = await getDefaultGraphqlClient();
 
     const graphqlRequest = await graphqlClient.mutate({
         mutation: GET_LINKAGE,

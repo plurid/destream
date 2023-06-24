@@ -2,7 +2,6 @@
     // #region external
     import {
         MESSAGE_TYPE,
-        DEFAULT_API_ENDPOINT,
         storagePrefix,
         Replayment,
         ReplaySessionMessage,
@@ -10,7 +9,6 @@
 
     import {
         storageGet,
-        storageGetTokens,
         storageSet,
         storageRemove,
         storageGetAll,
@@ -26,10 +24,12 @@
     } from '../../common/utilities';
 
     import {
-        generateClient,
         GET_SESSION,
     } from '../../background/graphql';
 
+    import {
+        getDefaultGraphqlClient,
+    } from '../utilities';
 
     import handleReplaySession from '../handlers/handleReplaySession';
     // #endregion external
@@ -118,15 +118,7 @@ export const initializeReplayment = async (
     callback?: () => void,
     backgroundOnly = false,
 ) => {
-    const {
-        accessToken,
-        refreshToken,
-    } = await storageGetTokens();
-    const graphqlClient = generateClient(
-        DEFAULT_API_ENDPOINT,
-        accessToken,
-        refreshToken,
-    );
+    const graphqlClient = await getDefaultGraphqlClient();
 
     const destreamIDValue = destreamIDGetValue(destreamID);
 

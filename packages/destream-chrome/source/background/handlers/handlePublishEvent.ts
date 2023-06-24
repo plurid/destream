@@ -4,12 +4,7 @@
         Handler,
         MessagePublishEvent,
         ResponsePublishEvent,
-        DEFAULT_API_ENDPOINT,
     } from '../../data';
-
-    import {
-        storageGetTokens,
-    } from '../../common/storage';
 
     import {
         log,
@@ -21,12 +16,12 @@
     } from '../sessions';
 
     import {
-        generateClient,
         RECORD_SESSION_EVENT,
     } from '../graphql';
 
     import {
         getPublishTopicID,
+        getDefaultGraphqlClient,
     } from '../utilities';
     // #endregion external
 // #endregion imports
@@ -55,15 +50,7 @@ const handlePublishEvent: Handler<MessagePublishEvent> = async (
             return;
         }
 
-        const {
-            accessToken,
-            refreshToken,
-        } = await storageGetTokens();
-        const graphqlClient = generateClient(
-            DEFAULT_API_ENDPOINT,
-            accessToken,
-            refreshToken,
-        );
+        const graphqlClient = await getDefaultGraphqlClient();
 
         const event = composeEventData(session, request.data);
 

@@ -4,12 +4,10 @@
         Handler,
         StartSubscriptionByIDMessage,
         GeneralPermissions,
-        DEFAULT_API_ENDPOINT,
         storageFields,
     } from '../../data';
 
     import {
-        storageGetTokens,
         storageGet,
     } from '../../common/storage';
 
@@ -18,13 +16,16 @@
     } from '../../common/utilities';
 
     import {
-        generateClient,
         GET_ACTIVE_SESSION,
     } from '../graphql';
 
     import {
         startSessionSubscriptionLogic,
     } from '../subscriptions';
+
+    import {
+        getDefaultGraphqlClient,
+    } from '../utilities';
     // #endregion external
 // #endregion imports
 
@@ -37,15 +38,7 @@ const handleStartSubscriptionByID: Handler<StartSubscriptionByIDMessage> = async
     sendResponse,
 ) => {
     try {
-        const {
-            accessToken,
-            refreshToken,
-        } = await storageGetTokens();
-        const graphqlClient = generateClient(
-            DEFAULT_API_ENDPOINT,
-            accessToken,
-            refreshToken,
-        );
+        const graphqlClient = await getDefaultGraphqlClient();
 
         const sessionID = request.data;
 
