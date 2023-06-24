@@ -29,7 +29,7 @@ export const LOGIN_BY_IDENTONYM = gql`
                                     }
                                     access {
                                         role
-                                        subscription {
+                                        streamingSubscription {
                                             active
                                             start
                                             end
