@@ -2,7 +2,8 @@
     // #region external
     import {
         Handler,
-        GetLinkageMessage,
+        MessageGetLinkage,
+        ResponseGetLinkage,
     } from '../../data';
 
     import {
@@ -14,7 +15,7 @@
 
 
 // #region module
-const handleGetLinkage: Handler<GetLinkageMessage> = async (
+const handleGetLinkage: Handler<MessageGetLinkage> = async (
     request,
     sender,
     sendResponse,
@@ -22,10 +23,11 @@ const handleGetLinkage: Handler<GetLinkageMessage> = async (
     const tabID = request.data || sender.tab.id;
     const linkage = await getLinkageByTabID(tabID);
 
-    sendResponse({
+    const response: ResponseGetLinkage = {
         status: !!linkage,
         linkage,
-    });
+    };
+    sendResponse(response);
 
     return;
 }

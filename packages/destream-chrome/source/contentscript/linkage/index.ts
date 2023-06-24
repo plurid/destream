@@ -4,7 +4,8 @@
         MESSAGE_TYPE,
         MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
         Message,
-        GetLinkageMessage,
+        MessageGetLinkage,
+        ResponseGetLinkage,
         DestreamLinkage,
     } from '../../data';
 
@@ -49,6 +50,18 @@
     } from './controllers';
 
     import {
+        NetflixLinkage,
+    } from './controllers/netflix';
+
+    import {
+        SpotifyLinkage,
+    } from './controllers/spotify';
+
+    import {
+        TwitchLinkage,
+    } from './controllers/twitch';
+
+    import {
         YoutubeLinkage,
     } from './controllers/youtube';
     // #endregion internal
@@ -60,9 +73,9 @@
 const getController = (
     data: DestreamLinkage,
 ): Controller => {
-    // if (checkNetflixOrigin()) return new NetflixLinkage();
-    // if (checkSpotifyOrigin()) return new SpotifyLinkage();
-    // if (checkTwitchOrigin()) return new TwitchLinkage();
+    if (checkNetflixOrigin()) return new NetflixLinkage(data);
+    if (checkSpotifyOrigin()) return new SpotifyLinkage(data);
+    if (checkTwitchOrigin()) return new TwitchLinkage(data);
     if (checkYoutubeOrigin()) return new YoutubeLinkage(data);
 
     return new GeneralLinkage(data);
@@ -113,7 +126,7 @@ const runLinkage = async (
 
 
     const run = async () => {
-        const linkageRequest = await sendMessage<GetLinkageMessage>({
+        const linkageRequest = await sendMessage<MessageGetLinkage, ResponseGetLinkage>({
             type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_LINKAGE,
         });
         if (!linkageRequest.status) {

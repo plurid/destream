@@ -2,8 +2,8 @@
     // #region external
     import {
         Handler,
-        PublishEventMessage,
-        PublishEventResponse,
+        MessagePublishEvent,
+        ResponsePublishEvent,
         DEFAULT_API_ENDPOINT,
     } from '../../data';
 
@@ -34,12 +34,19 @@
 
 
 // #region module
-const handlePublishEvent: Handler<PublishEventMessage> = async (
+const handlePublishEvent: Handler<MessagePublishEvent> = async (
     request,
     sender,
     sendResponse,
 ) => {
     try {
+        if (!sender.tab || !sender.tab.id) {
+            sendResponse({
+                status: false,
+            });
+            return;
+        }
+
         const session = await getSession(sender.tab.id);
         if (!session) {
             sendResponse({
@@ -75,7 +82,7 @@ const handlePublishEvent: Handler<PublishEventMessage> = async (
         }
 
         const topic = getPublishTopicID(session.id);
-        const publishEventResponse: PublishEventResponse = {
+        const responsePublishEvent: ResponsePublishEvent = {
             status: true,
             data: {
                 token: session.token,
@@ -83,7 +90,7 @@ const handlePublishEvent: Handler<PublishEventMessage> = async (
                 message: event,
             },
         };
-        sendResponse(publishEventResponse);
+        sendResponse(responsePublishEvent);
 
         return;
     } catch (error) {

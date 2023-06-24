@@ -2,7 +2,8 @@
     // #region external
     import {
         Handler,
-        GetSessionAudienceMessage,
+        MessageGetSessionAudience,
+        ResponseGetSessionAudience,
     } from '../../data';
 
     import {
@@ -14,17 +15,18 @@
 
 
 // #region module
-const handleGetSessionAudience: Handler<GetSessionAudienceMessage> = async (
+const handleGetSessionAudience: Handler<MessageGetSessionAudience> = async (
     request,
     _sender,
     sendResponse,
 ) => {
-    const response = await getSessionAudience(request.data);
+    const audienceResponse = await getSessionAudience(request.data);
 
-    sendResponse({
-        status: response.status,
-        data: response.data,
-    });
+    const response: ResponseGetSessionAudience = {
+        status: audienceResponse.status,
+        audience: audienceResponse.data,
+    };
+    sendResponse(response);
 
     return;
 }

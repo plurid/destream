@@ -3,11 +3,13 @@
     import {
         DestreamEvent,
         MESSAGE_TYPE,
+        MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
         DESTREAM_DETECT_EVENT,
         GENERAL_EVENT,
-        PublishEventMessage,
-        PublishEventResponse,
-        GetSessionMessage,
+        MessagePublishEvent,
+        ResponsePublishEvent,
+        MessageGetSession,
+        ResponseGetSession,
         StartAnotherSessionMessage,
         StopSessionRequest,
         URLChangeRequest,
@@ -113,12 +115,12 @@ const runStreamer = async (
 
 
     const runLogic = (event: CustomEvent<DestreamEvent>) => {
-        sendMessage<PublishEventMessage>(
+        sendMessage<MessagePublishEvent, ResponsePublishEvent>(
             {
                 type: MESSAGE_TYPE.PUBLISH_EVENT,
                 data: event.detail,
             },
-            (response: PublishEventResponse) => {
+            (response) => {
                 if (!response.status) {
                     return;
                 }
@@ -251,8 +253,8 @@ const runStreamer = async (
             return;
         }
 
-        const sessionRequest = await sendMessage<GetSessionMessage>({
-            type: MESSAGE_TYPE.GET_SESSION,
+        const sessionRequest = await sendMessage<MessageGetSession, ResponseGetSession>({
+            type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_SESSION,
         });
         if (!sessionRequest.status) {
             return;

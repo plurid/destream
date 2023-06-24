@@ -25,6 +25,13 @@ const handleSendNotification: Handler<SendNotificationMessage> = async (
     sender,
     sendResponse,
 ) => {
+    if (!sender.tab || !sender.tab.id) {
+        sendResponse({
+            status: false,
+        });
+        return;
+    }
+
     const session = await getSession(sender.tab.id);
     if (!session) {
         sendResponse({

@@ -16,11 +16,19 @@ const handleGetTabID: Handler<MessageGetTabID> = async (
     sender,
     sendResponse,
 ) => {
+    if (!sender.tab || !sender.tab.id) {
+        const response: ResponseGetTabID = {
+            status: false,
+        };
+        sendResponse(response);
+
+        return;
+    }
+
     const response: ResponseGetTabID = {
         status: true,
         tabID: sender.tab.id,
     };
-
     sendResponse(response);
 
     return;

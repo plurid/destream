@@ -4,7 +4,8 @@
         DestreamEvent,
         MESSAGE_TYPE,
         GENERAL_EVENT,
-        GetSubscriptionMessage,
+        MessageGetSubscription,
+        ResponseGetSubscription,
         StopSubscriptionMessage,
         StartSubscriptionByIDMessage,
         Subscription,
@@ -216,7 +217,7 @@ const runViewer = async (
 
 
     const run = async () => {
-        const subscriptionRequest = await sendMessage<GetSubscriptionMessage>({
+        const subscriptionRequest = await sendMessage<MessageGetSubscription, ResponseGetSubscription>({
             type: MESSAGE_TYPE.GET_SUBSCRIPTION,
         });
         if (!subscriptionRequest.status) {

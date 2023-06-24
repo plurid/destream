@@ -2,7 +2,8 @@
     // #region external
     import {
         Handler,
-        GetTabSettingsMessage
+        MessageGetTabSettings,
+        ResponseGetTabSettings,
     } from '../../data';
 
     import {
@@ -14,18 +15,19 @@
 
 
 // #region module
-const handleGetTabSettings: Handler<GetTabSettingsMessage> = async (
+const handleGetTabSettings: Handler<MessageGetTabSettings> = async (
     request,
     sender,
     sendResponse,
 ) => {
-    const tabID = request.data || sender.tab.id;
+    const tabID = request.data || sender.tab?.id;
     const tabSettings = await getTabSettings(tabID);
 
-    sendResponse({
+    const response: ResponseGetTabSettings = {
         status: !!tabSettings,
         tabSettings,
-    });
+    };
+    sendResponse(response);
 
     return;
 }

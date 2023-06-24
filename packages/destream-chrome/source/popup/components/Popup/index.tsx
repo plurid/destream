@@ -21,6 +21,7 @@
     // #region external
     import {
         MESSAGE_TYPE,
+        MESSAGE_POPUP_TO_BACKGROUND,
         uncontrollableURLsBase,
         // DEFAULT_API_ENDPOINT,
         storagePrefix,
@@ -30,8 +31,10 @@
         StartSessionMessage,
         StopSessionMessage,
         StopSubscriptionMessage,
-        GetSessionMessage,
-        GetSubscriptionMessage,
+        MessageGetSession,
+        ResponseGetSession,
+        MessageGetSubscription,
+        ResponseGetSubscription,
         Subscription,
         Replayment,
     } from '../../../data/interfaces';
@@ -290,26 +293,26 @@ const Popup: React.FC<any> = (
                 return;
             }
 
-            sendMessage<GetSessionMessage>(
+            sendMessage<MessageGetSession, ResponseGetSession>(
                 {
-                    type: MESSAGE_TYPE.GET_SESSION,
+                    type: MESSAGE_POPUP_TO_BACKGROUND.GET_SESSION,
                     data: activeTab.id,
                 },
-                (response: any) => {
+                (response) => {
                     if (response.status) {
                         setSessionStarted(true);
                     }
                 },
             );
 
-            sendMessage<GetSubscriptionMessage>(
+            sendMessage<MessageGetSubscription, ResponseGetSubscription>(
                 {
-                    type: MESSAGE_TYPE.GET_SUBSCRIPTION,
+                    type: MESSAGE_POPUP_TO_BACKGROUND.GET_SUBSCRIPTION,
                     data: activeTab.id,
                 },
-                (response: any) => {
+                (response) => {
                     if (response.status) {
-                        const subscription: Subscription = response.subscription;
+                        const subscription = response.subscription;
                         setActiveTabControlledBy(subscription.streamer);
                         setSubscription(subscription);
                     }

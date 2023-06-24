@@ -3,6 +3,7 @@
     import {
         MESSAGE_TYPE,
         MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
+        MESSAGE_POPUP_TO_BACKGROUND,
         GENERAL_EVENT,
     } from '../../constants';
 
@@ -11,9 +12,15 @@
     } from '../events';
 
     import {
-        Session,
         Notification,
+        Session,
+        Subscription,
+        TabSettings,
     } from '../entities';
+
+    import {
+       DestreamLinkage,
+    } from '../linkage';
     // #endregion external
 // #endregion imports
 
@@ -21,10 +28,10 @@
 
 // #region module
 export type Message =
-    | PublishEventMessage
+    | MessagePublishEvent
     | MessageGetTabID
-    | GetSessionMessage
-    | GetSessionAudienceMessage
+    | MessageGetSession
+    | MessageGetSessionAudience
     | StartSessionMessage
     | StartAnotherSessionMessage
     | StopSessionMessage
@@ -33,9 +40,9 @@ export type Message =
     | StopSubscriptionMessage
     | StopSubscriptionRequest
     | StopSubscriptionsMessage
-    | GetSubscriptionMessage
-    | GetTabSettingsMessage
-    | GetLinkageMessage
+    | MessageGetSubscription
+    | MessageGetTabSettings
+    | MessageGetLinkage
     | SendNotificationMessage
     | StopEverythingMessage
     | URLChangeMessage
@@ -60,10 +67,21 @@ export type Response<T> = {
 
 
 
-export interface PublishEventMessage {
-    type: typeof MESSAGE_TYPE.PUBLISH_EVENT;
+export interface MessagePublishEvent {
+    type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.PUBLISH_EVENT;
     data: DestreamEvent;
 }
+export type ResponsePublishEvent = Response<{
+    data: {
+        token: string;
+        topic: string;
+        message: {
+            sessionID: string;
+            relativeTime: number;
+            data: string;
+        };
+    };
+}>;
 
 export interface MessageGetTabID {
     type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_TAB_ID;
@@ -72,17 +90,26 @@ export type ResponseGetTabID = Response<{
     tabID: number;
 }>;
 
-export interface GetSessionMessage {
-    type: typeof MESSAGE_TYPE.GET_SESSION;
+export interface MessageGetSession {
+    type:
+        | typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_SESSION
+        | typeof MESSAGE_POPUP_TO_BACKGROUND.GET_SESSION;
     // tabID
     data?: number;
 }
+export type ResponseGetSession = Response<{
+    session: Session;
+}>;
 
-export interface GetSessionAudienceMessage {
+
+export interface MessageGetSessionAudience {
     type: typeof MESSAGE_TYPE.GET_SESSION_AUDIENCE;
     // sessionID
     data: string;
 }
+export type ResponseGetSessionAudience = Response<{
+    audience: number;
+}>;
 
 export interface StartSessionMessage {
     type: typeof MESSAGE_TYPE.START_SESSION;
@@ -143,23 +170,34 @@ export interface StopSubscriptionsMessage {
     data: string;
 }
 
-export interface GetSubscriptionMessage {
-    type: typeof MESSAGE_TYPE.GET_SUBSCRIPTION;
+export interface MessageGetSubscription {
+    type:
+        | typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_SUBSCRIPTION
+        | typeof MESSAGE_POPUP_TO_BACKGROUND.GET_SUBSCRIPTION;
     // tabID
     data?: number;
 }
+export type ResponseGetSubscription = Response<{
+    subscription: Subscription;
+}>;
 
-export interface GetTabSettingsMessage {
+export interface MessageGetTabSettings {
     type: typeof MESSAGE_TYPE.GET_TAB_SETTINGS;
     // tabID
     data?: number;
 }
+export type ResponseGetTabSettings = Response<{
+    tabSettings: TabSettings;
+}>;
 
-export interface GetLinkageMessage {
-    type: typeof MESSAGE_TYPE.GET_LINKAGE;
+export interface MessageGetLinkage {
+    type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_LINKAGE;
     // tabID
     data?: number;
 }
+export type ResponseGetLinkage = Response<{
+    linkage: DestreamLinkage;
+}>;
 
 export interface SendNotificationMessage {
     type: typeof MESSAGE_TYPE.SEND_NOTIFICATION;

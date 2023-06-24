@@ -11,10 +11,16 @@ export const MESSAGE_CONTENTSCRIPT_TO_BACKGROUND = {
     GET_SESSION: 'getSession',
     GET_SUBSCRIPTION: 'getSubscription',
     GET_LINKAGE: 'getLinkage',
+    PUBLISH_EVENT: 'publishEvent',
 } as const;
 
-export const MESSAGE_BACKGROUND_POPUP = {
+export const MESSAGE_BACKGROUND_TO_POPUP = {
 
+} as const;
+
+export const MESSAGE_POPUP_TO_BACKGROUND = {
+    GET_SESSION: 'getSession',
+    GET_SUBSCRIPTION: 'getSubscription',
 } as const;
 
 export const MESSAGE_BACKGROUND_OPTIONS = {

@@ -7,9 +7,12 @@
     import {
         MessageGetTabID,
         ResponseGetTabID,
-        GetSessionMessage,
-        GetSubscriptionMessage,
-        GetTabSettingsMessage,
+        MessageGetSession,
+        ResponseGetSession,
+        MessageGetSubscription,
+        ResponseGetSubscription,
+        MessageGetTabSettings,
+        ResponseGetTabSettings,
         Session,
         Subscription,
         TabSettings,
@@ -43,7 +46,7 @@ export const getSession = async (
         return;
     }
 
-    const response = await sendMessage<GetSessionMessage>({
+    const response = await sendMessage<MessageGetSession, ResponseGetSession>({
         type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_SESSION,
         data: tabID,
     });
@@ -62,7 +65,7 @@ export const getSubscription = async (
         return;
     }
 
-    const response = await sendMessage<GetSubscriptionMessage>({
+    const response = await sendMessage<MessageGetSubscription, ResponseGetSubscription>({
         type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_SUBSCRIPTION,
         data: tabID,
     });
@@ -81,7 +84,7 @@ export const getTabSettings = async (
         return;
     }
 
-    const response = await sendMessage<GetTabSettingsMessage>({
+    const response = await sendMessage<MessageGetTabSettings, ResponseGetTabSettings>({
         type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_TAB_SETTINGS,
         data: tabID,
     });

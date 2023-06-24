@@ -2,7 +2,8 @@
     // #region external
     import {
         Handler,
-        GetSubscriptionMessage,
+        MessageGetSubscription,
+        ResponseGetSubscription,
     } from '../../data';
 
     import {
@@ -14,18 +15,19 @@
 
 
 // #region module
-const handleGetSubscription: Handler<GetSubscriptionMessage> = async (
+const handleGetSubscription: Handler<MessageGetSubscription> = async (
     request,
     sender,
     sendResponse,
 ) => {
-    const tabID = request.data || sender.tab.id;
+    const tabID = request.data || sender.tab?.id;
     const subscription = await getSubscriptionByTabID(tabID);
 
-    sendResponse({
+    const response: ResponseGetSubscription = {
         status: !!subscription,
         subscription,
-    });
+    };
+    sendResponse(response);
 
     return;
 }
