@@ -120,4 +120,10 @@ export const storageRemoveListener = (
 ) => {
     chrome.storage.onChanged.removeListener(listener);
 }
+
+
+
+export const storageClearAll = async () => {
+    await chrome.storage.local.clear();
+}
 // #endregion module

@@ -22,10 +22,10 @@
     // #region external
     import {
         STREAMER_REGISTRATION_URL,
-        DEFAULT_API_ENDPOINT,
+        // DEFAULT_API_ENDPOINT,
         MESSAGE_TYPE,
         defaultPermissions,
-        defaultAllowedURLOrigins,
+        // defaultAllowedURLOrigins,
         storageFields,
     } from '../../../data/constants';
 
@@ -38,6 +38,7 @@
         storageGetAll,
         storageGet,
         storageSet,
+        storageClearAll,
     } from '../../../common/storage';
 
     import {
@@ -161,21 +162,26 @@ const Options: React.FC<any> = (
         ...defaultPermissions.allowedURLOrigins,
     ]);
 
-    const [
-        newEndpoint,
-        setNewEndpoint,
-    ] = useState('');
+    // const [
+    //     newEndpoint,
+    //     setNewEndpoint,
+    // ] = useState('');
 
-    const [
-        endpoints,
-        setEndpoints,
-    ] = useState([
-        DEFAULT_API_ENDPOINT,
-    ]);
+    // const [
+    //     endpoints,
+    //     setEndpoints,
+    // ] = useState([
+    //     DEFAULT_API_ENDPOINT,
+    // ]);
 
     const [
         showStopEverything,
         setShowStopEverything,
+    ] = useState(false);
+
+    const [
+        showResetEverything,
+        setShowResetEverything,
     ] = useState(false);
     // #endregion state
 
@@ -183,6 +189,14 @@ const Options: React.FC<any> = (
     // #region handlers
     const registerAsStreamer = () => {
         window.open(STREAMER_REGISTRATION_URL, '_blank');
+    }
+
+    const resetEverything = async () => {
+        setShowResetEverything(false);
+
+        await stopEverything();
+        await logout();
+        await storageClearAll();
     }
 
     const stopEverything = async () => {
@@ -309,6 +323,34 @@ const Options: React.FC<any> = (
 
 
     // #region render
+    if (showResetEverything) {
+        return (
+            <StyledOptions>
+                <PureButton
+                    text="Reset Everything"
+                    atClick={() => {
+                        resetEverything();
+                    }}
+                    theme={plurid}
+                    level={2}
+                    style={{
+                        width: '320px',
+                        margin: '0 auto',
+                    }}
+                />
+
+                <LinkButton
+                    text="cancel"
+                    atClick={() => {
+                        setShowResetEverything(false);
+                    }}
+                    theme={plurid}
+                    inline={true}
+                />
+            </StyledOptions>
+        );
+    }
+
     return (
         <StyledOptions>
             {!loggedIn && (
@@ -595,6 +637,18 @@ const Options: React.FC<any> = (
                     }}
                 />
             )}
+
+            <LinkButton
+                text="reset everything"
+                atClick={() => {
+                    setShowResetEverything(true);
+                }}
+                theme={plurid}
+                inline={true}
+                style={{
+                    marginTop: '2rem',
+                }}
+            />
         </StyledOptions>
     );
     // #endregion render
