@@ -15,8 +15,9 @@
         storageFields,
         DEFAULT_API_ENDPOINT,
         GENERAL_EVENT,
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
         GeneralPermissions,
-        StopSubscriptionRequest,
+        RequestStopSubscription,
     } from '../../data';
 
     import {
@@ -178,13 +179,15 @@ export const stopSubscription = async (
     await removeTabSettings(subscription.tabID);
     await removeStreamerSubscription(subscription.streamer);
 
-    await sendMessageToTab<StopSubscriptionRequest>(subscription.tabID, {
-        type: GENERAL_EVENT.STOP_SUBSCRIPTION,
+    await sendMessageToTab<RequestStopSubscription>(subscription.tabID, {
+        type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.STOP_SUBSCRIPTION,
     }).catch(() => {
         // Ignore error if tab does not exist.
     });
 
-    await tabsUngroup(subscription.tabID);
+    await tabsUngroup(subscription.tabID).catch(() => {
+        // Ignore error if tab does not exist.
+    });
 }
 
 

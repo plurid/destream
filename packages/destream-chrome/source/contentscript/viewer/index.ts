@@ -3,10 +3,12 @@
     import {
         DestreamEvent,
         MESSAGE_TYPE,
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
+        MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
         GENERAL_EVENT,
         MessageGetSubscription,
         ResponseGetSubscription,
-        StopSubscriptionMessage,
+        MessageStopSubscription,
         StartSubscriptionByIDMessage,
         Subscription,
         resyncTimeout,
@@ -162,8 +164,8 @@ const runViewer = async (
                 case GENERAL_EVENT.STOP_SESSION:
                     destroyCursor();
 
-                    sendMessage<StopSubscriptionMessage>({
-                        type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
+                    sendMessage<MessageStopSubscription>({
+                        type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.STOP_SUBSCRIPTION,
                         data: subscription.sessionID,
                     }).catch(log);
 
@@ -198,7 +200,7 @@ const runViewer = async (
         }
 
         switch (request.type) {
-            case GENERAL_EVENT.STOP_SUBSCRIPTION:
+            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.STOP_SUBSCRIPTION:
                 destroyCursor();
 
                 client.unsubscribe(
@@ -206,7 +208,7 @@ const runViewer = async (
                     subscription.publishTopic,
                 );
                 break;
-            case GENERAL_EVENT.RESYNC_SESSION:
+            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.RESYNC_SESSION:
                 requestCurrentState();
                 break;
         }
@@ -218,7 +220,7 @@ const runViewer = async (
 
     const run = async () => {
         const subscriptionRequest = await sendMessage<MessageGetSubscription, ResponseGetSubscription>({
-            type: MESSAGE_TYPE.GET_SUBSCRIPTION,
+            type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_SUBSCRIPTION,
         });
         if (!subscriptionRequest.status) {
             return;

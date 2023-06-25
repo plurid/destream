@@ -28,9 +28,10 @@
     } from '../../../data/constants';
 
     import {
+        ResponseMessage,
         StartSessionMessage,
         StopSessionMessage,
-        StopSubscriptionMessage,
+        MessageStopSubscription,
         MessageGetSession,
         ResponseGetSession,
         MessageGetSubscription,
@@ -225,12 +226,12 @@ const Popup: React.FC<any> = (
         setActiveTabControlledBy('');
         setLoading(true);
 
-        sendMessage<StopSubscriptionMessage>(
+        sendMessage<MessageStopSubscription, ResponseMessage>(
             {
                 type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
                 data: subscription.sessionID,
             },
-            (response: any) => {
+            (response) => {
                 setLoading(false);
 
                 if (response.status) {

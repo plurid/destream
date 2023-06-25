@@ -3,7 +3,7 @@
     import {
         Handler,
         ResyncSessionMessage,
-        GENERAL_EVENT,
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
     } from '../../data';
 
     import {
@@ -23,7 +23,7 @@ const handleResyncSession: Handler<ResyncSessionMessage> = async (
     const tabID = request.data;
 
     await sendMessageToTab(tabID, {
-        type: GENERAL_EVENT.RESYNC_SESSION,
+        type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.RESYNC_SESSION,
     });
 
     sendResponse({

@@ -2,7 +2,8 @@
     // #region external
     import {
         Handler,
-        StopSubscriptionsMessage,
+        MessageStopSubscriptions,
+        ResponseMessage,
     } from '../../data';
 
     import {
@@ -15,7 +16,7 @@
 
 
 // #region module
-const handleStopSubscriptions: Handler<StopSubscriptionsMessage> = async (
+const handleStopSubscriptions: Handler<MessageStopSubscriptions> = async (
     request,
     _sender,
     sendResponse,
@@ -26,9 +27,10 @@ const handleStopSubscriptions: Handler<StopSubscriptionsMessage> = async (
         await stopSubscription(subscription);
     }
 
-    sendResponse({
+    const response: ResponseMessage = {
         status: true,
-    });
+    };
+    sendResponse(response);
 
     return;
 }

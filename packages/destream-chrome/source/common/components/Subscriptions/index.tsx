@@ -20,11 +20,13 @@
     // #region external
     import {
         StartSubscriptionMessage,
-        StopSubscriptionsMessage,
+        MessageStopSubscriptions,
+        ResponseMessage,
     } from '../../../data/interfaces';
 
     import {
         MESSAGE_TYPE,
+        MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND,
         storageFields,
     } from '../../../data/constants';
 
@@ -142,9 +144,9 @@ const Subscriptions: React.FC<SubscriptionsProperties> = (
             removeSubscription(name);
         }
 
-        sendMessage<StopSubscriptionsMessage>(
+        sendMessage<MessageStopSubscriptions, ResponseMessage>(
             {
-                type: MESSAGE_TYPE.STOP_SUBSCRIPTIONS,
+                type: MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND.STOP_SUBSCRIPTIONS,
                 data: name,
             },
             (_response) => {

@@ -2,7 +2,6 @@
     // #region external
     import {
         DestreamEvent,
-        MESSAGE_TYPE,
         MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
         DESTREAM_DETECT_EVENT,
         GENERAL_EVENT,
@@ -117,7 +116,7 @@ const runStreamer = async (
     const runLogic = (event: CustomEvent<DestreamEvent>) => {
         sendMessage<MessagePublishEvent, ResponsePublishEvent>(
             {
-                type: MESSAGE_TYPE.PUBLISH_EVENT,
+                type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.PUBLISH_EVENT,
                 data: event.detail,
             },
             (response) => {

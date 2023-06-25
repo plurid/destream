@@ -3,6 +3,10 @@ export const MESSAGE_BACKGROUND_TO_CONTENTSCRIPT = {
     LINKAGE_STARTING: 'linkageStarting',
     LINKAGE_STARTED: 'linkageStarted',
     LINKAGE_ENDED: 'linkageEnded',
+
+    STOP_SUBSCRIPTION: 'stopSubscription',
+
+    RESYNC_SESSION: 'resyncSession',
 } as const;
 
 export const MESSAGE_CONTENTSCRIPT_TO_BACKGROUND = {
@@ -11,7 +15,10 @@ export const MESSAGE_CONTENTSCRIPT_TO_BACKGROUND = {
     GET_SESSION: 'getSession',
     GET_SUBSCRIPTION: 'getSubscription',
     GET_LINKAGE: 'getLinkage',
+
     PUBLISH_EVENT: 'publishEvent',
+
+    STOP_SUBSCRIPTION: 'stopSubscription',
 } as const;
 
 export const MESSAGE_BACKGROUND_TO_POPUP = {
@@ -25,15 +32,17 @@ export const MESSAGE_POPUP_TO_BACKGROUND = {
     REPLAY_SESSION: 'replaySession',
 } as const;
 
-export const MESSAGE_BACKGROUND_OPTIONS = {
+export const MESSAGE_OPTIONS_TO_BACKGROUND = {
 
+} as const;
+
+export const MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND = {
+    STOP_SUBSCRIPTIONS: 'stopSubscriptions',
 } as const;
 
 
 export const MESSAGE_TYPE = {
-    PUBLISH_EVENT: 'publishEvent',
     GET_TAB_ID: 'getTabID',
-    GET_SESSION: 'getSession',
     GET_SESSION_AUDIENCE: 'getSessionAudience',
     SEND_NOTIFICATION: 'sendNotification',
     START_SESSION: 'startSession',
@@ -41,8 +50,6 @@ export const MESSAGE_TYPE = {
     START_SUBSCRIPTION: 'startSubscription',
     START_SUBSCRIPTION_BY_ID: 'startSubscriptionByID',
     STOP_SUBSCRIPTION: 'stopSubscription',
-    STOP_SUBSCRIPTIONS: 'stopSubscriptions',
-    GET_SUBSCRIPTION: 'getSubscription',
     GET_TAB_SETTINGS: 'getTabSettings',
     GET_LINKAGE: 'getLinkage',
     STOP_EVERYTHING: 'stopEverything',

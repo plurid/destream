@@ -2,8 +2,10 @@
     // #region external
     import {
         MESSAGE_TYPE,
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
         MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
         MESSAGE_POPUP_TO_BACKGROUND,
+        MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND,
         GENERAL_EVENT,
     } from '../../constants';
 
@@ -37,9 +39,9 @@ export type Message =
     | StopSessionMessage
     | StartSubscriptionMessage
     | StartSubscriptionByIDMessage
-    | StopSubscriptionMessage
-    | StopSubscriptionRequest
-    | StopSubscriptionsMessage
+    | MessageStopSubscription
+    | RequestStopSubscription
+    | MessageStopSubscriptions
     | MessageGetSubscription
     | MessageGetTabSettings
     | MessageGetLinkage
@@ -64,6 +66,8 @@ export type Response<T> = {
     } | {
         status: true;
     } & T;
+
+export type ResponseMessage = Response<{}>;
 
 
 
@@ -154,18 +158,18 @@ export interface StartSubscriptionByIDMessage {
     data: string;
 }
 
-export interface StopSubscriptionMessage {
-    type: typeof MESSAGE_TYPE.STOP_SUBSCRIPTION;
+export interface MessageStopSubscription {
+    type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.STOP_SUBSCRIPTION;
     // session id
     data: string;
 }
 
-export interface StopSubscriptionRequest {
-    type: typeof GENERAL_EVENT.STOP_SUBSCRIPTION;
+export interface RequestStopSubscription {
+    type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.STOP_SUBSCRIPTION;
 }
 
-export interface StopSubscriptionsMessage {
-    type: typeof MESSAGE_TYPE.STOP_SUBSCRIPTIONS;
+export interface MessageStopSubscriptions {
+    type: typeof MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND.STOP_SUBSCRIPTIONS;
     // streamer name
     data: string;
 }
