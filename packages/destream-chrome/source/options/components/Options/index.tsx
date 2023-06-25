@@ -111,6 +111,11 @@ const Options: React.FC<any> = (
     ] = useState(defaultPermissions.useSessionGroups);
 
     const [
+        autoCheckLinkages,
+        setAutoCheckLinkages,
+    ] = useState(defaultPermissions.autoCheckLinkages);
+
+    const [
         allowScroll,
         setAllowScroll,
     ] = useState(defaultPermissions.allowScroll);
@@ -210,6 +215,7 @@ const Options: React.FC<any> = (
 
 
     // #region effects
+    /** Get General Permissions */
     useEffect(() => {
         const getPermissions = async () => {
             const generalPermissions = await storageGet(storageFields.generalPermissions);
@@ -220,6 +226,7 @@ const Options: React.FC<any> = (
             const {
                 useNotifications,
                 useSessionGroups,
+                autoCheckLinkages,
                 allowScroll,
                 allowPlayPause,
                 allowTimeSeek,
@@ -233,6 +240,7 @@ const Options: React.FC<any> = (
 
             setUseNotifications(useNotifications);
             setUseSessionGroups(useSessionGroups);
+            setAutoCheckLinkages(autoCheckLinkages);
             setAllowScroll(allowScroll);
             setAllowPlayPause(allowPlayPause);
             setAllowTimeSeek(allowTimeSeek);
@@ -259,11 +267,13 @@ const Options: React.FC<any> = (
         getExtendedDrawers();
     }, []);
 
+    /** Set General Permissions */
     useEffect(() => {
         const setPermissions = async () => {
             const generalPermissions: GeneralPermissions = {
                 useNotifications,
                 useSessionGroups,
+                autoCheckLinkages,
                 allowScroll,
                 allowPlayPause,
                 allowTimeSeek,
@@ -275,13 +285,17 @@ const Options: React.FC<any> = (
                 allowedURLOrigins,
             };
 
-            await storageSet(storageFields.generalPermissions, generalPermissions);
+            await storageSet(
+                storageFields.generalPermissions,
+                generalPermissions,
+            );
         }
 
         setPermissions();
     }, [
         useNotifications,
         useSessionGroups,
+        autoCheckLinkages,
         allowScroll,
         allowPlayPause,
         allowTimeSeek,
@@ -293,6 +307,7 @@ const Options: React.FC<any> = (
         allowedURLOrigins,
     ]);
 
+    /** Extended Drawers */
     useEffect(() => {
         const setExtendedDrawers = async () => {
             await storageSet(storageFields.extendedDrawers, extendedDrawers);
@@ -303,6 +318,7 @@ const Options: React.FC<any> = (
         JSON.stringify(extendedDrawers),
     ]);
 
+    /** Show Stop Everything */
     useEffect(() => {
         const checkShowEverything = async () => {
             try {
@@ -311,7 +327,7 @@ const Options: React.FC<any> = (
                     .keys(storage)
                     .some(checkEverythingKey);
 
-                setShowStopEverything(showEverything)
+                setShowStopEverything(showEverything);
             } catch (error) {
                 return;
             }
@@ -426,6 +442,15 @@ const Options: React.FC<any> = (
                     checked={useSessionGroups}
                     atChange={() => {
                         setUseSessionGroups(!useSessionGroups);
+                    }}
+                    theme={plurid}
+                />
+
+                <InputSwitch
+                    name="auto-check linkages"
+                    checked={autoCheckLinkages}
+                    atChange={() => {
+                        setAutoCheckLinkages(!autoCheckLinkages);
                     }}
                     theme={plurid}
                 />

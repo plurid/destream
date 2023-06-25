@@ -81,6 +81,7 @@ export type Notification =
 export interface GeneralPermissions {
     useNotifications: boolean;
     useSessionGroups: boolean;
+    autoCheckLinkages: boolean;
     allowScroll: boolean;
     allowPlayPause: boolean;
     allowTimeSeek: boolean;

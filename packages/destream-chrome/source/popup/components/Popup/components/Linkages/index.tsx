@@ -2,6 +2,7 @@
     // #region libraries
     import React, {
         useState,
+        useEffect,
     } from 'react';
 
     import {
@@ -14,6 +15,10 @@
     } from '@plurid/plurid-icons-react';
 
     import {
+        useDebouncedCallback,
+    } from '@plurid/plurid-functions-react';
+
+    import {
         LinkButton,
         RefreshButton,
         Spinner,
@@ -24,19 +29,19 @@
     // #region external
     import {
         Linkage,
+        GeneralPermissions,
+
+        storageFields,
     } from '../../../../../data';
 
     import {
         storageSet,
+        storageGet,
     } from '../../../../../common/storage';
 
     import {
         Tab,
     } from '../../../../../common/types';
-
-    import {
-        debounce,
-    } from '../../../../../common/utilities';
 
     import {
         getLinkageStorageID,
@@ -89,7 +94,7 @@ const Linkages: React.FC<LinkagesProperties> = (
 
 
     // #region handlers
-    const getLinkages = debounce(async () => {
+    const getLinkages = useDebouncedCallback(async () => {
         if (!activeTab || !activeTab.url) {
             return;
         }
@@ -108,6 +113,11 @@ const Linkages: React.FC<LinkagesProperties> = (
             return;
         }
     }, 1_500);
+
+    const loadLinkages = () => {
+        setLoading(true);
+        getLinkages();
+    }
 
     const pauseLinkage = async () => {
         setPlayingLinkage('');
@@ -142,6 +152,28 @@ const Linkages: React.FC<LinkagesProperties> = (
     // #endregion handlers
 
 
+    // #region effects
+    useEffect(() => {
+        const preCheckLinkages = async () => {
+            const generalPermissions = await storageGet<GeneralPermissions>(
+                storageFields.generalPermissions,
+            );
+            if (!generalPermissions) {
+                return;
+            }
+
+            if (!generalPermissions.autoCheckLinkages) {
+                return;
+            }
+
+            loadLinkages();
+        }
+
+        preCheckLinkages();
+    }, []);
+    // #endregion effects
+
+
     // #region render
     return (
         <div>
@@ -158,8 +190,7 @@ const Linkages: React.FC<LinkagesProperties> = (
                 <LinkButton
                     text="check linkages"
                     atClick={() => {
-                        setLoading(true);
-                        getLinkages();
+                        loadLinkages();
                     }}
                     theme={plurid}
                     inline={true}

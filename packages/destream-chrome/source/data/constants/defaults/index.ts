@@ -35,6 +35,7 @@ export const defaultAllowedURLOrigins = [
 export const defaultPermissions: GeneralPermissions = {
     useNotifications: true,
     useSessionGroups: true,
+    autoCheckLinkages: false,
     allowScroll: true,
     allowPlayPause: true,
     allowTimeSeek: true,
