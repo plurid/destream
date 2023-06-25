@@ -58,7 +58,8 @@ export type Message =
     | LinkageStartingMessage
     | LinkageStartedMessage
     | LinkageEndedMessage
-    | ResyncSessionMessage;
+    | MessageResyncSession
+    | RequestResyncSession;
 
 
 export type Response<T> = {
@@ -163,7 +164,6 @@ export interface MessageStopSubscription {
     // session id
     data: string;
 }
-
 export interface RequestStopSubscription {
     type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.STOP_SUBSCRIPTION;
 }
@@ -271,26 +271,29 @@ export interface ReplaymentInitializeMessage {
 }
 
 export interface LinkageStartingMessage {
-    type: typeof MESSAGE_TYPE.LINKAGE_STARTING;
+    type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_STARTING;
     // linkage id
     data: string;
 }
 
 export interface LinkageStartedMessage {
-    type: typeof MESSAGE_TYPE.LINKAGE_STARTED;
+    type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_STARTED;
     // linkage id
     data: string;
 }
 
 export interface LinkageEndedMessage {
-    type: typeof MESSAGE_TYPE.LINKAGE_ENDED;
+    type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_ENDED;
     // linkage id
     data: string;
 }
 
-export interface ResyncSessionMessage {
-    type: typeof MESSAGE_TYPE.RESYNC_SESSION;
+export interface MessageResyncSession {
+    type: typeof MESSAGE_POPUP_TO_BACKGROUND.RESYNC_SESSION;
     // tab id
     data: number;
+}
+export interface RequestResyncSession {
+    type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.RESYNC_SESSION;
 }
 // #endregion module

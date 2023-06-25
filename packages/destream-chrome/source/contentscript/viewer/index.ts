@@ -2,16 +2,17 @@
     // #region external
     import {
         DestreamEvent,
-        MESSAGE_TYPE,
-        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
-        MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
-        GENERAL_EVENT,
+        Subscription,
+        Message,
         MessageGetSubscription,
         ResponseGetSubscription,
         MessageStopSubscription,
         StartSubscriptionByIDMessage,
-        Subscription,
         resyncTimeout,
+        MESSAGE_TYPE,
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
+        MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
+        GENERAL_EVENT,
     } from '../../data';
 
     import {
@@ -189,7 +190,7 @@ const runViewer = async (
         }
     }
 
-    const messageListener: MessageListener<any, any> = (
+    const messageListener: MessageListener<Message, any> = (
         request,
         _sender,
         sendResponse,

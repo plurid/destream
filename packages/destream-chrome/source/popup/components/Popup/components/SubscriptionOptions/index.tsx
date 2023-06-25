@@ -18,8 +18,10 @@
 
     // #region external
     import {
-        MESSAGE_TYPE,
+        MESSAGE_POPUP_TO_BACKGROUND,
         Subscription,
+        MessageResyncSession,
+        ResponseMessage,
         resyncTimeout,
     } from '../../../../../data';
 
@@ -94,9 +96,9 @@ const SubscriptionOptions: React.FC<SubscriptionOptionsProperties> = (
 
         setResyncingSession(true);
 
-        await sendMessage<any>(
+        await sendMessage<MessageResyncSession, ResponseMessage>(
             {
-                type: MESSAGE_TYPE.RESYNC_SESSION,
+                type: MESSAGE_POPUP_TO_BACKGROUND.RESYNC_SESSION,
                 data: activeTab.id,
             },
             () => {

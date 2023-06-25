@@ -30,6 +30,8 @@ export const MESSAGE_POPUP_TO_BACKGROUND = {
     GET_SUBSCRIPTION: 'getSubscription',
 
     REPLAY_SESSION: 'replaySession',
+
+    RESYNC_SESSION: 'resyncSession',
 } as const;
 
 export const MESSAGE_OPTIONS_TO_BACKGROUND = {
@@ -61,9 +63,5 @@ export const MESSAGE_TYPE = {
     REPLAYMENT_STOP: 'replaymentStop',
     REPLAYMENT_INDEX: 'replaymentIndex',
     REPLAYMENT_INITIALIZE: 'replaymentInitialize',
-    LINKAGE_STARTING: 'linkageStarting',
-    LINKAGE_STARTED: 'linkageStarted',
-    LINKAGE_ENDED: 'linkageEnded',
-    RESYNC_SESSION: 'resyncSession',
 } as const;
 // #endregion module

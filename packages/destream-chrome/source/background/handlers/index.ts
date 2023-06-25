@@ -3,6 +3,7 @@
     import {
         Handler,
         MESSAGE_TYPE,
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
         MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
         MESSAGE_POPUP_TO_BACKGROUND,
         MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND,
@@ -54,6 +55,7 @@ const handlerMapping: Record<string, Handler<Message>> = {
 
     [MESSAGE_POPUP_TO_BACKGROUND.GET_SESSION]: handleGetSession,
     [MESSAGE_POPUP_TO_BACKGROUND.GET_SUBSCRIPTION]: handleGetSubscription,
+    [MESSAGE_POPUP_TO_BACKGROUND.RESYNC_SESSION]: handleResyncSession,
 
     [MESSAGE_TYPE.GET_TAB_ID]: handleGetTabID,
     [MESSAGE_TYPE.GET_SESSION_AUDIENCE]: handleGetSessionAudience,
@@ -73,7 +75,6 @@ const handlerMapping: Record<string, Handler<Message>> = {
     [MESSAGE_TYPE.REPLAYMENT_STOP]: handleReplaymentStop,
     [MESSAGE_TYPE.REPLAYMENT_INDEX]: handleReplaymentIndex,
     [MESSAGE_TYPE.REPLAYMENT_INITIALIZE]: handleReplaymentInitialize,
-    [MESSAGE_TYPE.RESYNC_SESSION]: handleResyncSession,
 };
 
 

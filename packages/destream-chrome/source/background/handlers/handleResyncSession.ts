@@ -2,7 +2,8 @@
     // #region external
     import {
         Handler,
-        ResyncSessionMessage,
+        MessageResyncSession,
+        RequestResyncSession,
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
     } from '../../data';
 
@@ -15,14 +16,14 @@
 
 
 // #region module
-const handleResyncSession: Handler<ResyncSessionMessage> = async (
+const handleResyncSession: Handler<MessageResyncSession> = async (
     request,
     _sender,
     sendResponse,
 ) => {
     const tabID = request.data;
 
-    await sendMessageToTab(tabID, {
+    await sendMessageToTab<RequestResyncSession>(tabID, {
         type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.RESYNC_SESSION,
     });
 
