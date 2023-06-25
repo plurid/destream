@@ -2,11 +2,13 @@
     // #region external
     import {
         Session,
-        StartAnotherSessionMessage,
-        URLChangeRequest,
+        MessageStartAnotherSession,
+        RequestURLChange,
+
         storagePrefix,
         DEFAULT_API_ENDPOINT,
         GENERAL_EVENT,
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
     } from '../../data';
 
     import {
@@ -209,8 +211,8 @@ export const updateSession = async (
             return;
         }
 
-        await sendMessageToTab<URLChangeRequest>(session.tabID, {
-            type: GENERAL_EVENT.URL_CHANGE,
+        await sendMessageToTab<RequestURLChange>(session.tabID, {
+            type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.URL_CHANGE,
             session,
             url: changeInfo.url,
         });
@@ -251,8 +253,8 @@ export const notifyStartAnotherSession = async (
 
     const session = sessions[0];
 
-    await sendMessageToTab<StartAnotherSessionMessage>(session.tabID, {
-        type: GENERAL_EVENT.START_ANOTHER_SESSION,
+    await sendMessageToTab<MessageStartAnotherSession>(session.tabID, {
+        type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.START_ANOTHER_SESSION,
         data: {
             session,
             newSessionID,

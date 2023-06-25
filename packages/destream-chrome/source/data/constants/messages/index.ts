@@ -4,8 +4,11 @@ export const MESSAGE_BACKGROUND_TO_CONTENTSCRIPT = {
     LINKAGE_STARTED: 'linkageStarted',
     LINKAGE_ENDED: 'linkageEnded',
 
-    STOP_SUBSCRIPTION: 'stopSubscription',
+    URL_CHANGE: 'urlChange',
 
+    STOP_SUBSCRIPTION: 'stopSubscription',
+    STOP_SESSION: 'stopSession',
+    START_ANOTHER_SESSION: 'startAnotherSession',
     REPLAY_SESSION: 'replaySession',
 
     REPLAYMENT_PAUSE: 'replaymentPause',
@@ -23,6 +26,8 @@ export const MESSAGE_CONTENTSCRIPT_TO_BACKGROUND = {
     GET_SUBSCRIPTION: 'getSubscription',
     GET_LINKAGE: 'getLinkage',
 
+    URL_CHANGE: 'urlChange',
+
     PUBLISH_EVENT: 'publishEvent',
 
     STOP_SUBSCRIPTION: 'stopSubscription',
@@ -38,6 +43,7 @@ export const MESSAGE_POPUP_TO_BACKGROUND = {
     GET_SESSION: 'getSession',
     GET_SUBSCRIPTION: 'getSubscription',
 
+    STOP_SESSION: 'stopSession',
     REPLAY_SESSION: 'replaySession',
 
     REPLAYMENT_PAUSE: 'replaymentPause',
@@ -62,14 +68,12 @@ export const MESSAGE_TYPE = {
     GET_SESSION_AUDIENCE: 'getSessionAudience',
     SEND_NOTIFICATION: 'sendNotification',
     START_SESSION: 'startSession',
-    STOP_SESSION: 'stopSession',
     START_SUBSCRIPTION: 'startSubscription',
     START_SUBSCRIPTION_BY_ID: 'startSubscriptionByID',
     STOP_SUBSCRIPTION: 'stopSubscription',
     GET_TAB_SETTINGS: 'getTabSettings',
     GET_LINKAGE: 'getLinkage',
     STOP_EVERYTHING: 'stopEverything',
-    URL_CHANGE: 'urlChange',
     DESTREAM_EVENT: 'destreamEvent',
     REPLAYMENT_INITIALIZE: 'replaymentInitialize',
 } as const;

@@ -1,8 +1,9 @@
 // #region imports
     // #region external
     import {
-        MESSAGE_TYPE,
-        URLChangeMessage,
+        MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
+        MessageURLChange,
+        ResponseMessage,
     } from '../../../data';
 
     import {
@@ -118,9 +119,9 @@ export const generalCursorTo = (
 export const generalURLChange = (
     url: string,
 ) => {
-    sendMessage<URLChangeMessage>(
+    sendMessage<MessageURLChange, ResponseMessage>(
         {
-            type: MESSAGE_TYPE.URL_CHANGE,
+            type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.URL_CHANGE,
             data: url,
         },
         (response) => {

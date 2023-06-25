@@ -50,10 +50,12 @@ const handlerMapping: Record<string, Handler<Message>> = {
     [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_SESSION]: handleGetSession,
     [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_SUBSCRIPTION]: handleGetSubscription,
     [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.PUBLISH_EVENT]: handlePublishEvent,
+    [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.URL_CHANGE]: handleURLChange,
 
     [MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND.STOP_SUBSCRIPTIONS]: handleStopSubscriptions,
 
     [MESSAGE_POPUP_TO_BACKGROUND.GET_SESSION]: handleGetSession,
+    [MESSAGE_POPUP_TO_BACKGROUND.STOP_SESSION]: handleStopSession,
     [MESSAGE_POPUP_TO_BACKGROUND.GET_SUBSCRIPTION]: handleGetSubscription,
     [MESSAGE_POPUP_TO_BACKGROUND.RESYNC_SESSION]: handleResyncSession,
     [MESSAGE_POPUP_TO_BACKGROUND.REPLAY_SESSION]: handleReplaySession,
@@ -65,7 +67,6 @@ const handlerMapping: Record<string, Handler<Message>> = {
     [MESSAGE_TYPE.GET_TAB_ID]: handleGetTabID,
     [MESSAGE_TYPE.GET_SESSION_AUDIENCE]: handleGetSessionAudience,
     [MESSAGE_TYPE.START_SESSION]: handleStartSession,
-    [MESSAGE_TYPE.STOP_SESSION]: handleStopSession,
     [MESSAGE_TYPE.START_SUBSCRIPTION]: handleStartSubscription,
     [MESSAGE_TYPE.START_SUBSCRIPTION_BY_ID]: handleStartSubscriptionByID,
     [MESSAGE_TYPE.STOP_SUBSCRIPTION]: handleStopSubscription,
@@ -73,7 +74,6 @@ const handlerMapping: Record<string, Handler<Message>> = {
     [MESSAGE_TYPE.GET_LINKAGE]: handleGetLinkage,
     [MESSAGE_TYPE.SEND_NOTIFICATION]: handleSendNotification,
     [MESSAGE_TYPE.STOP_EVERYTHING]: handleStopEverything,
-    [MESSAGE_TYPE.URL_CHANGE]: handleURLChange,
     [MESSAGE_TYPE.REPLAYMENT_INITIALIZE]: handleReplaymentInitialize,
 };
 

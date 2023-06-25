@@ -30,7 +30,7 @@
     import {
         ResponseMessage,
         StartSessionMessage,
-        StopSessionMessage,
+        MessageStopSession,
         MessageStopSubscription,
         MessageGetSession,
         ResponseGetSession,
@@ -199,9 +199,9 @@ const Popup: React.FC<any> = (
 
         setLoading(true);
 
-        sendMessage<StopSessionMessage>(
+        sendMessage<MessageStopSession>(
             {
-                type: MESSAGE_TYPE.STOP_SESSION,
+                type: MESSAGE_POPUP_TO_BACKGROUND.STOP_SESSION,
                 data: {
                     tabID: activeTab.id,
                     url: activeTab.url,

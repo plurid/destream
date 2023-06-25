@@ -2,18 +2,20 @@
     // #region external
     import {
         DestreamEvent,
-        MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
-        DESTREAM_DETECT_EVENT,
-        GENERAL_EVENT,
         MessagePublishEvent,
         ResponsePublishEvent,
         MessageGetSession,
         ResponseGetSession,
-        StartAnotherSessionMessage,
-        StopSessionRequest,
-        URLChangeRequest,
+        MessageStartAnotherSession,
+        RequestStopSession,
+        RequestURLChange,
         Session,
+
         storagePrefix,
+        MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
+        DESTREAM_DETECT_EVENT,
+        GENERAL_EVENT,
     } from '../../data';
 
     import MessagerClient from '../client';
@@ -139,7 +141,7 @@ const runStreamer = async (
 
 
     const stopSession = (
-        request: StopSessionRequest,
+        request: RequestStopSession,
     ) => {
         const {
             session,
@@ -157,7 +159,7 @@ const runStreamer = async (
     }
 
     const urlChange = (
-        request: URLChangeRequest,
+        request: RequestURLChange,
     ) => {
         const {
             session,
@@ -179,7 +181,7 @@ const runStreamer = async (
     }
 
     const startAnotherSession = (
-        request: StartAnotherSessionMessage,
+        request: MessageStartAnotherSession,
     ) => {
         const {
             session,
@@ -211,13 +213,13 @@ const runStreamer = async (
         }
 
         switch (request.type) {
-            case GENERAL_EVENT.STOP_SESSION:
+            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.STOP_SESSION:
                 stopSession(request);
                 break;
-            case GENERAL_EVENT.URL_CHANGE:
+            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.URL_CHANGE:
                 urlChange(request);
                 break;
-            case GENERAL_EVENT.START_ANOTHER_SESSION:
+            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.START_ANOTHER_SESSION:
                 startAnotherSession(request);
                 break;
         }
@@ -323,7 +325,7 @@ const runStreamer = async (
         }
 
         stopSession({
-            type: GENERAL_EVENT.STOP_SESSION,
+            type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.STOP_SESSION,
             session,
         });
     });

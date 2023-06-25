@@ -35,8 +35,9 @@ export type Message =
     | MessageGetSession
     | MessageGetSessionAudience
     | StartSessionMessage
-    | StartAnotherSessionMessage
-    | StopSessionMessage
+    | MessageStartAnotherSession
+    | MessageStopSession
+    | RequestStopSession
     | StartSubscriptionMessage
     | StartSubscriptionByIDMessage
     | MessageStopSubscription
@@ -47,7 +48,8 @@ export type Message =
     | MessageGetLinkage
     | SendNotificationMessage
     | StopEverythingMessage
-    | URLChangeMessage
+    | MessageURLChange
+    | RequestURLChange
     | DestreamEventMessage
     | MessageReplaySession
     | RequestReplaySession
@@ -129,25 +131,23 @@ export interface StartSessionMessage {
     };
 }
 
-export interface StartAnotherSessionMessage {
-    type: typeof GENERAL_EVENT.START_ANOTHER_SESSION;
+export interface MessageStartAnotherSession {
+    type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.START_ANOTHER_SESSION;
     data: {
         session: Session;
         newSessionID: string;
     };
 }
 
-export interface StopSessionMessage {
-    type: typeof MESSAGE_TYPE.STOP_SESSION;
+export interface MessageStopSession {
+    type: typeof MESSAGE_POPUP_TO_BACKGROUND.STOP_SESSION;
     data: {
         tabID: number;
         url: string;
     };
 }
-
-// Request sent from background to contentscript.
-export interface StopSessionRequest {
-    type: typeof GENERAL_EVENT.STOP_SESSION;
+export interface RequestStopSession {
+    type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.STOP_SESSION;
     session: Session;
 }
 
@@ -216,14 +216,13 @@ export interface StopEverythingMessage {
     type: typeof MESSAGE_TYPE.STOP_EVERYTHING;
 }
 
-export interface URLChangeMessage {
-    type: typeof MESSAGE_TYPE.URL_CHANGE;
+export interface MessageURLChange {
+    type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.URL_CHANGE;
     // url
     data: string;
 }
-
-export interface URLChangeRequest {
-    type: typeof GENERAL_EVENT.URL_CHANGE;
+export interface RequestURLChange {
+    type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.URL_CHANGE;
     session: Session;
     url: string;
 }

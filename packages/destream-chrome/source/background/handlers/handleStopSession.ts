@@ -2,9 +2,10 @@
     // #region external
     import {
         Handler,
-        StopSessionMessage,
-        StopSessionRequest,
-        GENERAL_EVENT,
+        MessageStopSession,
+        RequestStopSession,
+
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
     } from '../../data';
 
     import {
@@ -35,7 +36,7 @@
 
 
 // #region module
-const handleStopSession: Handler<StopSessionMessage> = async (
+const handleStopSession: Handler<MessageStopSession> = async (
     request,
     _sender,
     sendResponse,
@@ -73,8 +74,8 @@ const handleStopSession: Handler<StopSessionMessage> = async (
             tabID,
         );
 
-        await sendMessageToTab<StopSessionRequest>(session.tabID, {
-            type: GENERAL_EVENT.STOP_SESSION,
+        await sendMessageToTab<RequestStopSession>(session.tabID, {
+            type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.STOP_SESSION,
             session,
         });
 

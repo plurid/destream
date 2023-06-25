@@ -2,7 +2,8 @@
     // #region external
     import {
         Handler,
-        URLChangeMessage,
+        MessageURLChange,
+
         storageFields,
         GeneralPermissions,
     } from '../../data';
@@ -25,7 +26,7 @@
 
 
 // #region module
-const handleURLChange: Handler<URLChangeMessage> = async (
+const handleURLChange: Handler<MessageURLChange> = async (
     request,
     sender,
     sendResponse,
