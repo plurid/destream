@@ -227,7 +227,9 @@ export interface DestreamEventMessage {
 
 export interface ReplaySessionMessage {
     type: typeof MESSAGE_TYPE.REPLAY_SESSION;
+    // session data
     data: any;
+    linkage?: boolean;
 }
 
 export interface ReplaymentPauseMessage {

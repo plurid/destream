@@ -29,6 +29,7 @@
     // #region external
     import {
         Linkage,
+        LinkageOfURL,
         GeneralPermissions,
 
         storageFields,
@@ -47,6 +48,9 @@
         getLinkageStorageID,
         getLinkagesOfURL,
         getLinkage,
+        storeURLLinkages,
+        getURLLinkages,
+        getLinkageByTabID,
     } from '../../../../../background/linkages';
     // #endregion external
 // #region imports
@@ -54,13 +58,6 @@
 
 
 // #region module
-export interface LinkageOfURL {
-    streamerName: string;
-    linkageID: string;
-    linkageName: string;
-}
-
-
 export interface LinkagesProperties {
     activeTab: Tab | undefined;
 }
@@ -106,7 +103,10 @@ const Linkages: React.FC<LinkagesProperties> = (
             setLinkages(linkages);
             setLoading(false);
 
-            // store linkages in local storage
+            storeURLLinkages(
+                activeTab.url,
+                linkages,
+            );
         } catch (error) {
             setLoading(false);
 
@@ -154,7 +154,28 @@ const Linkages: React.FC<LinkagesProperties> = (
 
     // #region effects
     useEffect(() => {
+        if (!activeTab) {
+            return;
+        }
+
+        const checkPlayingLinkage = async () => {
+            const linkage = await getLinkageByTabID(activeTab.id);
+            if (!linkage) {
+                return;
+            }
+
+            setPlayingLinkage(linkage.id);
+        }
+
         const preCheckLinkages = async () => {
+            const urlLinkages = await getURLLinkages(
+                activeTab.url,
+            );
+            if (urlLinkages) {
+                setLinkages(urlLinkages);
+                return;
+            }
+
             const generalPermissions = await storageGet<GeneralPermissions>(
                 storageFields.generalPermissions,
             );
@@ -169,6 +190,7 @@ const Linkages: React.FC<LinkagesProperties> = (
             loadLinkages();
         }
 
+        checkPlayingLinkage();
         preCheckLinkages();
     }, []);
     // #endregion effects

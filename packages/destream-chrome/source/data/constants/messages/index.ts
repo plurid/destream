@@ -21,6 +21,8 @@ export const MESSAGE_BACKGROUND_TO_POPUP = {
 export const MESSAGE_POPUP_TO_BACKGROUND = {
     GET_SESSION: 'getSession',
     GET_SUBSCRIPTION: 'getSubscription',
+
+    REPLAY_SESSION: 'replaySession',
 } as const;
 
 export const MESSAGE_BACKGROUND_OPTIONS = {

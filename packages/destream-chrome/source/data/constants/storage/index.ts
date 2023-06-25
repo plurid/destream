@@ -4,6 +4,7 @@ export const storagePrefix = {
     subscription: 'subscription-',
     replayment: 'replayment-',
     linkage: 'linkage-',
+    urlLinkages: 'url-linkages-',
     tabSettings: 'tab-settings-',
     destreamTopic: 'destream-',
 } as const;

@@ -1,8 +1,8 @@
 // #region imports
     // #region external
     import {
-        log,
-    } from '../common/utilities';
+        ASYNCHRONOUS_RESPONSE,
+    } from '../data';
 
     import {
         messageAddListener,
@@ -12,6 +12,10 @@
         tabsOnRemovedAddListener,
         tabsOnUpdatedAddListener,
     } from '../common/tab';
+
+    import {
+        log,
+    } from '../common/utilities';
     // #endregion external
 
 
@@ -34,6 +38,10 @@
     import {
         stopReplaymentWithTabID,
     } from './replayments';
+
+    import {
+        stopLinkageWithTabID,
+    } from './linkages';
     // #endregion internal
 // #endregion imports
 
@@ -50,8 +58,7 @@ const main = async () => {
                     log(error);
                 });
 
-            // Indicate the response is asynchronous.
-            return true;
+            return ASYNCHRONOUS_RESPONSE;
         });
 
         tabsOnRemovedAddListener((tabID) => {
@@ -62,6 +69,9 @@ const main = async () => {
                 log(error);
             });
             stopReplaymentWithTabID(tabID).catch(error => {
+                log(error);
+            });
+            stopLinkageWithTabID(tabID).catch(error => {
                 log(error);
             });
         });

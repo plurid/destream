@@ -57,6 +57,7 @@ export interface Replayment {
     currentIndex: number;
     status: 'playing' | 'paused';
     duration: number;
+    linkage?: boolean;
 }
 
 

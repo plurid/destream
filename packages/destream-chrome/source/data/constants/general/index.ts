@@ -22,4 +22,11 @@ export const NOTIFICATION_KIND = {
 
 
 export const DESTREAM_PROTOCOL = 'destream://';
+
+
+
+/**
+ * Signal event listeners are asynchronous.
+ */
+export const ASYNCHRONOUS_RESPONSE = true;
 // #endregion module

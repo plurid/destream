@@ -1,25 +1,27 @@
 // #region imports
     // #region external
     import {
-        DEFAULT_API_ENDPOINT,
         storagePrefix,
         Linkage,
+        LinkageOfURL,
     } from '../../data';
 
     import {
-        storageGetTokens,
         storageGetAll,
+        storageRemove,
+        storageSessionGet,
+        storageSessionSet,
     } from '../../common/storage';
 
     import {
-        generateClient,
-
         GET_LINKAGES_OF_URL,
         GET_LINKAGE,
     } from '../graphql';
 
     import {
         getDefaultGraphqlClient,
+        getTab,
+        hashValue,
     } from '../utilities';
     // #endregion external
 // #endregion imports
@@ -31,6 +33,13 @@ export const getLinkageStorageID = (
     tabID: number,
 ) => {
     return storagePrefix.linkage + tabID;
+}
+
+export const getURLLinkagesStorageID = (
+    url: string,
+) => {
+    const urlHash = hashValue(url);
+    return storagePrefix.urlLinkages + urlHash;
 }
 
 
@@ -103,5 +112,31 @@ export const getLinkageByTabID = async (
     const linkage = linkages.find(linkage => linkage.tabID === tabID);
 
     return linkage;
+}
+
+
+export const storeURLLinkages = async (
+    url: string,
+    data: LinkageOfURL[],
+) => {
+    const id = getURLLinkagesStorageID(url);
+    await storageSessionSet(id, data);
+}
+
+export const getURLLinkages = async (
+    url: string,
+) => {
+    const id = getURLLinkagesStorageID(url);
+    const data = await storageSessionGet<LinkageOfURL[]>(id) || [];
+
+    return data;
+}
+
+
+export const stopLinkageWithTabID = async (
+    tabID: number,
+) => {
+    const linkageID = getLinkageStorageID(tabID);
+    await storageRemove(linkageID);
 }
 // #endregion module

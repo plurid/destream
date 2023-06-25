@@ -2,6 +2,7 @@
     // #region external
     import {
         MESSAGE_TYPE,
+        MESSAGE_POPUP_TO_BACKGROUND,
         storagePrefix,
         Replayment,
         ReplaySessionMessage,
@@ -70,9 +71,9 @@ export const getReplaymentByTabID = async (
 }
 
 
-export const updateReplayment = async (
+export const updateReplayment = async <D = any>(
     tabID: number,
-    data: any,
+    data: D,
 ) => {
     const replaymentID = storagePrefix.replayment + tabID;
     const replayment = await storageGet<Replayment>(replaymentID);
@@ -140,22 +141,21 @@ export const initializeReplayment = async (
         data,
     } = response;
 
+    const replaySessionMessage: ReplaySessionMessage = {
+        type: MESSAGE_POPUP_TO_BACKGROUND.REPLAY_SESSION,
+        data,
+        linkage: !!backgroundOnly,
+    };
 
     if (backgroundOnly) {
         await handleReplaySession(
-            {
-                type: MESSAGE_TYPE.REPLAY_SESSION,
-                data,
-            },
+            replaySessionMessage,
             {},
             () => {},
         ).catch(log);
     } else {
         await sendMessage<ReplaySessionMessage>(
-            {
-                type: MESSAGE_TYPE.REPLAY_SESSION,
-                data,
-            },
+            replaySessionMessage,
             () => {
                 if (callback) {
                     callback();

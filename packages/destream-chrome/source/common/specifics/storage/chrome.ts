@@ -126,4 +126,37 @@ export const storageRemoveListener = (
 export const storageClearAll = async () => {
     await chrome.storage.local.clear();
 }
+
+
+
+export const storageSessionGet = async <T = any>(
+    id: string | string[],
+): Promise<T | undefined> => {
+    try {
+        if (Array.isArray(id)) {
+            const result = await chrome.storage.session.get(id);
+            return result as T;
+        }
+
+        const result = await chrome.storage.session.get([id]);
+        return result[id];
+    } catch (error) {
+        return;
+    }
+}
+
+export const storageSessionSet = async <T = any>(
+    id: string,
+    value: T,
+) => {
+    try {
+        await chrome.storage.session.set({
+            [id]: value,
+        });
+
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
 // #endregion module

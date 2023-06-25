@@ -35,6 +35,7 @@ const handleReplaySession: Handler<ReplaySessionMessage> = async (
 ) => {
     const {
         data,
+        linkage,
     } = request;
 
     const {
@@ -46,6 +47,7 @@ const handleReplaySession: Handler<ReplaySessionMessage> = async (
     const tab = await openTab(url, true);
 
     setTimeout(async () => {
+        // Let tab load.
         await sendMessageToTab(tab.id, {
             type: GENERAL_EVENT.REPLAY_SESSION,
             data,
@@ -60,6 +62,7 @@ const handleReplaySession: Handler<ReplaySessionMessage> = async (
         duration: typeof stoppedAt === 'number'
             ? stoppedAt - generatedAt
             : 0,
+        linkage,
     };
     await storageSet(getReplaymentStorageID(tab.id), replayment);
 
