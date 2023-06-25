@@ -16,6 +16,7 @@
     import {
         LinkButton,
         RefreshButton,
+        Spinner,
     } from '@plurid/plurid-ui-components-react';
     // #endregion libraries
 
@@ -32,6 +33,10 @@
     import {
         Tab,
     } from '../../../../../common/types';
+
+    import {
+        debounce,
+    } from '../../../../../common/utilities';
 
     import {
         getLinkageStorageID,
@@ -75,11 +80,16 @@ const Linkages: React.FC<LinkagesProperties> = (
         playingLinkage,
         setPlayingLinkage,
     ] = useState('');
+
+    const [
+        loading,
+        setLoading,
+    ] = useState(false);
     // #endregion state
 
 
     // #region handlers
-    const getLinkages = async () => {
+    const getLinkages = debounce(async () => {
         if (!activeTab || !activeTab.url) {
             return;
         }
@@ -89,12 +99,15 @@ const Linkages: React.FC<LinkagesProperties> = (
                 activeTab.url,
             );
             setLinkages(linkages);
+            setLoading(false);
 
             // store linkages in local storage
         } catch (error) {
+            setLoading(false);
+
             return;
         }
-    }
+    }, 1_500);
 
     const pauseLinkage = async () => {
         setPlayingLinkage('');
@@ -145,18 +158,34 @@ const Linkages: React.FC<LinkagesProperties> = (
                 <LinkButton
                     text="check linkages"
                     atClick={() => {
+                        setLoading(true);
                         getLinkages();
                     }}
                     theme={plurid}
                     inline={true}
                 />
 
-                <RefreshButton
-                    atClick={() => {
-                        getLinkages();
-                    }}
-                    theme={plurid}
-                />
+                {loading ? (
+                    <div
+                        style={{
+                            position: 'relative',
+                            height: '16px',
+                            width: '16px',
+                        }}
+                    >
+                        <Spinner
+                            theme={plurid}
+                            size="small"
+                        />
+                    </div>
+                ) : (
+                    <RefreshButton
+                        atClick={() => {
+                            getLinkages();
+                        }}
+                        theme={plurid}
+                    />
+                )}
             </div>
 
             {linkages.map(linkage => {
