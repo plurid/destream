@@ -32,6 +32,7 @@
         "@aws-amplify/api": "^5.2.0",
         "@aws-amplify/core": "^5.4.0",
         "@plurid/messager": "0.0.0-4",
+        "@plurid/plurid-functions-react": "0.0.0-5",
         "@plurid/plurid-icons-react": "0.0.0-5",
         "@plurid/plurid-themes": "0.0.0-2",
         "@plurid/plurid-ui-components-react": "0.0.0-26",
