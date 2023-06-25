@@ -6,6 +6,13 @@ export const MESSAGE_BACKGROUND_TO_CONTENTSCRIPT = {
 
     STOP_SUBSCRIPTION: 'stopSubscription',
 
+    REPLAY_SESSION: 'replaySession',
+
+    REPLAYMENT_PAUSE: 'replaymentPause',
+    REPLAYMENT_PLAY: 'replaymentPlay',
+    REPLAYMENT_STOP: 'replaymentStop',
+    REPLAYMENT_INDEX: 'replaymentIndex',
+
     RESYNC_SESSION: 'resyncSession',
 } as const;
 
@@ -19,6 +26,8 @@ export const MESSAGE_CONTENTSCRIPT_TO_BACKGROUND = {
     PUBLISH_EVENT: 'publishEvent',
 
     STOP_SUBSCRIPTION: 'stopSubscription',
+
+    REPLAYMENT_INDEX: 'replaymentIndex',
 } as const;
 
 export const MESSAGE_BACKGROUND_TO_POPUP = {
@@ -30,6 +39,11 @@ export const MESSAGE_POPUP_TO_BACKGROUND = {
     GET_SUBSCRIPTION: 'getSubscription',
 
     REPLAY_SESSION: 'replaySession',
+
+    REPLAYMENT_PAUSE: 'replaymentPause',
+    REPLAYMENT_PLAY: 'replaymentPlay',
+    REPLAYMENT_STOP: 'replaymentStop',
+    REPLAYMENT_INDEX: 'replaymentIndex',
 
     RESYNC_SESSION: 'resyncSession',
 } as const;
@@ -57,11 +71,6 @@ export const MESSAGE_TYPE = {
     STOP_EVERYTHING: 'stopEverything',
     URL_CHANGE: 'urlChange',
     DESTREAM_EVENT: 'destreamEvent',
-    REPLAY_SESSION: 'replaySession',
-    REPLAYMENT_PAUSE: 'replaymentPause',
-    REPLAYMENT_PLAY: 'replaymentPlay',
-    REPLAYMENT_STOP: 'replaymentStop',
-    REPLAYMENT_INDEX: 'replaymentIndex',
     REPLAYMENT_INITIALIZE: 'replaymentInitialize',
 } as const;
 // #endregion module

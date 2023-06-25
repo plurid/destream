@@ -49,11 +49,15 @@ export type Message =
     | StopEverythingMessage
     | URLChangeMessage
     | DestreamEventMessage
-    | ReplaySessionMessage
-    | ReplaymentPauseMessage
-    | ReplaymentPlayMessage
-    | ReplaymentStopMessage
-    | ReplaymentIndexMessage
+    | MessageReplaySession
+    | RequestReplaySession
+    | MessageReplaymentPause
+    | RequestReplaymentPause
+    | MessageReplaymentPlay
+    | RequestReplaymentPlay
+    | MessageReplaymentStop
+    | RequestReplaymentStop
+    | MessageReplaymentIndex
     | ReplaymentInitializeMessage
     | LinkageStartingMessage
     | LinkageStartedMessage
@@ -229,38 +233,57 @@ export interface DestreamEventMessage {
     data: DestreamEvent;
 }
 
-export interface ReplaySessionMessage {
-    type: typeof MESSAGE_TYPE.REPLAY_SESSION;
+export interface MessageReplaySession {
+    type: typeof MESSAGE_POPUP_TO_BACKGROUND.REPLAY_SESSION;
     // session data
     data: any;
     linkage?: boolean;
 }
+export interface RequestReplaySession {
+    type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAY_SESSION;
+    // session data
+    data: any;
+}
 
-export interface ReplaymentPauseMessage {
-    type: typeof MESSAGE_TYPE.REPLAYMENT_PAUSE;
+export interface MessageReplaymentPause {
+    type: typeof MESSAGE_POPUP_TO_BACKGROUND.REPLAYMENT_PAUSE;
     // tab id
     data: number;
 }
+export interface RequestReplaymentPause {
+    type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_PAUSE;
+}
 
-export interface ReplaymentPlayMessage {
-    type: typeof MESSAGE_TYPE.REPLAYMENT_PLAY;
+export interface MessageReplaymentPlay {
+    type: typeof MESSAGE_POPUP_TO_BACKGROUND.REPLAYMENT_PLAY;
     // tab id
     data: number;
 }
+export interface RequestReplaymentPlay {
+    type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_PLAY;
+    reset?: boolean;
+}
 
-export interface ReplaymentStopMessage {
-    type: typeof MESSAGE_TYPE.REPLAYMENT_STOP;
+export interface MessageReplaymentStop {
+    type: typeof MESSAGE_POPUP_TO_BACKGROUND.REPLAYMENT_STOP;
     // tab id
     data: number;
 }
+export interface RequestReplaymentStop {
+    type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_STOP;
+}
 
-export interface ReplaymentIndexMessage {
-    type: typeof MESSAGE_TYPE.REPLAYMENT_INDEX;
+export interface MessageReplaymentIndex {
+    type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.REPLAYMENT_INDEX;
     data: {
         tabID: number;
         index: number;
         updateTab?: boolean;
     };
+}
+export interface RequestReplaymentIndex {
+    type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_INDEX;
+    data: number;
 }
 
 export interface ReplaymentInitializeMessage {

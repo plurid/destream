@@ -2,8 +2,8 @@
     // #region external
     import {
         Handler,
-        ReplaymentPauseMessage,
-        GENERAL_EVENT,
+        MessageReplaymentPause,
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
     } from '../../data';
 
     import {
@@ -19,7 +19,7 @@
 
 
 // #region module
-const handleReplaymentPause: Handler<ReplaymentPauseMessage> = async (
+const handleReplaymentPause: Handler<MessageReplaymentPause> = async (
     request,
     _sender,
     sendResponse,
@@ -38,7 +38,7 @@ const handleReplaymentPause: Handler<ReplaymentPauseMessage> = async (
     }
 
     await sendMessageToTab(request.data, {
-        type: GENERAL_EVENT.REPLAY_SESSION_PAUSE,
+        type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_PAUSE,
     });
 
     sendResponse({

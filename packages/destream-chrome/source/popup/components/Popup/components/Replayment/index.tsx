@@ -18,13 +18,14 @@
 
     // #region external
     import {
-        MESSAGE_TYPE,
+        MESSAGE_POPUP_TO_BACKGROUND,
 
         Replayment as IReplayment,
-        ReplaymentIndexMessage,
-        ReplaymentPlayMessage,
-        ReplaymentPauseMessage,
-        ReplaymentStopMessage,
+        ResponseMessage,
+        MessageReplaymentIndex,
+        MessageReplaymentPlay,
+        MessageReplaymentPause,
+        MessageReplaymentStop,
     } from '../../../../../data';
 
     import {
@@ -80,9 +81,9 @@ const Replayment: React.FC<ReplaymentProperties> = (
 
         setReplayment(null);
 
-        await sendMessage<ReplaymentStopMessage>(
+        await sendMessage<MessageReplaymentStop, ResponseMessage>(
             {
-                type: MESSAGE_TYPE.REPLAYMENT_STOP,
+                type: MESSAGE_POPUP_TO_BACKGROUND.REPLAYMENT_STOP,
                 data: activeTab.id,
             },
             () => {
@@ -97,9 +98,9 @@ const Replayment: React.FC<ReplaymentProperties> = (
             return;
         }
 
-        await sendMessage<ReplaymentIndexMessage>(
+        await sendMessage<MessageReplaymentIndex, ResponseMessage>(
             {
-                type: MESSAGE_TYPE.REPLAYMENT_INDEX,
+                type: MESSAGE_POPUP_TO_BACKGROUND.REPLAYMENT_INDEX,
                 data: {
                     tabID: activeTab.id,
                     index,
@@ -107,9 +108,9 @@ const Replayment: React.FC<ReplaymentProperties> = (
                 },
             },
             () => {
-                sendMessage<ReplaymentPauseMessage>(
+                sendMessage<MessageReplaymentPause, ResponseMessage>(
                     {
-                        type: MESSAGE_TYPE.REPLAYMENT_PAUSE,
+                        type: MESSAGE_POPUP_TO_BACKGROUND.REPLAYMENT_PAUSE,
                         data: activeTab.id,
                     },
                     () => {
@@ -125,10 +126,10 @@ const Replayment: React.FC<ReplaymentProperties> = (
         }
 
         const messageType = replayment.status === 'playing'
-            ? MESSAGE_TYPE.REPLAYMENT_PAUSE
-            : MESSAGE_TYPE.REPLAYMENT_PLAY;
+            ? MESSAGE_POPUP_TO_BACKGROUND.REPLAYMENT_PAUSE
+            : MESSAGE_POPUP_TO_BACKGROUND.REPLAYMENT_PLAY;
 
-        await sendMessage<ReplaymentPlayMessage | ReplaymentPauseMessage>(
+        await sendMessage<MessageReplaymentPlay | MessageReplaymentPause, ResponseMessage>(
             {
                 type: messageType,
                 data: activeTab.id,

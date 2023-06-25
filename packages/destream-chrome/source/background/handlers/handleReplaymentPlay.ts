@@ -2,8 +2,10 @@
     // #region external
     import {
         Handler,
-        ReplaymentPlayMessage,
-        GENERAL_EVENT,
+        MessageReplaymentPlay,
+        RequestReplaymentPlay,
+        RequestReplaymentIndex,
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
     } from '../../data';
 
     import {
@@ -20,7 +22,7 @@
 
 
 // #region module
-const handleReplaymentPlay: Handler<ReplaymentPlayMessage> = async (
+const handleReplaymentPlay: Handler<MessageReplaymentPlay> = async (
     request,
     _sender,
     sendResponse,
@@ -47,16 +49,16 @@ const handleReplaymentPlay: Handler<ReplaymentPlayMessage> = async (
             },
         );
 
-        await sendMessageToTab(request.data, {
-            type: GENERAL_EVENT.REPLAY_SESSION_INDEX,
+        await sendMessageToTab<RequestReplaymentIndex>(request.data, {
+            type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_INDEX,
             data: 0,
         });
 
         reset = true;
     }
 
-    await sendMessageToTab(request.data, {
-        type: GENERAL_EVENT.REPLAY_SESSION_PLAY,
+    await sendMessageToTab<RequestReplaymentPlay>(request.data, {
+        type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_PLAY,
         reset,
     });
 

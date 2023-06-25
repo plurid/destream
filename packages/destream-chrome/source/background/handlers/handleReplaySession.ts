@@ -2,9 +2,10 @@
     // #region external
     import {
         Handler,
-        ReplaySessionMessage,
+        MessageReplaySession,
+        RequestReplaySession,
         Replayment,
-        GENERAL_EVENT,
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
     } from '../../data';
 
     import {
@@ -28,7 +29,7 @@
 
 
 // #region module
-const handleReplaySession: Handler<ReplaySessionMessage> = async (
+const handleReplaySession: Handler<MessageReplaySession> = async (
     request,
     _sender,
     sendResponse,
@@ -48,8 +49,8 @@ const handleReplaySession: Handler<ReplaySessionMessage> = async (
 
     setTimeout(async () => {
         // Let tab load.
-        await sendMessageToTab(tab.id, {
-            type: GENERAL_EVENT.REPLAY_SESSION,
+        await sendMessageToTab<RequestReplaySession>(tab.id, {
+            type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAY_SESSION,
             data,
         });
     }, 2_000);

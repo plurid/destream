@@ -2,8 +2,10 @@
     // #region external
     import {
         Handler,
-        ReplaymentIndexMessage,
-        GENERAL_EVENT,
+        MessageReplaymentIndex,
+        RequestReplaymentIndex,
+        RequestReplaymentPause,
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
     } from '../../data';
 
     import {
@@ -20,7 +22,7 @@
 
 
 // #region module
-const handleReplaymentIndex: Handler<ReplaymentIndexMessage> = async (
+const handleReplaymentIndex: Handler<MessageReplaymentIndex> = async (
     request,
     _sender,
     sendResponse,
@@ -39,8 +41,8 @@ const handleReplaymentIndex: Handler<ReplaymentIndexMessage> = async (
     }
 
     if (request.data.updateTab) {
-        await sendMessageToTab(request.data.tabID, {
-            type: GENERAL_EVENT.REPLAY_SESSION_INDEX,
+        await sendMessageToTab<RequestReplaymentIndex>(request.data.tabID, {
+            type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_INDEX,
             data: request.data.index,
         });
     }
@@ -53,8 +55,8 @@ const handleReplaymentIndex: Handler<ReplaymentIndexMessage> = async (
             },
         );
 
-        await sendMessageToTab(request.data.tabID, {
-            type: GENERAL_EVENT.REPLAY_SESSION_PAUSE,
+        await sendMessageToTab<RequestReplaymentPause>(request.data.tabID, {
+            type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_PAUSE,
         });
     }
 

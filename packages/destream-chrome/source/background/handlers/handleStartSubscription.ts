@@ -4,12 +4,10 @@
         Handler,
         StartSubscriptionMessage,
         GeneralPermissions,
-        DEFAULT_API_ENDPOINT,
         storageFields,
     } from '../../data';
 
     import {
-        storageGetTokens,
         storageGet,
     } from '../../common/storage';
 
@@ -18,7 +16,6 @@
     } from '../../common/utilities';
 
     import {
-        generateClient,
         GET_ACTIVE_SESSIONS,
     } from '../graphql';
 

@@ -1,11 +1,11 @@
 // #region imports
     // #region external
     import {
-        MESSAGE_TYPE,
-        MESSAGE_POPUP_TO_BACKGROUND,
-        storagePrefix,
         Replayment,
-        ReplaySessionMessage,
+        MessageReplaySession,
+
+        storagePrefix,
+        MESSAGE_POPUP_TO_BACKGROUND,
     } from '../../data';
 
     import {
@@ -141,7 +141,7 @@ export const initializeReplayment = async (
         data,
     } = response;
 
-    const replaySessionMessage: ReplaySessionMessage = {
+    const replaySessionMessage: MessageReplaySession = {
         type: MESSAGE_POPUP_TO_BACKGROUND.REPLAY_SESSION,
         data,
         linkage: !!backgroundOnly,
@@ -154,7 +154,7 @@ export const initializeReplayment = async (
             () => {},
         ).catch(log);
     } else {
-        await sendMessage<ReplaySessionMessage>(
+        await sendMessage<MessageReplaySession>(
             replaySessionMessage,
             () => {
                 if (callback) {

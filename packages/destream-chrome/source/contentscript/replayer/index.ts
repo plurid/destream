@@ -1,9 +1,10 @@
 // #region imports
     // #region external
     import {
-        GENERAL_EVENT,
-        MESSAGE_TYPE,
-        ReplaymentIndexMessage,
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
+        MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
+        MessageReplaymentIndex,
+        ResponseMessage,
     } from '../../data';
 
     import {
@@ -54,13 +55,13 @@ const runReplayer = async (
             return true;
         }
 
-        if (request.type !== GENERAL_EVENT.REPLAY_SESSION && !sessionPlayer) {
+        if (request.type !== MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAY_SESSION && !sessionPlayer) {
             sendResponse();
             return true;
         }
 
         switch (request.type) {
-            case GENERAL_EVENT.REPLAY_SESSION:
+            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAY_SESSION:
                 const {
                     generatedAt,
                     events,
@@ -72,9 +73,9 @@ const runReplayer = async (
                     (
                         index,
                     ) => {
-                        sendMessage<ReplaymentIndexMessage>(
+                        sendMessage<MessageReplaymentIndex, ResponseMessage>(
                             {
-                                type: MESSAGE_TYPE.REPLAYMENT_INDEX,
+                                type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.REPLAYMENT_INDEX,
                                 data: {
                                     tabID,
                                     index,
@@ -85,19 +86,21 @@ const runReplayer = async (
                 );
                 sessionPlayer.play();
                 break;
-            case GENERAL_EVENT.REPLAY_SESSION_PLAY:
+            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_PLAY:
                 sessionPlayer.play(
                     request.reset,
                 );
                 break;
-            case GENERAL_EVENT.REPLAY_SESSION_PAUSE:
+            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_PAUSE:
                 sessionPlayer.pause();
                 break;
-            case GENERAL_EVENT.REPLAY_SESSION_STOP:
+            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_STOP:
                 sessionPlayer.stop();
                 break;
-            case GENERAL_EVENT.REPLAY_SESSION_INDEX:
-                sessionPlayer.setIndex(request.data);
+            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_INDEX:
+                sessionPlayer.setIndex(
+                    request.data,
+                );
                 break;
         }
 

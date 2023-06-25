@@ -4,7 +4,7 @@
         Handler,
         ReplaymentInitializeMessage,
 
-        MESSAGE_TYPE,
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
     } from '../../data';
 
     import {
@@ -35,12 +35,12 @@ const handleReplaymentInitialize: Handler<ReplaymentInitializeMessage> = async (
 
     if (request.linkageID) {
         await sendMessageToTab(sender.tab.id, {
-            type: MESSAGE_TYPE.LINKAGE_STARTING,
+            type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_STARTING,
             data: request.linkageID,
         });
 
         await sendMessageToTab(sender.tab.id, {
-            type: MESSAGE_TYPE.LINKAGE_STARTED,
+            type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_STARTED,
             data: request.linkageID,
         });
     }

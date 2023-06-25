@@ -1,8 +1,8 @@
 // #region imports
     // #region external
     import {
-        MESSAGE_TYPE,
         MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
         Message,
         MessageGetLinkage,
         ResponseGetLinkage,
@@ -106,15 +106,15 @@ const runLinkage = async (
         }
 
         switch (request.type) {
-            case MESSAGE_TYPE.LINKAGE_STARTING:
+            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_STARTING:
                 if (request.data !== linkage.id) break;
                 linkageController.eventer.dispatchEvent('beforeStart');
                 break;
-            case MESSAGE_TYPE.LINKAGE_STARTED:
+            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_STARTED:
                 if (request.data !== linkage.id) break;
                 linkageController.eventer.dispatchEvent('afterStart');
                 break;
-            case MESSAGE_TYPE.LINKAGE_ENDED:
+            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_ENDED:
                 if (request.data !== linkage.id) break;
                 linkageController.eventer.dispatchEvent('afterEnd');
                 break;
