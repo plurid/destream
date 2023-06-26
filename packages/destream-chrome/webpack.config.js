@@ -69,6 +69,7 @@ const base = {
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify(NODE_ENV),
+                TRACING: JSON.stringify(TRACING),
                 API_ENDPOINT: JSON.stringify(process.env.API_ENDPOINT),
             },
         }),
