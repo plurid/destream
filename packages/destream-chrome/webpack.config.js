@@ -1,5 +1,6 @@
-const webpack = require('webpack');
 const path = require('path');
+
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
@@ -20,7 +21,15 @@ const base = {
         options: './source/options/index.tsx',
     },
     resolve: {
-        extensions: [".ts", ".tsx", ".js", ".jsx"]
+        extensions: [".ts", ".tsx", ".js", ".jsx"],
+        alias: {
+            "~background": path.resolve(__dirname, "source/background"),
+            "~common": path.resolve(__dirname, "source/common"),
+            "~contentscript": path.resolve(__dirname, "source/contentscript"),
+            "~data": path.resolve(__dirname, "source/data"),
+            "~options": path.resolve(__dirname, "source/options"),
+            "~popup": path.resolve(__dirname, "source/popup"),
+        },
     },
     output: {
         path: outputPath,

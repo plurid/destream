@@ -1,6 +1,27 @@
 {
     "compilerOptions": {
         "baseUrl": ".",
+        "paths": {
+            "~background/*": [
+                "./source/background/*"
+            ],
+            "~common/*": [
+                "./source/common/*"
+            ],
+            "~contentscript/*": [
+                "./source/contentscript/*"
+            ],
+            "~data/*": [
+                "./source/data/*"
+            ],
+            "~options/*": [
+                "./source/options/*"
+            ],
+            "~popup/*": [
+                "./source/popup/*"
+            ],
+        },
+
         "outDir": "./distribution/",
         "sourceMap": true,
         "noImplicitAny": true,
