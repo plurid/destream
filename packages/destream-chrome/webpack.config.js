@@ -7,7 +7,9 @@ const CopyPlugin = require('copy-webpack-plugin');
 
 
 const DEVELOPMENT = 'development';
-const { NODE_ENV = DEVELOPMENT } = process.env;
+const {
+    NODE_ENV = DEVELOPMENT,
+} = process.env;
 
 const outputPath = path.join(__dirname, 'distribution');
 
@@ -69,7 +71,8 @@ const base = {
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify(NODE_ENV),
-                TRACING: JSON.stringify(TRACING),
+
+                TRACING: JSON.stringify(process.env.TRACING),
                 API_ENDPOINT: JSON.stringify(process.env.API_ENDPOINT),
             },
         }),
