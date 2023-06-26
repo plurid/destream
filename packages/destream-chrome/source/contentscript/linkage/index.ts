@@ -1,12 +1,14 @@
 // #region imports
     // #region external
     import {
-        MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
-        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
         Message,
         MessageGetLinkage,
         ResponseGetLinkage,
         DestreamLinkage,
+
+        MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
+        ASYNCHRONOUS_RESPONSE,
     } from '~data/index';
 
     import {
@@ -102,7 +104,7 @@ const runLinkage = async (
     ) => {
         if (!linkage || !linkageController) {
             sendResponse();
-            return true;
+            return ASYNCHRONOUS_RESPONSE;
         }
 
         switch (request.type) {
@@ -121,7 +123,7 @@ const runLinkage = async (
         }
 
         sendResponse();
-        return true;
+        return ASYNCHRONOUS_RESPONSE;
     }
 
 

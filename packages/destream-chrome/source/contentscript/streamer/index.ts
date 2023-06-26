@@ -16,6 +16,7 @@
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
         DESTREAM_DETECT_EVENT,
         GENERAL_EVENT,
+        ASYNCHRONOUS_RESPONSE,
     } from '~data/index';
 
     import MessagerClient from '../client';
@@ -209,7 +210,7 @@ const runStreamer = async (
     ) => {
         if (!session || !request?.type) {
             sendResponse();
-            return true;
+            return ASYNCHRONOUS_RESPONSE;
         }
 
         switch (request.type) {
@@ -225,7 +226,7 @@ const runStreamer = async (
         }
 
         sendResponse();
-        return true;
+        return ASYNCHRONOUS_RESPONSE;
     }
 
 

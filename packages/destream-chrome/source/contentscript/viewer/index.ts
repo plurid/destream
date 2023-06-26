@@ -13,6 +13,7 @@
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
         MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
         GENERAL_EVENT,
+        ASYNCHRONOUS_RESPONSE,
     } from '~data/index';
 
     import {
@@ -197,7 +198,7 @@ const runViewer = async (
     ) => {
         if (!subscription || !request?.type) {
             sendResponse();
-            return true;
+            return ASYNCHRONOUS_RESPONSE;
         }
 
         switch (request.type) {
@@ -215,7 +216,7 @@ const runViewer = async (
         }
 
         sendResponse();
-        return true;
+        return ASYNCHRONOUS_RESPONSE;
     }
 
 
