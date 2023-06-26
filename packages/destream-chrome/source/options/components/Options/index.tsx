@@ -244,19 +244,19 @@ const Options: React.FC<any> = (
                 allowedURLOrigins,
             } = generalPermissions;
 
-            setUseTelemetry(useTelemetry);
-            setUseNotifications(useNotifications);
-            setUseSessionGroups(useSessionGroups);
-            setAutoCheckLinkages(autoCheckLinkages);
-            setAllowScroll(allowScroll);
-            setAllowPlayPause(allowPlayPause);
-            setAllowTimeSeek(allowTimeSeek);
-            setAllowVolumeControl(allowVolumeControl);
-            setAllowRateControl(allowRateControl);
-            setAllowLike(allowLike);
-            setAllowChangeURL(allowChangeURL);
-            setAllowChangeURLAnyOrigin(allowChangeURLAnyOrigin);
-            setAllowedURLOrigins(allowedURLOrigins);
+            setUseTelemetry(useTelemetry ?? defaultPermissions.useTelemetry);
+            setUseNotifications(useNotifications ?? defaultPermissions.useNotifications);
+            setUseSessionGroups(useSessionGroups ?? defaultPermissions.useSessionGroups);
+            setAutoCheckLinkages(autoCheckLinkages ?? defaultPermissions.autoCheckLinkages);
+            setAllowScroll(allowScroll ?? defaultPermissions.allowScroll);
+            setAllowPlayPause(allowPlayPause ?? defaultPermissions.allowPlayPause);
+            setAllowTimeSeek(allowTimeSeek ?? defaultPermissions.allowTimeSeek);
+            setAllowVolumeControl(allowVolumeControl ?? defaultPermissions.allowVolumeControl);
+            setAllowRateControl(allowRateControl ?? defaultPermissions.allowRateControl);
+            setAllowLike(allowLike ?? defaultPermissions.allowLike);
+            setAllowChangeURL(allowChangeURL ?? defaultPermissions.allowChangeURL);
+            setAllowChangeURLAnyOrigin(allowChangeURLAnyOrigin ?? defaultPermissions.allowChangeURLAnyOrigin);
+            setAllowedURLOrigins(allowedURLOrigins ?? defaultPermissions.allowedURLOrigins);
         }
 
         const getExtendedDrawers = async () => {
