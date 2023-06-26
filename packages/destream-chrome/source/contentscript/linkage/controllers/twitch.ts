@@ -1,7 +1,6 @@
 // #region imports
     // #region external
     import {
-        MESSAGE_TYPE,
         MessageReplaymentInitialize,
 
         DestreamLinkage,
