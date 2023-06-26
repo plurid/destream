@@ -62,6 +62,10 @@
     import {
         applyCurrentState,
     } from './state';
+
+    import {
+        linkageSetMediaTime,
+    } from './linkage';
     // #endregion internal
 // #endregion imports
 
@@ -212,6 +216,11 @@ const runViewer = async (
                 break;
             case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.RESYNC_SESSION:
                 requestCurrentState();
+                break;
+            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_SET_MEDIA_TIME:
+                linkageSetMediaTime(
+                    request.data,
+                );
                 break;
         }
 

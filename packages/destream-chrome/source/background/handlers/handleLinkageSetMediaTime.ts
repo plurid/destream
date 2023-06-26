@@ -2,24 +2,28 @@
     // #region external
     import {
         Handler,
-        MessagerLinkageCloseSessionPage,
+        MessagerLinkageSetMediaTime,
         ResponseMessage,
     } from '~data/interfaces';
 
     import {
-        getLinkageByTabID,
-    } from '../linkages';
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
+    } from '~data/constants';
 
     import {
-        tabsClose,
-    } from '~common/tab';
+        sendMessageToTab,
+    } from '~common/messaging';
+
+    import {
+        getLinkageByTabID,
+    } from '../linkages';
     // #endregion external
 // #endregion imports
 
 
 
 // #region module
-const handleLinkageCloseSessionPage: Handler<MessagerLinkageCloseSessionPage, ResponseMessage> = async (
+const handleLinkageSetMediaTime: Handler<MessagerLinkageSetMediaTime, ResponseMessage> = async (
     request,
     sender,
     sendResponse,
@@ -41,10 +45,9 @@ const handleLinkageCloseSessionPage: Handler<MessagerLinkageCloseSessionPage, Re
 
     const sessionTabID = linkage.sessionTabs[request.sessionID];
 
-    await tabsClose(
-        sessionTabID,
-    ).catch(() => {
-        // Ignore if no tab or other error.
+    await sendMessageToTab(sessionTabID, {
+        type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_SET_MEDIA_TIME,
+        data: request.data,
     });
 
     sendResponse({
@@ -58,5 +61,5 @@ const handleLinkageCloseSessionPage: Handler<MessagerLinkageCloseSessionPage, Re
 
 
 // #region exports
-export default handleLinkageCloseSessionPage;
+export default handleLinkageSetMediaTime;
 // #endregion exports

@@ -53,19 +53,19 @@
 
     import {
         checkNetflixOrigin,
-    } from '../utilities/netflix';
+    } from '~contentscript/utilities/netflix';
 
     import {
         checkSpotifyOrigin,
-    } from '../utilities/spotify';
+    } from '~contentscript/utilities/spotify';
 
     import {
         checkTwitchOrigin,
-    } from '../utilities/twitch';
+    } from '~contentscript/utilities/twitch';
 
     import {
         checkYoutubeOrigin,
-    } from '../utilities/youtube';
+    } from '~contentscript/utilities/youtube';
     // #endregion external
 
 

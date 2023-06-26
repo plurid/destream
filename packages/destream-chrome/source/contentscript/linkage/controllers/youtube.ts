@@ -1,9 +1,13 @@
 // #region imports
     // #region external
     import {
-        MessageReplaymentInitialize,
         DestreamLinkage,
         DestreamLinkageSession,
+        MessageReplaymentInitialize,
+        MessagerLinkageFocusSessionPage,
+        MessagerLinkageSetMediaTime,
+        MessagerLinkageCloseSessionPage,
+        MessagerLinkageFocusInitialPage,
 
         MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
     } from '~data/index';
@@ -23,7 +27,6 @@
     import {
         youtubePlay,
         youtubePause,
-        youtubeSeek,
     } from '../../viewer/controllers/youtube';
 
     import {
@@ -115,14 +118,19 @@ export class YoutubeLinkage {
                 for (const event of afterStart) {
                     switch (event.type) {
                         case 'focusSessionPage':
-                            sendMessage<any>({
+                            sendMessage<MessagerLinkageFocusSessionPage>({
                                 type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.LINKAGE_FOCUS_SESSION_PAGE,
                                 sessionID: id,
                                 linkageID: this.data.id,
                             }).catch(log);
                             break;
                         case 'setMediaTime':
-                            youtubeSeek(event.data);
+                            sendMessage<MessagerLinkageSetMediaTime>({
+                                type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.LINKAGE_SET_MEDIA_TIME,
+                                sessionID: id,
+                                linkageID: this.data.id,
+                                data: event.data,
+                            }).catch(log);
                             break;
                     }
                 }
@@ -132,14 +140,14 @@ export class YoutubeLinkage {
                 for (const event of afterEnd) {
                     switch (event.type) {
                         case 'closeSessionPage':
-                            sendMessage<any>({
+                            sendMessage<MessagerLinkageCloseSessionPage>({
                                 type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.LINKAGE_CLOSE_SESSION_PAGE,
                                 sessionID: id,
                                 linkageID: this.data.id,
                             }).catch(log);
                             break;
                         case 'focusInitialPage':
-                            sendMessage<any>({
+                            sendMessage<MessagerLinkageFocusInitialPage>({
                                 type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.LINKAGE_FOCUS_INITIAL_PAGE,
                                 sessionID: id,
                                 linkageID: this.data.id,

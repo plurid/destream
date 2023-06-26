@@ -3,6 +3,7 @@ export const MESSAGE_BACKGROUND_TO_CONTENTSCRIPT = {
     LINKAGE_STARTING: 'linkageStarting',
     LINKAGE_STARTED: 'linkageStarted',
     LINKAGE_ENDED: 'linkageEnded',
+    LINKAGE_SET_MEDIA_TIME: 'linkageSetMediaTime',
 
     URL_CHANGE: 'urlChange',
 
@@ -38,6 +39,7 @@ export const MESSAGE_CONTENTSCRIPT_TO_BACKGROUND = {
     REPLAYMENT_INITIALIZE: 'replaymentInitialize',
 
     LINKAGE_FOCUS_SESSION_PAGE: 'linkageFocusSessionPage',
+    LINKAGE_SET_MEDIA_TIME: 'linkageSetMediaTime',
     LINKAGE_CLOSE_SESSION_PAGE: 'linkageCloseSessionPage',
     LINKAGE_FOCUS_INITIAL_PAGE: 'linkageFocusInitialPage',
 } as const;
