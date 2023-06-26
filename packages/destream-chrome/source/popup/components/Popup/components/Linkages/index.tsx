@@ -15,7 +15,7 @@
     } from '@plurid/plurid-icons-react';
 
     import {
-        useDebouncedCallback,
+        useThrottledCallback,
     } from '@plurid/plurid-functions-react';
 
     import {
@@ -91,7 +91,7 @@ const Linkages: React.FC<LinkagesProperties> = (
 
 
     // #region handlers
-    const getLinkages = useDebouncedCallback(async () => {
+    const getLinkages = useThrottledCallback(async () => {
         if (!activeTab || !activeTab.url) {
             return;
         }
@@ -112,7 +112,7 @@ const Linkages: React.FC<LinkagesProperties> = (
 
             return;
         }
-    }, 1_500);
+    }, 2_000);
 
     const loadLinkages = () => {
         setLoading(true);
