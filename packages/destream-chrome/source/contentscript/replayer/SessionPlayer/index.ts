@@ -2,16 +2,16 @@
     // #region external
     import {
         log,
-    } from '../../../common/utilities';
+    } from '~common/utilities';
 
     import {
         handleEvent,
-    } from '../../viewer/event';
+    } from '~contentscript/viewer/event';
 
     import {
         generateCursor,
         destroyCursor,
-    } from '../../viewer/controllers/general';
+    } from '~contentscript/viewer/controllers/general';
     // #endregion external
 // #endregion imports
 

@@ -3,21 +3,21 @@
     import {
         NOTIFICATION_KIND,
         Notification,
-    } from '../../data';
+    } from '~data/index';
 
     import {
         notificationCreate,
         notificationClear,
         notificationOnButtonClickedAddListener,
-    } from '../../common/notification';
+    } from '~common/notification';
 
     import {
         tabsUpdate,
-    } from '../../common/tab';
+    } from '~common/tab';
 
     import {
         openOptionsPage,
-    } from '../../common/utilities';
+    } from '~common/utilities';
     // #endregion external
 // #endregion imports
 

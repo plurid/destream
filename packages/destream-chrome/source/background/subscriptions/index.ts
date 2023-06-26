@@ -14,11 +14,10 @@
         storagePrefix,
         storageFields,
         DEFAULT_API_ENDPOINT,
-        GENERAL_EVENT,
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
         GeneralPermissions,
         RequestStopSubscription,
-    } from '../../data';
+    } from '~data/index';
 
     import {
         storageGet,
@@ -26,19 +25,19 @@
         storageSetMultiple,
         storageGetAll,
         storageRemove,
-    } from '../../common/storage';
+    } from '~common/storage';
 
     import {
         sendMessageToTab,
-    } from '../../common/messaging';
+    } from '~common/messaging';
 
     import {
         tabsUngroup,
-    } from '../../common/tab';
+    } from '~common/tab';
 
     import {
         log,
-    } from '../../common/utilities';
+    } from '~common/utilities';
 
     import {
         STOP_SESSION_SUBSCRIPTION,

@@ -2,7 +2,7 @@
     // #region external
     import {
         NOTIFICATION_KIND,
-    } from '../../constants';
+    } from '~data/constants';
 
     import {
         DestreamLinkage,

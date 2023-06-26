@@ -2,7 +2,7 @@
     // #region external
     import {
         MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
-    } from '../../data/constants';
+    } from '~data/constants';
 
     import {
         MessageGetTabID,
@@ -16,11 +16,11 @@
         Session,
         Subscription,
         TabSettings,
-    } from '../../data/interfaces';
+    } from '~data/interfaces';
 
     import {
         sendMessage,
-    } from '../../common/messaging';
+    } from '~common/messaging';
     // #endregion external
 // #endregion imports
 

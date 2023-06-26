@@ -2,20 +2,20 @@
     // #region external
     import {
         ASYNCHRONOUS_RESPONSE,
-    } from '../data';
+    } from '~data/constants';
 
     import {
         messageAddListener,
-    } from '../common/messaging';
+    } from '~common/messaging';
 
     import {
         tabsOnRemovedAddListener,
         tabsOnUpdatedAddListener,
-    } from '../common/tab';
+    } from '~common/tab';
 
     import {
         log,
-    } from '../common/utilities';
+    } from '~common/utilities';
     // #endregion external
 
 

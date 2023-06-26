@@ -11,7 +11,7 @@
     // #region external
     import {
         DEFAULT_API_ENDPOINT,
-    } from '../../../data/constants';
+    } from '~data/constants';
     // #endregion external
 // #endregion imports
 

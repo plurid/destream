@@ -4,32 +4,30 @@
         Handler,
         MessageGetTabID,
         ResponseGetTabID,
-    } from '../../data';
+    } from '~data/interfaces';
     // #endregion external
 // #endregion imports
 
 
 
 // #region module
-const handleGetTabID: Handler<MessageGetTabID> = async (
+const handleGetTabID: Handler<MessageGetTabID, ResponseGetTabID> = async (
     _request,
     sender,
     sendResponse,
 ) => {
     if (!sender.tab || !sender.tab.id) {
-        const response: ResponseGetTabID = {
+        sendResponse({
             status: false,
-        };
-        sendResponse(response);
+        });
 
         return;
     }
 
-    const response: ResponseGetTabID = {
+    sendResponse({
         status: true,
         tabID: sender.tab.id,
-    };
-    sendResponse(response);
+    });
 
     return;
 }

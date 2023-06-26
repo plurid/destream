@@ -2,25 +2,27 @@
     // #region external
     import {
         Handler,
-        StopEverythingMessage,
+        MessageStopEverything,
+        ResponseMessage,
+
         storagePrefix,
-    } from '../../data';
+    } from '~data/index';
 
     import {
         storageGetAll,
-    } from '../../common/storage';
+    } from '~common/storage';
 
     import {
         checkEverythingKey,
-    } from '../../common/logic';
+    } from '~common/logic';
 
     import {
         storageRemove,
-    } from '../../common/storage';
+    } from '~common/storage';
 
     import {
         getTabIDFromKey,
-    } from '../../common/utilities';
+    } from '~common/utilities';
 
     import {
         getSession,
@@ -36,7 +38,7 @@
 
 
 // #region module
-const handleStopEverything: Handler<StopEverythingMessage> = async (
+const handleStopEverything: Handler<MessageStopEverything, ResponseMessage> = async (
     _request,
     _sender,
     sendResponse,

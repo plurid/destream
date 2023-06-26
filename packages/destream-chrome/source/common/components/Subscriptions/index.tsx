@@ -19,27 +19,26 @@
 
     // #region external
     import {
-        StartSubscriptionMessage,
+        MessageStartSubscription,
         MessageStopSubscriptions,
         ResponseMessage,
-    } from '../../../data/interfaces';
+    } from '~data/interfaces';
 
     import {
-        MESSAGE_TYPE,
         MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND,
         storageFields,
-    } from '../../../data/constants';
+    } from '~data/constants';
 
     import {
         sendMessage,
-    } from '../../../common/messaging';
+    } from '~common/messaging';
 
     import {
         storageGet,
         storageSetMultiple,
         storageAddListener,
         storageRemoveListener,
-    } from '../../../common/storage';
+    } from '~common/storage';
     // #endregion external
 
 
@@ -127,9 +126,9 @@ const Subscriptions: React.FC<SubscriptionsProperties> = (
     const startSubscription = async (
         name: string,
     ) => {
-        sendMessage<StartSubscriptionMessage>(
+        sendMessage<MessageStartSubscription, ResponseMessage>(
             {
-                type: MESSAGE_TYPE.START_SUBSCRIPTION,
+                type: MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND.START_SUBSCRIPTION,
                 data: name,
             },
             (_response) => {

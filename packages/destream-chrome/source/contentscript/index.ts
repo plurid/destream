@@ -2,7 +2,7 @@
     // #region external
     import {
         log,
-    } from '../common/utilities';
+    } from '~common/utilities';
     // #endregion external
 
 

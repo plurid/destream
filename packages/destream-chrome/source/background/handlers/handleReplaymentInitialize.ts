@@ -2,14 +2,15 @@
     // #region external
     import {
         Handler,
-        ReplaymentInitializeMessage,
+        MessageReplaymentInitialize,
+        ResponseMessage,
 
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
-    } from '../../data';
+    } from '~data/index';
 
     import {
         sendMessageToTab,
-    } from '../../common/messaging';
+    } from '~common/messaging';
 
     import {
         initializeReplayment,
@@ -20,7 +21,7 @@
 
 
 // #region module
-const handleReplaymentInitialize: Handler<ReplaymentInitializeMessage> = async (
+const handleReplaymentInitialize: Handler<MessageReplaymentInitialize, ResponseMessage> = async (
     request,
     sender,
     sendResponse,

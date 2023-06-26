@@ -18,29 +18,30 @@
 
     // #region external
     import {
-        MESSAGE_POPUP_TO_BACKGROUND,
         Subscription,
         MessageResyncSession,
         ResponseMessage,
+
         resyncTimeout,
-    } from '../../../../../data';
+        MESSAGE_POPUP_TO_BACKGROUND,
+    } from '~data/index';
 
     import {
         getTabSettingsID,
         getTabSettings,
-    } from '../../../../../background/utilities';
+    } from '~background/utilities';
 
     import {
         sendMessage,
-    } from '../../../../../common/messaging';
+    } from '~common/messaging';
 
     import {
         storageUpdate,
-    } from '../../../../../common/storage';
+    } from '~common/storage';
 
     import {
         Tab,
-    } from '../../../../../common/types';
+    } from '~common/types';
     // #endregion external
 // #region imports
 

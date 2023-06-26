@@ -1,14 +1,14 @@
 // #region imports
     // #region external
-    import generateClient from '../../background/graphql/client';
+    import {
+        log,
+    } from '~common/utilities';
+
+    import generateClient from '~background/graphql/client';
 
     import {
         GET_MESSAGER_DATA,
-    } from '../../background/graphql/query';
-
-    import {
-        log,
-    } from '../../common/utilities';
+    } from '~background/graphql/query';
     // #endregion external
 
 

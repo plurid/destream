@@ -1,27 +1,27 @@
 // #region imports
     // #region external
     import {
+        TabSettings,
+        GeneralPermissions,
+    } from '~data/interfaces';
+
+    import {
         DEFAULT_API_ENDPOINT,
         TAB_GROUP_SUFFIX,
         storagePrefix,
         destreamCurrentStateTopicSuffix,
-    } from '../../data/constants';
-
-    import {
-        TabSettings,
-        GeneralPermissions,
-    } from '../../data/interfaces';
+    } from '~data/constants';
 
     import {
         storageGet,
         storageRemove,
         storageGetTokens,
-    } from '../../common/storage';
+    } from '~common/storage';
 
     import {
         Tab,
         Window,
-    } from '../../common/types';
+    } from '~common/types';
 
     import {
         getTab as commonGetTab,
@@ -31,7 +31,7 @@
         tabGroupsUpdate,
         windowsGetAll,
         windowsCreate,
-    } from '../../common/tab';
+    } from '~common/tab';
 
     import {
         generateClient,

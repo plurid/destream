@@ -23,43 +23,43 @@
     import {
         STREAMER_REGISTRATION_URL,
         // DEFAULT_API_ENDPOINT,
-        MESSAGE_TYPE,
+        MESSAGE_OPTIONS_TO_BACKGROUND,
         defaultPermissions,
         // defaultAllowedURLOrigins,
         storageFields,
-    } from '../../../data/constants';
+    } from '~data/constants';
 
     import {
-        StopEverythingMessage,
+        MessageStopEverything,
         GeneralPermissions,
-    } from '../../../data/interfaces';
+    } from '~data/interfaces';
 
     import {
         storageGetAll,
         storageGet,
         storageSet,
         storageClearAll,
-    } from '../../../common/storage';
+    } from '~common/storage';
 
     import {
         checkEverythingKey,
-    } from '../../../common/logic';
+    } from '~common/logic';
 
     import {
         sendMessage,
-    } from '../../../common/messaging';
+    } from '~common/messaging';
 
-    import Login from '../../../common/components/Login';
-    import Subscriptions from '../../../common/components/Subscriptions';
+    import Login from '~common/components/Login';
+    import Subscriptions from '~common/components/Subscriptions';
 
     import {
         useLoggedIn,
         useIsStreamer,
-    } from '../../../common/hooks';
+    } from '~common/hooks';
 
     import {
         logout,
-    } from '../../../common/logic';
+    } from '~common/logic';
     // #endregion external
 
 
@@ -207,8 +207,8 @@ const Options: React.FC<any> = (
     const stopEverything = async () => {
         setShowStopEverything(false);
 
-        await sendMessage<StopEverythingMessage>({
-            type: MESSAGE_TYPE.STOP_EVERYTHING,
+        await sendMessage<MessageStopEverything>({
+            type: MESSAGE_OPTIONS_TO_BACKGROUND.STOP_EVERYTHING,
         });
     }
     // #endregion handlers

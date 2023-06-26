@@ -2,17 +2,18 @@
     // #region external
     import {
         Handler,
+        Message,
+
         MESSAGE_TYPE,
-        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
         MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
+        MESSAGE_OPTIONS_TO_BACKGROUND,
         MESSAGE_POPUP_TO_BACKGROUND,
         MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND,
-        Message,
-    } from '../../data';
+    } from '~data/index';
 
     import {
         log,
-    } from '../../common/utilities';
+    } from '~common/utilities';
     // #endregion external
 
 
@@ -47,11 +48,18 @@
 
 // #region module
 const handlerMapping: Record<string, Handler<Message>> = {
+    [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_TAB_ID]: handleGetTabID,
+    [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_TAB_SETTINGS]: handleGetTabSettings,
     [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_SESSION]: handleGetSession,
     [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_SUBSCRIPTION]: handleGetSubscription,
+    [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_LINKAGE]: handleGetLinkage,
     [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.PUBLISH_EVENT]: handlePublishEvent,
     [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.URL_CHANGE]: handleURLChange,
+    [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.START_SUBSCRIPTION_BY_ID]: handleStartSubscriptionByID,
+    [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.REPLAYMENT_INITIALIZE]: handleReplaymentInitialize,
+    [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.STOP_SUBSCRIPTION]: handleStopSubscription,
 
+    [MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND.START_SUBSCRIPTION]: handleStartSubscription,
     [MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND.STOP_SUBSCRIPTIONS]: handleStopSubscriptions,
 
     [MESSAGE_POPUP_TO_BACKGROUND.GET_SESSION]: handleGetSession,
@@ -63,18 +71,13 @@ const handlerMapping: Record<string, Handler<Message>> = {
     [MESSAGE_POPUP_TO_BACKGROUND.REPLAYMENT_PLAY]: handleReplaymentPlay,
     [MESSAGE_POPUP_TO_BACKGROUND.REPLAYMENT_STOP]: handleReplaymentStop,
     [MESSAGE_POPUP_TO_BACKGROUND.REPLAYMENT_INDEX]: handleReplaymentIndex,
+    [MESSAGE_POPUP_TO_BACKGROUND.STOP_SUBSCRIPTION]: handleStopSubscription,
+    [MESSAGE_POPUP_TO_BACKGROUND.START_SESSION]: handleStartSession,
 
-    [MESSAGE_TYPE.GET_TAB_ID]: handleGetTabID,
-    [MESSAGE_TYPE.GET_SESSION_AUDIENCE]: handleGetSessionAudience,
-    [MESSAGE_TYPE.START_SESSION]: handleStartSession,
-    [MESSAGE_TYPE.START_SUBSCRIPTION]: handleStartSubscription,
-    [MESSAGE_TYPE.START_SUBSCRIPTION_BY_ID]: handleStartSubscriptionByID,
-    [MESSAGE_TYPE.STOP_SUBSCRIPTION]: handleStopSubscription,
-    [MESSAGE_TYPE.GET_TAB_SETTINGS]: handleGetTabSettings,
-    [MESSAGE_TYPE.GET_LINKAGE]: handleGetLinkage,
+    [MESSAGE_OPTIONS_TO_BACKGROUND.STOP_EVERYTHING]: handleStopEverything,
+
     [MESSAGE_TYPE.SEND_NOTIFICATION]: handleSendNotification,
-    [MESSAGE_TYPE.STOP_EVERYTHING]: handleStopEverything,
-    [MESSAGE_TYPE.REPLAYMENT_INITIALIZE]: handleReplaymentInitialize,
+    [MESSAGE_TYPE.GET_SESSION_AUDIENCE]: handleGetSessionAudience,
 };
 
 

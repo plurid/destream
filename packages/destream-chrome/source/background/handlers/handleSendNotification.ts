@@ -2,9 +2,11 @@
     // #region external
     import {
         Handler,
+        MessageSendNotification,
+        ResponseMessage,
+
         NOTIFICATION_KIND,
-        SendNotificationMessage,
-    } from '../../data';
+    } from '~data/index';
 
     import {
         sendNotificationURLChange,
@@ -20,7 +22,7 @@
 
 
 // #region module
-const handleSendNotification: Handler<SendNotificationMessage> = async (
+const handleSendNotification: Handler<MessageSendNotification, ResponseMessage> = async (
     request,
     sender,
     sendResponse,

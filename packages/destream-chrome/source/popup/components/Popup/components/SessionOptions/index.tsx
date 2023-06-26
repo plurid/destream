@@ -18,20 +18,20 @@
     // #region external
     import {
         Session,
-    } from '../../../../../data';
+    } from '~data/interfaces';
 
     import {
         Tab,
-    } from '../../../../../common/types';
+    } from '~common/types';
 
     import {
         getTabSettingsID,
         getTabSettings,
-    } from '../../../../../background/utilities';
+    } from '~background/utilities';
 
     import {
         storageUpdate,
-    } from '../../../../../common/storage';
+    } from '~common/storage';
     // #endregion external
 // #region imports
 

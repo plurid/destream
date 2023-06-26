@@ -7,34 +7,34 @@
         MessageGetSubscription,
         ResponseGetSubscription,
         MessageStopSubscription,
-        StartSubscriptionByIDMessage,
+        MessageStartSubscriptionByID,
+
         resyncTimeout,
-        MESSAGE_TYPE,
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
         MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
         GENERAL_EVENT,
-    } from '../../data';
+    } from '~data/index';
 
     import {
         sendMessage,
         messageAddListener,
-    } from '../../common/messaging';
+    } from '~common/messaging';
 
     import {
         storageAddListener,
-    } from '../../common/storage';
+    } from '~common/storage';
 
     import {
         MessageListener,
-    } from '../../common/types';
+    } from '~common/types';
 
     import {
         log,
-    } from '../../common/utilities';
+    } from '~common/utilities';
 
     import {
         getCurrentStateArbitraryTopicID,
-    } from '../../background/utilities';
+    } from '~background/utilities';
 
     import {
         getTabSettings,
@@ -176,8 +176,8 @@ const runViewer = async (
                     );
                     break;
                 case GENERAL_EVENT.START_ANOTHER_SESSION:
-                    sendMessage<StartSubscriptionByIDMessage>({
-                        type: MESSAGE_TYPE.START_SUBSCRIPTION_BY_ID,
+                    sendMessage<MessageStartSubscriptionByID>({
+                        type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.START_SUBSCRIPTION_BY_ID,
                         data: data.payload.newSessionID,
                     }).catch(log);
                     break;

@@ -20,7 +20,7 @@
     // #region external
     import {
         NEW_ACCOUNT_URL,
-    } from '../../../data/constants';
+    } from '~data/constants';
     // #endregion external
 
 

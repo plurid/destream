@@ -2,11 +2,11 @@
     // #region external
     import {
         DestreamEvent,
-    } from '../../../data';
+    } from '~data/interfaces';
 
     import {
         handleEvent,
-    } from '../../viewer/event';
+    } from '~contentscript/viewer/event';
     // #endregion external
 // #endregion imports
 

@@ -9,11 +9,11 @@
         DEFAULT_API_ENDPOINT,
         GENERAL_EVENT,
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
-    } from '../../data';
+    } from '~data/index';
 
     import {
         sendMessageToTab,
-    } from '../../common/messaging';
+    } from '~common/messaging';
 
     import {
         storageGet,
@@ -21,16 +21,16 @@
         storageSet,
         storageRemove,
         storageGetTokens,
-    } from '../../common/storage';
+    } from '~common/storage';
 
     import {
         log,
-    } from '../../common/utilities';
+    } from '~common/utilities';
 
     import {
         Tab,
         TabChangeInfo,
-    } from '../../common/types';
+    } from '~common/types';
 
     import {
         generateClient,

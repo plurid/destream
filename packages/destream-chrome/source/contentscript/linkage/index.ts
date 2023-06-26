@@ -7,21 +7,21 @@
         MessageGetLinkage,
         ResponseGetLinkage,
         DestreamLinkage,
-    } from '../../data';
+    } from '~data/index';
 
     import {
         sendMessage,
         messageAddListener,
-    } from '../../common/messaging';
+    } from '~common/messaging';
 
     import {
         storageAddListener,
-    } from '../../common/storage';
+    } from '~common/storage';
 
     import {
         StorageChange,
         MessageListener,
-    } from '../../common/types';
+    } from '~common/types';
 
     import MessagerClient from '../client';
 

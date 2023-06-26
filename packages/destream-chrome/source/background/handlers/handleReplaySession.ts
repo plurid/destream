@@ -4,17 +4,19 @@
         Handler,
         MessageReplaySession,
         RequestReplaySession,
+        ResponseMessage,
         Replayment,
+
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
-    } from '../../data';
+    } from '~data/index';
 
     import {
         sendMessageToTab,
-    } from '../../common/messaging';
+    } from '~common/messaging';
 
     import {
         storageSet,
-    } from '../../common/storage';
+    } from '~common/storage';
 
     import {
         openTab,
@@ -29,7 +31,7 @@
 
 
 // #region module
-const handleReplaySession: Handler<MessageReplaySession> = async (
+const handleReplaySession: Handler<MessageReplaySession, ResponseMessage> = async (
     request,
     _sender,
     sendResponse,

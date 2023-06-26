@@ -4,12 +4,14 @@
         Handler,
         MessageReplaymentStop,
         RequestReplaymentStop,
+        ResponseMessage,
+
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
-    } from '../../data';
+    } from '~data/index';
 
     import {
         sendMessageToTab,
-    } from '../../common/messaging';
+    } from '~common/messaging';
 
     import {
         stopReplaymentWithTabID,
@@ -20,7 +22,7 @@
 
 
 // #region module
-const handleReplaymentStop: Handler<MessageReplaymentStop> = async (
+const handleReplaymentStop: Handler<MessageReplaymentStop, ResponseMessage> = async (
     request,
     _sender,
     sendResponse,

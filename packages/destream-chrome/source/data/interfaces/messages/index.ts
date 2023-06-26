@@ -4,10 +4,10 @@
         MESSAGE_TYPE,
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
         MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
+        MESSAGE_OPTIONS_TO_BACKGROUND,
         MESSAGE_POPUP_TO_BACKGROUND,
         MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND,
-        GENERAL_EVENT,
-    } from '../../constants';
+    } from '~data/constants';
 
     import {
         DestreamEvent,
@@ -34,20 +34,20 @@ export type Message =
     | MessageGetTabID
     | MessageGetSession
     | MessageGetSessionAudience
-    | StartSessionMessage
+    | MessageStartSession
     | MessageStartAnotherSession
     | MessageStopSession
     | RequestStopSession
-    | StartSubscriptionMessage
-    | StartSubscriptionByIDMessage
+    | MessageStartSubscription
+    | MessageStartSubscriptionByID
     | MessageStopSubscription
     | RequestStopSubscription
     | MessageStopSubscriptions
     | MessageGetSubscription
     | MessageGetTabSettings
     | MessageGetLinkage
-    | SendNotificationMessage
-    | StopEverythingMessage
+    | MessageSendNotification
+    | MessageStopEverything
     | MessageURLChange
     | RequestURLChange
     | DestreamEventMessage
@@ -60,7 +60,7 @@ export type Message =
     | MessageReplaymentStop
     | RequestReplaymentStop
     | MessageReplaymentIndex
-    | ReplaymentInitializeMessage
+    | MessageReplaymentInitialize
     | LinkageStartingMessage
     | LinkageStartedMessage
     | LinkageEndedMessage
@@ -122,8 +122,8 @@ export type ResponseGetSessionAudience = Response<{
     audience: number;
 }>;
 
-export interface StartSessionMessage {
-    type: typeof MESSAGE_TYPE.START_SESSION;
+export interface MessageStartSession {
+    type: typeof MESSAGE_POPUP_TO_BACKGROUND.START_SESSION;
     data: {
         tabID: number;
         url: string;
@@ -151,20 +151,22 @@ export interface RequestStopSession {
     session: Session;
 }
 
-export interface StartSubscriptionMessage {
-    type: typeof MESSAGE_TYPE.START_SUBSCRIPTION;
+export interface MessageStartSubscription {
+    type: typeof MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND.START_SUBSCRIPTION;
     // streamer identonym
     data: string;
 }
 
-export interface StartSubscriptionByIDMessage {
-    type: typeof MESSAGE_TYPE.START_SUBSCRIPTION_BY_ID;
+export interface MessageStartSubscriptionByID {
+    type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.START_SUBSCRIPTION_BY_ID;
     // session id
     data: string;
 }
 
 export interface MessageStopSubscription {
-    type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.STOP_SUBSCRIPTION;
+    type:
+        | typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.STOP_SUBSCRIPTION
+        | typeof MESSAGE_POPUP_TO_BACKGROUND.STOP_SUBSCRIPTION;
     // session id
     data: string;
 }
@@ -207,13 +209,13 @@ export type ResponseGetLinkage = Response<{
     linkage: DestreamLinkage;
 }>;
 
-export interface SendNotificationMessage {
+export interface MessageSendNotification {
     type: typeof MESSAGE_TYPE.SEND_NOTIFICATION;
     data: Notification;
 }
 
-export interface StopEverythingMessage {
-    type: typeof MESSAGE_TYPE.STOP_EVERYTHING;
+export interface MessageStopEverything {
+    type: typeof MESSAGE_OPTIONS_TO_BACKGROUND.STOP_EVERYTHING;
 }
 
 export interface MessageURLChange {
@@ -285,8 +287,8 @@ export interface RequestReplaymentIndex {
     data: number;
 }
 
-export interface ReplaymentInitializeMessage {
-    type: typeof MESSAGE_TYPE.REPLAYMENT_INITIALIZE;
+export interface MessageReplaymentInitialize {
+    type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.REPLAYMENT_INITIALIZE;
     // session id
     data: string;
     linkageID?: string;

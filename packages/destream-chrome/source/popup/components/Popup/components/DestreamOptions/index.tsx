@@ -15,7 +15,7 @@
     // #region external
     import {
         openOptionsPage,
-    } from '../../../../../common/utilities';
+    } from '~common/utilities';
     // #endregion external
 // #region imports
 

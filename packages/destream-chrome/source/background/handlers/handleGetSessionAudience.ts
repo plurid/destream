@@ -4,7 +4,7 @@
         Handler,
         MessageGetSessionAudience,
         ResponseGetSessionAudience,
-    } from '../../data';
+    } from '~data/interfaces';
 
     import {
         getSessionAudience,
@@ -15,18 +15,17 @@
 
 
 // #region module
-const handleGetSessionAudience: Handler<MessageGetSessionAudience> = async (
+const handleGetSessionAudience: Handler<MessageGetSessionAudience, ResponseGetSessionAudience> = async (
     request,
     _sender,
     sendResponse,
 ) => {
     const audienceResponse = await getSessionAudience(request.data);
 
-    const response: ResponseGetSessionAudience = {
+    sendResponse({
         status: audienceResponse.status,
         audience: audienceResponse.data,
-    };
-    sendResponse(response);
+    });
 
     return;
 }

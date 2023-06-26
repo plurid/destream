@@ -4,7 +4,7 @@
         Handler,
         MessageStopSubscriptions,
         ResponseMessage,
-    } from '../../data';
+    } from '~data/interfaces';
 
     import {
         getSubscriptionsByStreamerName,
@@ -16,7 +16,7 @@
 
 
 // #region module
-const handleStopSubscriptions: Handler<MessageStopSubscriptions> = async (
+const handleStopSubscriptions: Handler<MessageStopSubscriptions, ResponseMessage> = async (
     request,
     _sender,
     sendResponse,
@@ -27,11 +27,9 @@ const handleStopSubscriptions: Handler<MessageStopSubscriptions> = async (
         await stopSubscription(subscription);
     }
 
-    const response: ResponseMessage = {
+    sendResponse({
         status: true,
-    };
-    sendResponse(response);
-
+    });
     return;
 }
 // #endregion module

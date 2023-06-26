@@ -2,18 +2,20 @@
     // #region external
     import {
         Handler,
-        StartSessionMessage,
+        MessageStartSession,
+        ResponseMessage,
+
         DEFAULT_API_ENDPOINT,
-    } from '../../data';
+    } from '~data/index';
 
     import {
         storageGetIsStreamer,
         storageGetIdentonym,
-    } from '../../common/storage';
+    } from '~common/storage';
 
     import {
         log,
-    } from '../../common/utilities';
+    } from '~common/utilities';
 
     import {
         startSession,
@@ -36,7 +38,7 @@
 
 
 // #region module
-const handleStartSession: Handler<StartSessionMessage> = async (
+const handleStartSession: Handler<MessageStartSession, ResponseMessage> = async (
     request,
     _sender,
     sendResponse,

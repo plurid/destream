@@ -3,11 +3,11 @@
     import {
         DestreamLinkage,
         DestreamLinkageSession,
-    } from '../../../data/interfaces';
+    } from '~data/interfaces';
 
     import {
         log,
-    } from '../../../common/utilities';
+    } from '~common/utilities';
 
     import {
         getGeneralVideoPlayer,

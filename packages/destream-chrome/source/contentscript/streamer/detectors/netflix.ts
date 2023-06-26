@@ -3,12 +3,12 @@
     import {
         DESTREAM_DETECT_EVENT,
         NETFLIX_EVENT,
-    } from '../../../data';
+    } from '~data/constants';
 
     import {
         retryGet,
         debounce,
-    } from '../../../common/utilities';
+    } from '~common/utilities';
 
     import {
         getNetflixVideoPlayer,

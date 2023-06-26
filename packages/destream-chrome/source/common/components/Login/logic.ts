@@ -3,7 +3,7 @@
     import {
         generateClient,
         LOGIN_BY_IDENTONYM,
-    } from '../../../background/graphql';
+    } from '~background/graphql';
 
     import {
         login,

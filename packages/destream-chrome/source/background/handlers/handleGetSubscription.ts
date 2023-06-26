@@ -4,7 +4,7 @@
         Handler,
         MessageGetSubscription,
         ResponseGetSubscription,
-    } from '../../data';
+    } from '~data/interfaces';
 
     import {
         getSubscriptionByTabID,
@@ -15,7 +15,7 @@
 
 
 // #region module
-const handleGetSubscription: Handler<MessageGetSubscription> = async (
+const handleGetSubscription: Handler<MessageGetSubscription, ResponseGetSubscription> = async (
     request,
     sender,
     sendResponse,
@@ -23,11 +23,10 @@ const handleGetSubscription: Handler<MessageGetSubscription> = async (
     const tabID = request.data || sender.tab?.id;
     const subscription = await getSubscriptionByTabID(tabID);
 
-    const response: ResponseGetSubscription = {
+    sendResponse({
         status: !!subscription,
         subscription,
-    };
-    sendResponse(response);
+    });
 
     return;
 }

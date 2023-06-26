@@ -5,20 +5,20 @@
         MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
         MessageReplaymentIndex,
         ResponseMessage,
-    } from '../../data';
+    } from '~data/index';
 
     import {
         sendMessage,
         messageAddListener,
-    } from '../../common/messaging';
+    } from '~common/messaging';
 
     import {
         MessageListener,
-    } from '../../common/types';
+    } from '~common/types';
 
     import {
         log,
-    } from '../../common/utilities';
+    } from '~common/utilities';
 
     import {
         getTabID,

@@ -18,33 +18,33 @@
 
     // #region external
     import {
-        MESSAGE_POPUP_TO_BACKGROUND,
-
         Replayment as IReplayment,
         ResponseMessage,
         MessageReplaymentIndex,
         MessageReplaymentPlay,
         MessageReplaymentPause,
         MessageReplaymentStop,
-    } from '../../../../../data';
+
+        MESSAGE_POPUP_TO_BACKGROUND,
+    } from '~data/index';
 
     import {
         sendMessage,
-    } from '../../../../../common/messaging';
+    } from '~common/messaging';
 
     import {
         storageAddListener,
         storageRemoveListener,
-    } from '../../../../../common/storage';
+    } from '~common/storage';
 
     import {
         Tab,
-    } from '../../../../../common/types';
+    } from '~common/types';
 
     import {
         getReplaymentByTabID,
         replaymentAtEnd,
-    } from '../../../../../background/replayments';
+    } from '~background/replayments';
 
     import {
         buttonStyle,

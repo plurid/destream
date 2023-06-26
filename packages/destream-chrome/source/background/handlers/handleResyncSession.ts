@@ -4,19 +4,21 @@
         Handler,
         MessageResyncSession,
         RequestResyncSession,
+        ResponseMessage,
+
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
-    } from '../../data';
+    } from '~data/index';
 
     import {
         sendMessageToTab,
-    } from '../../common/messaging';
+    } from '~common/messaging';
     // #endregion external
 // #endregion imports
 
 
 
 // #region module
-const handleResyncSession: Handler<MessageResyncSession> = async (
+const handleResyncSession: Handler<MessageResyncSession, ResponseMessage> = async (
     request,
     _sender,
     sendResponse,

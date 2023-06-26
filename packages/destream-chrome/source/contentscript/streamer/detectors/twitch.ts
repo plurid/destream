@@ -3,12 +3,12 @@
     import {
         DESTREAM_DETECT_EVENT,
         TWITCH_EVENT,
-    } from '../../../data';
+    } from '~data/constants';
 
     import {
         retryGet,
         debounce,
-    } from '../../../common/utilities';
+    } from '~common/utilities';
 
     import {
         getTwitchVideoPlayer,

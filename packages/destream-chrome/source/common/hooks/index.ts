@@ -10,12 +10,12 @@
     // #region external
     import {
         Session,
-    } from '../../data';
+    } from '~data/interfaces';
 
     import {
         getSession,
         getSessionAudience,
-    } from '../../background/sessions';
+    } from '~background/sessions';
 
     import {
         getActiveTab,

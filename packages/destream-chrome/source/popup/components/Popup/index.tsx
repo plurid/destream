@@ -20,16 +20,15 @@
 
     // #region external
     import {
-        MESSAGE_TYPE,
         MESSAGE_POPUP_TO_BACKGROUND,
         uncontrollableURLsBase,
         // DEFAULT_API_ENDPOINT,
         storagePrefix,
-    } from '../../../data/constants';
+    } from '~data/constants';
 
     import {
         ResponseMessage,
-        StartSessionMessage,
+        MessageStartSession,
         MessageStopSession,
         MessageStopSubscription,
         MessageGetSession,
@@ -38,40 +37,40 @@
         ResponseGetSubscription,
         Subscription,
         Replayment,
-    } from '../../../data/interfaces';
+    } from '~data/interfaces';
 
     import {
         storageGet,
-    } from '../../../common/storage';
+    } from '~common/storage';
 
     import {
         sendMessage,
-    } from '../../../common/messaging';
+    } from '~common/messaging';
 
     import {
         initializeReplayment,
-    } from '../../../background/replayments';
+    } from '~background/replayments';
 
-    import Login from '../../../common/components/Login';
-    import Subscriptions from '../../../common/components/Subscriptions';
+    import Login from '~common/components/Login';
+    import Subscriptions from '~common/components/Subscriptions';
 
     import {
         useLoggedIn,
         useIsStreamer,
         useSession,
-    } from '../../../common/hooks';
+    } from '~common/hooks';
 
     import {
         getActiveTab,
-    } from '../../../common/logic';
+    } from '~common/logic';
 
     import {
         Tab,
-    } from '../../../common/types';
+    } from '~common/types';
 
     import {
         log,
-    } from '../../../common/utilities';
+    } from '~common/utilities';
     // #endregion external
 
 
@@ -172,9 +171,9 @@ const Popup: React.FC<any> = (
 
         setLoading(true);
 
-        sendMessage<StartSessionMessage>(
+        sendMessage<MessageStartSession, ResponseMessage>(
             {
-                type: MESSAGE_TYPE.START_SESSION,
+                type: MESSAGE_POPUP_TO_BACKGROUND.START_SESSION,
                 data: {
                     tabID: activeTab.id,
                     url: activeTab.url,
@@ -228,7 +227,7 @@ const Popup: React.FC<any> = (
 
         sendMessage<MessageStopSubscription, ResponseMessage>(
             {
-                type: MESSAGE_TYPE.STOP_SUBSCRIPTION,
+                type: MESSAGE_POPUP_TO_BACKGROUND.STOP_SUBSCRIPTION,
                 data: subscription.sessionID,
             },
             (response) => {

@@ -5,12 +5,12 @@
         GENERAL_EVENT,
         DestreamScrollEvent,
         DestreamCursorEvent,
-    } from '../../../data';
+    } from '~data/index';
 
     import {
         debounce,
         throttle,
-    } from '../../../common/utilities';
+    } from '~common/utilities';
 
     import {
         SCROLL_DEBOUNCE,

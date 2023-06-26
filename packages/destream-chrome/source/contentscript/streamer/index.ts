@@ -16,38 +16,38 @@
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
         DESTREAM_DETECT_EVENT,
         GENERAL_EVENT,
-    } from '../../data';
+    } from '~data/index';
 
     import MessagerClient from '../client';
 
     import {
         composeEventData,
-    } from '../../background/sessions';
+    } from '~background/sessions';
 
     import {
         sendMessage,
         messageAddListener,
-    } from '../../common/messaging';
+    } from '~common/messaging';
 
     import {
         storageAddListener,
-    } from '../../common/storage';
+    } from '~common/storage';
 
     import {
         MessageListener,
-    } from '../../common/types';
+    } from '~common/types';
 
     import {
         storageGetIsStreamer,
-    } from '../../common/storage';
+    } from '~common/storage';
 
     import {
         StorageChange,
-    } from '../../common/types';
+    } from '~common/types';
 
     import {
         log,
-    } from '../../common/utilities';
+    } from '~common/utilities';
 
 
     import {

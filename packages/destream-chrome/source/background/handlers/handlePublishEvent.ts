@@ -4,11 +4,11 @@
         Handler,
         MessagePublishEvent,
         ResponsePublishEvent,
-    } from '../../data';
+    } from '~data/interfaces';
 
     import {
         log,
-    } from '../../common/utilities';
+    } from '~common/utilities';
 
     import {
         getSession,
@@ -29,7 +29,7 @@
 
 
 // #region module
-const handlePublishEvent: Handler<MessagePublishEvent> = async (
+const handlePublishEvent: Handler<MessagePublishEvent, ResponsePublishEvent> = async (
     request,
     sender,
     sendResponse,
@@ -69,15 +69,14 @@ const handlePublishEvent: Handler<MessagePublishEvent> = async (
         }
 
         const topic = getPublishTopicID(session.id);
-        const responsePublishEvent: ResponsePublishEvent = {
+        sendResponse({
             status: true,
             data: {
                 token: session.token,
                 topic,
                 message: event,
             },
-        };
-        sendResponse(responsePublishEvent);
+        });
 
         return;
     } catch (error) {

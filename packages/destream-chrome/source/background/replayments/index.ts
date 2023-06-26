@@ -6,27 +6,27 @@
 
         storagePrefix,
         MESSAGE_POPUP_TO_BACKGROUND,
-    } from '../../data';
+    } from '~data/index';
 
     import {
         storageGet,
         storageSet,
         storageRemove,
         storageGetAll,
-    } from '../../common/storage';
+    } from '~common/storage';
 
     import {
         sendMessage,
-    } from '../../common/messaging';
+    } from '~common/messaging';
 
     import {
         log,
         destreamIDGetValue,
-    } from '../../common/utilities';
+    } from '~common/utilities';
 
     import {
         GET_SESSION,
-    } from '../../background/graphql';
+    } from '~background/graphql';
 
     import {
         getDefaultGraphqlClient,

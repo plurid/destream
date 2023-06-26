@@ -4,11 +4,11 @@
         Session,
         Subscription,
         TabSettings,
-    } from '../../data/interfaces';
+    } from '~data/interfaces';
 
     import {
         storageAddListener,
-    } from '../../common/storage';
+    } from '~common/storage';
 
     import {
         getTabID,

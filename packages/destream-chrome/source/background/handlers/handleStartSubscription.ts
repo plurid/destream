@@ -2,18 +2,20 @@
     // #region external
     import {
         Handler,
-        StartSubscriptionMessage,
+        MessageStartSubscription,
+        ResponseMessage,
         GeneralPermissions,
+
         storageFields,
-    } from '../../data';
+    } from '~data/index';
 
     import {
         storageGet,
-    } from '../../common/storage';
+    } from '~common/storage';
 
     import {
         log,
-    } from '../../common/utilities';
+    } from '~common/utilities';
 
     import {
         GET_ACTIVE_SESSIONS,
@@ -32,7 +34,7 @@
 
 
 // #region module
-const handleStartSubscription: Handler<StartSubscriptionMessage> = async (
+const handleStartSubscription: Handler<MessageStartSubscription, ResponseMessage> = async (
     request,
     _sender,
     sendResponse,

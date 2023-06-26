@@ -2,7 +2,7 @@
     // #region external
     import {
         storagePrefix,
-    } from '../../data/constants';
+    } from '~data/constants';
 
     import {
         storageSetMultiple,

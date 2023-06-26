@@ -2,9 +2,8 @@
     // #region external
     import {
         IN_PRODUCTION,
-
         DESTREAM_PROTOCOL,
-    } from '../../data/constants';
+    } from '~data/constants';
     // #endregion external
 // #endregion imports
 

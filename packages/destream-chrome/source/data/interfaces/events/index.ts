@@ -6,7 +6,7 @@
         TWITCH_EVENT,
         SPOTIFY_EVENT,
         NETFLIX_EVENT,
-    } from '../../constants';
+    } from '~data/constants';
     // #endregion external
 // #endregion imports
 

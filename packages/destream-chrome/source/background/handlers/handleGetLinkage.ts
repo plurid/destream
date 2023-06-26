@@ -4,7 +4,7 @@
         Handler,
         MessageGetLinkage,
         ResponseGetLinkage,
-    } from '../../data';
+    } from '~data/interfaces';
 
     import {
         getLinkageByTabID,
@@ -15,7 +15,7 @@
 
 
 // #region module
-const handleGetLinkage: Handler<MessageGetLinkage> = async (
+const handleGetLinkage: Handler<MessageGetLinkage, ResponseGetLinkage> = async (
     request,
     sender,
     sendResponse,
@@ -23,11 +23,10 @@ const handleGetLinkage: Handler<MessageGetLinkage> = async (
     const tabID = request.data || sender.tab.id;
     const linkage = await getLinkageByTabID(tabID);
 
-    const response: ResponseGetLinkage = {
+    sendResponse({
         status: !!linkage,
         linkage,
-    };
-    sendResponse(response);
+    });
 
     return;
 }

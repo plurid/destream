@@ -4,14 +4,14 @@
         storagePrefix,
         Linkage,
         LinkageOfURL,
-    } from '../../data';
+    } from '~data/index';
 
     import {
         storageGetAll,
         storageRemove,
         storageSessionGet,
         storageSessionSet,
-    } from '../../common/storage';
+    } from '~common/storage';
 
     import {
         GET_LINKAGES_OF_URL,
@@ -20,7 +20,6 @@
 
     import {
         getDefaultGraphqlClient,
-        getTab,
         hashValue,
     } from '../utilities';
     // #endregion external

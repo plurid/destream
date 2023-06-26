@@ -2,7 +2,7 @@
     // #region external
     import {
         origins,
-    } from '../../data';
+    } from '~data/constants';
     // #endregion external
 // #endregion imports
 

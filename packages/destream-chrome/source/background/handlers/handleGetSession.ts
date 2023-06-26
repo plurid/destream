@@ -4,7 +4,7 @@
         Handler,
         MessageGetSession,
         ResponseGetSession,
-    } from '../../data';
+    } from '~data/interfaces';
 
     import {
         getSession,
@@ -15,7 +15,7 @@
 
 
 // #region module
-const handleGetSession: Handler<MessageGetSession> = async (
+const handleGetSession: Handler<MessageGetSession, ResponseGetSession> = async (
     request,
     sender,
     sendResponse,
@@ -23,11 +23,10 @@ const handleGetSession: Handler<MessageGetSession> = async (
     const tabID = request.data || sender.tab?.id;
     const session = await getSession(tabID);
 
-    const response: ResponseGetSession = {
+    sendResponse({
         status: !!session,
         session,
-    };
-    sendResponse(response);
+    });
 
     return;
 }

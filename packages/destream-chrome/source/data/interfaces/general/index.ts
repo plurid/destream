@@ -2,17 +2,17 @@
     // #region external
     import {
         MessageSender,
-    } from '../../../common/types';
+    } from '~common/types';
     // #endregion external
 // #endregion imports
 
 
 
 // #region module
-export type Handler<R> = (
-    request: R,
+export type Handler<RQ = any, RS = any> = (
+    request: RQ,
     sender: MessageSender,
-    sendResponse: (response?: any) => void,
+    sendResponse: (response?: RS) => void,
 ) => Promise<void>;
 
 

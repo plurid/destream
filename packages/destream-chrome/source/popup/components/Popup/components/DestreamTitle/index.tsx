@@ -7,7 +7,7 @@
     // #region external
     import {
         DESTREAM_WWW_URL,
-    } from '../../../../../data/constants';
+    } from '~data/constants';
     // #endregion external
 // #region imports
 

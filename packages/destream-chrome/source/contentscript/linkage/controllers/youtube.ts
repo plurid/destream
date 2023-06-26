@@ -1,20 +1,20 @@
 // #region imports
     // #region external
     import {
-        MESSAGE_TYPE,
-        ReplaymentInitializeMessage,
-
+        MessageReplaymentInitialize,
         DestreamLinkage,
         DestreamLinkageSession,
-    } from '../../../data';
+
+        MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
+    } from '~data/index';
 
     import {
         sendMessage,
-    } from '../../../common/messaging';
+    } from '~common/messaging';
 
     import {
         log,
-    } from '../../../common/utilities';
+    } from '~common/utilities';
 
     import {
         getYoutubeVideoPlayer,
@@ -141,8 +141,8 @@ export class YoutubeLinkage {
             });
 
 
-            await sendMessage<ReplaymentInitializeMessage>({
-                type: MESSAGE_TYPE.REPLAYMENT_INITIALIZE,
+            await sendMessage<MessageReplaymentInitialize>({
+                type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.REPLAYMENT_INITIALIZE,
                 data: id,
                 linkageID: this.data.id,
             }).catch(log);

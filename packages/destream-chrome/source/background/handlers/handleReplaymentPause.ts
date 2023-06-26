@@ -3,12 +3,14 @@
     import {
         Handler,
         MessageReplaymentPause,
+        ResponseMessage,
+
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
-    } from '../../data';
+    } from '~data/index';
 
     import {
         sendMessageToTab,
-    } from '../../common/messaging';
+    } from '~common/messaging';
 
     import {
         updateReplayment,
@@ -19,7 +21,7 @@
 
 
 // #region module
-const handleReplaymentPause: Handler<MessageReplaymentPause> = async (
+const handleReplaymentPause: Handler<MessageReplaymentPause, ResponseMessage> = async (
     request,
     _sender,
     sendResponse,

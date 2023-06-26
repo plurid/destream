@@ -2,19 +2,19 @@
     // #region external
     import {
         MESSAGE_TYPE,
-        ReplaymentInitializeMessage,
+        MessageReplaymentInitialize,
 
         DestreamLinkage,
         DestreamLinkageSession,
-    } from '../../../data';
+    } from '~data/index';
 
     import {
         sendMessage,
-    } from '../../../common/messaging';
+    } from '~common/messaging';
 
     import {
         log,
-    } from '../../../common/utilities';
+    } from '~common/utilities';
 
     import {
         Counter,

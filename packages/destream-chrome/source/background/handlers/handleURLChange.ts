@@ -3,14 +3,15 @@
     import {
         Handler,
         MessageURLChange,
+        ResponseMessage,
+        GeneralPermissions,
 
         storageFields,
-        GeneralPermissions,
-    } from '../../data';
+    } from '~data/index';
 
     import {
         storageGet,
-    } from '../../common/storage';
+    } from '~common/storage';
 
     import {
         getSubscriptionByTabID,
@@ -26,7 +27,7 @@
 
 
 // #region module
-const handleURLChange: Handler<MessageURLChange> = async (
+const handleURLChange: Handler<MessageURLChange, ResponseMessage> = async (
     request,
     sender,
     sendResponse,
@@ -64,7 +65,9 @@ const handleURLChange: Handler<MessageURLChange> = async (
     }
 
 
-    const generalPermissions = await storageGet<GeneralPermissions>(storageFields.generalPermissions);
+    const generalPermissions = await storageGet<GeneralPermissions>(
+        storageFields.generalPermissions,
+    );
     if (!generalPermissions) {
         return reject();
     }

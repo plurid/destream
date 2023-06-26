@@ -4,22 +4,23 @@
         Handler,
         MessageStopSession,
         RequestStopSession,
+        ResponseMessage,
 
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
-    } from '../../data';
+    } from '~data/index';
 
     import {
         sendMessageToTab,
-    } from '../../common/messaging';
+    } from '~common/messaging';
 
     import {
         storageGetIsStreamer,
         storageGetIdentonym,
-    } from '../../common/storage';
+    } from '~common/storage';
 
     import {
         log,
-    } from '../../common/utilities';
+    } from '~common/utilities';
 
     import {
         getSession,
@@ -36,7 +37,7 @@
 
 
 // #region module
-const handleStopSession: Handler<MessageStopSession> = async (
+const handleStopSession: Handler<MessageStopSession, ResponseMessage> = async (
     request,
     _sender,
     sendResponse,

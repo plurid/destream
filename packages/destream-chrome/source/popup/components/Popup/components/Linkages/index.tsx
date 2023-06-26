@@ -33,16 +33,16 @@
         GeneralPermissions,
 
         storageFields,
-    } from '../../../../../data';
+    } from '~data/index';
 
     import {
         storageSet,
         storageGet,
-    } from '../../../../../common/storage';
+    } from '~common/storage';
 
     import {
         Tab,
-    } from '../../../../../common/types';
+    } from '~common/types';
 
     import {
         getLinkageStorageID,
@@ -51,7 +51,7 @@
         storeURLLinkages,
         getURLLinkages,
         getLinkageByTabID,
-    } from '../../../../../background/linkages';
+    } from '~background/linkages';
     // #endregion external
 // #region imports
 

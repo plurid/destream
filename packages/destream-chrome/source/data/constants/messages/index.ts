@@ -31,8 +31,11 @@ export const MESSAGE_CONTENTSCRIPT_TO_BACKGROUND = {
     PUBLISH_EVENT: 'publishEvent',
 
     STOP_SUBSCRIPTION: 'stopSubscription',
+    START_SUBSCRIPTION_BY_ID: 'startSubscriptionByID',
 
     REPLAYMENT_INDEX: 'replaymentIndex',
+
+    REPLAYMENT_INITIALIZE: 'replaymentInitialize',
 } as const;
 
 export const MESSAGE_BACKGROUND_TO_POPUP = {
@@ -43,8 +46,11 @@ export const MESSAGE_POPUP_TO_BACKGROUND = {
     GET_SESSION: 'getSession',
     GET_SUBSCRIPTION: 'getSubscription',
 
+    START_SESSION: 'startSession',
     STOP_SESSION: 'stopSession',
     REPLAY_SESSION: 'replaySession',
+
+    STOP_SUBSCRIPTION: 'stopSubscription',
 
     REPLAYMENT_PAUSE: 'replaymentPause',
     REPLAYMENT_PLAY: 'replaymentPlay',
@@ -55,26 +61,18 @@ export const MESSAGE_POPUP_TO_BACKGROUND = {
 } as const;
 
 export const MESSAGE_OPTIONS_TO_BACKGROUND = {
-
+    STOP_EVERYTHING: 'stopEverything',
 } as const;
 
 export const MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND = {
+    START_SUBSCRIPTION: 'startSubscription',
     STOP_SUBSCRIPTIONS: 'stopSubscriptions',
 } as const;
 
 
 export const MESSAGE_TYPE = {
-    GET_TAB_ID: 'getTabID',
     GET_SESSION_AUDIENCE: 'getSessionAudience',
     SEND_NOTIFICATION: 'sendNotification',
-    START_SESSION: 'startSession',
-    START_SUBSCRIPTION: 'startSubscription',
-    START_SUBSCRIPTION_BY_ID: 'startSubscriptionByID',
-    STOP_SUBSCRIPTION: 'stopSubscription',
-    GET_TAB_SETTINGS: 'getTabSettings',
-    GET_LINKAGE: 'getLinkage',
-    STOP_EVERYTHING: 'stopEverything',
     DESTREAM_EVENT: 'destreamEvent',
-    REPLAYMENT_INITIALIZE: 'replaymentInitialize',
 } as const;
 // #endregion module
