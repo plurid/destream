@@ -2,6 +2,7 @@
     // #region external
     import {
         IN_PRODUCTION,
+        IN_TRACING,
         DESTREAM_PROTOCOL,
     } from '~data/constants';
     // #endregion external
@@ -87,6 +88,16 @@ export const log = (
     }
 
     console.log('destream ::', ...message);
+}
+
+export const trace = (
+    ...message: any[]
+) => {
+    if (IN_PRODUCTION || !IN_TRACING) {
+        return;
+    }
+
+    console.log('trace ::', ...message);
 }
 
 

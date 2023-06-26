@@ -10,6 +10,7 @@
     } from '~data/index';
 
     import {
+        trace,
         log,
     } from '~common/utilities';
     // #endregion external
@@ -84,6 +85,8 @@ const messageHandler: Handler<Message> = async (
     sender,
     sendResponse,
 ) => {
+    trace(`background message ${request.type}`, request);
+
     const handler = handlerMapping[request.type];
     if (!handler) {
         log(`handler not found for ${request.type}`);
