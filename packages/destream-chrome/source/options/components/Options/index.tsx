@@ -101,6 +101,11 @@ const Options: React.FC<any> = (
     ] = useIsStreamer();
 
     const [
+        useTelemetry,
+        setUseTelemetry,
+    ] = useState(defaultPermissions.useTelemetry);
+
+    const [
         useNotifications,
         setUseNotifications,
     ] = useState(defaultPermissions.useNotifications);
@@ -224,6 +229,7 @@ const Options: React.FC<any> = (
             }
 
             const {
+                useTelemetry,
                 useNotifications,
                 useSessionGroups,
                 autoCheckLinkages,
@@ -238,6 +244,7 @@ const Options: React.FC<any> = (
                 allowedURLOrigins,
             } = generalPermissions;
 
+            setUseTelemetry(useTelemetry);
             setUseNotifications(useNotifications);
             setUseSessionGroups(useSessionGroups);
             setAutoCheckLinkages(autoCheckLinkages);
@@ -271,6 +278,7 @@ const Options: React.FC<any> = (
     useEffect(() => {
         const setPermissions = async () => {
             const generalPermissions: GeneralPermissions = {
+                useTelemetry,
                 useNotifications,
                 useSessionGroups,
                 autoCheckLinkages,
@@ -293,6 +301,7 @@ const Options: React.FC<any> = (
 
         setPermissions();
     }, [
+        useTelemetry,
         useNotifications,
         useSessionGroups,
         autoCheckLinkages,
@@ -428,6 +437,15 @@ const Options: React.FC<any> = (
                     width: '320px',
                 }}
             >
+                <InputSwitch
+                    name="use telemetry"
+                    checked={useTelemetry}
+                    atChange={() => {
+                        setUseTelemetry(!useTelemetry);
+                    }}
+                    theme={plurid}
+                />
+
                 <InputSwitch
                     name="use notifications"
                     checked={useNotifications}

@@ -33,6 +33,7 @@ export const defaultAllowedURLOrigins = [
 ];
 
 export const defaultPermissions: GeneralPermissions = {
+    useTelemetry: false,
     useNotifications: true,
     useSessionGroups: true,
     autoCheckLinkages: false,

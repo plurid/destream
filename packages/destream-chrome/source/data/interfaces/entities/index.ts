@@ -80,6 +80,7 @@ export type Notification =
 
 
 export interface GeneralPermissions {
+    useTelemetry: boolean;
     useNotifications: boolean;
     useSessionGroups: boolean;
     autoCheckLinkages: boolean;

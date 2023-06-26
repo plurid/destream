@@ -82,10 +82,11 @@ export const log = (
     ...message: any[]
 ) => {
     if (IN_PRODUCTION) {
+        // TODO check if telemetry is enabled and send logs to server
         return;
     }
 
-    console.log('log', ...message);
+    console.log('destream ::', ...message);
 }
 
 
