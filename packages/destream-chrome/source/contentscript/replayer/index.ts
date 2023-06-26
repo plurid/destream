@@ -1,10 +1,12 @@
 // #region imports
     // #region external
     import {
-        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
-        MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
         MessageReplaymentIndex,
         ResponseMessage,
+
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
+        MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
+        ASYNCHRONOUS_RESPONSE,
     } from '~data/index';
 
     import {
@@ -50,14 +52,12 @@ const runReplayer = async (
         _sender,
         sendResponse,
     ) => {
-        if (!request?.type) {
+        if (
+            !request?.type
+            || (!sessionPlayer && request.type !== MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAY_SESSION)
+        ) {
             sendResponse();
-            return true;
-        }
-
-        if (request.type !== MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAY_SESSION && !sessionPlayer) {
-            sendResponse();
-            return true;
+            return ASYNCHRONOUS_RESPONSE;
         }
 
         switch (request.type) {
@@ -105,7 +105,7 @@ const runReplayer = async (
         }
 
         sendResponse();
-        return true;
+        return ASYNCHRONOUS_RESPONSE;
     }
 
     messageAddListener(messageListener);
