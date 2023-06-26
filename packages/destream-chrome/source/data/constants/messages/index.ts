@@ -71,7 +71,6 @@ export const MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND = {
 
 
 export const MESSAGE_TYPE = {
-    GET_SESSION_AUDIENCE: 'getSessionAudience',
     SEND_NOTIFICATION: 'sendNotification',
     DESTREAM_EVENT: 'destreamEvent',
 } as const;

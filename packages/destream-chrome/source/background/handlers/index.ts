@@ -21,7 +21,6 @@
     import handlePublishEvent from './handlePublishEvent';
     import handleGetTabID from './handleGetTabID';
     import handleGetSession from './handleGetSession';
-    import handleGetSessionAudience from './handleGetSessionAudience';
     import handleStartSession from './handleStartSession';
     import handleStopSession from './handleStopSession';
     import handleStartSubscription from './handleStartSubscription';
@@ -77,7 +76,6 @@ const handlerMapping: Record<string, Handler<Message>> = {
     [MESSAGE_OPTIONS_TO_BACKGROUND.STOP_EVERYTHING]: handleStopEverything,
 
     [MESSAGE_TYPE.SEND_NOTIFICATION]: handleSendNotification,
-    [MESSAGE_TYPE.GET_SESSION_AUDIENCE]: handleGetSessionAudience,
 };
 
 

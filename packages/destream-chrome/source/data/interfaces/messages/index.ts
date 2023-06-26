@@ -33,7 +33,6 @@ export type Message =
     | MessagePublishEvent
     | MessageGetTabID
     | MessageGetSession
-    | MessageGetSessionAudience
     | MessageStartSession
     | MessageStartAnotherSession
     | MessageStopSession
@@ -110,16 +109,6 @@ export interface MessageGetSession {
 }
 export type ResponseGetSession = Response<{
     session: Session;
-}>;
-
-
-export interface MessageGetSessionAudience {
-    type: typeof MESSAGE_TYPE.GET_SESSION_AUDIENCE;
-    // sessionID
-    data: string;
-}
-export type ResponseGetSessionAudience = Response<{
-    audience: number;
 }>;
 
 export interface MessageStartSession {
