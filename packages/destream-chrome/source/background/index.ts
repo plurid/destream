@@ -48,6 +48,14 @@
 
 
 // #region module
+const onTabRemovedListeners = [
+    stopSessionWithTabID,
+    stopSubscriptionWithTabID,
+    stopReplaymentWithTabID,
+    stopLinkageWithTabID,
+];
+
+
 const main = async () => {
     try {
         initialize();
@@ -62,18 +70,9 @@ const main = async () => {
         });
 
         tabsOnRemovedAddListener((tabID) => {
-            stopSessionWithTabID(tabID).catch(error => {
-                log(error);
-            });
-            stopSubscriptionWithTabID(tabID).catch(error => {
-                log(error);
-            });
-            stopReplaymentWithTabID(tabID).catch(error => {
-                log(error);
-            });
-            stopLinkageWithTabID(tabID).catch(error => {
-                log(error);
-            });
+            onTabRemovedListeners.forEach(
+                listener => listener(tabID).catch(error => log(error)),
+            );
         });
 
         tabsOnUpdatedAddListener(updateSession);
