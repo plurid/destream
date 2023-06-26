@@ -80,8 +80,10 @@ const handleReplaymentIndex: Handler<MessageReplaymentIndex, ResponseMessage> = 
                     data: linkage.id,
                 });
 
-                const linkageStorageID = getLinkageStorageID(linkage.tabID);
-                await storageRemove(linkageStorageID);
+                setTimeout(async () => {
+                    const linkageStorageID = getLinkageStorageID(linkage.tabID);
+                    await storageRemove(linkageStorageID);
+                }, 3_000);
             }
         }
     }
