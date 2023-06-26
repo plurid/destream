@@ -61,6 +61,7 @@ export type Message =
     | MessagerLinkageFocusSessionPage
     | MessagerLinkageCloseSessionPage
     | MessagerLinkageSetMediaTime
+    | RequestLinkageSetMediaTime
     | MessagerLinkageFocusInitialPage
     | MessageResyncSession
     | RequestResyncSession;
@@ -306,6 +307,10 @@ export interface MessagerLinkageSetMediaTime {
     type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.LINKAGE_SET_MEDIA_TIME;
     sessionID: string;
     linkageID: string;
+    data: number;
+}
+export interface RequestLinkageSetMediaTime {
+    type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_SET_MEDIA_TIME;
     data: number;
 }
 

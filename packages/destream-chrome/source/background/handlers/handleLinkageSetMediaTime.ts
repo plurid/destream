@@ -3,6 +3,7 @@
     import {
         Handler,
         MessagerLinkageSetMediaTime,
+        RequestLinkageSetMediaTime,
         ResponseMessage,
     } from '~data/interfaces';
 
@@ -45,7 +46,7 @@ const handleLinkageSetMediaTime: Handler<MessagerLinkageSetMediaTime, ResponseMe
 
     const sessionTabID = linkage.sessionTabs[request.sessionID];
 
-    await sendMessageToTab(sessionTabID, {
+    await sendMessageToTab<RequestLinkageSetMediaTime>(sessionTabID, {
         type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_SET_MEDIA_TIME,
         data: request.data,
     });

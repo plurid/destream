@@ -26,7 +26,7 @@
 
     import {
         handleEvent,
-    } from '../event';
+    } from '../../viewer/event';
     // #endregion external
 // #endregion imports
 

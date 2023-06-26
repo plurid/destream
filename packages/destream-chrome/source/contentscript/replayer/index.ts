@@ -34,6 +34,10 @@
     import {
         SessionPlayer,
     } from './SessionPlayer';
+
+    import {
+        linkageSetMediaTime,
+    } from './linkage';
     // #endregion internal
 // #endregion imports
 
@@ -99,6 +103,12 @@ const runReplayer = async (
                 break;
             case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_INDEX:
                 sessionPlayer.setIndex(
+                    request.data,
+                );
+                break;
+            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_SET_MEDIA_TIME:
+                console.log('LINKAGE_SET_MEDIA_TIME', request.data);
+                linkageSetMediaTime(
                     request.data,
                 );
                 break;
