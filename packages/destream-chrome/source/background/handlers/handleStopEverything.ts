@@ -10,6 +10,7 @@
 
     import {
         storageGetAll,
+        storageClearSession,
     } from '~common/storage';
 
     import {
@@ -69,6 +70,8 @@ const handleStopEverything: Handler<MessageStopEverything, ResponseMessage> = as
             await storageRemove(key);
         }
     });
+
+    await storageClearSession();
 
     sendResponse({
         status: true,

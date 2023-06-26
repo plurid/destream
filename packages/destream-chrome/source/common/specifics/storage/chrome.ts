@@ -127,6 +127,10 @@ export const storageClearAll = async () => {
     await chrome.storage.local.clear();
 }
 
+export const storageClearSession = async () => {
+    await chrome.storage.session.clear();
+}
+
 
 
 export const storageSessionGet = async <T = any>(
