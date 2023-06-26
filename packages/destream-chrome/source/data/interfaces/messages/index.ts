@@ -192,7 +192,7 @@ export type ResponseGetSubscription = Response<{
 }>;
 
 export interface MessageGetTabSettings {
-    type: typeof MESSAGE_TYPE.GET_TAB_SETTINGS;
+    type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_TAB_SETTINGS;
     // tabID
     data?: number;
 }
