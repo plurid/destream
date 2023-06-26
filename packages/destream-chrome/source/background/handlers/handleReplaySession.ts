@@ -20,6 +20,10 @@
     } from '~common/storage';
 
     import {
+        destreamIDGetDisplay,
+    } from '~common/utilities';
+
+    import {
         openTab,
     } from '../utilities';
 
@@ -53,7 +57,8 @@ const handleReplaySession: Handler<MessageReplaySession, ResponseMessage> = asyn
         stoppedAt
     } = data;
 
-    const tab = await openTab(url, true);
+    const activeTab = linkageID ? false : true;
+    const tab = await openTab(url, activeTab);
 
     setTimeout(async () => {
         // Let tab load.
@@ -80,7 +85,7 @@ const handleReplaySession: Handler<MessageReplaySession, ResponseMessage> = asyn
         if (linkage) {
             const newSessionTabs = {
                 ...linkage.sessionTabs,
-                [data.id]: tab.id,
+                [destreamIDGetDisplay(data.id)]: tab.id,
             };
             await storageUpdate(
                 getLinkageStorageID(linkage.tabID),

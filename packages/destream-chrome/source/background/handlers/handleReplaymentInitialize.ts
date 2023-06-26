@@ -47,7 +47,7 @@ const handleReplaymentInitialize: Handler<MessageReplaymentInitialize, ResponseM
                 type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_STARTED,
                 data: request.linkageID,
             });
-        }, 2_000);
+        }, 1_000);
     }
 
     sendResponse({
