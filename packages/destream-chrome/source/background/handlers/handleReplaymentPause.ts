@@ -3,6 +3,7 @@
     import {
         Handler,
         MessageReplaymentPause,
+        RequestReplaymentPause,
         ResponseMessage,
 
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
@@ -39,7 +40,7 @@ const handleReplaymentPause: Handler<MessageReplaymentPause, ResponseMessage> = 
         return;
     }
 
-    await sendMessageToTab(request.data, {
+    await sendMessageToTab<RequestReplaymentPause>(request.data, {
         type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_PAUSE,
     });
 
