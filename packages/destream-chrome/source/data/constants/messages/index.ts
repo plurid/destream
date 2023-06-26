@@ -36,6 +36,10 @@ export const MESSAGE_CONTENTSCRIPT_TO_BACKGROUND = {
     REPLAYMENT_INDEX: 'replaymentIndex',
 
     REPLAYMENT_INITIALIZE: 'replaymentInitialize',
+
+    LINKAGE_FOCUS_SESSION_PAGE: 'linkageFocusSessionPage',
+    LINKAGE_CLOSE_SESSION_PAGE: 'linkageCloseSessionPage',
+    LINKAGE_FOCUS_INITIAL_PAGE: 'linkageFocusInitialPage',
 } as const;
 
 export const MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND = {

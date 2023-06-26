@@ -57,12 +57,13 @@ export interface Replayment {
     currentIndex: number;
     status: 'playing' | 'paused';
     duration: number;
-    linkage?: boolean;
+    linkageID?: string;
 }
 
 
 export interface Linkage extends DestreamLinkage {
     tabID: number;
+    sessionTabs: Record<string, number | undefined>;
 }
 
 

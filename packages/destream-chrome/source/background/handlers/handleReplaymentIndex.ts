@@ -6,7 +6,7 @@
         ResponseMessage,
         RequestReplaymentIndex,
         RequestReplaymentPause,
-        LinkageEndedMessage,
+        MessageLinkageEnded,
 
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
     } from '~data/index';
@@ -21,7 +21,7 @@
     } from '../replayments';
 
     import {
-        getLinkageByTabID,
+        getLinkageByID,
     } from '../linkages';
     // #endregion external
 // #endregion imports
@@ -66,10 +66,10 @@ const handleReplaymentIndex: Handler<MessageReplaymentIndex, ResponseMessage> = 
             type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_PAUSE,
         });
 
-        if (replayment.linkage) {
-            const linkage = await getLinkageByTabID(request.data.tabID);
+        if (replayment.linkageID) {
+            const linkage = await getLinkageByID(replayment.linkageID);
             if (linkage) {
-                await sendMessageToTab<LinkageEndedMessage>(request.data.tabID, {
+                await sendMessageToTab<MessageLinkageEnded>(linkage.tabID, {
                     type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_ENDED,
                     data: linkage.id,
                 });

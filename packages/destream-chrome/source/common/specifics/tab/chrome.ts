@@ -48,11 +48,11 @@ export const tabsUngroup = async (
 }
 
 
-export const tabsUpdate = (
+export const tabsUpdate = async (
     tabID: number,
     updateProperties: chrome.tabs.UpdateProperties,
 ) => {
-    chrome.tabs.update(
+    return await chrome.tabs.update(
         tabID,
         {
             ...updateProperties,
@@ -66,6 +66,12 @@ export const tabsCreate = async (
     return await chrome.tabs.create({
         ...createProperties,
     });
+}
+
+export const tabsClose = async (
+    tabID: number,
+) => {
+    await chrome.tabs.remove(tabID);
 }
 
 

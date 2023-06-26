@@ -115,7 +115,11 @@ export class YoutubeLinkage {
                 for (const event of afterStart) {
                     switch (event.type) {
                         case 'focusSessionPage':
-                            // send focus session page message
+                            sendMessage<any>({
+                                type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.LINKAGE_FOCUS_SESSION_PAGE,
+                                sessionID: id,
+                                linkageID: this.data.id,
+                            }).catch(log);
                             break;
                         case 'setMediaTime':
                             youtubeSeek(event.data);
@@ -128,10 +132,18 @@ export class YoutubeLinkage {
                 for (const event of afterEnd) {
                     switch (event.type) {
                         case 'closeSessionPage':
-                            // send close session page message
+                            sendMessage<any>({
+                                type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.LINKAGE_CLOSE_SESSION_PAGE,
+                                sessionID: id,
+                                linkageID: this.data.id,
+                            }).catch(log);
                             break;
                         case 'focusInitialPage':
-                            // focus initial page
+                            sendMessage<any>({
+                                type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.LINKAGE_FOCUS_INITIAL_PAGE,
+                                sessionID: id,
+                                linkageID: this.data.id,
+                            }).catch(log);
                             break;
                         case 'playMediaInitialPage':
                             youtubePlay();

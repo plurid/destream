@@ -16,6 +16,7 @@
 
     import {
         storageSet,
+        storageUpdate,
     } from '~common/storage';
 
     import {
@@ -25,6 +26,11 @@
     import {
         getReplaymentStorageID,
     } from '../replayments';
+
+    import {
+        getLinkageStorageID,
+        getLinkageByID,
+    } from '../linkages';
     // #endregion external
 // #endregion imports
 
@@ -38,7 +44,7 @@ const handleReplaySession: Handler<MessageReplaySession, ResponseMessage> = asyn
 ) => {
     const {
         data,
-        linkage,
+        linkageID,
     } = request;
 
     const {
@@ -65,9 +71,25 @@ const handleReplaySession: Handler<MessageReplaySession, ResponseMessage> = asyn
         duration: typeof stoppedAt === 'number'
             ? stoppedAt - generatedAt
             : 0,
-        linkage,
+        linkageID,
     };
     await storageSet(getReplaymentStorageID(tab.id), replayment);
+
+    if (linkageID) {
+        const linkage = await getLinkageByID(linkageID);
+        if (linkage) {
+            const newSessionTabs = {
+                ...linkage.sessionTabs,
+                [data.id]: tab.id,
+            };
+            await storageUpdate(
+                getLinkageStorageID(linkage.tabID),
+                {
+                    sessionTabs: newSessionTabs,
+                },
+            );
+        }
+    }
 
     sendResponse({
         status: true,

@@ -55,9 +55,12 @@ export type Message =
     | RequestReplaymentStop
     | MessageReplaymentIndex
     | MessageReplaymentInitialize
-    | LinkageStartingMessage
-    | LinkageStartedMessage
-    | LinkageEndedMessage
+    | MessageLinkageStarting
+    | MessageLinkageStarted
+    | MessageLinkageEnded
+    | MessagerLinkageFocusSessionPage
+    | MessagerLinkageCloseSessionPage
+    | MessagerLinkageFocusInitialPage
     | MessageResyncSession
     | RequestResyncSession;
 
@@ -212,7 +215,7 @@ export interface MessageReplaySession {
     type: typeof MESSAGE_POPUP_TO_BACKGROUND.REPLAY_SESSION;
     // session data
     data: any;
-    linkage?: boolean;
+    linkageID?: string;
 }
 export interface RequestReplaySession {
     type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAY_SESSION;
@@ -268,22 +271,40 @@ export interface MessageReplaymentInitialize {
     linkageID?: string;
 }
 
-export interface LinkageStartingMessage {
+export interface MessageLinkageStarting {
     type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_STARTING;
     // linkage id
     data: string;
 }
 
-export interface LinkageStartedMessage {
+export interface MessageLinkageStarted {
     type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_STARTED;
     // linkage id
     data: string;
 }
 
-export interface LinkageEndedMessage {
+export interface MessageLinkageEnded {
     type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_ENDED;
     // linkage id
     data: string;
+}
+
+export interface MessagerLinkageFocusSessionPage {
+    type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.LINKAGE_FOCUS_SESSION_PAGE;
+    sessionID: string;
+    linkageID: string;
+}
+
+export interface MessagerLinkageCloseSessionPage {
+    type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.LINKAGE_CLOSE_SESSION_PAGE;
+    sessionID: string;
+    linkageID: string;
+}
+
+export interface MessagerLinkageFocusInitialPage {
+    type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.LINKAGE_FOCUS_INITIAL_PAGE;
+    sessionID: string;
+    linkageID: string;
 }
 
 export interface MessageResyncSession {

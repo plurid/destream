@@ -142,6 +142,7 @@ const Linkages: React.FC<LinkagesProperties> = (
             await storageSet<Linkage>(storageID, {
                 ...linkage,
                 tabID: activeTab.id,
+                sessionTabs: {},
             });
 
             setPlayingLinkage(id);

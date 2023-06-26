@@ -117,7 +117,7 @@ export const replaymentAtEnd = (
 export const initializeReplayment = async (
     destreamID: string,
     callback?: () => void,
-    backgroundOnly = false,
+    linkageID?: string,
 ) => {
     const graphqlClient = await getDefaultGraphqlClient();
 
@@ -144,10 +144,10 @@ export const initializeReplayment = async (
     const replaySessionMessage: MessageReplaySession = {
         type: MESSAGE_POPUP_TO_BACKGROUND.REPLAY_SESSION,
         data,
-        linkage: !!backgroundOnly,
+        linkageID,
     };
 
-    if (backgroundOnly) {
+    if (linkageID) {
         await handleReplaySession(
             replaySessionMessage,
             {},

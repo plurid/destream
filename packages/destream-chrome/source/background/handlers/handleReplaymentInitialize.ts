@@ -4,8 +4,8 @@
         Handler,
         MessageReplaymentInitialize,
         ResponseMessage,
-        LinkageStartingMessage,
-        LinkageStartedMessage,
+        MessageLinkageStarting,
+        MessageLinkageStarted,
 
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
     } from '~data/index';
@@ -33,19 +33,21 @@ const handleReplaymentInitialize: Handler<MessageReplaymentInitialize, ResponseM
     await initializeReplayment(
         sessionID,
         () => {},
-        true,
+        request.linkageID,
     );
 
     if (request.linkageID) {
-        await sendMessageToTab<LinkageStartingMessage>(sender.tab.id, {
+        await sendMessageToTab<MessageLinkageStarting>(sender.tab.id, {
             type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_STARTING,
             data: request.linkageID,
         });
 
-        await sendMessageToTab<LinkageStartedMessage>(sender.tab.id, {
-            type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_STARTED,
-            data: request.linkageID,
-        });
+        setTimeout(async () => {
+            await sendMessageToTab<MessageLinkageStarted>(sender.tab.id, {
+                type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_STARTED,
+                data: request.linkageID,
+            });
+        }, 2_000);
     }
 
     sendResponse({

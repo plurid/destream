@@ -1,9 +1,11 @@
 // #region imports
     // #region external
     import {
-        storagePrefix,
+        DestreamLinkage,
         Linkage,
         LinkageOfURL,
+
+        storagePrefix,
     } from '~data/index';
 
     import {
@@ -66,7 +68,7 @@ export const getLinkagesOfURL = async (
 
 export const getLinkage = async (
     id: string,
-) => {
+): Promise<DestreamLinkage | undefined> => {
     const graphqlClient = await getDefaultGraphqlClient();
 
     const graphqlRequest = await graphqlClient.mutate({
@@ -85,7 +87,7 @@ export const getLinkage = async (
     return {
         ...response.data,
         sessions: JSON.parse(response.data.sessions),
-    };
+    } as DestreamLinkage;
 }
 
 
@@ -109,6 +111,15 @@ export const getLinkageByTabID = async (
 ): Promise<Linkage | undefined> => {
     const linkages = await getLinkages();
     const linkage = linkages.find(linkage => linkage.tabID === tabID);
+
+    return linkage;
+}
+
+export const getLinkageByID = async (
+    id: string,
+): Promise<Linkage | undefined> => {
+    const linkages = await getLinkages();
+    const linkage = linkages.find(linkage => linkage.id === id);
 
     return linkage;
 }

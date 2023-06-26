@@ -21,6 +21,9 @@
     import handleGetSubscription from './handleGetSubscription';
     import handleGetTabID from './handleGetTabID';
     import handleGetTabSettings from './handleGetTabSettings';
+    import handleLinkageCloseSessionPage from './handleLinkageCloseSessionPage';
+    import handleLinkageFocusInitialPage from './handleLinkageFocusInitialPage';
+    import handleLinkageFocusSessionPage from './handleLinkageFocusSessionPage';
     import handlePublishEvent from './handlePublishEvent';
     import handleReplaymentIndex from './handleReplaymentIndex';
     import handleReplaymentInitialize from './handleReplaymentInitialize';
@@ -54,6 +57,9 @@ const handlerMapping: Record<string, Handler<Message>> = {
     [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.START_SUBSCRIPTION_BY_ID]: handleStartSubscriptionByID,
     [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.REPLAYMENT_INITIALIZE]: handleReplaymentInitialize,
     [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.STOP_SUBSCRIPTION]: handleStopSubscription,
+    [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.LINKAGE_FOCUS_SESSION_PAGE]: handleLinkageFocusSessionPage,
+    [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.LINKAGE_CLOSE_SESSION_PAGE]: handleLinkageCloseSessionPage,
+    [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.LINKAGE_FOCUS_INITIAL_PAGE]: handleLinkageFocusInitialPage,
 
     [MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND.START_SUBSCRIPTION]: handleStartSubscription,
     [MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND.STOP_SUBSCRIPTIONS]: handleStopSubscriptions,
