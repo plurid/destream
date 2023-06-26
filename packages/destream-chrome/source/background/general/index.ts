@@ -13,6 +13,23 @@
         storageGet,
         storageSet,
     } from '~common/storage';
+
+
+    import {
+        stopSessionWithTabID,
+    } from '../sessions';
+
+    import {
+        stopSubscriptionWithTabID,
+    } from '../subscriptions';
+
+    import {
+        stopReplaymentWithTabID,
+    } from '../replayments';
+
+    import {
+        stopLinkageWithTabID,
+    } from '../linkages';
     // #endregion external
 // #endregion imports
 
@@ -31,7 +48,16 @@ export const initializeGeneralPermissions = async () => {
     );
 }
 
-export const initialize = () => {
-    initializeGeneralPermissions();
+export const initialize = async () => {
+    await initializeGeneralPermissions();
 }
+
+
+
+export const onTabRemovedListeners = [
+    stopSessionWithTabID,
+    stopSubscriptionWithTabID,
+    stopReplaymentWithTabID,
+    stopLinkageWithTabID,
+];
 // #endregion module

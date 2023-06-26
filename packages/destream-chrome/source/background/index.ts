@@ -22,40 +22,20 @@
     // #region internal
     import {
         initialize,
+        onTabRemovedListeners,
     } from './general';
 
     import messageHandler from './handlers';
 
     import {
-        stopSessionWithTabID,
         updateSession,
     } from './sessions';
-
-    import {
-        stopSubscriptionWithTabID,
-    } from './subscriptions';
-
-    import {
-        stopReplaymentWithTabID,
-    } from './replayments';
-
-    import {
-        stopLinkageWithTabID,
-    } from './linkages';
     // #endregion internal
 // #endregion imports
 
 
 
 // #region module
-const onTabRemovedListeners = [
-    stopSessionWithTabID,
-    stopSubscriptionWithTabID,
-    stopReplaymentWithTabID,
-    stopLinkageWithTabID,
-];
-
-
 const main = async () => {
     try {
         initialize();
