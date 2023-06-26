@@ -13,7 +13,7 @@
     import {
         getNetflixVideoPlayer,
         checkNetflixOrigin,
-    } from '../../utilities/netflix';
+    } from '~contentscript/utilities/netflix';
     // #endregion external
 
 

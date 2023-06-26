@@ -4,25 +4,24 @@
         MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
         MessageURLChange,
         ResponseMessage,
-    } from '../../../data';
+    } from '~data/index';
 
     import {
         sendMessage,
-    } from '../../../common/messaging';
+    } from '~common/messaging';
 
     import {
         log,
-    } from '../../../common/utilities';
+    } from '~common/utilities';
 
     import {
         DESTREAM_CURSOR_ID,
         CURSOR_HIDE,
-    } from '../../data';
+    } from '~contentscript/data';
 
     import {
         getGeneralVideoPlayer,
-    } from '../../utilities/general';
-    // #endregion external
+    } from '~contentscript/utilities/general';
     // #endregion external
 // #endregion imports
 

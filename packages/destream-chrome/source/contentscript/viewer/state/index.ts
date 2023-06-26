@@ -2,7 +2,7 @@
     // #region external
     import {
         hosts,
-    } from '../../../data';
+    } from '~data/constants';
 
     import {
         netflixApplyCurrentState,

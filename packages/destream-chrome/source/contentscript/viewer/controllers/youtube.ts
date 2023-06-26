@@ -2,17 +2,17 @@
     // #region external
     import {
         YoutubeCurrentState,
-    } from '../../../data';
+    } from '~data/index';
 
     import {
         log,
-    } from '../../../common/utilities';
+    } from '~common/utilities';
 
     import {
         getYoutubeVideoPlayer,
         getYoutubeLikeButton,
         checkYoutubeLikeButtonPressed,
-    } from '../../utilities/youtube';
+    } from '~contentscript/utilities/youtube';
     // #endregion external
 // #endregion imports
 

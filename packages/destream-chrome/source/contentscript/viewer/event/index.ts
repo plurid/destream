@@ -7,15 +7,15 @@
         YOUTUBE_EVENT,
         TWITCH_EVENT,
         SPOTIFY_EVENT,
-    } from '../../../data';
+    } from '~data/index';
 
     import {
         log,
-    } from '../../../common/utilities';
+    } from '~common/utilities';
 
     import {
         eventsList,
-    } from '../../view/eventsList';
+    } from '~contentscript/view/eventsList';
 
     import {
         generalScrollTo,
@@ -27,7 +27,6 @@
         generalVideoRateChange,
         generalURLChange,
     } from '../controllers/general';
-
 
     import {
         netflixPlay,

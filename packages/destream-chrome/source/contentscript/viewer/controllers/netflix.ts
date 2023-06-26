@@ -2,15 +2,15 @@
     // #region external
     import {
         NetflixCurrentState,
-    } from '../../../data';
+    } from '~data/index';
 
     import {
         log,
-    } from '../../../common/utilities';
+    } from '~common/utilities';
 
     import {
         getNetflixVideoPlayer,
-    } from '../../utilities/netflix';
+    } from '~contentscript/utilities/netflix';
     // #endregion external
 // #endregion imports
 

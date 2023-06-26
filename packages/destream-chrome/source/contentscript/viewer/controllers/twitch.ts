@@ -2,15 +2,15 @@
     // #region external
     import {
         TwitchCurrentState,
-    } from '../../../data';
+    } from '~data/index';
 
     import {
         log,
-    } from '../../../common/utilities';
+    } from '~common/utilities';
 
     import {
         getTwitchVideoPlayer,
-    } from '../../utilities/twitch';
+    } from '~contentscript/utilities/twitch';
     // #endregion external
 // #endregion imports
 

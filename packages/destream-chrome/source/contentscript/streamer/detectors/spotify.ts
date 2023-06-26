@@ -12,7 +12,7 @@
 
     import {
         checkSpotifyOrigin
-    } from '../../utilities/spotify';
+    } from '~contentscript/utilities/spotify';
     // #endregion external
 
 

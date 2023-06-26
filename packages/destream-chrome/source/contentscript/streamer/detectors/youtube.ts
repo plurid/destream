@@ -15,7 +15,7 @@
         getYoutubeLikeButton,
         checkYoutubeLikeButtonPressed,
         checkYoutubeOrigin,
-    } from '../../utilities/youtube';
+    } from '~contentscript/utilities/youtube';
     // #endregion external
 
 

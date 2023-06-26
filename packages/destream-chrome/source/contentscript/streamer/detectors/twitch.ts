@@ -13,7 +13,7 @@
     import {
         getTwitchVideoPlayer,
         checkTwitchOrigin,
-    } from '../../utilities/twitch';
+    } from '~contentscript/utilities/twitch';
     // #endregion external
 
 
