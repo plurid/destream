@@ -38,8 +38,13 @@ export const MESSAGE_CONTENTSCRIPT_TO_BACKGROUND = {
     REPLAYMENT_INITIALIZE: 'replaymentInitialize',
 } as const;
 
-export const MESSAGE_BACKGROUND_TO_POPUP = {
+export const MESSAGE_OPTIONS_TO_BACKGROUND = {
+    STOP_EVERYTHING: 'stopEverything',
+} as const;
 
+export const MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND = {
+    START_SUBSCRIPTION: 'startSubscription',
+    STOP_SUBSCRIPTIONS: 'stopSubscriptions',
 } as const;
 
 export const MESSAGE_POPUP_TO_BACKGROUND = {
@@ -58,20 +63,5 @@ export const MESSAGE_POPUP_TO_BACKGROUND = {
     REPLAYMENT_INDEX: 'replaymentIndex',
 
     RESYNC_SESSION: 'resyncSession',
-} as const;
-
-export const MESSAGE_OPTIONS_TO_BACKGROUND = {
-    STOP_EVERYTHING: 'stopEverything',
-} as const;
-
-export const MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND = {
-    START_SUBSCRIPTION: 'startSubscription',
-    STOP_SUBSCRIPTIONS: 'stopSubscriptions',
-} as const;
-
-
-export const MESSAGE_TYPE = {
-    SEND_NOTIFICATION: 'sendNotification',
-    DESTREAM_EVENT: 'destreamEvent',
 } as const;
 // #endregion module

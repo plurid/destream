@@ -1,7 +1,6 @@
 // #region imports
     // #region external
     import {
-        MESSAGE_TYPE,
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
         MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
         MESSAGE_OPTIONS_TO_BACKGROUND,
@@ -14,7 +13,6 @@
     } from '../events';
 
     import {
-        Notification,
         Session,
         Subscription,
         TabSettings,
@@ -45,11 +43,9 @@ export type Message =
     | MessageGetSubscription
     | MessageGetTabSettings
     | MessageGetLinkage
-    | MessageSendNotification
     | MessageStopEverything
     | MessageURLChange
     | RequestURLChange
-    | DestreamEventMessage
     | MessageReplaySession
     | RequestReplaySession
     | MessageReplaymentPause
@@ -198,11 +194,6 @@ export type ResponseGetLinkage = Response<{
     linkage: DestreamLinkage;
 }>;
 
-export interface MessageSendNotification {
-    type: typeof MESSAGE_TYPE.SEND_NOTIFICATION;
-    data: Notification;
-}
-
 export interface MessageStopEverything {
     type: typeof MESSAGE_OPTIONS_TO_BACKGROUND.STOP_EVERYTHING;
 }
@@ -216,11 +207,6 @@ export interface RequestURLChange {
     type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.URL_CHANGE;
     session: Session;
     url: string;
-}
-
-export interface DestreamEventMessage {
-    type: typeof MESSAGE_TYPE.DESTREAM_EVENT;
-    data: DestreamEvent;
 }
 
 export interface MessageReplaySession {
