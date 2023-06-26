@@ -1,6 +1,6 @@
 // #region module
 export const IN_PRODUCTION = process.env.NODE_ENV === 'production';
-export const IN_TRACING = process.env.TRACING === 'false';
+export const IN_TRACING = process.env.TRACING === 'true';
 
 
 

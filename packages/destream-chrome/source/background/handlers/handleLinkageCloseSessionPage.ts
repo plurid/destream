@@ -7,6 +7,10 @@
     } from '~data/interfaces';
 
     import {
+        log,
+    } from '~common/utilities';
+
+    import {
         getLinkageByTabID,
     } from '../linkages';
 
@@ -39,11 +43,13 @@ const handleLinkageCloseSessionPage: Handler<MessagerLinkageCloseSessionPage, Re
         return;
     }
 
-    const sessionTabID = 0;
+    const sessionTabID = linkage.sessionTabs[request.sessionID];
 
     await tabsClose(
         sessionTabID,
-    );
+    ).catch(() => {
+        // Ignore if no tab or other error.
+    });
 
     sendResponse({
         status: true,

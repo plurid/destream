@@ -2,7 +2,7 @@
     // #region external
     import {
         GeneralPermissions,
-    } from '../../interfaces';
+    } from '~data/interfaces';
     // #endregion external
 // #endregion imports
 

@@ -39,14 +39,16 @@ const handleLinkageFocusSessionPage: Handler<MessagerLinkageFocusSessionPage, Re
         return;
     }
 
-    const sessionTabID = 0;
+    const sessionTabID = linkage.sessionTabs[request.sessionID];
 
     await tabsUpdate(
         sessionTabID,
         {
             active: true,
         },
-    );
+    ).catch(() => {
+        // Ignore if no tab or other error.
+    });
 
     sendResponse({
         status: true,
