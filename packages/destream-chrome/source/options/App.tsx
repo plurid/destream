@@ -4,6 +4,12 @@
     // #endregion libraries
 
 
+    // #region external
+    import ErrorBoundary from '~common/components/ErrorBoundary';
+    import ErrorFallback from '~common/components/ErrorFallback';
+    // #endregion external
+
+
     // #region internal
     import Options from './components/Options';
     // #endregion internal
@@ -14,7 +20,11 @@
 // #region module
 const App = () => {
     return (
-        <Options />
+        <ErrorBoundary
+            fallback={<ErrorFallback />}
+        >
+            <Options />
+        </ErrorBoundary>
     );
 }
 // #endregion module

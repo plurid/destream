@@ -23,7 +23,7 @@
     import {
         STREAMER_REGISTRATION_URL,
         // DEFAULT_API_ENDPOINT,
-        MESSAGE_OPTIONS_TO_BACKGROUND,
+        MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND,
         defaultPermissions,
         // defaultAllowedURLOrigins,
         storageFields,
@@ -213,7 +213,7 @@ const Options: React.FC<any> = (
         setShowStopEverything(false);
 
         await sendMessage<MessageStopEverything>({
-            type: MESSAGE_OPTIONS_TO_BACKGROUND.STOP_EVERYTHING,
+            type: MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND.STOP_EVERYTHING,
         });
     }
     // #endregion handlers

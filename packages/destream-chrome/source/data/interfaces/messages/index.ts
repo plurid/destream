@@ -3,7 +3,6 @@
     import {
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
         MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
-        MESSAGE_OPTIONS_TO_BACKGROUND,
         MESSAGE_POPUP_TO_BACKGROUND,
         MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND,
     } from '~data/constants';
@@ -195,7 +194,7 @@ export type ResponseGetLinkage = Response<{
 }>;
 
 export interface MessageStopEverything {
-    type: typeof MESSAGE_OPTIONS_TO_BACKGROUND.STOP_EVERYTHING;
+    type: typeof MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND.STOP_EVERYTHING;
 }
 
 export interface MessageURLChange {

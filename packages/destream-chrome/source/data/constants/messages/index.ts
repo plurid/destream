@@ -38,13 +38,11 @@ export const MESSAGE_CONTENTSCRIPT_TO_BACKGROUND = {
     REPLAYMENT_INITIALIZE: 'replaymentInitialize',
 } as const;
 
-export const MESSAGE_OPTIONS_TO_BACKGROUND = {
-    STOP_EVERYTHING: 'stopEverything',
-} as const;
-
 export const MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND = {
     START_SUBSCRIPTION: 'startSubscription',
     STOP_SUBSCRIPTIONS: 'stopSubscriptions',
+
+    STOP_EVERYTHING: 'stopEverything',
 } as const;
 
 export const MESSAGE_POPUP_TO_BACKGROUND = {
