@@ -1,5 +1,6 @@
 // #region module
 export const GENERAL_EVENT = {
+    INITIAL_STATE: 'generalInitialState',
     SCROLL: 'generalScroll',
     CURSOR: 'generalCursor',
     PLAY: 'generalPlay',

@@ -14,6 +14,7 @@
 
 // #region module
 export type DestreamEvent =
+    | DestreamInitialStateEvent
     | DestreamScrollEvent
     | DestreamCursorEvent
     | DestreamURLChangeEvent
@@ -27,6 +28,11 @@ export type DestreamEvent =
     | DestreamRateChangeEvent
     | DestreamLikeEvent;
 
+
+export interface DestreamInitialStateEvent {
+    type: typeof GENERAL_EVENT.INITIAL_STATE;
+    payload: any;
+}
 
 export interface DestreamScrollEvent {
     type: typeof GENERAL_EVENT.SCROLL;

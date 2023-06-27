@@ -281,6 +281,19 @@ const runStreamer = async (
         );
 
 
+        const initialState = await detector.getCurrentState();
+        const initalEvent = new CustomEvent<DestreamEvent>(
+            DESTREAM_DETECT_EVENT,
+            {
+                detail: {
+                    type: GENERAL_EVENT.INITIAL_STATE,
+                    payload: initialState,
+                },
+            },
+        );
+        runLogic(initalEvent);
+
+
         const publishCurrentState = async (
             message: any,
         ) => {

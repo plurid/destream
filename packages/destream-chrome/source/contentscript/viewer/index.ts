@@ -163,6 +163,9 @@ const runViewer = async (
             const data: DestreamEvent = JSON.parse(message.data);
 
             switch (data.type) {
+                case GENERAL_EVENT.INITIAL_STATE:
+                    applyCurrentState(data.payload);
+                    break;
                 case GENERAL_EVENT.STOP_SESSION:
                     destroyCursor();
 
