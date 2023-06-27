@@ -23,46 +23,13 @@
         StorageChange,
         MessageListener,
     } from '~common/types';
-
-    import {
-        checkNetflixOrigin,
-    } from '../utilities/netflix';
-
-    import {
-        checkSpotifyOrigin,
-    } from '../utilities/spotify';
-
-    import {
-        checkTwitchOrigin,
-    } from '../utilities/twitch';
-
-    import {
-        checkYoutubeOrigin,
-    } from '../utilities/youtube';
     // #endregion external
 
 
     // #region internal
     import {
-        Controller,
-        GeneralLinkage,
+        LinkageController,
     } from './controllers';
-
-    import {
-        NetflixLinkage,
-    } from './controllers/netflix';
-
-    import {
-        SpotifyLinkage,
-    } from './controllers/spotify';
-
-    import {
-        TwitchLinkage,
-    } from './controllers/twitch';
-
-    import {
-        YoutubeLinkage,
-    } from './controllers/youtube';
 
     import {
         linkageEventMap,
@@ -75,20 +42,15 @@
 // #region module
 const getController = (
     data: DestreamLinkage,
-): Controller => {
-    if (checkNetflixOrigin()) return new NetflixLinkage(data);
-    if (checkSpotifyOrigin()) return new SpotifyLinkage(data);
-    if (checkTwitchOrigin()) return new TwitchLinkage(data);
-    if (checkYoutubeOrigin()) return new YoutubeLinkage(data);
-
-    return new GeneralLinkage(data);
+): LinkageController => {
+    return new LinkageController(data);
 }
 
 
 const runLinkage = async () => {
     let setup = false;
     let linkage: DestreamLinkage | undefined;
-    let linkageController: Controller | undefined;
+    let linkageController: LinkageController | undefined;
 
 
     const messageListener: MessageListener<Message, any> = (
