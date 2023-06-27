@@ -1,6 +1,7 @@
 // #region imports
     // #region libraries
     import React, {
+        useState,
         useEffect,
     } from 'react';
 
@@ -50,6 +51,16 @@
         buttonStyle,
     } from '../../styled';
     // #endregion external
+
+
+    // #region internal
+    import {
+        StyledEvents,
+        StyledEventsText,
+        StyledEvent,
+        StyledEventHeader,
+    } from './styled';
+    // #endregion internal
 // #region imports
 
 
@@ -57,7 +68,7 @@
 // #region module
 export interface ReplaymentProperties {
     activeTab: Tab | null;
-    replayment: IReplayment | null;
+    replayment: IReplayment;
     setReplayment: React.Dispatch<React.SetStateAction<IReplayment>>;
 }
 
@@ -71,6 +82,14 @@ const Replayment: React.FC<ReplaymentProperties> = (
         setReplayment,
     } = properties;
     // #endregion properties
+
+
+    // #region state
+    const [
+        showEvents,
+        setShowEvents,
+    ] = useState(false);
+    // #endregion state
 
 
     // #region handlers
@@ -169,6 +188,7 @@ const Replayment: React.FC<ReplaymentProperties> = (
 
 
     // #region render
+    const events: any[] = replayment.data.events || [];
     const playPauseText = replayment.status === 'playing'
         ? 'Pause'
         : replaymentAtEnd(replayment)
@@ -177,6 +197,23 @@ const Replayment: React.FC<ReplaymentProperties> = (
     const durationText = replayment.duration < (60 * 1_000)
         ? (replayment.duration / 1_000).toFixed(2) + ' seconds'
         : (replayment.duration / (60 * 1_000)).toFixed(2) + ' minutes';
+    const eventsText: any = (
+            <StyledEventsText>
+                {events.length > 0 && (
+                    <div
+                        style={{
+                            width: '16px',
+                        }}
+                    >
+                        {showEvents ? '▲' : '▼'}
+                    </div>
+                )}
+
+                <div>
+                    {events.length === 0 ? 'no' : events.length} event{events.length === 1 ? '' : 's'}
+                </div>
+            </StyledEventsText>
+        );
 
     return (
         <>
@@ -207,7 +244,7 @@ const Replayment: React.FC<ReplaymentProperties> = (
                         handleReplaymentIndex(index);
                     }}
                     min={0}
-                    max={replayment.data.events.length - 1}
+                    max={events.length - 1}
                     step={1}
                     theme={plurid}
                     width={280}
@@ -220,6 +257,68 @@ const Replayment: React.FC<ReplaymentProperties> = (
                     {durationText}
                 </div>
             )}
+
+
+            <div>
+                <LinkButton
+                    text={eventsText}
+                    atClick={() => {
+                        if (events.length === 0) {
+                            return;
+                        }
+
+                        setShowEvents(!showEvents);
+                    }}
+                    inline={true}
+                    theme={plurid}
+                />
+            </div>
+
+            {showEvents && (
+                <StyledEvents>
+                    {events.map((event: any, index) => {
+                        const data = JSON.parse(event.data);
+                        const relativeTime = event.relativeTime / 1_000;
+
+                        const {
+                            payload,
+                            type,
+                        } = data;
+
+                        return (
+                            <StyledEvent
+                                key={Math.random() + ''}
+                                style={{
+                                    opacity: index <= replayment.currentIndex ? '0.5' : '1',
+                                }}
+                            >
+                                <StyledEventHeader>
+                                    <div>
+                                        + {relativeTime} seconds
+                                    </div>
+
+                                    <div>
+                                    ·
+                                    </div>
+
+                                    <div>
+                                        {type}
+                                    </div>
+                                </StyledEventHeader>
+
+                                {payload && (
+                                    <pre>
+                                        <code>
+                                            {JSON.stringify(payload, null, 2)}
+                                        </code>
+                                    </pre>
+                                )}
+                            </StyledEvent>
+                        );
+                    })}
+                </StyledEvents>
+            )}
+
 
             <div>
                 <LinkButton
