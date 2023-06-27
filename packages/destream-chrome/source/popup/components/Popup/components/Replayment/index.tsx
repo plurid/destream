@@ -10,6 +10,7 @@
     } from '@plurid/plurid-themes';
 
     import {
+        CopyableLine,
         PureButton,
         LinkButton,
         Slider,
@@ -46,6 +47,10 @@
         getReplaymentByTabID,
         replaymentAtEnd,
     } from '~background/replayments';
+
+    import {
+        destreamIDGetDisplay,
+    } from '~common/utilities';
 
     import {
         buttonStyle,
@@ -217,7 +222,18 @@ const Replayment: React.FC<ReplaymentProperties> = (
 
     return (
         <>
-            <h1>
+            <h1
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}
+            >
+                <CopyableLine
+                    data={destreamIDGetDisplay(replayment.data.id)}
+                    copyMessage=" "
+                    viewData=" "
+                />
+
                 replaying destream
             </h1>
 
