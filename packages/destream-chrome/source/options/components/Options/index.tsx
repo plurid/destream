@@ -566,7 +566,7 @@ const Options: React.FC<any> = (
                                         setNewAllowedURLOrigin(event.target.value);
                                     }}
                                     textline={{
-                                        placeholder: 'new allowed origin (e.g. origin.com)',
+                                        placeholder: 'new allowed origin (e.g. https://example.com)',
                                         enterAtClick: () => {
                                             setAllowedURLOrigins([
                                                 ...allowedURLOrigins,
