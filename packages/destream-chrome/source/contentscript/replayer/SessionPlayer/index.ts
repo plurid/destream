@@ -1,6 +1,14 @@
 // #region imports
     // #region external
     import {
+        DestreamEvent,
+    } from '~data/interfaces';
+
+    import {
+        GENERAL_EVENT,
+    } from '~data/constants';
+
+    import {
         log,
     } from '~common/utilities';
 
@@ -12,6 +20,10 @@
         generateCursor,
         destroyCursor,
     } from '~contentscript/viewer/controllers/general';
+
+    import {
+        applyCurrentState,
+    } from '~contentscript/viewer/state';
     // #endregion external
 // #endregion imports
 
@@ -49,7 +61,12 @@ export class SessionPlayer {
         try {
             this.atIndexUpdate(index);
 
-            const data = JSON.parse(event.data);
+            const data: DestreamEvent = JSON.parse(event.data);
+
+            if (data.type === GENERAL_EVENT.INITIAL_STATE) {
+                applyCurrentState(data.payload);
+                return;
+            }
 
             handleEvent(data);
         } catch (error) {
