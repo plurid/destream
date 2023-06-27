@@ -460,7 +460,7 @@ const Options: React.FC<any> = (
                 }}
             >
                 <InputSwitch
-                    name="use telemetry"
+                    name="send telemetry"
                     checked={useTelemetry}
                     atChange={() => {
                         setUseTelemetry(!useTelemetry);
