@@ -173,7 +173,7 @@ const Linkages: React.FC<LinkagesProperties> = (
             const urlLinkages = await getURLLinkages(
                 activeTab.url,
             );
-            if (urlLinkages) {
+            if (urlLinkages.length > 0) {
                 setLinkages(urlLinkages);
                 return;
             }
