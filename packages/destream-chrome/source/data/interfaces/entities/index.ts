@@ -94,5 +94,6 @@ export interface GeneralPermissions {
     allowChangeURL: boolean;
     allowChangeURLAnyOrigin: boolean;
     allowedURLOrigins: string[];
+    allowedOriginsStreamers: string[];
 };
 // #endregion module

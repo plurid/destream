@@ -67,6 +67,7 @@
     import {
         StyledOptions,
         StyledSpacer,
+        StyledInputTitle,
     } from './styled';
 
     import Drawer from './components/Drawer';
@@ -172,6 +173,18 @@ const Options: React.FC<any> = (
         ...defaultPermissions.allowedURLOrigins,
     ]);
 
+    const [
+        newAllowedOriginsStreamer,
+        setNewAllowedOriginsStreamer,
+    ] = useState('');
+
+    const [
+        allowedOriginsStreamers,
+        setAllowedOriginsStreamers,
+    ] = useState<string[]>([
+        ...defaultPermissions.allowedOriginsStreamers,
+    ]);
+
     // const [
     //     newEndpoint,
     //     setNewEndpoint,
@@ -242,6 +255,7 @@ const Options: React.FC<any> = (
                 allowChangeURL,
                 allowChangeURLAnyOrigin,
                 allowedURLOrigins,
+                allowedOriginsStreamers,
             } = generalPermissions;
 
             setUseTelemetry(useTelemetry ?? defaultPermissions.useTelemetry);
@@ -257,6 +271,7 @@ const Options: React.FC<any> = (
             setAllowChangeURL(allowChangeURL ?? defaultPermissions.allowChangeURL);
             setAllowChangeURLAnyOrigin(allowChangeURLAnyOrigin ?? defaultPermissions.allowChangeURLAnyOrigin);
             setAllowedURLOrigins(allowedURLOrigins ?? defaultPermissions.allowedURLOrigins);
+            setAllowedOriginsStreamers(allowedOriginsStreamers ?? defaultPermissions.allowedOriginsStreamers);
         }
 
         const getExtendedDrawers = async () => {
@@ -291,6 +306,7 @@ const Options: React.FC<any> = (
                 allowChangeURL,
                 allowChangeURLAnyOrigin,
                 allowedURLOrigins,
+                allowedOriginsStreamers,
             };
 
             await storageSet(
@@ -314,6 +330,7 @@ const Options: React.FC<any> = (
         allowChangeURL,
         allowChangeURLAnyOrigin,
         allowedURLOrigins,
+        allowedOriginsStreamers,
     ]);
 
     /** Extended Drawers */
@@ -549,25 +566,23 @@ const Options: React.FC<any> = (
 
                         {!allowChangeURLAnyOrigin && (
                             <div>
-                                <div
-                                    style={{
-                                        marginLeft: '0.9rem',
-                                        fontSize: '0.9rem',
-                                        marginTop: '2.2rem',
-                                    }}
-                                >
+                                <StyledInputTitle>
                                     allowed URL origins
-                                </div>
+                                </StyledInputTitle>
 
                                 <InputLine
                                     name="new allowed origin"
                                     text={newAllowedURLOrigin}
                                     atChange={(event) => {
-                                        setNewAllowedURLOrigin(event.target.value);
+                                        setNewAllowedURLOrigin(event.target.value.trim());
                                     }}
                                     textline={{
                                         placeholder: 'new allowed origin (e.g. https://example.com)',
                                         enterAtClick: () => {
+                                            if (allowedURLOrigins.includes(newAllowedURLOrigin)) {
+                                                return;
+                                            }
+
                                             setAllowedURLOrigins([
                                                 ...allowedURLOrigins,
                                                 newAllowedURLOrigin,
@@ -595,6 +610,52 @@ const Options: React.FC<any> = (
                                 )}
                             </div>
                         )}
+
+                        {!allowChangeURLAnyOrigin && (
+                            <div>
+                                <StyledInputTitle>
+                                    allow any URL origin for the streamer
+                                </StyledInputTitle>
+
+                                <InputLine
+                                    name="new allowed streamer"
+                                    text={newAllowedOriginsStreamer}
+                                    atChange={(event) => {
+                                        setNewAllowedOriginsStreamer(event.target.value.trim());
+                                    }}
+                                    textline={{
+                                        enterAtClick: () => {
+                                            if (allowedOriginsStreamers.includes(newAllowedOriginsStreamer)) {
+                                                return;
+                                            }
+
+                                            setAllowedOriginsStreamers([
+                                                ...allowedOriginsStreamers,
+                                                newAllowedOriginsStreamer,
+                                            ]);
+                                            setNewAllowedOriginsStreamer('');
+                                        },
+                                    }}
+                                    theme={plurid}
+                                    style={{
+                                        width: '324px',
+                                    }}
+                                />
+
+                                {allowedOriginsStreamers.length > 0 && (
+                                    <EntityPillGroup
+                                        entities={allowedOriginsStreamers}
+                                        theme={plurid}
+                                        remove={(entity) => {
+                                            setAllowedOriginsStreamers(allowedOriginsStreamers.filter(e => e !== entity));
+                                        }}
+                                        style={{
+                                            marginTop: '1rem',
+                                        }}
+                                    />
+                                )}
+                            </div>
+                        )}
                     </>
                 )}
             </Drawer>
@@ -612,6 +673,7 @@ const Options: React.FC<any> = (
             >
                 <Subscriptions
                     theme={plurid}
+                    width={320}
                 />
             </Drawer>
 

@@ -93,6 +93,10 @@ const handleURLChange: Handler<MessageURLChange, ResponseMessage> = async (
         return allowed(generalPermissions.useNotifications);
     }
 
+    if (generalPermissions.allowedOriginsStreamers.includes(subscription.streamer)) {
+        return allowed(generalPermissions.useNotifications);
+    }
+
     return reject();
 }
 // #endregion module

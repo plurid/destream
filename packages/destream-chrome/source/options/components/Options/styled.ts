@@ -19,4 +19,11 @@ export const StyledOptions = styled.div`
 export const StyledSpacer = styled.div`
     height: 2rem;
 `;
+
+
+export const StyledInputTitle = styled.div`
+    margin-left: 0.9rem;
+    font-size: 0.9rem;
+    margin-top: 2.2rem;
+`;
 // #endregion module
