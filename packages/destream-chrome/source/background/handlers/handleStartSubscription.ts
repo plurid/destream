@@ -4,14 +4,7 @@
         Handler,
         MessageStartSubscription,
         ResponseMessage,
-        GeneralPermissions,
-
-        storageFields,
     } from '~data/index';
-
-    import {
-        storageGet,
-    } from '~common/storage';
 
     import {
         log,
@@ -27,6 +20,7 @@
 
     import {
         getDefaultGraphqlClient,
+        getGeneralPermissions,
     } from '../utilities';
     // #endregion external
 // #endregion imports
@@ -60,7 +54,7 @@ const handleStartSubscription: Handler<MessageStartSubscription, ResponseMessage
             return;
         }
 
-        const generalPermissions: GeneralPermissions = await storageGet(storageFields.generalPermissions);
+        const generalPermissions = await getGeneralPermissions();
 
         const {
             sessions,

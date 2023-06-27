@@ -235,7 +235,7 @@ export const startSessionSubscriptionLogic = async (
 
         const pubsubEndpoint = sessionCustomPubSubLink || DEFAULT_API_ENDPOINT;
 
-        if (generalPermissions?.useNotifications) {
+        if (generalPermissions.useNotifications) {
             sendNotificationSessionStart(
                 streamerIdentonym,
                 tab.id,

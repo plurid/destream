@@ -60,6 +60,10 @@
     import {
         logout,
     } from '~common/logic';
+
+    import {
+        getGeneralPermissions,
+    } from '~background/utilities';
     // #endregion external
 
 
@@ -236,7 +240,7 @@ const Options: React.FC<any> = (
     /** Get General Permissions */
     useEffect(() => {
         const getPermissions = async () => {
-            const generalPermissions = await storageGet(storageFields.generalPermissions);
+            const generalPermissions = await getGeneralPermissions();
             if (!generalPermissions) {
                 return;
             }

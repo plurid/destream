@@ -25,6 +25,8 @@
 
     import {
         openTab,
+        assignTabToGroup,
+        getGeneralPermissions,
     } from '../utilities';
 
     import {
@@ -82,7 +84,15 @@ const handleReplaySession: Handler<MessageReplaySession, ResponseMessage> = asyn
 
     if (linkageID) {
         const linkage = await getLinkageByID(linkageID);
+
         if (linkage) {
+            const streamerIdentonym = linkage.name;
+            const generalPermissions = await getGeneralPermissions();
+
+            await assignTabToGroup(
+                tab, streamerIdentonym, generalPermissions,
+            );
+
             const newSessionTabs = {
                 ...linkage.sessionTabs,
                 [destreamIDGetDisplay(data.id)]: tab.id,

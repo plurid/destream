@@ -9,6 +9,7 @@
         DEFAULT_API_ENDPOINT,
         TAB_GROUP_SUFFIX,
         storagePrefix,
+        storageFields,
         destreamCurrentStateTopicSuffix,
     } from '~data/constants';
 
@@ -174,6 +175,17 @@ export const assignTabToGroup = async (
         title: groupTitle,
     });
 }
+
+
+
+export const getGeneralPermissions = async () => {
+    const generalPermissions = await storageGet<GeneralPermissions>(
+        storageFields.generalPermissions,
+    );
+
+    return generalPermissions;
+}
+
 
 
 /**

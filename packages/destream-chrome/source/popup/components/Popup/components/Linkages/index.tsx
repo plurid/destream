@@ -30,14 +30,10 @@
     import {
         Linkage,
         LinkageOfURL,
-        GeneralPermissions,
-
-        storageFields,
     } from '~data/index';
 
     import {
         storageSet,
-        storageGet,
     } from '~common/storage';
 
     import {
@@ -52,6 +48,10 @@
         getURLLinkages,
         getLinkageByTabID,
     } from '~background/linkages';
+
+    import {
+        getGeneralPermissions,
+    } from '~background/utilities';
     // #endregion external
 // #region imports
 
@@ -177,9 +177,7 @@ const Linkages: React.FC<LinkagesProperties> = (
                 return;
             }
 
-            const generalPermissions = await storageGet<GeneralPermissions>(
-                storageFields.generalPermissions,
-            );
+            const generalPermissions = await getGeneralPermissions();
             if (!generalPermissions) {
                 return;
             }

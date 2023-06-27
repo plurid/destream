@@ -4,14 +4,7 @@
         Handler,
         MessageURLChange,
         ResponseMessage,
-        GeneralPermissions,
-
-        storageFields,
     } from '~data/index';
-
-    import {
-        storageGet,
-    } from '~common/storage';
 
     import {
         getSubscriptionByTabID,
@@ -21,6 +14,10 @@
         sendNotificationURLChange,
         sendNotificationURLFailedToChange,
     } from '../notifications';
+
+    import {
+        getGeneralPermissions,
+    } from '../utilities';
     // #endregion external
 // #endregion imports
 
@@ -65,9 +62,7 @@ const handleURLChange: Handler<MessageURLChange, ResponseMessage> = async (
     }
 
 
-    const generalPermissions = await storageGet<GeneralPermissions>(
-        storageFields.generalPermissions,
-    );
+    const generalPermissions = await getGeneralPermissions();
     if (!generalPermissions) {
         return reject();
     }
