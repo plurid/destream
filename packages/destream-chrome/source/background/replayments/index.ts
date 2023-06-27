@@ -29,6 +29,7 @@
     } from '~background/graphql';
 
     import {
+        noOp,
         getDefaultGraphqlClient,
     } from '../utilities';
 
@@ -151,7 +152,7 @@ export const initializeReplayment = async (
         await handleReplaySession(
             replaySessionMessage,
             {},
-            () => {},
+            noOp,
         ).catch(log);
     } else {
         await sendMessage<MessageReplaySession>(

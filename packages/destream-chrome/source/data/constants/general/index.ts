@@ -6,6 +6,7 @@ export const IN_TRACING = process.env.TRACING === 'true';
 
 export const destreamCurrentStateTopicSuffix = '/currentState';
 
+export const LINKAGE_GROUP_SUFFIX = 'linkage · ';
 export const TAB_GROUP_SUFFIX = ' · destream';
 
 

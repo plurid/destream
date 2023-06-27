@@ -8,6 +8,7 @@
         Replayment,
 
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
+        LINKAGE_GROUP_SUFFIX,
     } from '~data/index';
 
     import {
@@ -86,7 +87,7 @@ const handleReplaySession: Handler<MessageReplaySession, ResponseMessage> = asyn
         const linkage = await getLinkageByID(linkageID);
 
         if (linkage) {
-            const streamerIdentonym = linkage.name;
+            const streamerIdentonym = LINKAGE_GROUP_SUFFIX + linkage.name;
             const generalPermissions = await getGeneralPermissions();
 
             await assignTabToGroup(

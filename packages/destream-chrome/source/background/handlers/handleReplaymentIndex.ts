@@ -83,7 +83,7 @@ const handleReplaymentIndex: Handler<MessageReplaymentIndex, ResponseMessage> = 
                 setTimeout(async () => {
                     const linkageStorageID = getLinkageStorageID(linkage.tabID);
                     await storageRemove(linkageStorageID);
-                }, 3_000);
+                }, 2_000);
             }
         }
     }

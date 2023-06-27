@@ -17,6 +17,10 @@
     import {
         initializeReplayment,
     } from '../replayments';
+
+    import {
+        noOp,
+    } from '../utilities';
     // #endregion external
 // #endregion imports
 
@@ -32,7 +36,7 @@ const handleReplaymentInitialize: Handler<MessageReplaymentInitialize, ResponseM
 
     await initializeReplayment(
         sessionID,
-        () => {},
+        noOp,
         request.linkageID,
     );
 
@@ -47,7 +51,7 @@ const handleReplaymentInitialize: Handler<MessageReplaymentInitialize, ResponseM
                 type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_STARTED,
                 data: request.linkageID,
             });
-        }, 1_000);
+        }, 500);
     }
 
     sendResponse({

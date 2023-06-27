@@ -43,6 +43,9 @@
 
 
 // #region module
+export const noOp = () => {};
+
+
 export const getDefaultGraphqlClient = async () => {
     const {
         accessToken,
