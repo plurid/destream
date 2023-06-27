@@ -15,6 +15,7 @@ export const StyledEvents = styled.div`
 
 export const StyledEvent = styled.div`
     margin: 1rem 0;
+    font-size: 0.8rem;
 
     pre, code {
         font-size: 0.8rem;
