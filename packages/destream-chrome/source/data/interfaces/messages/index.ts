@@ -28,6 +28,7 @@
 // #region module
 export type Message =
     | MessagePublishEvent
+    | MessageCheckSessions
     | MessageGetTabID
     | MessageGetSession
     | MessageStartSession
@@ -93,6 +94,10 @@ export type ResponsePublishEvent = Response<{
         };
     };
 }>;
+
+export interface MessageCheckSessions {
+    type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.CHECK_SESSIONS;
+}
 
 export interface MessageGetTabID {
     type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_TAB_ID;

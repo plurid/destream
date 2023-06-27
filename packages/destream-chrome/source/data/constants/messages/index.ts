@@ -43,6 +43,8 @@ export const MESSAGE_CONTENTSCRIPT_TO_BACKGROUND = {
     LINKAGE_CLOSE_SESSION_PAGE: 'linkageCloseSessionPage',
     LINKAGE_FOCUS_INITIAL_PAGE: 'linkageFocusInitialPage',
     LINKAGE_SESSION_ENDED: 'linkageSessionEnded',
+
+    CHECK_SESSIONS: 'checkSessions',
 } as const;
 
 export const MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND = {

@@ -17,6 +17,7 @@
 
 
     // #region internal
+    import handleCheckSessions from './handleCheckSessions';
     import handleGetLinkage from './handleGetLinkage';
     import handleGetSession from './handleGetSession';
     import handleGetSubscription from './handleGetSubscription';
@@ -50,6 +51,7 @@
 
 // #region module
 const handlerMapping: Record<string, Handler<Message>> = {
+    [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.CHECK_SESSIONS]: handleCheckSessions,
     [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_TAB_ID]: handleGetTabID,
     [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_TAB_SETTINGS]: handleGetTabSettings,
     [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_SESSION]: handleGetSession,

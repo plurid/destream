@@ -121,6 +121,11 @@ const Options: React.FC<any> = (
     ] = useState(defaultPermissions.useSessionGroups);
 
     const [
+        autoCheckSessions,
+        setAutoCheckSessions,
+    ] = useState(defaultPermissions.autoCheckSessions);
+
+    const [
         autoCheckLinkages,
         setAutoCheckLinkages,
     ] = useState(defaultPermissions.autoCheckLinkages);
@@ -249,6 +254,7 @@ const Options: React.FC<any> = (
                 useTelemetry,
                 useNotifications,
                 useSessionGroups,
+                autoCheckSessions,
                 autoCheckLinkages,
                 allowScroll,
                 allowPlayPause,
@@ -265,6 +271,7 @@ const Options: React.FC<any> = (
             setUseTelemetry(useTelemetry ?? defaultPermissions.useTelemetry);
             setUseNotifications(useNotifications ?? defaultPermissions.useNotifications);
             setUseSessionGroups(useSessionGroups ?? defaultPermissions.useSessionGroups);
+            setAutoCheckSessions(autoCheckSessions ?? defaultPermissions.autoCheckSessions);
             setAutoCheckLinkages(autoCheckLinkages ?? defaultPermissions.autoCheckLinkages);
             setAllowScroll(allowScroll ?? defaultPermissions.allowScroll);
             setAllowPlayPause(allowPlayPause ?? defaultPermissions.allowPlayPause);
@@ -300,6 +307,7 @@ const Options: React.FC<any> = (
                 useTelemetry,
                 useNotifications,
                 useSessionGroups,
+                autoCheckSessions,
                 autoCheckLinkages,
                 allowScroll,
                 allowPlayPause,
@@ -324,6 +332,7 @@ const Options: React.FC<any> = (
         useTelemetry,
         useNotifications,
         useSessionGroups,
+        autoCheckSessions,
         autoCheckLinkages,
         allowScroll,
         allowPlayPause,
@@ -482,6 +491,15 @@ const Options: React.FC<any> = (
                     checked={useSessionGroups}
                     atChange={() => {
                         setUseSessionGroups(!useSessionGroups);
+                    }}
+                    theme={plurid}
+                />
+
+                <InputSwitch
+                    name="auto-check sessions"
+                    checked={autoCheckSessions}
+                    atChange={() => {
+                        setAutoCheckSessions(!autoCheckSessions);
                     }}
                     theme={plurid}
                 />

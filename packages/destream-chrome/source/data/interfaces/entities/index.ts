@@ -85,6 +85,7 @@ export interface GeneralPermissions {
     useTelemetry: boolean;
     useNotifications: boolean;
     useSessionGroups: boolean;
+    autoCheckSessions: boolean;
     autoCheckLinkages: boolean;
     allowScroll: boolean;
     allowPlayPause: boolean;

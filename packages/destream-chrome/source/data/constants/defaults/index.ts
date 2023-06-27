@@ -36,6 +36,7 @@ export const defaultPermissions: GeneralPermissions = {
     useTelemetry: false,
     useNotifications: true,
     useSessionGroups: true,
+    autoCheckSessions: false,
     autoCheckLinkages: false,
     allowScroll: true,
     allowPlayPause: true,

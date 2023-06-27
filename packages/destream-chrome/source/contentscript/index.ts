@@ -8,6 +8,7 @@
 
     // #region internal
     import MessagerClient from './client';
+    import runChecker from './checker';
     import runStreamer from './streamer';
     import runViewer from './viewer';
     import runView from './view';
@@ -21,6 +22,8 @@
 // #region module
 const main = async () => {
     try {
+        await runChecker();
+
         const client = new MessagerClient();
 
         await runStreamer(client);
