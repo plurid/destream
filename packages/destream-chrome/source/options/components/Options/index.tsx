@@ -444,6 +444,7 @@ const Options: React.FC<any> = (
             <StyledSpacer />
 
 
+            {/* permissions */}
             <Drawer
                 title="permissions"
                 theme={plurid}
@@ -664,6 +665,8 @@ const Options: React.FC<any> = (
                 )}
             </Drawer>
 
+
+            {/* subscriptions */}
             <Drawer
                 title="subscriptions"
                 theme={plurid}
@@ -681,6 +684,8 @@ const Options: React.FC<any> = (
                 />
             </Drawer>
 
+
+            {/* endpoints */}
             {/* <Drawer
                 title="endpoints"
                 theme={plurid}
@@ -746,6 +751,7 @@ const Options: React.FC<any> = (
                     }}
                 />
             )}
+
 
             <LinkButton
                 text="reset everything"
