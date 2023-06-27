@@ -8,6 +8,7 @@
         MessagerLinkageSetMediaTime,
         MessagerLinkageCloseSessionPage,
         MessagerLinkageFocusInitialPage,
+        MessagerLinkageSessionEnded,
 
         MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
     } from '~data/index';
@@ -124,11 +125,6 @@ export class LinkageController {
         session: DestreamLinkageSession,
     ) {
         try {
-            const mediaPlayer = this.getMediaPlayer();
-            if (!mediaPlayer) {
-                return;
-            }
-
             const starter = session.starter[0];
             switch (starter.type) {
                 case 'afterTimeOnPage':
@@ -140,6 +136,11 @@ export class LinkageController {
                     );
                     break;
                 case 'atMediaTime':
+                    const mediaPlayer = this.getMediaPlayer();
+                    if (!mediaPlayer) {
+                        break;
+                    }
+
                     const handler = () => {
                         if (mediaPlayer.currentTime >= starter.data) {
                             mediaPlayer.removeEventListener('timeupdate', handler);
@@ -221,6 +222,12 @@ export class LinkageController {
                             break;
                     }
                 }
+
+                sendMessage<MessagerLinkageSessionEnded>({
+                    type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.LINKAGE_SESSION_ENDED,
+                    sessionID: id,
+                    linkageID: this.data.id,
+                }).catch(log);
             });
 
 

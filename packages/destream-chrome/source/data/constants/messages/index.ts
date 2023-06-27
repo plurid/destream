@@ -1,8 +1,8 @@
 // #region module
 export const MESSAGE_BACKGROUND_TO_CONTENTSCRIPT = {
-    LINKAGE_STARTING: 'linkageStarting',
-    LINKAGE_STARTED: 'linkageStarted',
-    LINKAGE_ENDED: 'linkageEnded',
+    LINKAGE_SESSION_STARTING: 'linkageSessionStarting',
+    LINKAGE_SESSION_STARTED: 'linkageSessionStarted',
+    LINKAGE_SESSION_ENDED: 'linkageSessionEnded',
     LINKAGE_SET_MEDIA_TIME: 'linkageSetMediaTime',
 
     URL_CHANGE: 'urlChange',
@@ -42,6 +42,7 @@ export const MESSAGE_CONTENTSCRIPT_TO_BACKGROUND = {
     LINKAGE_SET_MEDIA_TIME: 'linkageSetMediaTime',
     LINKAGE_CLOSE_SESSION_PAGE: 'linkageCloseSessionPage',
     LINKAGE_FOCUS_INITIAL_PAGE: 'linkageFocusInitialPage',
+    LINKAGE_SESSION_ENDED: 'linkageSessionEnded',
 } as const;
 
 export const MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND = {

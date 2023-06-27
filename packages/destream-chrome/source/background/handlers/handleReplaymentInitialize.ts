@@ -4,8 +4,8 @@
         Handler,
         MessageReplaymentInitialize,
         ResponseMessage,
-        MessageLinkageStarting,
-        MessageLinkageStarted,
+        MessageLinkageSessionStarting,
+        MessageLinkageSessionStarted,
 
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
     } from '~data/index';
@@ -41,14 +41,14 @@ const handleReplaymentInitialize: Handler<MessageReplaymentInitialize, ResponseM
     );
 
     if (request.linkageID) {
-        await sendMessageToTab<MessageLinkageStarting>(sender.tab.id, {
-            type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_STARTING,
+        await sendMessageToTab<MessageLinkageSessionStarting>(sender.tab.id, {
+            type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_SESSION_STARTING,
             data: request.linkageID,
         });
 
         setTimeout(async () => {
-            await sendMessageToTab<MessageLinkageStarted>(sender.tab.id, {
-                type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_STARTED,
+            await sendMessageToTab<MessageLinkageSessionStarted>(sender.tab.id, {
+                type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_SESSION_STARTED,
                 data: request.linkageID,
             });
         }, 500);

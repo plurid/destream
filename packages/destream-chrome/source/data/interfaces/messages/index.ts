@@ -55,14 +55,15 @@ export type Message =
     | RequestReplaymentStop
     | MessageReplaymentIndex
     | MessageReplaymentInitialize
-    | MessageLinkageStarting
-    | MessageLinkageStarted
-    | MessageLinkageEnded
+    | MessageLinkageSessionStarting
+    | MessageLinkageSessionStarted
+    | MessageLinkageSessionEnded
     | MessagerLinkageFocusSessionPage
     | MessagerLinkageCloseSessionPage
     | MessagerLinkageSetMediaTime
     | RequestLinkageSetMediaTime
     | MessagerLinkageFocusInitialPage
+    | MessagerLinkageSessionEnded
     | MessageResyncSession
     | RequestResyncSession;
 
@@ -273,20 +274,20 @@ export interface MessageReplaymentInitialize {
     linkageID?: string;
 }
 
-export interface MessageLinkageStarting {
-    type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_STARTING;
+export interface MessageLinkageSessionStarting {
+    type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_SESSION_STARTING;
     // linkage id
     data: string;
 }
 
-export interface MessageLinkageStarted {
-    type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_STARTED;
+export interface MessageLinkageSessionStarted {
+    type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_SESSION_STARTED;
     // linkage id
     data: string;
 }
 
-export interface MessageLinkageEnded {
-    type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_ENDED;
+export interface MessageLinkageSessionEnded {
+    type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_SESSION_ENDED;
     // linkage id
     data: string;
 }
@@ -316,6 +317,12 @@ export interface RequestLinkageSetMediaTime {
 
 export interface MessagerLinkageFocusInitialPage {
     type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.LINKAGE_FOCUS_INITIAL_PAGE;
+    sessionID: string;
+    linkageID: string;
+}
+
+export interface MessagerLinkageSessionEnded {
+    type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.LINKAGE_SESSION_ENDED;
     sessionID: string;
     linkageID: string;
 }

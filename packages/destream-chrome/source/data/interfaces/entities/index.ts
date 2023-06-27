@@ -64,6 +64,7 @@ export interface Replayment {
 export interface Linkage extends DestreamLinkage {
     tabID: number;
     sessionTabs: Record<string, number | undefined>;
+    endedSessions: number;
 }
 
 

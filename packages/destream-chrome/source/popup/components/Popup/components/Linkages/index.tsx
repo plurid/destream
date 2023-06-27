@@ -143,6 +143,7 @@ const Linkages: React.FC<LinkagesProperties> = (
                 ...linkage,
                 tabID: activeTab.id,
                 sessionTabs: {},
+                endedSessions: 0,
             });
 
             setPlayingLinkage(id);

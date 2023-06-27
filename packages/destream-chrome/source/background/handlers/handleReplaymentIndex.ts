@@ -6,7 +6,7 @@
         ResponseMessage,
         RequestReplaymentIndex,
         RequestReplaymentPause,
-        MessageLinkageEnded,
+        MessageLinkageSessionEnded,
 
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
     } from '~data/index';
@@ -16,16 +16,11 @@
     } from '~common/messaging';
 
     import {
-        storageRemove,
-    } from '~common/storage';
-
-    import {
         updateReplayment,
         replaymentAtEnd,
     } from '../replayments';
 
     import {
-        getLinkageStorageID,
         getLinkageByID,
     } from '../linkages';
     // #endregion external
@@ -74,16 +69,10 @@ const handleReplaymentIndex: Handler<MessageReplaymentIndex, ResponseMessage> = 
         if (replayment.linkageID) {
             const linkage = await getLinkageByID(replayment.linkageID);
             if (linkage) {
-                // session ended, check if there are other sessions running
-                await sendMessageToTab<MessageLinkageEnded>(linkage.tabID, {
-                    type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_ENDED,
+                await sendMessageToTab<MessageLinkageSessionEnded>(linkage.tabID, {
+                    type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_SESSION_ENDED,
                     data: linkage.id,
                 });
-
-                setTimeout(async () => {
-                    const linkageStorageID = getLinkageStorageID(linkage.tabID);
-                    await storageRemove(linkageStorageID);
-                }, 2_000);
             }
         }
     }
