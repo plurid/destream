@@ -7,7 +7,6 @@
         DestreamLinkage,
 
         MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
-        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
         ASYNCHRONOUS_RESPONSE,
     } from '~data/index';
 
@@ -24,8 +23,6 @@
         StorageChange,
         MessageListener,
     } from '~common/types';
-
-    import MessagerClient from '../client';
 
     import {
         checkNetflixOrigin,
@@ -66,6 +63,10 @@
     import {
         YoutubeLinkage,
     } from './controllers/youtube';
+
+    import {
+        linkageEventMap,
+    } from './data';
     // #endregion internal
 // #endregion imports
 
@@ -84,18 +85,11 @@ const getController = (
 }
 
 
-const runLinkage = async (
-    client: MessagerClient,
-) => {
+const runLinkage = async () => {
     let setup = false;
     let linkage: DestreamLinkage | undefined;
     let linkageController: Controller | undefined;
 
-
-    const checkTabSettings = (
-        changes: { [key: string]: StorageChange },
-    ) => {
-    }
 
     const messageListener: MessageListener<Message, any> = (
         request,
@@ -107,20 +101,15 @@ const runLinkage = async (
             return ASYNCHRONOUS_RESPONSE;
         }
 
-        switch (request.type) {
-            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_STARTING:
-                if (request.data !== linkage.id) break;
-                linkageController.eventer.dispatchEvent('beforeStart');
-                break;
-            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_STARTED:
-                if (request.data !== linkage.id) break;
-                linkageController.eventer.dispatchEvent('afterStart');
-                break;
-            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_ENDED:
-                if (request.data !== linkage.id) break;
-                linkageController.eventer.dispatchEvent('afterEnd');
-                break;
+        const event = linkageEventMap[request.type];
+        // FORCED
+        const requestData = (request as any).data;
+        if (!event || requestData !== linkage.id) {
+            sendResponse();
+            return ASYNCHRONOUS_RESPONSE;
         }
+
+        linkageController.eventer.dispatchEvent(event);
 
         sendResponse();
         return ASYNCHRONOUS_RESPONSE;
@@ -149,10 +138,8 @@ const runLinkage = async (
     await run();
 
     const storageLogic = async (
-        changes: { [key: string]: StorageChange },
+        _changes: { [key: string]: StorageChange },
     ) => {
-        checkTabSettings(changes);
-
         await run();
     }
 

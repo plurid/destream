@@ -27,7 +27,7 @@ const main = async () => {
         await runViewer(client);
         await runView();
         await runReplayer(client);
-        await runLinkage(client);
+        await runLinkage();
     } catch (error) {
         log(error);
     }
