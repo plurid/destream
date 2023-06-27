@@ -11,12 +11,14 @@
     import {
         Subscription,
         StreamerDetails,
+        GeneralPermissions,
+        RequestStopSubscription,
+
         storagePrefix,
         storageFields,
         DEFAULT_API_ENDPOINT,
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
-        GeneralPermissions,
-        RequestStopSubscription,
+        DESTREAM_GROUP_PREFIX,
     } from '~data/index';
 
     import {
@@ -229,8 +231,9 @@ export const startSessionSubscriptionLogic = async (
         const tab = await openTab(
             sessionURL, false, sessionIncognito,
         );
+        const groupTitle = DESTREAM_GROUP_PREFIX + streamerIdentonym;
         await assignTabToGroup(
-            tab, streamerIdentonym, generalPermissions,
+            tab, groupTitle, generalPermissions,
         );
 
         const pubsubEndpoint = sessionCustomPubSubLink || DEFAULT_API_ENDPOINT;

@@ -7,7 +7,7 @@
 
     import {
         DEFAULT_API_ENDPOINT,
-        TAB_GROUP_SUFFIX,
+        DESTREAM_GROUP_PREFIX,
         storagePrefix,
         storageFields,
         destreamCurrentStateTopicSuffix,
@@ -148,14 +148,12 @@ export const getTab = async (
 
 export const assignTabToGroup = async (
     tab: Tab,
-    streamerIdentonym: string,
+    groupTitle: string,
     generalPermissions: GeneralPermissions,
 ) => {
     if (!generalPermissions.useSessionGroups) {
         return;
     }
-
-    const groupTitle = streamerIdentonym + TAB_GROUP_SUFFIX;
 
     const groups = await tabGroupsQuery({
         title: groupTitle,
