@@ -52,7 +52,7 @@ export const netflixRateChange = (
         if (!videoPlayer) {
             return;
         }
-        videoPlayer.playbackRate = rate;
+        // videoPlayer.playbackRate = rate;
     } catch (error) {
         log(error);
     }
@@ -67,7 +67,7 @@ export const netflixVolumeChange = (
             return;
         }
 
-        videoPlayer.volume = volume;
+        // videoPlayer.volume = volume;
     } catch (error) {
         log(error);
     }
@@ -82,7 +82,7 @@ export const netflixSeek = (
             return;
         }
 
-        videoPlayer.currentTime = seconds;
+        // videoPlayer.currentTime = seconds;
     } catch (error) {
         log(error);
     }
