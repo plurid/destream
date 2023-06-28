@@ -33,7 +33,7 @@ const ReplayDestream: React.FC<ReplayDestreamProperties> = (
     return (
         <div>
             <LinkButton
-                text="replay destream"
+                text="replay session"
                 atClick={() => {
                     setShowReplayDestream(true);
                 }}
