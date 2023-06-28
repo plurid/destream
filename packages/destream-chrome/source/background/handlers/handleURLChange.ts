@@ -4,14 +4,7 @@
         Handler,
         MessageURLChange,
         ResponseMessage,
-        RequestReplaymentReboot,
-
-        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
     } from '~data/index';
-
-    import {
-        sendMessageToTab,
-    } from '~common/messaging';
 
     import {
         getSubscriptionByTabID,
@@ -20,6 +13,7 @@
     import {
         updateReplayment,
         getReplaymentByTabID,
+        sendRebootMessage,
     } from '../replayments';
 
     import {
@@ -100,13 +94,10 @@ const handleURLChange: Handler<MessageURLChange, ResponseMessage> = async (
                     },
                 );
 
-                setTimeout(async () => {
-                    await sendMessageToTab<RequestReplaymentReboot>(sender.tab.id, {
-                        type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_REBOOT,
-                        data: replayment.data,
-                        index: replayment.currentIndex + 1,
-                    });
-                }, 3_000);
+                sendRebootMessage(
+                    sender.tab.id,
+                    replayment,
+                );
             }
         }
     }

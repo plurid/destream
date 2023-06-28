@@ -3,9 +3,12 @@
     import {
         Replayment,
         MessageReplaySession,
+        RequestReplaymentReboot,
 
         storagePrefix,
         MESSAGE_POPUP_TO_BACKGROUND,
+
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
     } from '~data/index';
 
     import {
@@ -17,6 +20,7 @@
 
     import {
         sendMessage,
+        sendMessageToTab,
     } from '~common/messaging';
 
     import {
@@ -164,5 +168,29 @@ export const initializeReplayment = async (
             },
         ).catch(log);
     }
+}
+
+
+export const sendRebootMessage = (
+    tabID: number,
+    replayment: Replayment,
+    updateReboot = false,
+) => {
+    setTimeout(async () => {
+        await sendMessageToTab<RequestReplaymentReboot>(tabID, {
+            type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_REBOOT,
+            data: replayment.data,
+            index: replayment.currentIndex + 1,
+        });
+
+        if (updateReboot) {
+            await updateReplayment(
+                tabID,
+                {
+                    requiresReboot: false,
+                },
+            );
+        }
+    }, 3_000);
 }
 // #endregion module

@@ -2,15 +2,9 @@
     // #region external
     import {
         Notification,
-        RequestReplaymentReboot,
 
         NOTIFICATION_KIND,
-        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
     } from '~data/index';
-
-    import {
-        sendMessageToTab,
-    } from '~common/messaging';
 
     import {
         notificationCreate,
@@ -28,7 +22,7 @@
 
     import {
         getReplaymentByTabID,
-        updateReplayment,
+        sendRebootMessage,
     } from '../replayments';
     // #endregion external
 // #endregion imports
@@ -78,20 +72,11 @@ notificationOnButtonClickedAddListener(
 
                     const replayment = await getReplaymentByTabID(tabID);
                     if (replayment && replayment.requiresReboot) {
-                        setTimeout(async () => {
-                            await sendMessageToTab<RequestReplaymentReboot>(tabID, {
-                                type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_REBOOT,
-                                data: replayment.data,
-                                index: replayment.currentIndex + 1,
-                            });
-
-                            await updateReplayment(
-                                tabID,
-                                {
-                                    requiresReboot: false,
-                                },
-                            );
-                        }, 3_000);
+                        sendRebootMessage(
+                            tabID,
+                            replayment,
+                            true,
+                        );
                     }
                     break;
             }
