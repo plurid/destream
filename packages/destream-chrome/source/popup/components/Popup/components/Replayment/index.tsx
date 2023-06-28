@@ -234,7 +234,7 @@ const Replayment: React.FC<ReplaymentProperties> = (
                     viewData=" "
                 />
 
-                {replayment.linkageID ? 'destream linkage' : 'replaying destream'}
+                {replayment.linkageID ? 'playing linkage' : 'replaying session'}
             </h1>
 
             <PureButton

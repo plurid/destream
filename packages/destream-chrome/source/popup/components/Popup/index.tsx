@@ -345,7 +345,7 @@ const Popup: React.FC<any> = (
         return (
             <StyledPopup>
                 <h1>
-                    replay destream
+                    replay session
                 </h1>
 
                 <InputLine
