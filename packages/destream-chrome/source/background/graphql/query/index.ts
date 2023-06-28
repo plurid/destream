@@ -74,6 +74,7 @@ export const GET_SESSION = gql`
             data {
                 id
                 generatedAt
+                streamerName
                 title
                 url
                 incognito

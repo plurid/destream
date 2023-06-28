@@ -73,7 +73,7 @@ const handleReplaySession: Handler<MessageReplaySession, ResponseMessage> = asyn
 
     const replayment: Replayment = {
         tabID: tab.id,
-        streamer: data.streamer,
+        streamer: data.streamerName,
         data,
         currentIndex: 0,
         status: 'playing',

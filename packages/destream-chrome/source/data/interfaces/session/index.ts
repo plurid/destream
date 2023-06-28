@@ -2,7 +2,7 @@
 export interface DestreamSession {
     id: string;
     generatedAt: number;
-    streamer: string;
+    streamerName: string;
     title: string;
     url: string;
     incognito?: boolean;
