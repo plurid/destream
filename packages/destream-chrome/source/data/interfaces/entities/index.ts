@@ -7,6 +7,10 @@
     import {
         DestreamLinkage,
     } from '../linkage';
+
+    import {
+        DestreamSession,
+    } from '../session';
     // #endregion external
 // #endregion imports
 
@@ -53,12 +57,14 @@ export interface TabSettings {
 
 export interface Replayment {
     tabID: number;
-    data: any;
+    streamer: string;
+    data: DestreamSession;
     currentIndex: number;
     status: 'playing' | 'paused';
     duration: number;
     linkageID?: string;
 }
+
 
 
 export interface Linkage extends DestreamLinkage {

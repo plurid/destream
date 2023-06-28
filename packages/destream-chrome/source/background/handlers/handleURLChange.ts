@@ -11,6 +11,10 @@
     } from '../subscriptions';
 
     import {
+        getReplaymentByTabID,
+    } from '../replayments';
+
+    import {
         sendNotificationURLChange,
         sendNotificationURLFailedToChange,
     } from '../notifications';
@@ -35,18 +39,28 @@ const handleURLChange: Handler<MessageURLChange, ResponseMessage> = async (
         });
     }
 
-    const subscription = await getSubscriptionByTabID(sender.tab?.id);
-    if (!subscription) {
+    if (!sender.tab?.id) {
+        return reject();
+    }
+
+    const subscription = await getSubscriptionByTabID(sender.tab.id);
+    const replayment = await getReplaymentByTabID(sender.tab.id);
+    if (!subscription && !replayment) {
+        return reject();
+    }
+
+    const streamerName = subscription?.streamer || replayment?.streamer;
+    if (!streamerName) {
         return reject();
     }
 
 
     const allowed = (
-        notification: boolean,
+        notify: boolean,
     ) => {
-        if (notification) {
+        if (notify) {
             sendNotificationURLChange(
-                subscription.streamer,
+                streamerName,
                 sender.tab.id,
                 request.data,
             );
@@ -70,7 +84,7 @@ const handleURLChange: Handler<MessageURLChange, ResponseMessage> = async (
     if (!generalPermissions.allowChangeURL) {
         if (generalPermissions.useNotifications) {
             sendNotificationURLFailedToChange(
-                subscription.streamer,
+                streamerName,
                 sender.tab.id,
                 request.data,
             );
@@ -88,7 +102,7 @@ const handleURLChange: Handler<MessageURLChange, ResponseMessage> = async (
         return allowed(generalPermissions.useNotifications);
     }
 
-    if (generalPermissions.allowedOriginsStreamers.includes(subscription.streamer)) {
+    if (generalPermissions.allowedOriginsStreamers.includes(streamerName)) {
         return allowed(generalPermissions.useNotifications);
     }
 

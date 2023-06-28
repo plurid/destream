@@ -20,6 +20,10 @@
     import {
        DestreamLinkage,
     } from '../linkage';
+
+    import {
+       DestreamSession,
+    } from '../session';
     // #endregion external
 // #endregion imports
 
@@ -222,13 +226,13 @@ export interface RequestURLChange {
 export interface MessageReplaySession {
     type: typeof MESSAGE_POPUP_TO_BACKGROUND.REPLAY_SESSION;
     // session data
-    data: any;
+    data: DestreamSession;
     linkageID?: string;
 }
 export interface RequestReplaySession {
     type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAY_SESSION;
     // session data
-    data: any;
+    data: DestreamSession;
 }
 
 export interface MessageReplaymentPause {

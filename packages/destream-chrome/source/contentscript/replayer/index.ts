@@ -107,7 +107,6 @@ const runReplayer = async (
                 );
                 break;
             case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_SET_MEDIA_TIME:
-                console.log('LINKAGE_SET_MEDIA_TIME', request.data);
                 linkageSetMediaTime(
                     request.data,
                 );
