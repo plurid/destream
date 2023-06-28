@@ -130,7 +130,7 @@ export const generalURLChange = (
                 location.href = url;
             }
         },
-    );
+    ).catch(log);
 }
 
 

@@ -1,8 +1,11 @@
 // #region imports
     // #region external
     import {
+        Message,
         MessageReplaymentIndex,
         ResponseMessage,
+        RequestReplaymentPlay,
+        RequestReplaymentIndex,
 
         MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
         MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
@@ -51,21 +54,41 @@ const runReplayer = async (
 
     let sessionPlayer: SessionPlayer | undefined;
 
-    const messageListener: MessageListener<any, any> = (
+    const updateReplaymentIndex = (
+        index: number,
+    ) => {
+        sendMessage<MessageReplaymentIndex, ResponseMessage>(
+            {
+                type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.REPLAYMENT_INDEX,
+                data: {
+                    tabID,
+                    index,
+                },
+            },
+        ).catch(log);
+    };
+
+
+    const messageListener: MessageListener<Message, any> = (
         request,
         _sender,
         sendResponse,
     ) => {
         if (
             !request?.type
-            || (!sessionPlayer && request.type !== MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAY_SESSION)
+            || (
+                !sessionPlayer && (
+                    request.type !== MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAY_SESSION
+                    && request.type !== MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_REBOOT
+                )
+            )
         ) {
             sendResponse();
             return ASYNCHRONOUS_RESPONSE;
         }
 
         switch (request.type) {
-            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAY_SESSION:
+            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAY_SESSION: {
                 const {
                     generatedAt,
                     events,
@@ -74,25 +97,31 @@ const runReplayer = async (
                 sessionPlayer = new SessionPlayer(
                     generatedAt,
                     events,
-                    (
-                        index,
-                    ) => {
-                        sendMessage<MessageReplaymentIndex, ResponseMessage>(
-                            {
-                                type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.REPLAYMENT_INDEX,
-                                data: {
-                                    tabID,
-                                    index,
-                                },
-                            },
-                        ).catch(log);
-                    },
+                    updateReplaymentIndex,
                 );
                 sessionPlayer.play();
                 break;
+            }
+            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_REBOOT: {
+                const {
+                    generatedAt,
+                    events,
+                } = request.data;
+
+                sessionPlayer = new SessionPlayer(
+                    generatedAt,
+                    events,
+                    updateReplaymentIndex,
+                );
+                sessionPlayer.setIndex(
+                    request.index,
+                );
+                sessionPlayer.play();
+                break;
+            }
             case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_PLAY:
                 sessionPlayer.play(
-                    request.reset,
+                    (request as RequestReplaymentPlay).reset,
                 );
                 break;
             case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_PAUSE:
@@ -101,11 +130,13 @@ const runReplayer = async (
             case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_STOP:
                 sessionPlayer.stop();
                 break;
-            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_INDEX:
+            case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_INDEX: {
+                const index = ((request as any) as RequestReplaymentIndex).data
                 sessionPlayer.setIndex(
-                    request.data,
+                    index,
                 );
                 break;
+            }
             case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_SET_MEDIA_TIME:
                 linkageSetMediaTime(
                     request.data,

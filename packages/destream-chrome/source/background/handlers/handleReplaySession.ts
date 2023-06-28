@@ -69,7 +69,7 @@ const handleReplaySession: Handler<MessageReplaySession, ResponseMessage> = asyn
             type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAY_SESSION,
             data,
         });
-    }, 2_000);
+    }, 3_000);
 
     const replayment: Replayment = {
         tabID: tab.id,

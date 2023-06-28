@@ -52,6 +52,7 @@ export type Message =
     | RequestURLChange
     | MessageReplaySession
     | RequestReplaySession
+    | RequestReplaymentReboot
     | MessageReplaymentPause
     | RequestReplaymentPause
     | MessageReplaymentPlay
@@ -233,6 +234,13 @@ export interface RequestReplaySession {
     type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAY_SESSION;
     // session data
     data: DestreamSession;
+}
+
+export interface RequestReplaymentReboot {
+    type: typeof MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_REBOOT;
+    // session data
+    data: DestreamSession;
+    index: number;
 }
 
 export interface MessageReplaymentPause {

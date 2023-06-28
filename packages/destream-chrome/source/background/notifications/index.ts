@@ -1,9 +1,16 @@
 // #region imports
     // #region external
     import {
-        NOTIFICATION_KIND,
         Notification,
+        RequestReplaymentReboot,
+
+        NOTIFICATION_KIND,
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
     } from '~data/index';
+
+    import {
+        sendMessageToTab,
+    } from '~common/messaging';
 
     import {
         notificationCreate,
@@ -18,6 +25,11 @@
     import {
         openOptionsPage,
     } from '~common/utilities';
+
+    import {
+        getReplaymentByTabID,
+        updateReplayment,
+    } from '../replayments';
     // #endregion external
 // #endregion imports
 
@@ -37,7 +49,7 @@ const notifications: Record<string, Notification | undefined> = {};
 
 
 notificationOnButtonClickedAddListener(
-    (notificationID, buttonIndex) => {
+    async (notificationID, buttonIndex) => {
         notificationClear(notificationID);
 
         if (notificationID.startsWith(NOTIFICATION_KIND.URL_CHANGE)) {
@@ -63,6 +75,24 @@ notificationOnButtonClickedAddListener(
                             url,
                         },
                     );
+
+                    const replayment = await getReplaymentByTabID(tabID);
+                    if (replayment && replayment.requiresReboot) {
+                        setTimeout(async () => {
+                            await sendMessageToTab<RequestReplaymentReboot>(tabID, {
+                                type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_REBOOT,
+                                data: replayment.data,
+                                index: replayment.currentIndex + 1,
+                            });
+
+                            await updateReplayment(
+                                tabID,
+                                {
+                                    requiresReboot: false,
+                                },
+                            );
+                        }, 3_000);
+                    }
                     break;
             }
 

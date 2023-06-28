@@ -63,6 +63,7 @@ export interface Replayment {
     status: 'playing' | 'paused';
     duration: number;
     linkageID?: string;
+    requiresReboot?: boolean;
 }
 
 

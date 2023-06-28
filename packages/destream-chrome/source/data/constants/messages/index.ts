@@ -12,6 +12,7 @@ export const MESSAGE_BACKGROUND_TO_CONTENTSCRIPT = {
     START_ANOTHER_SESSION: 'startAnotherSession',
     REPLAY_SESSION: 'replaySession',
 
+    REPLAYMENT_REBOOT: 'replaymentReboot',
     REPLAYMENT_PAUSE: 'replaymentPause',
     REPLAYMENT_PLAY: 'replaymentPlay',
     REPLAYMENT_STOP: 'replaymentStop',

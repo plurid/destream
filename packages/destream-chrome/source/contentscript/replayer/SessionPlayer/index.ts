@@ -68,6 +68,10 @@ export class SessionPlayer {
                 return;
             }
 
+            if (data.type === GENERAL_EVENT.URL_CHANGE) {
+                this.stop();
+            }
+
             handleEvent(data);
         } catch (error) {
             log(error);
@@ -105,7 +109,7 @@ export class SessionPlayer {
     }
 
     public play(
-        reset?: true,
+        reset?: boolean,
     ) {
         if (reset) {
             this.currentIndex = 0;

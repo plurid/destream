@@ -4,13 +4,21 @@
         Handler,
         MessageURLChange,
         ResponseMessage,
+        RequestReplaymentReboot,
+
+        MESSAGE_BACKGROUND_TO_CONTENTSCRIPT,
     } from '~data/index';
+
+    import {
+        sendMessageToTab,
+    } from '~common/messaging';
 
     import {
         getSubscriptionByTabID,
     } from '../subscriptions';
 
     import {
+        updateReplayment,
         getReplaymentByTabID,
     } from '../replayments';
 
@@ -55,10 +63,20 @@ const handleURLChange: Handler<MessageURLChange, ResponseMessage> = async (
     }
 
 
-    const allowed = (
+    const allowed = async (
         notify: boolean,
     ) => {
         if (notify) {
+            if (replayment) {
+                await updateReplayment(
+                    sender.tab.id,
+                    {
+                        currentIndex: replayment.currentIndex + 1,
+                        requiresReboot: true,
+                    },
+                );
+            }
+
             sendNotificationURLChange(
                 streamerName,
                 sender.tab.id,
@@ -72,6 +90,24 @@ const handleURLChange: Handler<MessageURLChange, ResponseMessage> = async (
             sendResponse({
                 status: true,
             });
+
+            if (replayment) {
+                await updateReplayment(
+                    sender.tab.id,
+                    {
+                        currentIndex: replayment.currentIndex + 1,
+                        requiresReboot: false,
+                    },
+                );
+
+                setTimeout(async () => {
+                    await sendMessageToTab<RequestReplaymentReboot>(sender.tab.id, {
+                        type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_REBOOT,
+                        data: replayment.data,
+                        index: replayment.currentIndex + 1,
+                    });
+                }, 3_000);
+            }
         }
     }
 
@@ -94,16 +130,16 @@ const handleURLChange: Handler<MessageURLChange, ResponseMessage> = async (
     }
 
     if (generalPermissions.allowChangeURLAnyOrigin) {
-        return allowed(generalPermissions.useNotifications);
+        return await allowed(generalPermissions.useNotifications);
     }
 
     const urlOrigin = new URL(request.data).origin;
     if (generalPermissions.allowedURLOrigins.includes(urlOrigin)) {
-        return allowed(generalPermissions.useNotifications);
+        return await allowed(generalPermissions.useNotifications);
     }
 
     if (generalPermissions.allowedOriginsStreamers.includes(streamerName)) {
-        return allowed(generalPermissions.useNotifications);
+        return await allowed(generalPermissions.useNotifications);
     }
 
     return reject();
