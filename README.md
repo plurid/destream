@@ -33,9 +33,9 @@
 
 ## About
 
-`destream` is a browser extension that allows streamers to indirectly control web pages in their audience's browser.
+`destream` is a browser extension for streamers and generally content creators to indirectly control web pages in their audience's browser, either live or as a destream session replay or through a linkage.
 
-The streamer installs the extension, creates an [account](https://account.plurid.com), and registers as a streamer. The audience installs the extension and subscribes to the streamer. The streamer activates the extension on certain web pages and starts streaming events (plays audio/video, scrolls the page, reacts to media, etc.).
+The content creator installs the extension, creates an [account](https://account.plurid.com), and registers as a streamer. The audience installs the extension and subscribes to the streamer. The streamer activates the extension on certain web pages and starts streaming events (plays audio/video, scrolls the page, reacts to media, etc.).
 
 The audience receives a notification when the streamer wants to control a web page and accepts the streamer's control providing the adequate control granularity, allowing full or partial control.
 
