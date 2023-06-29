@@ -49,7 +49,11 @@ const handleCheckSessions: Handler<MessageCheckSessions, ResponseMessage> = asyn
     if (parsedURL.origin === origins.twitch) {
         streamerName = new URL(url).pathname.slice(1);
     } else if (parsedURL.origin === origins.youtube) {
-        streamerName = new URL(url).pathname.slice(1);
+        const re = /\/\@(\w+)\/?/;
+        const match = new URL(url).pathname.match(re);
+        if (match) {
+            streamerName = match[1] || '';
+        }
     }
 
     if (streamerName) {
