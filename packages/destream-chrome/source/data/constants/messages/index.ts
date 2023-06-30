@@ -46,6 +46,7 @@ export const MESSAGE_CONTENTSCRIPT_TO_BACKGROUND = {
     LINKAGE_SESSION_ENDED: 'linkageSessionEnded',
 
     CHECK_SESSIONS: 'checkSessions',
+    GET_GENERAL_PERMISSIONS: 'getGeneralPermissions',
 } as const;
 
 export const MESSAGE_POPUP_OR_OPTIONS_TO_BACKGROUND = {

@@ -1,10 +1,32 @@
 // #region imports
+    // #region libraries
+    import delog from '@plurid/delog';
+    // #endregion libraries
+
+
     // #region external
     import {
         IN_PRODUCTION,
         IN_TRACING,
         DESTREAM_PROTOCOL,
+        DELOG_ENDPOINT,
+        DELOG_TOKEN,
+        MESSAGE_CONTENTSCRIPT_TO_BACKGROUND,
     } from '~data/constants';
+
+    import {
+        MessageGetGeneralPermissions,
+        ResponseGetGeneralPermissions,
+    } from '~data/interfaces';
+
+    import {
+        getGeneralPermissions,
+    } from '~background/utilities';
+
+
+    import {
+        sendMessage,
+    } from '../messaging';
     // #endregion external
 // #endregion imports
 
@@ -79,11 +101,54 @@ export const throttle = <F extends Function>(
 }
 
 
+
+class Telemetry {
+    private useTelemetry = false;
+
+    constructor() {
+        this.load();
+    }
+
+    private async load() {
+        if (typeof window !== 'undefined') {
+            sendMessage<MessageGetGeneralPermissions, ResponseGetGeneralPermissions>(
+                {
+                    type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_GENERAL_PERMISSIONS,
+                },
+                (response) => {
+                    if (response.status) {
+                        this.useTelemetry = response.generalPermissions.useTelemetry;
+                    }
+                },
+            );
+            return;
+        }
+
+        const generalPermissions = await getGeneralPermissions();
+        this.useTelemetry = generalPermissions.useTelemetry;
+    }
+
+    public get() {
+        return this.useTelemetry;
+    }
+}
+
+const telemetry = new Telemetry();
+
 export const log = (
     ...message: any[]
 ) => {
     if (IN_PRODUCTION) {
-        // TODO check if telemetry is enabled and send logs to server
+        const useTelemetry = telemetry.get();
+
+        if (useTelemetry) {
+            delog({
+                text: JSON.stringify(message),
+                endpoint: DELOG_ENDPOINT,
+                token: DELOG_TOKEN,
+            });
+        }
+
         return;
     }
 
@@ -99,6 +164,7 @@ export const trace = (
 
     console.log('trace ::', ...message);
 }
+
 
 
 export const generateRandomID = () => {

@@ -15,6 +15,7 @@
         Session,
         Subscription,
         TabSettings,
+        GeneralPermissions,
     } from '../entities';
 
     import {
@@ -33,6 +34,8 @@
 export type Message =
     | MessagePublishEvent
     | MessageCheckSessions
+    | MessageGetGeneralPermissions
+    | ResponseGetGeneralPermissions
     | MessageGetTabID
     | MessageGetSession
     | MessageStartSession
@@ -102,6 +105,14 @@ export type ResponsePublishEvent = Response<{
 
 export interface MessageCheckSessions {
     type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.CHECK_SESSIONS;
+}
+
+export interface MessageGetGeneralPermissions {
+    type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_GENERAL_PERMISSIONS;
+}
+export interface ResponseGetGeneralPermissions {
+    status: boolean;
+    generalPermissions: GeneralPermissions;
 }
 
 export interface MessageGetTabID {
