@@ -35,7 +35,6 @@ export type Message =
     | MessagePublishEvent
     | MessageCheckSessions
     | MessageGetGeneralPermissions
-    | ResponseGetGeneralPermissions
     | MessageGetTabID
     | MessageGetSession
     | MessageStartSession
