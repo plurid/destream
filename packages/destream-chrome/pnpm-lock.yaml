@@ -14,6 +14,9 @@ dependencies:
   '@aws-amplify/core':
     specifier: ^5.5.1
     version: 5.5.1(react-native@0.71.10)
+  '@plurid/delog':
+    specifier: 0.0.0-7
+    version: 0.0.0-7(react-dom@18.2.0)(react@18.2.0)
   '@plurid/messager':
     specifier: 0.0.0-4
     version: 0.0.0-4(@plurid/deon@0.0.0-10)(@plurid/plurid-functions@0.0.0-31)(cross-fetch@3.1.6)(isomorphic-ws@5.0.0)(ws@8.13.0)
@@ -2458,6 +2461,24 @@ packages:
       fastq: 1.15.0
     dev: true
 
+  /@plurid/delog@0.0.0-7(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-Kv9iXqeMnooOQdEjGz5T65LSMFowFAV8ID6XnO21rdDUkiAlYOPvAbOAMtNcGLOkD+p4EiqjXChCau/X0bEU5w==}
+    engines: {node: '>=12', npm: '>=6'}
+    dependencies:
+      '@apollo/client': 3.7.16(graphql@16.7.1)(react-dom@18.2.0)(react@18.2.0)
+      '@plurid/plurid-functions': 0.0.0-30
+      cross-fetch: 3.1.6(encoding@0.1.13)
+      graphql: 16.7.1
+      graphql-tag: 2.12.6(graphql@16.7.1)
+      microtime: 3.1.1
+    transitivePeerDependencies:
+      - encoding
+      - graphql-ws
+      - react
+      - react-dom
+      - subscriptions-transport-ws
+    dev: false
+
   /@plurid/deon@0.0.0-10:
     resolution: {integrity: sha512-LQJT0lbND8dV5MhkgVLulWhLGXISw205I49jFqOp0dvJtpOt4ib5lKgKN7cFXArl2KVIWNd0k/t7bWYfXpNqzQ==}
     engines: {node: '>=12', npm: '>=6'}
@@ -2492,6 +2513,11 @@ packages:
       react: '>=17'
     dependencies:
       react: 18.2.0
+    dev: false
+
+  /@plurid/plurid-functions@0.0.0-30:
+    resolution: {integrity: sha512-SWk5XYz9H6CWz5C2LRZ0w2HWS5yI0c6WAliVYQLrFUzdQAexIa5ICeGgCoLGSrSB/zAPexmd5YZ4GRacnKopSQ==}
+    engines: {node: '>=12', npm: '>=6'}
     dev: false
 
   /@plurid/plurid-functions@0.0.0-31:
@@ -6262,6 +6288,15 @@ packages:
       braces: 3.0.2
       picomatch: 2.3.1
 
+  /microtime@3.1.1:
+    resolution: {integrity: sha512-to1r7o24cDsud9IhN6/8wGmMx5R2kT0w2Xwm5okbYI3d1dk6Xv0m+Z+jg2vS9pt+ocgQHTCtgs/YuyJhySzxNg==}
+    engines: {node: '>= 14.13.0'}
+    requiresBuild: true
+    dependencies:
+      node-addon-api: 5.1.0
+      node-gyp-build: 4.6.0
+    dev: false
+
   /mime-db@1.52.0:
     resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
     engines: {node: '>= 0.6'}
@@ -6384,6 +6419,10 @@ packages:
     engines: {node: '>=12.0.0'}
     dev: false
 
+  /node-addon-api@5.1.0:
+    resolution: {integrity: sha512-eh0GgfEkpnoWDq+VY8OyvYhFEzBk6jIYbRKdIlyTiAXIVJ8PyBaKb0rp7oDtoddbdoHWhq8wwr+XZ81F1rpNdA==}
+    dev: false
+
   /node-dir@0.1.17:
     resolution: {integrity: sha512-tmPX422rYgofd4epzrNoOXiE8XFZYOcCq1vD7MAXCDO+O+zndlA2ztdKKMa+EeuBG5tHETpr4ml4RGgpqDCCAg==}
     engines: {node: '>= 0.10.5'}
@@ -6402,6 +6441,11 @@ packages:
     dependencies:
       encoding: 0.1.13
       whatwg-url: 5.0.0
+
+  /node-gyp-build@4.6.0:
+    resolution: {integrity: sha512-NTZVKn9IylLwUzaKjkas1e4u2DLNcV4rdYagA4PWdPwW87Bi7z+BznyKSRwS/761tV/lzCGXplWsiaMjLqP2zQ==}
+    hasBin: true
+    dev: false
 
   /node-int64@0.4.0:
     resolution: {integrity: sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==}

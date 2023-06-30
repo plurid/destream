@@ -31,6 +31,7 @@
         "@apollo/client": "^3.7.16",
         "@aws-amplify/api": "^5.3.1",
         "@aws-amplify/core": "^5.5.1",
+        "@plurid/delog": "0.0.0-7",
         "@plurid/messager": "0.0.0-4",
         "@plurid/plurid-functions-react": "0.0.0-5",
         "@plurid/plurid-icons-react": "0.0.0-5",
