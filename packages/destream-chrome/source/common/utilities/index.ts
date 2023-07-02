@@ -142,10 +142,16 @@ export const log = (
         const useTelemetry = telemetry.get();
 
         if (useTelemetry) {
+            if (!DELOG_ENDPOINT || !DELOG_TOKEN) {
+                return;
+            }
+
             delog({
-                text: JSON.stringify(message),
                 endpoint: DELOG_ENDPOINT,
                 token: DELOG_TOKEN,
+                level: 'error',
+                text: 'destream',
+                extradata: JSON.stringify(message),
             });
         }
 
