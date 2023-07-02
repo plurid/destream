@@ -22,6 +22,9 @@ const base = {
         popup: './source/popup/index.tsx',
         options: './source/options/index.tsx',
     },
+    externals: {
+        microtime: 'microtime',
+    },
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".jsx"],
         alias: {
