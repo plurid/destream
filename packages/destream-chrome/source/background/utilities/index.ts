@@ -7,7 +7,6 @@
 
     import {
         DEFAULT_API_ENDPOINT,
-        DESTREAM_GROUP_PREFIX,
         storagePrefix,
         storageFields,
         destreamCurrentStateTopicSuffix,

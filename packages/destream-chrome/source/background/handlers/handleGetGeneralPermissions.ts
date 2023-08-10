@@ -23,7 +23,7 @@ const handleGetGeneralPermissions: Handler<MessageGetGeneralPermissions, Respons
     const generalPermissions = await getGeneralPermissions();
 
     sendResponse({
-        status: true,
+        status: !!generalPermissions,
         generalPermissions,
     });
 

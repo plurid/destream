@@ -125,6 +125,10 @@ class Telemetry {
         }
 
         const generalPermissions = await getGeneralPermissions();
+        if (!generalPermissions) {
+            return;
+        }
+
         this.useTelemetry = generalPermissions.useTelemetry;
     }
 
