@@ -3,6 +3,7 @@
     import {
         DestreamLinkage,
         DestreamLinkageSession,
+        DestreamLinkageSynchronizeEvent,
         MessageReplaymentInitialize,
         MessagerLinkageFocusSessionPage,
         MessagerLinkageSetMediaTime,
@@ -121,6 +122,19 @@ export class LinkageController {
     }
 
 
+    private handleSynchronize(
+        synchronize: DestreamLinkageSynchronizeEvent[],
+    ) {
+        for (const event of synchronize) {
+            switch (event.type) {
+                case 'mainToSession':
+                    break;
+                case 'sessionToMain':
+                    break;
+            }
+        }
+    }
+
     private registerStarter(
         session: DestreamLinkageSession,
     ) {
@@ -162,10 +176,14 @@ export class LinkageController {
         try {
             const {
                 id,
+                synchronize,
                 beforeStart,
                 afterStart,
                 afterEnd,
             } = session;
+
+
+            this.handleSynchronize(synchronize);
 
 
             this.eventer.addEventListener('beforeStart', () => {

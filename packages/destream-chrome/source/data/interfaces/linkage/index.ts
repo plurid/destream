@@ -16,11 +16,16 @@ export interface DestreamLinkage {
 export interface DestreamLinkageSession {
     id: string;
     name: string;
+    synchronize: DestreamLinkageSynchronizeEvent[];
     starter: DestreamLinkageSessionStarterEvent[];
     beforeStart: DestreamLinkageSessionBeforeStartEvent[];
     afterStart: DestreamLinkageSessionAfterStartEvent[];
     afterEnd: DestreamLinkageSessionAfterEndEvent[];
 }
+
+export type DestreamLinkageSynchronizeEvent =
+    | DestreamLinkageSynchronizeMainToSession
+    | DestreamLinkageSynchronizeSessionToMain;
 
 export type DestreamLinkageSessionStarterEvent =
     | DestreamLinkageEventAfterTimeOnPage
@@ -38,6 +43,14 @@ export type DestreamLinkageSessionAfterEndEvent =
     | DestreamLinkageEventFocusInitialPage
     | DestreamLinkageEventPlayMediaInitialPage;
 
+
+export interface DestreamLinkageSynchronizeMainToSession {
+    type: 'mainToSession';
+}
+
+export interface DestreamLinkageSynchronizeSessionToMain {
+    type: 'sessionToMain';
+}
 
 
 export interface DestreamLinkageEventAfterTimeOnPage {
