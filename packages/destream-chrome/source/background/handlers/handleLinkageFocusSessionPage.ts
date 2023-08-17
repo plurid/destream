@@ -40,6 +40,12 @@ const handleLinkageFocusSessionPage: Handler<MessagerLinkageFocusSessionPage, Re
     }
 
     const sessionTabID = linkage.sessionTabs[request.sessionID];
+    if (!sessionTabID) {
+        sendResponse({
+            status: false,
+        });
+        return;
+    }
 
     await tabsUpdate(
         sessionTabID,

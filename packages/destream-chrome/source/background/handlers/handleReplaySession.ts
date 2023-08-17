@@ -57,22 +57,29 @@ const handleReplaySession: Handler<MessageReplaySession, ResponseMessage> = asyn
     const {
         url,
         generatedAt,
-        stoppedAt
+        stoppedAt,
     } = data;
 
     const activeTab = linkageID ? false : true;
     const tab = await openTab(url, activeTab);
+    const tabID = tab.id;
+    if (!tabID) {
+        sendResponse({
+            status: false,
+        });
+        return;
+    }
 
     setTimeout(async () => {
         // Let tab load.
-        await sendMessageToTab<RequestReplaySession>(tab.id, {
+        await sendMessageToTab<RequestReplaySession>(tabID, {
             type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAY_SESSION,
             data,
         });
     }, 3_000);
 
     const replayment: Replayment = {
-        tabID: tab.id,
+        tabID: tabID,
         streamer: data.streamerName,
         data,
         currentIndex: 0,
@@ -82,13 +89,17 @@ const handleReplaySession: Handler<MessageReplaySession, ResponseMessage> = asyn
             : 0,
         linkageID,
     };
-    await storageSet(getReplaymentStorageID(tab.id), replayment);
+    await storageSet(getReplaymentStorageID(tabID), replayment);
 
     if (linkageID) {
         const linkage = await getLinkageByID(linkageID);
 
         if (linkage) {
             const generalPermissions = await getGeneralPermissions();
+            if (!generalPermissions) {
+                return;
+            }
+
             const groupTitle = LINKAGE_GROUP_PREFIX + linkage.name;
             await assignTabToGroup(
                 tab, groupTitle, generalPermissions,
@@ -96,7 +107,7 @@ const handleReplaySession: Handler<MessageReplaySession, ResponseMessage> = asyn
 
             const newSessionTabs = {
                 ...linkage.sessionTabs,
-                [destreamIDGetDisplay(data.id)]: tab.id,
+                [destreamIDGetDisplay(data.id)]: tabID,
             };
             await storageUpdate(
                 getLinkageStorageID(linkage.tabID),

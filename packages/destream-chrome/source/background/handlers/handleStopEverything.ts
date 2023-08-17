@@ -51,6 +51,9 @@ const handleStopEverything: Handler<MessageStopEverything, ResponseMessage> = as
             if (key.startsWith(storagePrefix.session)) {
                 const tabID = getTabIDFromKey(key, storagePrefix.session);
                 const session = await getSession(tabID);
+                if (!session) {
+                    return;
+                }
                 await stopSessionLogic(session.id, tabID);
                 return;
             }

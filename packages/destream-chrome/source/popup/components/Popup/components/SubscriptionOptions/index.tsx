@@ -100,7 +100,7 @@ const SubscriptionOptions: React.FC<SubscriptionOptionsProperties> = (
         await sendMessage<MessageResyncSession, ResponseMessage>(
             {
                 type: MESSAGE_POPUP_TO_BACKGROUND.RESYNC_SESSION,
-                data: activeTab.id,
+                data: activeTab.id!,
             },
             () => {
             },
@@ -121,7 +121,7 @@ const SubscriptionOptions: React.FC<SubscriptionOptionsProperties> = (
         }
 
         const loadTabSettings = async () => {
-            const tabSettings = await getTabSettings(activeTab.id);
+            const tabSettings = await getTabSettings(activeTab.id!);
             if (!tabSettings) {
                 return;
             }
@@ -143,7 +143,7 @@ const SubscriptionOptions: React.FC<SubscriptionOptionsProperties> = (
         }
 
         const setTabSettings = async () => {
-            const id = getTabSettingsID(activeTab.id);
+            const id = getTabSettingsID(activeTab.id!);
             await storageUpdate(
                 id,
                 {

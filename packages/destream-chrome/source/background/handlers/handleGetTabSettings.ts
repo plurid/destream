@@ -21,10 +21,23 @@ const handleGetTabSettings: Handler<MessageGetTabSettings, ResponseGetTabSetting
     sendResponse,
 ) => {
     const tabID = request.data || sender.tab?.id;
+    if (!tabID) {
+        sendResponse({
+            status: false,
+        });
+        return;
+    }
+
     const tabSettings = await getTabSettings(tabID);
+    if (!tabSettings) {
+        sendResponse({
+            status: false,
+        });
+        return;
+    }
 
     sendResponse({
-        status: !!tabSettings,
+        status: true,
         tabSettings,
     });
 

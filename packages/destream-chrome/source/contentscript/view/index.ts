@@ -193,10 +193,12 @@ export const injectView = (
             const shortcutHideKeyCode = 'KeyD';
 
             if (event.altKey && event.code === shortcutHideKeyCode) {
-                if (view.style.display === 'none') {
-                    view.style.display = 'block';
-                } else {
-                    view.style.display = 'none';
+                if (view) {
+                    if (view.style.display === 'none') {
+                        view.style.display = 'block';
+                    } else {
+                        view.style.display = 'none';
+                    }
                 }
             }
         });

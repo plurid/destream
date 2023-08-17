@@ -258,7 +258,7 @@ const runStreamer = async (
         const sessionRequest = await sendMessage<MessageGetSession, ResponseGetSession>({
             type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_SESSION,
         });
-        if (!sessionRequest.status) {
+        if (!sessionRequest || !sessionRequest.status) {
             return;
         }
 
@@ -297,6 +297,10 @@ const runStreamer = async (
         const publishCurrentState = async (
             message: any,
         ) => {
+            if (!detector || !session) {
+                return;
+            }
+
             const currentState = await detector.getCurrentState();
 
             client.publish(

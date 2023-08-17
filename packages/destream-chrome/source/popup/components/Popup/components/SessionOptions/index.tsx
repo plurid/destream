@@ -70,7 +70,7 @@ const SubscriptionOptions: React.FC<SubscriptionOptionsProperties> = (
         }
 
         const loadTabSettings = async () => {
-            const tabSettings = await getTabSettings(activeTab.id);
+            const tabSettings = await getTabSettings(activeTab.id!);
             if (!tabSettings) {
                 return;
             }
@@ -90,7 +90,7 @@ const SubscriptionOptions: React.FC<SubscriptionOptionsProperties> = (
         }
 
         const setTabSettings = async () => {
-            const id = getTabSettingsID(activeTab.id);
+            const id = getTabSettingsID(activeTab.id!);
             await storageUpdate(
                 id,
                 {

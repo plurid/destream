@@ -161,7 +161,7 @@ const Linkages: React.FC<LinkagesProperties> = (
         }
 
         const checkPlayingLinkage = async () => {
-            const linkage = await getLinkageByTabID(activeTab.id);
+            const linkage = await getLinkageByTabID(activeTab.id!);
             if (!linkage) {
                 return;
             }
@@ -171,7 +171,7 @@ const Linkages: React.FC<LinkagesProperties> = (
 
         const preCheckLinkages = async () => {
             const urlLinkages = await getURLLinkages(
-                activeTab.url,
+                activeTab.url!,
             );
             if (urlLinkages.length > 0) {
                 setLinkages(urlLinkages);

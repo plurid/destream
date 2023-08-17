@@ -74,7 +74,7 @@
 export interface ReplaymentProperties {
     activeTab: Tab | null;
     replayment: IReplayment;
-    setReplayment: React.Dispatch<React.SetStateAction<IReplayment>>;
+    setReplayment: React.Dispatch<React.SetStateAction<IReplayment | null>>;
 }
 
 const Replayment: React.FC<ReplaymentProperties> = (
@@ -108,7 +108,7 @@ const Replayment: React.FC<ReplaymentProperties> = (
         await sendMessage<MessageReplaymentStop, ResponseMessage>(
             {
                 type: MESSAGE_POPUP_TO_BACKGROUND.REPLAYMENT_STOP,
-                data: activeTab.id,
+                data: activeTab.id!,
             },
             () => {
             },
@@ -126,7 +126,7 @@ const Replayment: React.FC<ReplaymentProperties> = (
             {
                 type: MESSAGE_POPUP_TO_BACKGROUND.REPLAYMENT_INDEX,
                 data: {
-                    tabID: activeTab.id,
+                    tabID: activeTab.id!,
                     index,
                     updateTab: true,
                 },
@@ -135,7 +135,7 @@ const Replayment: React.FC<ReplaymentProperties> = (
                 sendMessage<MessageReplaymentPause, ResponseMessage>(
                     {
                         type: MESSAGE_POPUP_TO_BACKGROUND.REPLAYMENT_PAUSE,
-                        data: activeTab.id,
+                        data: activeTab.id!,
                     },
                     () => {
                     },
@@ -156,7 +156,7 @@ const Replayment: React.FC<ReplaymentProperties> = (
         await sendMessage<MessageReplaymentPlay | MessageReplaymentPause, ResponseMessage>(
             {
                 type: messageType,
-                data: activeTab.id,
+                data: activeTab.id!,
             },
             () => {
             },
@@ -172,7 +172,7 @@ const Replayment: React.FC<ReplaymentProperties> = (
         }
 
         const storageLogic = async () => {
-            const replayment = await getReplaymentByTabID(activeTab.id);
+            const replayment = await getReplaymentByTabID(activeTab.id!);
             if (!replayment) {
                 return;
             }

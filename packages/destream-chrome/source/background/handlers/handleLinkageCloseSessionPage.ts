@@ -40,6 +40,12 @@ const handleLinkageCloseSessionPage: Handler<MessagerLinkageCloseSessionPage, Re
     }
 
     const sessionTabID = linkage.sessionTabs[request.sessionID];
+    if (!sessionTabID) {
+        sendResponse({
+            status: false,
+        });
+        return;
+    }
 
     await tabsClose(
         sessionTabID,

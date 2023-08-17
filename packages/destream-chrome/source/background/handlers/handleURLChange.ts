@@ -41,12 +41,13 @@ const handleURLChange: Handler<MessageURLChange, ResponseMessage> = async (
         });
     }
 
-    if (!sender.tab?.id) {
+    const tabID = sender.tab?.id;
+    if (!tabID) {
         return reject();
     }
 
-    const subscription = await getSubscriptionByTabID(sender.tab.id);
-    const replayment = await getReplaymentByTabID(sender.tab.id);
+    const subscription = await getSubscriptionByTabID(tabID);
+    const replayment = await getReplaymentByTabID(tabID);
     if (!subscription && !replayment) {
         return reject();
     }
@@ -63,7 +64,7 @@ const handleURLChange: Handler<MessageURLChange, ResponseMessage> = async (
         if (notify) {
             if (replayment) {
                 await updateReplayment(
-                    sender.tab.id,
+                    tabID,
                     {
                         currentIndex: replayment.currentIndex + 1,
                         requiresReboot: true,
@@ -73,7 +74,7 @@ const handleURLChange: Handler<MessageURLChange, ResponseMessage> = async (
 
             sendNotificationURLChange(
                 streamerName,
-                sender.tab.id,
+                tabID,
                 request.data,
             );
 
@@ -87,7 +88,7 @@ const handleURLChange: Handler<MessageURLChange, ResponseMessage> = async (
 
             if (replayment) {
                 await updateReplayment(
-                    sender.tab.id,
+                    tabID,
                     {
                         currentIndex: replayment.currentIndex + 1,
                         requiresReboot: false,
@@ -95,7 +96,7 @@ const handleURLChange: Handler<MessageURLChange, ResponseMessage> = async (
                 );
 
                 sendRebootMessage(
-                    sender.tab.id,
+                    tabID,
                     replayment,
                 );
             }
@@ -112,7 +113,7 @@ const handleURLChange: Handler<MessageURLChange, ResponseMessage> = async (
         if (generalPermissions.useNotifications) {
             sendNotificationURLFailedToChange(
                 streamerName,
-                sender.tab.id,
+                tabID,
                 request.data,
             );
         }

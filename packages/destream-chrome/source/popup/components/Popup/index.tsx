@@ -175,9 +175,9 @@ const Popup: React.FC<any> = (
             {
                 type: MESSAGE_POPUP_TO_BACKGROUND.START_SESSION,
                 data: {
-                    tabID: activeTab.id,
-                    url: activeTab.url,
-                    title: activeTab.title,
+                    tabID: activeTab.id!,
+                    url: activeTab.url!,
+                    title: activeTab.title!,
                 },
             },
             (response) => {
@@ -202,8 +202,8 @@ const Popup: React.FC<any> = (
             {
                 type: MESSAGE_POPUP_TO_BACKGROUND.STOP_SESSION,
                 data: {
-                    tabID: activeTab.id,
-                    url: activeTab.url,
+                    tabID: activeTab.id!,
+                    url: activeTab.url!,
                 },
             },
             (response: any) => {
@@ -278,7 +278,7 @@ const Popup: React.FC<any> = (
             setActiveTab(tab);
 
             const isControllable = !uncontrollableURLsBase.some(
-                start => tab.url.startsWith(start),
+                start => tab.url?.startsWith(start),
             );
             setControllableTab(isControllable);
         }
@@ -514,14 +514,14 @@ const Popup: React.FC<any> = (
 
 
             <SessionOptions
-                activeTab={activeTab}
-                session={session}
+                activeTab={activeTab!}
+                session={session!}
             />
 
             <SubscriptionOptions
-                activeTab={activeTab}
+                activeTab={activeTab!}
                 activeTabControlledBy={activeTabControlledBy}
-                subscription={subscription}
+                subscription={subscription!}
             />
 
 
@@ -550,7 +550,7 @@ const Popup: React.FC<any> = (
 
 
             <Linkages
-                activeTab={activeTab}
+                activeTab={activeTab!}
             />
 
 

@@ -20,7 +20,6 @@ const handleGetTabID: Handler<MessageGetTabID, ResponseGetTabID> = async (
         sendResponse({
             status: false,
         });
-
         return;
     }
 

@@ -184,7 +184,7 @@ class EventsList {
 
             notificationReplayButton.removeEventListener('click', handleClick);
             notification.remove();
-            this.events[notificationIndex] = undefined;
+            (this.events as any)[notificationIndex] = undefined;
             this.checkNotificationsToBeRendered();
         }, eventNotificationTimeout);
     }

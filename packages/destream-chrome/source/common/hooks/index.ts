@@ -154,6 +154,10 @@ export const useSession = () => {
             tabID = activeTab.id;
         }
 
+        if (!tabID) {
+            return;
+        }
+
         const session = await getSession(tabID);
         if (session) {
             setSession(session);

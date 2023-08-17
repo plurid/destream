@@ -52,7 +52,7 @@ export const storageSetMultiple = async <T = Record<string, any>>(
 ) => {
     try {
         await chrome.storage.local.set({
-            ...values,
+            ...values as any,
         });
 
         return true;

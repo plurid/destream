@@ -85,13 +85,13 @@ export class YoutubeDetector extends GeneralDetector {
 
     private onSeek() {
         const event = new CustomEvent(DESTREAM_DETECT_EVENT, {
-            detail: { type: YOUTUBE_EVENT.SEEK, payload: this.video.currentTime },
+            detail: { type: YOUTUBE_EVENT.SEEK, payload: this.video?.currentTime },
         });
         this.target.dispatchEvent(event);
     }
 
     private onVolumeChange() {
-        const volume = this.video.muted ? 0 : this.video.volume;
+        const volume = this.video?.muted ? 0 : this.video?.volume;
 
         const event = new CustomEvent(DESTREAM_DETECT_EVENT, {
             detail: { type: YOUTUBE_EVENT.VOLUME_CHANGE, payload: volume },
@@ -101,12 +101,15 @@ export class YoutubeDetector extends GeneralDetector {
 
     private onRateChange() {
         const event = new CustomEvent(DESTREAM_DETECT_EVENT, {
-            detail: { type: YOUTUBE_EVENT.RATE_CHANGE, payload: this.video.playbackRate },
+            detail: { type: YOUTUBE_EVENT.RATE_CHANGE, payload: this.video?.playbackRate },
         });
         this.target.dispatchEvent(event);
     }
 
     private onLike() {
+        if (!this.likeButton) {
+            return;
+        }
         if (!checkYoutubeLikeButtonPressed(this.likeButton)) {
             return;
         }
@@ -122,10 +125,10 @@ export class YoutubeDetector extends GeneralDetector {
         return {
             url: window.location.href,
             video: {
-                currentTime: this.video.currentTime,
-                volume: this.video.muted ? 0 : this.video.volume,
-                playbackRate: this.video.playbackRate,
-                paused: this.video.paused,
+                currentTime: this.video?.currentTime,
+                volume: this.video?.muted ? 0 : this.video?.volume,
+                playbackRate: this.video?.playbackRate,
+                paused: this.video?.paused,
             },
         };
     }

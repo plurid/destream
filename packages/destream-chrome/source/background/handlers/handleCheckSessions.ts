@@ -32,6 +32,13 @@ const handleCheckSessions: Handler<MessageCheckSessions, ResponseMessage> = asyn
     sendResponse,
 ) => {
     const generalPermissions = await getGeneralPermissions();
+    if (!generalPermissions) {
+        sendResponse({
+            status: false,
+        });
+        return;
+    }
+
     if (!sender.tab || !generalPermissions.autoCheckSessions) {
         sendResponse({
             status: false,
@@ -42,6 +49,13 @@ const handleCheckSessions: Handler<MessageCheckSessions, ResponseMessage> = asyn
     const {
         url,
     } = sender.tab;
+
+    if (!url) {
+        sendResponse({
+            status: false,
+        });
+        return;
+    }
 
     const parsedURL = new URL(url);
     let streamerName: string | undefined;

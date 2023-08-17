@@ -231,12 +231,19 @@ export const startSessionSubscriptionLogic = async (
         const tab = await openTab(
             sessionURL, false, sessionIncognito,
         );
+        if (!tab.id) {
+            return false;
+        }
+
         const groupTitle = DESTREAM_GROUP_PREFIX + streamerIdentonym;
         await assignTabToGroup(
             tab, groupTitle, generalPermissions,
         );
 
         const pubsubEndpoint = sessionCustomPubSubLink || DEFAULT_API_ENDPOINT;
+        if (!pubsubEndpoint) {
+            return false;
+        }
 
         if (generalPermissions.useNotifications) {
             sendNotificationSessionStart(

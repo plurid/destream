@@ -21,10 +21,23 @@ const handleGetSession: Handler<MessageGetSession, ResponseGetSession> = async (
     sendResponse,
 ) => {
     const tabID = request.data || sender.tab?.id;
+    if (!tabID) {
+        sendResponse({
+            status: false,
+        });
+        return;
+    }
+
     const session = await getSession(tabID);
+    if (!session) {
+        sendResponse({
+            status: false,
+        });
+        return;
+    }
 
     sendResponse({
-        status: !!session,
+        status: true,
         session,
     });
 

@@ -14,7 +14,7 @@ export const getYoutubeVideoPlayer = (): HTMLVideoElement | undefined => {
 }
 
 export const getYoutubeLikeButton = (): HTMLButtonElement | undefined => {
-    return document.querySelector('#segmented-like-button button');
+    return document.querySelector('#segmented-like-button button') as HTMLButtonElement | undefined;
 }
 
 export const checkYoutubeLikeButtonPressed = (

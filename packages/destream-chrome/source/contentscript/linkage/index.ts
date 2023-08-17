@@ -82,7 +82,7 @@ const runLinkage = async () => {
         const linkageRequest = await sendMessage<MessageGetLinkage, ResponseGetLinkage>({
             type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_LINKAGE,
         });
-        if (!linkageRequest.status) {
+        if (!linkageRequest || !linkageRequest.status) {
             return;
         }
 

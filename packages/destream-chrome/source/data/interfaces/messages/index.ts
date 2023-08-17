@@ -109,10 +109,10 @@ export interface MessageCheckSessions {
 export interface MessageGetGeneralPermissions {
     type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_GENERAL_PERMISSIONS;
 }
-export interface ResponseGetGeneralPermissions {
-    status: boolean;
+export type ResponseGetGeneralPermissions = Response<{
     generalPermissions: GeneralPermissions;
-}
+}>;
+
 
 export interface MessageGetTabID {
     type: typeof MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_TAB_ID;

@@ -21,10 +21,23 @@ const handleGetSubscription: Handler<MessageGetSubscription, ResponseGetSubscrip
     sendResponse,
 ) => {
     const tabID = request.data || sender.tab?.id;
+    if (!tabID) {
+        sendResponse({
+            status: false,
+        });
+        return;
+    }
+
     const subscription = await getSubscriptionByTabID(tabID);
+    if (!subscription) {
+        sendResponse({
+            status: false,
+        });
+        return;
+    }
 
     sendResponse({
-        status: !!subscription,
+        status: true,
         subscription,
     });
 

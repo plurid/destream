@@ -73,13 +73,13 @@ export class TwitchDetector extends GeneralDetector {
 
     private onSeek() {
         const event = new CustomEvent(DESTREAM_DETECT_EVENT, {
-            detail: { type: TWITCH_EVENT.SEEK, payload: this.video.currentTime },
+            detail: { type: TWITCH_EVENT.SEEK, payload: this.video?.currentTime },
         });
         this.target.dispatchEvent(event);
     }
 
     private onVolumeChange() {
-        const volume = this.video.muted ? 0 : this.video.volume;
+        const volume = this.video?.muted ? 0 : this.video?.volume;
 
         const event = new CustomEvent(DESTREAM_DETECT_EVENT, {
             detail: { type: TWITCH_EVENT.VOLUME_CHANGE, payload: volume },
@@ -89,7 +89,7 @@ export class TwitchDetector extends GeneralDetector {
 
     private onRateChange() {
         const event = new CustomEvent(DESTREAM_DETECT_EVENT, {
-            detail: { type: TWITCH_EVENT.RATE_CHANGE, payload: this.video.playbackRate },
+            detail: { type: TWITCH_EVENT.RATE_CHANGE, payload: this.video?.playbackRate },
         });
         this.target.dispatchEvent(event);
     }
@@ -99,10 +99,10 @@ export class TwitchDetector extends GeneralDetector {
         return {
             url: window.location.href,
             video: {
-                currentTime: this.video.currentTime,
-                volume: this.video.muted ? 0 : this.video.volume,
-                playbackRate: this.video.playbackRate,
-                paused: this.video.paused,
+                currentTime: this.video?.currentTime,
+                volume: this.video?.muted ? 0 : this.video?.volume,
+                playbackRate: this.video?.playbackRate,
+                paused: this.video?.paused,
             },
         };
     }

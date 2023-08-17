@@ -33,6 +33,13 @@ const handleReplaymentInitialize: Handler<MessageReplaymentInitialize, ResponseM
     sendResponse,
 ) => {
     const sessionID = request.data;
+    const tabID = sender.tab?.id;
+    if (!tabID) {
+        sendResponse({
+            status: false,
+        });
+        return;
+    }
 
     await initializeReplayment(
         sessionID,
@@ -41,15 +48,15 @@ const handleReplaymentInitialize: Handler<MessageReplaymentInitialize, ResponseM
     );
 
     if (request.linkageID) {
-        await sendMessageToTab<MessageLinkageSessionStarting>(sender.tab.id, {
+        await sendMessageToTab<MessageLinkageSessionStarting>(tabID, {
             type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_SESSION_STARTING,
             data: request.linkageID,
         });
 
         setTimeout(async () => {
-            await sendMessageToTab<MessageLinkageSessionStarted>(sender.tab.id, {
+            await sendMessageToTab<MessageLinkageSessionStarted>(tabID, {
                 type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_SESSION_STARTED,
-                data: request.linkageID,
+                data: request.linkageID || '',
             });
         }, 500);
     }

@@ -55,6 +55,12 @@ const handleStartSubscription: Handler<MessageStartSubscription, ResponseMessage
         }
 
         const generalPermissions = await getGeneralPermissions();
+        if (!generalPermissions) {
+            sendResponse({
+                status: false,
+            });
+            return;
+        }
 
         const {
             sessions,

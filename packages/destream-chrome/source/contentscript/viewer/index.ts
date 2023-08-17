@@ -130,7 +130,7 @@ const runViewer = async (
                     log(error);
                 } finally {
                     client.unsubscribe(
-                        subscription.endpoint,
+                        subscription!.endpoint,
                         currentStateArbitraryTopic,
                     );
                 }
@@ -139,8 +139,8 @@ const runViewer = async (
 
         setTimeout(async () => {
             await client.publish(
-                subscription.endpoint,
-                subscription.currentStateTopic,
+                subscription!.endpoint,
+                subscription!.currentStateTopic,
                 {
                     topic: currentStateArbitraryTopic,
                 },
@@ -227,7 +227,7 @@ const runViewer = async (
         const subscriptionRequest = await sendMessage<MessageGetSubscription, ResponseGetSubscription>({
             type: MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_SUBSCRIPTION,
         });
-        if (!subscriptionRequest.status) {
+        if (!subscriptionRequest || !subscriptionRequest.status) {
             return;
         }
 
@@ -255,7 +255,7 @@ const runViewer = async (
             subscription.endpoint,
             subscription.publishTopic,
             (message) => {
-                messageHandler(message, subscription);
+                messageHandler(message, subscription!);
             },
         );
 

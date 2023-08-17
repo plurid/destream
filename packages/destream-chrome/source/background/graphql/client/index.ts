@@ -19,7 +19,7 @@
 
 // #region module
 const generateClient = (
-    uri: string = DEFAULT_API_ENDPOINT,
+    uri: string = DEFAULT_API_ENDPOINT || '',
     accessToken = '',
     refreshToken = '',
 ) => new ApolloClient({
@@ -27,8 +27,8 @@ const generateClient = (
         uri,
         credentials: 'include',
         headers: {
-            'Authorization': accessToken ? `Bearer ${accessToken}` : undefined,
-            'Authorization-Refresh': refreshToken ? `Bearer Refresh ${refreshToken}` : undefined,
+            'Authorization': accessToken ? `Bearer ${accessToken}` : '',
+            'Authorization-Refresh': refreshToken ? `Bearer Refresh ${refreshToken}` : '',
         },
     }),
     cache: new InMemoryCache(),

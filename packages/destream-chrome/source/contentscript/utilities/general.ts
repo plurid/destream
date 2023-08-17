@@ -38,7 +38,10 @@ export const getGeneralVideoPlayer = () => {
             return;
         }
 
-        const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+        const iframeDocument = iframe.contentDocument || iframe.contentWindow?.document;
+        if (!iframeDocument) {
+            return;
+        }
         const iframeVideo = iframeDocument.getElementsByTagName('video')[0];
         return iframeVideo as HTMLVideoElement | undefined;;
     } catch (error) {

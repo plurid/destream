@@ -45,6 +45,12 @@ const handleLinkageSetMediaTime: Handler<MessagerLinkageSetMediaTime, ResponseMe
     }
 
     const sessionTabID = linkage.sessionTabs[request.sessionID];
+    if (!sessionTabID) {
+        sendResponse({
+            status: false,
+        });
+        return;
+    }
 
     await sendMessageToTab<RequestLinkageSetMediaTime>(sessionTabID, {
         type: MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.LINKAGE_SET_MEDIA_TIME,

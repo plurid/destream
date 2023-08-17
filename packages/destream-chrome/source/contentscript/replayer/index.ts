@@ -51,6 +51,9 @@ const runReplayer = async (
     _client: MessagerClient,
 ) => {
     const tabID = await getTabID();
+    if (!tabID) {
+        return;
+    }
 
     let sessionPlayer: SessionPlayer | undefined;
 
@@ -120,19 +123,19 @@ const runReplayer = async (
                 break;
             }
             case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_PLAY:
-                sessionPlayer.play(
+                if (sessionPlayer) sessionPlayer.play(
                     (request as RequestReplaymentPlay).reset,
                 );
                 break;
             case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_PAUSE:
-                sessionPlayer.pause();
+                if (sessionPlayer) sessionPlayer.pause();
                 break;
             case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_STOP:
-                sessionPlayer.stop();
+                if (sessionPlayer) sessionPlayer.stop();
                 break;
             case MESSAGE_BACKGROUND_TO_CONTENTSCRIPT.REPLAYMENT_INDEX: {
                 const index = ((request as any) as RequestReplaymentIndex).data
-                sessionPlayer.setIndex(
+                if (sessionPlayer) sessionPlayer.setIndex(
                     index,
                 );
                 break;
