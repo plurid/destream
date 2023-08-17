@@ -23,6 +23,7 @@
         },
 
         "outDir": "./distribution/",
+        "strict": true,
         "sourceMap": true,
         "noImplicitAny": true,
         "strictNullChecks": true,
