@@ -70,7 +70,7 @@ export const getTabSettingsID = (
 export const getTabSettings = async (
     id: number,
 ): Promise<TabSettings | undefined> => {
-    const tabSettings = await storageGet(
+    const tabSettings = await storageGet<TabSettings>(
         getTabSettingsID(id),
     );
 
