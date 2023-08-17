@@ -51,7 +51,7 @@
 
 
 // #region module
-const handlerMapping: Record<string, Handler<Message>> = {
+const handlerMapping = {
     [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.CHECK_SESSIONS]: handleCheckSessions,
     [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_GENERAL_PERMISSIONS]: handleGetGeneralPermissions,
     [MESSAGE_CONTENTSCRIPT_TO_BACKGROUND.GET_TAB_ID]: handleGetTabID,
@@ -95,7 +95,7 @@ const messageHandler: Handler<Message> = async (
 ) => {
     trace(`background message ${request.type}`, request);
 
-    const handler = handlerMapping[request.type];
+    const handler: Handler<Message> | undefined = (handlerMapping as any)[request.type];
     if (!handler) {
         log(`handler not found for ${request.type}`);
         return;

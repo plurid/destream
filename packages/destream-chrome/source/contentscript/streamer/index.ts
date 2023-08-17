@@ -277,7 +277,7 @@ const runStreamer = async (
         detector = getDetector();
         detector.target.addEventListener(
             DESTREAM_DETECT_EVENT,
-            runLogic,
+            runLogic as any,
         );
 
 
